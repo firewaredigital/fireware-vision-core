@@ -15,10 +15,13 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
 import { Skeleton } from '@/components/ui/skeleton';
+import { TooltipProvider } from '@/components/ui/tooltip';
 import { AppLayout } from '@/components/layout/AppLayout';
+import { StaleDealAlerts } from '@/components/StaleDealAlerts';
 import { useAuth } from '@/hooks/useAuth';
 import { supabase } from '@/integrations/supabase/client';
 import { format } from 'date-fns';
+import { ptBR } from 'date-fns/locale';
 import {
   BarChart,
   Bar,
@@ -220,10 +223,10 @@ export default function Dashboard() {
         {/* Header */}
         <div>
           <h1 className="text-2xl font-bold tracking-tight">
-            Welcome back, {profile?.first_name || 'User'}
+            Bem-vindo de volta, {profile?.first_name || 'Usuário'}
           </h1>
           <p className="text-muted-foreground">
-            Here's what's happening with your sales pipeline today.
+            Veja o que está acontecendo com seu pipeline de vendas hoje.
           </p>
         </div>
 
@@ -231,7 +234,7 @@ export default function Dashboard() {
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Total Pipeline</CardTitle>
+              <CardTitle className="text-sm font-medium">Pipeline Total</CardTitle>
               <DollarSign className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
@@ -240,7 +243,7 @@ export default function Dashboard() {
               ) : (
                 <>
                   <div className="text-2xl font-bold">{formatCurrency(stats.totalPipeline)}</div>
-                  <p className="text-xs text-muted-foreground">Open opportunities value</p>
+                  <p className="text-xs text-muted-foreground">Valor das oportunidades abertas</p>
                 </>
               )}
             </CardContent>
@@ -248,7 +251,7 @@ export default function Dashboard() {
 
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Open Leads</CardTitle>
+              <CardTitle className="text-sm font-medium">Leads Abertos</CardTitle>
               <Target className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
@@ -257,7 +260,7 @@ export default function Dashboard() {
               ) : (
                 <>
                   <div className="text-2xl font-bold">{stats.openLeads}</div>
-                  <p className="text-xs text-muted-foreground">Awaiting qualification</p>
+                  <p className="text-xs text-muted-foreground">Aguardando qualificação</p>
                 </>
               )}
             </CardContent>
@@ -265,7 +268,7 @@ export default function Dashboard() {
 
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Closed Won</CardTitle>
+              <CardTitle className="text-sm font-medium">Fechados Ganhos</CardTitle>
               <TrendingUp className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
@@ -274,7 +277,7 @@ export default function Dashboard() {
               ) : (
                 <>
                   <div className="text-2xl font-bold">{formatCurrency(stats.closedWon)}</div>
-                  <p className="text-xs text-muted-foreground">Total won deals</p>
+                  <p className="text-xs text-muted-foreground">Total de negócios ganhos</p>
                 </>
               )}
             </CardContent>
@@ -282,7 +285,7 @@ export default function Dashboard() {
 
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Recent Activities</CardTitle>
+              <CardTitle className="text-sm font-medium">Atividades Recentes</CardTitle>
               <Activity className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
@@ -291,7 +294,7 @@ export default function Dashboard() {
               ) : (
                 <>
                   <div className="text-2xl font-bold">{stats.activitiesCount}</div>
-                  <p className="text-xs text-muted-foreground">Timeline events</p>
+                  <p className="text-xs text-muted-foreground">Eventos na timeline</p>
                 </>
               )}
             </CardContent>
@@ -303,8 +306,8 @@ export default function Dashboard() {
           {/* Pipeline Chart */}
           <Card className="lg:col-span-4">
             <CardHeader>
-              <CardTitle>Pipeline by Stage</CardTitle>
-              <CardDescription>Value distribution across your sales pipeline</CardDescription>
+              <CardTitle>Pipeline por Estágio</CardTitle>
+              <CardDescription>Distribuição de valor no seu pipeline de vendas</CardDescription>
             </CardHeader>
             <CardContent>
               {loading ? (
@@ -315,13 +318,13 @@ export default function Dashboard() {
                 <div className="h-[300px] flex items-center justify-center text-muted-foreground">
                   <div className="text-center">
                     <TrendingUp className="h-12 w-12 mx-auto mb-4 opacity-50" />
-                    <p>No opportunities in pipeline yet</p>
+                    <p>Nenhuma oportunidade no pipeline ainda</p>
                     <Button
                       variant="link"
                       className="mt-2"
                       onClick={() => navigate('/opportunities/new')}
                     >
-                      Create your first opportunity
+                      Criar sua primeira oportunidade
                     </Button>
                   </div>
                 </div>
@@ -330,10 +333,10 @@ export default function Dashboard() {
                   <ResponsiveContainer width="100%" height="100%">
                     <BarChart data={pipelineData} layout="vertical">
                       <CartesianGrid strokeDasharray="3 3" horizontal={true} vertical={false} />
-                      <XAxis type="number" tickFormatter={(value) => `$${value / 1000}k`} />
+                      <XAxis type="number" tickFormatter={(value) => `R$${value / 1000}k`} />
                       <YAxis type="category" dataKey="stage" width={100} />
                       <Tooltip
-                        formatter={(value: number) => [formatCurrency(value), 'Value']}
+                        formatter={(value: number) => [formatCurrency(value), 'Valor']}
                         contentStyle={{
                           backgroundColor: 'hsl(var(--card))',
                           border: '1px solid hsl(var(--border))',
@@ -355,15 +358,15 @@ export default function Dashboard() {
           {/* Stage Distribution */}
           <Card className="lg:col-span-3">
             <CardHeader>
-              <CardTitle>Deal Distribution</CardTitle>
-              <CardDescription>Number of deals by stage</CardDescription>
+              <CardTitle>Distribuição de Negócios</CardTitle>
+              <CardDescription>Número de negócios por estágio</CardDescription>
             </CardHeader>
             <CardContent>
               {loading ? (
                 <Skeleton className="h-[200px] w-full" />
               ) : pipelineData.length === 0 ? (
                 <div className="h-[200px] flex items-center justify-center text-muted-foreground">
-                  <p>No data to display</p>
+                  <p>Nenhum dado para exibir</p>
                 </div>
               ) : (
                 <>
@@ -412,17 +415,17 @@ export default function Dashboard() {
           </Card>
         </div>
 
-        {/* Bottom Row */}
-        <div className="grid gap-4 lg:grid-cols-2">
+        {/* Bottom Row - Now with 3 columns */}
+        <div className="grid gap-4 lg:grid-cols-3">
           {/* Top Deals */}
           <Card>
             <CardHeader className="flex flex-row items-center justify-between">
               <div>
-                <CardTitle>Top Deals</CardTitle>
-                <CardDescription>Highest value opportunities in pipeline</CardDescription>
+                <CardTitle>Principais Negócios</CardTitle>
+                <CardDescription>Oportunidades de maior valor no pipeline</CardDescription>
               </div>
               <Button variant="ghost" size="sm" onClick={() => navigate('/opportunities')}>
-                View All
+                Ver Todos
               </Button>
             </CardHeader>
             <CardContent>
@@ -434,7 +437,7 @@ export default function Dashboard() {
                 </div>
               ) : topDeals.length === 0 ? (
                 <div className="text-center py-8 text-muted-foreground">
-                  <p>No open opportunities</p>
+                  <p>Nenhuma oportunidade aberta</p>
                 </div>
               ) : (
                 <div className="space-y-4">
@@ -471,8 +474,8 @@ export default function Dashboard() {
           <Card>
             <CardHeader className="flex flex-row items-center justify-between">
               <div>
-                <CardTitle>Recent Activity</CardTitle>
-                <CardDescription>Latest updates from your CRM</CardDescription>
+                <CardTitle>Atividade Recente</CardTitle>
+                <CardDescription>Últimas atualizações do CRM</CardDescription>
               </div>
               <Button variant="ghost" size="icon">
                 <MoreHorizontal className="h-4 w-4" />
@@ -488,7 +491,7 @@ export default function Dashboard() {
               ) : recentActivities.length === 0 ? (
                 <div className="text-center py-8 text-muted-foreground">
                   <Calendar className="h-8 w-8 mx-auto mb-2 opacity-50" />
-                  <p>No recent activities</p>
+                  <p>Nenhuma atividade recente</p>
                 </div>
               ) : (
                 <div className="space-y-4">
@@ -501,7 +504,7 @@ export default function Dashboard() {
                         <p className="text-sm font-medium leading-none">{activity.title}</p>
                         <p className="text-xs text-muted-foreground">
                           {activity.event_type.replace(/_/g, ' ')} •{' '}
-                          {format(new Date(activity.created_at), 'MMM d, h:mm a')}
+                          {format(new Date(activity.created_at), "d 'de' MMM, HH:mm", { locale: ptBR })}
                         </p>
                       </div>
                     </div>
@@ -510,6 +513,13 @@ export default function Dashboard() {
               )}
             </CardContent>
           </Card>
+
+          {/* Stale Deal Alerts Widget */}
+          <StaleDealAlerts 
+            thresholdDays={14} 
+            maxItems={4} 
+            showConfig={true}
+          />
         </div>
       </div>
     </AppLayout>
