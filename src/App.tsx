@@ -24,6 +24,8 @@ import Quotes from "./pages/Quotes";
 import QuoteDetail from "./pages/QuoteDetail";
 import QuoteForm from "./pages/QuoteForm";
 import Products from "./pages/Products";
+import ProductDetail from "./pages/ProductDetail";
+import ProductForm from "./pages/ProductForm";
 import Territories from "./pages/Territories";
 import Cadences from "./pages/Cadences";
 import Forecast from "./pages/Forecast";
@@ -73,8 +75,13 @@ const App = () => (
             <Route path="/quotes/:id" element={<QuoteDetail />} />
             <Route path="/quotes/:id/edit" element={<QuoteForm />} />
             
-            {/* Management */}
+            {/* Products */}
             <Route path="/products" element={<Products />} />
+            <Route path="/products/new" element={<ProductForm />} />
+            <Route path="/products/:id" element={<ProductDetail />} />
+            <Route path="/products/:id/edit" element={<ProductForm />} />
+            
+            {/* Management */}
             <Route path="/territories" element={<Territories />} />
             <Route path="/cadences" element={<Cadences />} />
             <Route path="/forecast" element={<Forecast />} />
