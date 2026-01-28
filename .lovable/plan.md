@@ -1,158 +1,299 @@
 
 
-# Fireware CRM — Sales Module Implementation Plan
+# Fireware CRM - Gap Analysis and Implementation Roadmap
 
-## Vision
-Build a complete **B2B Sales CRM** with enterprise-grade features, designed for large sales organizations (20+ reps). This module will establish the **Customer 360 foundation** and unified timeline that will later power all Fireware modules.
+## Current State Summary
 
----
+The project has established a solid **foundation** for the Fireware Sales module, but most features are skeleton pages without functional implementation.
 
-## Brand Identity
-- **Primary**: Fireware Red `#FF0000` and White `#FFFFFF`
-- **UI**: Modern corporate design with neutral grays
-- **Layout**: Sidebar navigation + topbar + main workspace
+### What EXISTS Today
 
----
+**Database (Complete)**
+- Multi-tenant architecture: `organizations` -> `teams` -> `profiles`
+- All 20+ tables for Sales module (leads, accounts, contacts, opportunities, quotes, products, cadences, forecasts, etc.)
+- Row-Level Security policies for all tables
+- Helper functions (`is_member_of_org`, `has_role`, etc.)
+- Triggers for auto-updating timestamps and timeline events
 
-## Core Architecture
-
-### Database Foundation (Supabase)
-- **Multi-tenant structure**: Organizations → Teams → Users
-- **Core tables**: Accounts, Contacts, Leads, Opportunities, Activities
-- **Advanced tables**: Quotes, Products, Territories, Forecasts, Cadences
-- **Timeline events** table for Customer 360 view
-- **Simple auth** with email/password (enterprise security added later)
-
----
-
-## Features to Build
-
-### 1. Dashboard & Navigation
-- Executive dashboard with pipeline metrics, forecast summary, top deals
-- Global search across all entities
-- Sidebar with module navigation
-- Quick-create buttons for leads, accounts, opportunities
-
-### 2. Lead Management (Complete)
-- **Lead capture**: Manual creation, CSV import
-- **Lead list**: Sortable, filterable table with saved views
-- **Lead detail**: Full profile, activities, notes, attachments
-- **Lead scoring**: Configurable scoring rules
-- **Deduplication**: Detect and merge duplicate leads
-- **Lead routing**: Round-robin assignment, territory-based rules
-- **Conversion wizard**: Lead → Account + Contact + Opportunity
-
-### 3. Accounts & Contacts
-- **Account hierarchy**: Matrix/subsidiary relationships
-- **Contact roles**: Decision maker, technical, financial, influencer
-- **Account detail page** with Customer 360 view
-- **Unified Timeline**: All interactions across sales, (future: service, marketing)
-- **Territory assignment**: Link accounts to territories/owners
-
-### 4. Opportunity Management (Enterprise-Grade)
-- **Pipeline Kanban** with customizable stages
-- **Pipeline list view** with advanced filters
-- **Opportunity detail**: Full deal information, probability, close date
-- **Stakeholder management**: Multiple contacts per deal with roles
-- **Activity tracking**: Calls, meetings, emails, notes
-- **Stage rules**: Required fields per stage, probability mapping
-- **Win/Loss reasons**: Standardized picklist with reporting
-
-### 5. Quotes & Proposals
-- **Product catalog**: Items available for quoting
-- **Quote builder**: Add products, quantities, discounts
-- **Pricing rules**: List price, volume discounts, custom pricing
-- **Quote versioning**: Track revisions
-- **Quote PDF generation** (basic template)
-- **Quote approval workflow**: Manager approval for discounts above threshold
-
-### 6. Territories & Routing
-- **Territory definitions**: By region, industry, account size
-- **Assignment rules**: Auto-assign leads/accounts to territories
-- **Territory hierarchy**: Regions → Sub-regions → Reps
-- **Owner transfer** with history tracking
-
-### 7. Sales Cadences
-- **Cadence builder**: Define sequences of touchpoints
-- **Step types**: Email, call, LinkedIn, task
-- **Enrollment**: Add leads/contacts to cadences
-- **Progress tracking**: See cadence status per lead
-- **Alerts**: Overdue tasks, stalled cadences
-
-### 8. Forecast & Targets
-- **Forecast periods**: Monthly/quarterly
-- **Forecast categories**: Commit, best case, pipeline
-- **Rep-level forecast entry**: Update deal projections
-- **Manager rollup view**: Aggregate by team
-- **Target setting**: Define quotas per rep/team
-- **Forecast vs. Actual**: Variance tracking dashboard
-
-### 9. Reports & Analytics
-- **Pipeline report**: Value by stage, by owner, by period
-- **Conversion funnel**: Lead → Opportunity → Won rates
-- **Activity metrics**: Calls made, meetings held, emails sent
-- **Win/loss analysis**: Reasons, competitors, cycle time
-- **Forecast accuracy**: Predicted vs. closed comparison
-
-### 10. Customer 360 Profile
-- **Unified customer page** showing:
-  - Company/contact information
-  - All related leads, opportunities, quotes
-  - Complete activity timeline (chronological)
-  - Notes and attachments
-  - Key metrics (lifetime value, open deals, last contact)
+**Frontend (Partial)**
+- Authentication page (login/signup working)
+- Dashboard with mock data and charts
+- App layout with sidebar and topbar
+- Leads: Full list with CRUD, detail page, form
+- Accounts: List with CRUD basics
+- All other pages: Empty skeleton stubs
 
 ---
 
-## Technical Implementation
+## What NEEDS to be Implemented
 
-### Backend (Supabase Cloud)
-- PostgreSQL database with proper relationships
-- Row-Level Security for data isolation
-- Edge functions for complex operations (cadence engine, scoring)
-- File storage for attachments and documents
+### Priority 1: Core Sales Functionality (Critical)
 
-### Frontend (React + TypeScript)
-- Responsive, modern UI using Tailwind CSS and shadcn/ui
-- Kanban board for pipeline visualization
-- Data tables with sorting, filtering, pagination
-- Forms with validation (zod)
-- Toast notifications for feedback
+#### 1.1 Opportunities - Kanban Pipeline
+**Status**: Stub only (no functionality)
+**Needs**:
+- Kanban board with drag-and-drop stages
+- Opportunity list view with filters
+- Opportunity detail page with:
+  - Basic info editing
+  - Stakeholder management (link multiple contacts)
+  - Activity history
+  - Timeline integration
+- Opportunity form (create/edit)
+- Win/loss reason selection on close
+
+#### 1.2 Quotes & Proposals Builder
+**Status**: Stub only
+**Needs**:
+- Quote list with status filtering
+- Quote builder interface:
+  - Product selection from catalog
+  - Line item management (add, remove, reorder)
+  - Quantity and pricing
+  - Discount application
+  - Auto-calculation of totals
+- Quote detail view
+- Quote status workflow (draft -> sent -> accepted/rejected)
+- Basic PDF generation
+
+#### 1.3 Lead Conversion Wizard
+**Status**: Missing
+**Needs**:
+- Modal/page for converting leads
+- Duplicate checking before conversion
+- Create Account + Contact + Opportunity in one flow
+- Transfer activities/notes to new records
+- Update lead status to "converted"
+
+#### 1.4 Products & Pricing
+**Status**: Stub only
+**Needs**:
+- Product list with search
+- Product form (CRUD)
+- Price list management
+- Price list items per product
 
 ---
 
-## Pages to Build
+### Priority 2: Activity & Communication Tracking
 
-1. **Login/Register** — Simple email/password auth
-2. **Dashboard** — Executive overview with metrics
-3. **Leads** — List + Detail + Create/Edit + Convert
-4. **Accounts** — List + Detail (with Customer 360)
-5. **Contacts** — List + Detail
-6. **Opportunities** — Kanban + List + Detail + Create/Edit
-7. **Quotes** — List + Builder + Detail
-8. **Products** — Catalog management
-9. **Territories** — Configuration and assignment
-10. **Cadences** — Builder + Enrollment + Tracking
-11. **Forecast** — Entry + Rollup views
-12. **Reports** — Pre-built dashboards
-13. **Settings** — Stages, reasons, team config
+#### 2.1 Activities Management
+**Status**: Database exists, no UI
+**Needs**:
+- Activities list page
+- Activity form (call, email, meeting, task)
+- Activity widget on Lead/Account/Contact/Opportunity detail pages
+- Due date tracking
+- Mark as complete functionality
+
+#### 2.2 Notes System
+**Status**: Database exists, no UI
+**Needs**:
+- Notes component for detail pages
+- Add/edit/delete notes
+- Pin important notes
 
 ---
 
-## Expansion Path (Future Modules)
-This foundation will enable adding:
-- **Fireware Service** — Ticketing connected to accounts/contacts
-- **Fireware Marketing** — Campaigns connected to leads
-- **Fireware Commerce** — Orders connected to accounts
-- **Enhanced Governance** — RBAC, audit logs, LGPD compliance
+### Priority 3: Sales Management Features
+
+#### 3.1 Territories Management
+**Status**: Stub only
+**Needs**:
+- Territory list with hierarchy
+- Territory form (create/edit)
+- Assign accounts/leads to territories
+- Territory owner assignment
+
+#### 3.2 Cadences Builder
+**Status**: Stub only
+**Needs**:
+- Cadence list page
+- Cadence builder:
+  - Add/edit/delete steps
+  - Step types: email, call, LinkedIn, task
+  - Delay configuration between steps
+- Enrollment management:
+  - Enroll leads/contacts
+  - Track progress
+  - View next step due
+- Pause/resume enrollments
+
+#### 3.3 Forecast & Targets
+**Status**: Stub only
+**Needs**:
+- Forecast entry form (by period)
+- Forecast categories: commit, best case, pipeline
+- Target setting per user
+- Manager rollup view (aggregate team forecasts)
+- Forecast vs. actual comparison
+
+---
+
+### Priority 4: Customer 360 & Timeline
+
+#### 4.1 Unified Customer Timeline
+**Status**: Database ready (`timeline_events`), no UI
+**Needs**:
+- Timeline component showing all events chronologically
+- Event types: lead created, opportunity stage changed, quote sent, activity completed, etc.
+- Filter by event type
+- Display on Account, Contact, and Opportunity detail pages
+
+#### 4.2 Account Detail Enhancement (Customer 360)
+**Status**: Basic only
+**Needs**:
+- Company overview section
+- Related contacts list
+- Related opportunities list
+- Related quotes list
+- Unified timeline
+- Key metrics (lifetime value, open deals, last contact)
+
+---
+
+### Priority 5: Configuration & Administration
+
+#### 5.1 Settings Page - Pipeline Stages
+**Status**: Stub
+**Needs**:
+- List customizable opportunity stages
+- Reorder stages
+- Set probability per stage
+- Mark stages as closed/won
+
+#### 5.2 Settings - Win/Loss Reasons
+**Status**: Database exists, no UI
+**Needs**:
+- Manage win reasons
+- Manage loss reasons
+- Enable/disable reasons
+
+#### 5.3 Settings - Lead Sources
+**Status**: Database exists, no UI
+**Needs**:
+- Manage lead source options
+- Enable/disable sources
+
+#### 5.4 Team Management
+**Status**: Database exists, no UI
+**Needs**:
+- List team members
+- Assign roles (user, manager, admin)
+- Assign to teams
+
+---
+
+### Priority 6: Data Operations
+
+#### 6.1 CSV Import
+**Status**: Button exists, no functionality
+**Needs**:
+- File upload for leads/accounts/contacts
+- Column mapping interface
+- Validation with error display
+- Preview before import
+- Basic deduplication check
+
+#### 6.2 CSV Export
+**Status**: Button exists, no functionality
+**Needs**:
+- Export filtered lists to CSV
+- Select columns to export
+
+#### 6.3 Dashboard with Real Data
+**Status**: Currently mock data
+**Needs**:
+- Fetch actual pipeline data from database
+- Calculate real KPIs (total pipeline, won deals, activities)
+- Real-time updates
+
+---
+
+### Priority 7: Advanced Features (Phase 2)
+
+#### 7.1 Global Search
+**Needs**: Search across leads, accounts, contacts, opportunities, quotes
+
+#### 7.2 Audit Logs
+**Needs**: Table for tracking all changes, viewer in Settings
+
+#### 7.3 Approval Workflows
+**Needs**: Quote approval for discounts above threshold
+
+#### 7.4 File Attachments
+**Needs**: Storage bucket, attach files to records
+
+#### 7.5 Reports Page
+**Needs**: Pre-built reports (pipeline, conversion, activities)
+
+---
+
+## Implementation Order Recommendation
+
+```text
+Phase 1 - Core Sales (2-3 weeks)
+  ├── Opportunities Kanban + CRUD
+  ├── Account Detail + Customer 360 Timeline
+  ├── Activities on detail pages
+  └── Dashboard with real data
+
+Phase 2 - Quotes & Products (1-2 weeks)
+  ├── Products CRUD
+  ├── Quote Builder
+  └── Quote PDF generation
+
+Phase 3 - Lead Enhancement (1 week)
+  ├── Lead Conversion Wizard
+  ├── CSV Import
+  └── Deduplication check
+
+Phase 4 - Sales Management (1-2 weeks)
+  ├── Territories management
+  ├── Cadences builder
+  └── Forecast entry
+
+Phase 5 - Administration (1 week)
+  ├── Settings - Pipeline stages
+  ├── Settings - Win/loss reasons
+  ├── Settings - Lead sources
+  └── Team management
+
+Phase 6 - Advanced (2+ weeks)
+  ├── Global search
+  ├── Reports
+  ├── Approval workflows
+  └── Audit logs
+```
+
+---
+
+## Technical Notes
+
+- All database tables are ready with proper RLS
+- New profiles lack organization_id (need onboarding flow to create/join org)
+- Timeline events trigger exists for opportunities (extend for other entities)
+- Quote totals trigger is ready (will auto-calculate when items change)
 
 ---
 
 ## Summary
-This plan delivers a **fully-functional B2B Sales CRM** with:
-- ✅ Complete Lead-to-Opportunity-to-Quote workflow
-- ✅ Customer 360 with unified timeline
-- ✅ Enterprise features (territories, forecasting, cadences)
-- ✅ Modern UI with Fireware branding
-- ✅ Foundation for future module expansion
+
+| Area | Database | UI | Status |
+|------|----------|-----|--------|
+| Auth | Done | Done | Complete |
+| Leads | Done | Done | Complete |
+| Accounts | Done | Partial | Needs Customer 360 |
+| Contacts | Done | Stub | Needs CRUD |
+| Opportunities | Done | Stub | Critical gap |
+| Quotes | Done | Stub | Critical gap |
+| Products | Done | Stub | Needs CRUD |
+| Activities | Done | None | Needs UI |
+| Territories | Done | Stub | Needs UI |
+| Cadences | Done | Stub | Needs builder |
+| Forecast | Done | Stub | Needs entry/rollup |
+| Timeline | Done | None | Needs component |
+| Settings | Done | Stub | Needs config UI |
+
+**Bottom line**: The database foundation is solid. The main gaps are on the frontend, particularly the **Opportunities Kanban**, **Quote Builder**, and **Customer 360 Timeline** - these are the critical features needed to make the CRM functional for real sales workflows.
 
