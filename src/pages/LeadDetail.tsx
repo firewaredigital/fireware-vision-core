@@ -14,6 +14,7 @@ import {
   FileText,
   Plus,
   RefreshCw,
+  Target,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -35,6 +36,8 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
+import { LeadConversionWizard } from '@/components/LeadConversionWizard';
+import { Timeline } from '@/components/Timeline';
 
 interface Lead {
   id: string;
@@ -77,6 +80,7 @@ export default function LeadDetail() {
   const { toast } = useToast();
   const [lead, setLead] = useState<Lead | null>(null);
   const [loading, setLoading] = useState(true);
+  const [showConversionWizard, setShowConversionWizard] = useState(false);
 
   useEffect(() => {
     if (!authLoading && !user) {
@@ -197,9 +201,9 @@ export default function LeadDetail() {
           </div>
           <div className="flex gap-2">
             {lead.status !== 'converted' && (
-              <Button variant="outline" onClick={() => navigate(`/leads/${id}/convert`)}>
-                <RefreshCw className="mr-2 h-4 w-4" />
-                Convert
+              <Button variant="default" onClick={() => setShowConversionWizard(true)}>
+                <Target className="mr-2 h-4 w-4" />
+                Convert Lead
               </Button>
             )}
             <Button variant="outline" onClick={() => navigate(`/leads/${id}/edit`)}>
@@ -403,10 +407,7 @@ export default function LeadDetail() {
                     <CardDescription>Complete history of interactions</CardDescription>
                   </CardHeader>
                   <CardContent>
-                    <div className="flex flex-col items-center justify-center h-32 text-muted-foreground">
-                      <Calendar className="h-8 w-8 mb-2" />
-                      <p>No timeline events yet</p>
-                    </div>
+                    <Timeline leadId={lead.id} maxHeight="400px" />
                   </CardContent>
                 </Card>
               </TabsContent>
@@ -515,6 +516,22 @@ export default function LeadDetail() {
           </div>
         </div>
       </div>
+
+      {/* Lead Conversion Wizard */}
+      {lead && (
+        <LeadConversionWizard
+          lead={lead}
+          open={showConversionWizard}
+          onOpenChange={setShowConversionWizard}
+          onConverted={() => {
+            fetchLead();
+            toast({
+              title: 'Lead Converted',
+              description: 'The lead has been successfully converted.',
+            });
+          }}
+        />
+      )}
     </AppLayout>
   );
 }

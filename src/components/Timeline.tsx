@@ -26,6 +26,7 @@ interface TimelineProps {
   contactId?: string;
   opportunityId?: string;
   leadId?: string;
+  quoteId?: string;
   maxHeight?: string;
 }
 
@@ -59,7 +60,7 @@ const eventColors: Record<TimelineEventType, string> = {
   account_created: 'bg-orange-100 text-orange-700',
 };
 
-export function Timeline({ accountId, contactId, opportunityId, leadId, maxHeight = '400px' }: TimelineProps) {
+export function Timeline({ accountId, contactId, opportunityId, leadId, quoteId, maxHeight = '400px' }: TimelineProps) {
   const [events, setEvents] = useState<TimelineEvent[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -76,6 +77,7 @@ export function Timeline({ accountId, contactId, opportunityId, leadId, maxHeigh
       if (contactId) query = query.eq('contact_id', contactId);
       if (opportunityId) query = query.eq('opportunity_id', opportunityId);
       if (leadId) query = query.eq('lead_id', leadId);
+      if (quoteId) query = query.eq('quote_id', quoteId);
 
       const { data, error } = await query;
       
@@ -89,7 +91,7 @@ export function Timeline({ accountId, contactId, opportunityId, leadId, maxHeigh
     }
 
     fetchEvents();
-  }, [accountId, contactId, opportunityId, leadId]);
+  }, [accountId, contactId, opportunityId, leadId, quoteId]);
 
   if (loading) {
     return (
