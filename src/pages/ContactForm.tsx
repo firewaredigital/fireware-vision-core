@@ -1,33 +1,742 @@
-import { useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-import { ArrowLeft } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { useParams, useNavigate, useSearchParams } from 'react-router-dom';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { z } from 'zod';
+import { ArrowLeft, Loader2, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
+import { Badge } from '@/components/ui/badge';
+import { Checkbox } from '@/components/ui/checkbox';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '@/components/ui/form';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 import { AppLayout } from '@/components/layout/AppLayout';
 import { useAuth } from '@/hooks/useAuth';
+import { supabase } from '@/integrations/supabase/client';
+import { useToast } from '@/hooks/use-toast';
+
+const contactSchema = z.object({
+  first_name: z.string().min(1, 'First name is required').max(100),
+  last_name: z.string().min(1, 'Last name is required').max(100),
+  email: z.string().email('Must be a valid email').optional().or(z.literal('')),
+  phone: z.string().optional(),
+  mobile: z.string().optional(),
+  job_title: z.string().optional(),
+  department: z.string().optional(),
+  role: z.string().optional(),
+  do_not_call: z.boolean().default(false),
+  do_not_email: z.boolean().default(false),
+  address_street: z.string().optional(),
+  address_city: z.string().optional(),
+  address_state: z.string().optional(),
+  address_postal_code: z.string().optional(),
+  address_country: z.string().optional(),
+  description: z.string().optional(),
+  account_id: z.string().optional(),
+  owner_id: z.string().optional(),
+});
+
+type ContactFormData = z.infer<typeof contactSchema>;
+
+interface Account {
+  id: string;
+  name: string;
+}
+
+interface User {
+  id: string;
+  first_name: string | null;
+  last_name: string | null;
+  email: string;
+}
+
+const roles = [
+  { value: 'decision_maker', label: 'Decision Maker' },
+  { value: 'technical', label: 'Technical' },
+  { value: 'financial', label: 'Financial' },
+  { value: 'influencer', label: 'Influencer' },
+  { value: 'end_user', label: 'End User' },
+  { value: 'other', label: 'Other' },
+];
+
+const departments = [
+  'Executive',
+  'Sales',
+  'Marketing',
+  'Engineering',
+  'Product',
+  'Finance',
+  'Operations',
+  'Human Resources',
+  'Legal',
+  'Customer Success',
+  'IT',
+  'Other',
+];
 
 export default function ContactForm() {
-  const { id } = useParams();
+  const { id } = useParams<{ id: string }>();
+  const [searchParams] = useSearchParams();
   const navigate = useNavigate();
-  const { user, loading } = useAuth();
+  const { user, loading: authLoading } = useAuth();
+  const { toast } = useToast();
+  const [loading, setLoading] = useState(false);
+  const [saving, setSaving] = useState(false);
+  const [accounts, setAccounts] = useState<Account[]>([]);
+  const [users, setUsers] = useState<User[]>([]);
+  const [tags, setTags] = useState<string[]>([]);
+  const [tagInput, setTagInput] = useState('');
+
+  const isEditing = Boolean(id);
+  const preselectedAccountId = searchParams.get('account');
+
+  const form = useForm<ContactFormData>({
+    resolver: zodResolver(contactSchema),
+    defaultValues: {
+      first_name: '',
+      last_name: '',
+      email: '',
+      phone: '',
+      mobile: '',
+      job_title: '',
+      department: '',
+      role: '',
+      do_not_call: false,
+      do_not_email: false,
+      address_street: '',
+      address_city: '',
+      address_state: '',
+      address_postal_code: '',
+      address_country: '',
+      description: '',
+      account_id: preselectedAccountId || '',
+      owner_id: '',
+    },
+  });
 
   useEffect(() => {
-    if (!loading && !user) navigate('/auth');
-  }, [user, loading, navigate]);
+    if (!authLoading && !user) {
+      navigate('/auth');
+    }
+  }, [user, authLoading, navigate]);
 
-  if (loading || !user) return null;
+  useEffect(() => {
+    if (user) {
+      fetchReferenceData();
+      if (isEditing) {
+        fetchContact();
+      }
+    }
+  }, [user, id]);
+
+  const fetchReferenceData = async () => {
+    // Fetch accounts
+    const { data: accountsData } = await supabase
+      .from('accounts')
+      .select('id, name')
+      .order('name');
+    setAccounts(accountsData || []);
+
+    // Fetch users
+    const { data: usersData } = await supabase
+      .from('profiles')
+      .select('id, first_name, last_name, email')
+      .eq('is_active', true)
+      .order('first_name');
+    setUsers(usersData || []);
+  };
+
+  const fetchContact = async () => {
+    setLoading(true);
+    const { data, error } = await supabase
+      .from('contacts')
+      .select('*')
+      .eq('id', id)
+      .single();
+
+    if (error) {
+      toast({
+        variant: 'destructive',
+        title: 'Error',
+        description: 'Failed to load contact',
+      });
+      navigate('/contacts');
+    } else if (data) {
+      form.reset({
+        first_name: data.first_name,
+        last_name: data.last_name,
+        email: data.email || '',
+        phone: data.phone || '',
+        mobile: data.mobile || '',
+        job_title: data.job_title || '',
+        department: data.department || '',
+        role: data.role || '',
+        do_not_call: data.do_not_call || false,
+        do_not_email: data.do_not_email || false,
+        address_street: data.address_street || '',
+        address_city: data.address_city || '',
+        address_state: data.address_state || '',
+        address_postal_code: data.address_postal_code || '',
+        address_country: data.address_country || '',
+        description: data.description || '',
+        account_id: data.account_id || '',
+        owner_id: data.owner_id || '',
+      });
+      setTags(data.tags || []);
+    }
+    setLoading(false);
+  };
+
+  const onSubmit = async (data: ContactFormData) => {
+    setSaving(true);
+
+    // Get user's profile for organization_id
+    const { data: profile } = await supabase
+      .from('profiles')
+      .select('organization_id')
+      .eq('id', user?.id)
+      .single();
+
+    if (!profile?.organization_id) {
+      toast({ variant: 'destructive', title: 'Error', description: 'Organization not found' });
+      setSaving(false);
+      return;
+    }
+
+    // Cast role to the expected enum type
+    type ContactRole = 'decision_maker' | 'technical' | 'financial' | 'influencer' | 'end_user' | 'other' | null;
+    const roleValue: ContactRole = data.role ? (data.role as ContactRole) : null;
+
+    const contactData = {
+      first_name: data.first_name,
+      last_name: data.last_name,
+      email: data.email || null,
+      phone: data.phone || null,
+      mobile: data.mobile || null,
+      job_title: data.job_title || null,
+      department: data.department || null,
+      role: roleValue,
+      do_not_call: data.do_not_call,
+      do_not_email: data.do_not_email,
+      address_street: data.address_street || null,
+      address_city: data.address_city || null,
+      address_state: data.address_state || null,
+      address_postal_code: data.address_postal_code || null,
+      address_country: data.address_country || null,
+      description: data.description || null,
+      account_id: data.account_id || null,
+      owner_id: data.owner_id || null,
+      tags: tags.length > 0 ? tags : null,
+      organization_id: profile.organization_id,
+    };
+
+    if (isEditing) {
+      const { error } = await supabase
+        .from('contacts')
+        .update(contactData)
+        .eq('id', id);
+
+      if (error) {
+        toast({ variant: 'destructive', title: 'Error', description: 'Failed to update contact' });
+      } else {
+        toast({ title: 'Contact updated' });
+        navigate(`/contacts/${id}`);
+      }
+    } else {
+      const { data: newContact, error } = await supabase
+        .from('contacts')
+        .insert(contactData)
+        .select()
+        .single();
+
+      if (error) {
+        toast({ variant: 'destructive', title: 'Error', description: 'Failed to create contact' });
+      } else {
+        toast({ title: 'Contact created' });
+        navigate(`/contacts/${newContact.id}`);
+      }
+    }
+
+    setSaving(false);
+  };
+
+  const addTag = () => {
+    const tag = tagInput.trim();
+    if (tag && !tags.includes(tag)) {
+      setTags([...tags, tag]);
+      setTagInput('');
+    }
+  };
+
+  const removeTag = (tagToRemove: string) => {
+    setTags(tags.filter((t) => t !== tagToRemove));
+  };
+
+  const handleTagKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      addTag();
+    }
+  };
+
+  const getUserName = (u: User) => {
+    if (u.first_name || u.last_name) {
+      return `${u.first_name || ''} ${u.last_name || ''}`.trim();
+    }
+    return u.email;
+  };
+
+  if (authLoading || loading) {
+    return (
+      <AppLayout>
+        <div className="flex items-center justify-center h-64">
+          <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
+        </div>
+      </AppLayout>
+    );
+  }
 
   return (
     <AppLayout>
-      <div className="space-y-6">
+      <div className="max-w-4xl mx-auto space-y-6">
+        {/* Header */}
         <div className="flex items-center gap-4">
-          <Button variant="ghost" size="icon" onClick={() => navigate('/contacts')}><ArrowLeft className="h-4 w-4" /></Button>
-          <h1 className="text-2xl font-bold">{id ? 'Edit Contact' : 'New Contact'}</h1>
+          <Button variant="ghost" size="icon" onClick={() => navigate('/contacts')}>
+            <ArrowLeft className="h-4 w-4" />
+          </Button>
+          <div>
+            <h1 className="text-2xl font-bold tracking-tight">
+              {isEditing ? 'Edit Contact' : 'New Contact'}
+            </h1>
+            <p className="text-muted-foreground">
+              {isEditing ? 'Update contact information' : 'Add a new contact to your CRM'}
+            </p>
+          </div>
         </div>
-        <Card>
-          <CardHeader><CardTitle>Contact Form</CardTitle></CardHeader>
-          <CardContent><p className="text-muted-foreground">Form coming soon...</p></CardContent>
-        </Card>
+
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+            {/* Basic Information */}
+            <Card>
+              <CardHeader>
+                <CardTitle>Basic Information</CardTitle>
+                <CardDescription>Name and contact details</CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="grid gap-4 sm:grid-cols-2">
+                  <FormField
+                    control={form.control}
+                    name="first_name"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>First Name *</FormLabel>
+                        <FormControl>
+                          <Input placeholder="John" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="last_name"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Last Name *</FormLabel>
+                        <FormControl>
+                          <Input placeholder="Doe" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="email"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Email</FormLabel>
+                        <FormControl>
+                          <Input placeholder="john@example.com" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="phone"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Phone</FormLabel>
+                        <FormControl>
+                          <Input placeholder="+1 (555) 000-0000" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="mobile"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Mobile</FormLabel>
+                        <FormControl>
+                          <Input placeholder="+1 (555) 000-0001" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Professional Information */}
+            <Card>
+              <CardHeader>
+                <CardTitle>Professional Information</CardTitle>
+                <CardDescription>Job title, department, and role</CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="grid gap-4 sm:grid-cols-2">
+                  <FormField
+                    control={form.control}
+                    name="account_id"
+                    render={({ field }) => (
+                      <FormItem className="sm:col-span-2">
+                        <FormLabel>Account</FormLabel>
+                        <Select onValueChange={field.onChange} value={field.value}>
+                          <FormControl>
+                            <SelectTrigger>
+                              <SelectValue placeholder="Select account" />
+                            </SelectTrigger>
+                          </FormControl>
+                          <SelectContent>
+                            <SelectItem value="">None</SelectItem>
+                            {accounts.map((a) => (
+                              <SelectItem key={a.id} value={a.id}>
+                                {a.name}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                        <FormDescription>Link this contact to a company</FormDescription>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="job_title"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Job Title</FormLabel>
+                        <FormControl>
+                          <Input placeholder="VP of Sales" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="department"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Department</FormLabel>
+                        <Select onValueChange={field.onChange} value={field.value}>
+                          <FormControl>
+                            <SelectTrigger>
+                              <SelectValue placeholder="Select department" />
+                            </SelectTrigger>
+                          </FormControl>
+                          <SelectContent>
+                            {departments.map((dept) => (
+                              <SelectItem key={dept} value={dept}>
+                                {dept}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="role"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Role in Buying Process</FormLabel>
+                        <Select onValueChange={field.onChange} value={field.value}>
+                          <FormControl>
+                            <SelectTrigger>
+                              <SelectValue placeholder="Select role" />
+                            </SelectTrigger>
+                          </FormControl>
+                          <SelectContent>
+                            {roles.map((role) => (
+                              <SelectItem key={role.value} value={role.value}>
+                                {role.label}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                        <FormDescription>
+                          Their role in purchase decisions
+                        </FormDescription>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="owner_id"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Owner</FormLabel>
+                        <Select onValueChange={field.onChange} value={field.value}>
+                          <FormControl>
+                            <SelectTrigger>
+                              <SelectValue placeholder="Select owner" />
+                            </SelectTrigger>
+                          </FormControl>
+                          <SelectContent>
+                            <SelectItem value="">Unassigned</SelectItem>
+                            {users.map((u) => (
+                              <SelectItem key={u.id} value={u.id}>
+                                {getUserName(u)}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Communication Preferences */}
+            <Card>
+              <CardHeader>
+                <CardTitle>Communication Preferences</CardTitle>
+                <CardDescription>Contact restrictions and preferences</CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="flex flex-col gap-4 sm:flex-row sm:gap-8">
+                  <FormField
+                    control={form.control}
+                    name="do_not_call"
+                    render={({ field }) => (
+                      <FormItem className="flex flex-row items-start space-x-3 space-y-0">
+                        <FormControl>
+                          <Checkbox
+                            checked={field.value}
+                            onCheckedChange={field.onChange}
+                          />
+                        </FormControl>
+                        <div className="space-y-1 leading-none">
+                          <FormLabel>Do not call</FormLabel>
+                          <FormDescription>
+                            This contact does not want to receive phone calls
+                          </FormDescription>
+                        </div>
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="do_not_email"
+                    render={({ field }) => (
+                      <FormItem className="flex flex-row items-start space-x-3 space-y-0">
+                        <FormControl>
+                          <Checkbox
+                            checked={field.value}
+                            onCheckedChange={field.onChange}
+                          />
+                        </FormControl>
+                        <div className="space-y-1 leading-none">
+                          <FormLabel>Do not email</FormLabel>
+                          <FormDescription>
+                            This contact does not want to receive emails
+                          </FormDescription>
+                        </div>
+                      </FormItem>
+                    )}
+                  />
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Address */}
+            <Card>
+              <CardHeader>
+                <CardTitle>Address</CardTitle>
+                <CardDescription>Contact location</CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <FormField
+                  control={form.control}
+                  name="address_street"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Street Address</FormLabel>
+                      <FormControl>
+                        <Input placeholder="123 Main Street" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+                  <FormField
+                    control={form.control}
+                    name="address_city"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>City</FormLabel>
+                        <FormControl>
+                          <Input placeholder="San Francisco" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="address_state"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>State/Province</FormLabel>
+                        <FormControl>
+                          <Input placeholder="CA" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="address_postal_code"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Postal Code</FormLabel>
+                        <FormControl>
+                          <Input placeholder="94105" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="address_country"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Country</FormLabel>
+                        <FormControl>
+                          <Input placeholder="United States" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Additional Information */}
+            <Card>
+              <CardHeader>
+                <CardTitle>Additional Information</CardTitle>
+                <CardDescription>Notes and tags</CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <FormField
+                  control={form.control}
+                  name="description"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Description</FormLabel>
+                      <FormControl>
+                        <Textarea
+                          placeholder="Additional notes about this contact..."
+                          rows={4}
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                {/* Tags */}
+                <div className="space-y-2">
+                  <FormLabel>Tags</FormLabel>
+                  <div className="flex gap-2">
+                    <Input
+                      placeholder="Add a tag..."
+                      value={tagInput}
+                      onChange={(e) => setTagInput(e.target.value)}
+                      onKeyDown={handleTagKeyDown}
+                      className="max-w-xs"
+                    />
+                    <Button type="button" variant="outline" onClick={addTag}>
+                      Add
+                    </Button>
+                  </div>
+                  {tags.length > 0 && (
+                    <div className="flex flex-wrap gap-2 mt-2">
+                      {tags.map((tag) => (
+                        <Badge key={tag} variant="secondary" className="gap-1">
+                          {tag}
+                          <button
+                            type="button"
+                            onClick={() => removeTag(tag)}
+                            className="ml-1 hover:text-destructive"
+                          >
+                            <X className="h-3 w-3" />
+                          </button>
+                        </Badge>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Actions */}
+            <div className="flex justify-end gap-4">
+              <Button type="button" variant="outline" onClick={() => navigate('/contacts')}>
+                Cancel
+              </Button>
+              <Button type="submit" disabled={saving}>
+                {saving && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                {isEditing ? 'Save Changes' : 'Create Contact'}
+              </Button>
+            </div>
+          </form>
+        </Form>
       </div>
     </AppLayout>
   );
