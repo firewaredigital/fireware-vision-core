@@ -1,7 +1,6 @@
 import { useState } from 'react';
-import { Search, Bell, Plus, Moon, Sun } from 'lucide-react';
+import { Bell, Plus, Moon, Sun } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
 import { SidebarTrigger } from '@/components/ui/sidebar';
 import {
   DropdownMenu,
@@ -12,6 +11,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { useNavigate } from 'react-router-dom';
+import { GlobalSearch } from '@/components/GlobalSearch';
 
 export function AppTopbar() {
   const navigate = useNavigate();
@@ -26,15 +26,8 @@ export function AppTopbar() {
     <header className="sticky top-0 z-40 flex h-14 items-center gap-4 border-b bg-background px-4">
       <SidebarTrigger className="-ml-1" />
 
-      {/* Search */}
-      <div className="relative flex-1 max-w-md">
-        <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-        <Input
-          type="search"
-          placeholder="Search leads, accounts, contacts..."
-          className="pl-9 bg-secondary/50 border-0 focus-visible:ring-1"
-        />
-      </div>
+      {/* Global Search */}
+      <GlobalSearch />
 
       <div className="flex items-center gap-2 ml-auto">
         {/* Quick Create */}
