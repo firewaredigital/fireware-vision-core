@@ -15,6 +15,8 @@ import {
   LogOut,
   ChevronDown,
   Flame,
+  PieChart,
+  ClipboardList,
 } from 'lucide-react';
 import { NavLink } from '@/components/NavLink';
 import {
@@ -57,6 +59,8 @@ const managementNavItems = [
   { title: 'Territories', url: '/territories', icon: Map },
   { title: 'Cadences', url: '/cadences', icon: Zap },
   { title: 'Forecast', url: '/forecast', icon: BarChart3 },
+  { title: 'Reports', url: '/reports', icon: PieChart },
+  { title: 'Audit Logs', url: '/audit-logs', icon: ClipboardList },
 ];
 
 const settingsNavItems = [
