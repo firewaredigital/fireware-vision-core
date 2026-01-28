@@ -35,6 +35,12 @@ import Forecast from "./pages/Forecast";
 import Settings from "./pages/Settings";
 import AuditLogs from "./pages/AuditLogs";
 import Reports from "./pages/Reports";
+// Service Module
+import Tickets from "./pages/Tickets";
+import TicketDetail from "./pages/TicketDetail";
+import TicketForm from "./pages/TicketForm";
+import Knowledge from "./pages/Knowledge";
+import ArticleDetail from "./pages/ArticleDetail";
 
 const queryClient = new QueryClient();
 
@@ -91,6 +97,16 @@ const App = () => (
             <Route path="/contracts/new" element={<ContractForm />} />
             <Route path="/contracts/:id" element={<ContractDetail />} />
             <Route path="/contracts/:id/edit" element={<ContractForm />} />
+            
+            {/* Tickets (Service Module) */}
+            <Route path="/tickets" element={<Tickets />} />
+            <Route path="/tickets/new" element={<TicketForm />} />
+            <Route path="/tickets/:id" element={<TicketDetail />} />
+            <Route path="/tickets/:id/edit" element={<TicketForm />} />
+            
+            {/* Knowledge Base */}
+            <Route path="/knowledge" element={<Knowledge />} />
+            <Route path="/knowledge/:id" element={<ArticleDetail />} />
             
             {/* Management */}
             <Route path="/territories" element={<Territories />} />

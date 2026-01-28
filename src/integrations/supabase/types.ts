@@ -356,6 +356,102 @@ export type Database = {
           },
         ]
       }
+      article_feedback: {
+        Row: {
+          article_id: string
+          created_at: string
+          feedback: string | null
+          id: string
+          ip_address: string | null
+          is_helpful: boolean
+          session_id: string | null
+          user_id: string | null
+        }
+        Insert: {
+          article_id: string
+          created_at?: string
+          feedback?: string | null
+          id?: string
+          ip_address?: string | null
+          is_helpful: boolean
+          session_id?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          article_id?: string
+          created_at?: string
+          feedback?: string | null
+          id?: string
+          ip_address?: string | null
+          is_helpful?: boolean
+          session_id?: string | null
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "article_feedback_article_id_fkey"
+            columns: ["article_id"]
+            isOneToOne: false
+            referencedRelation: "knowledge_articles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "article_feedback_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      article_versions: {
+        Row: {
+          article_id: string
+          change_summary: string | null
+          changed_by: string | null
+          content: string
+          created_at: string
+          id: string
+          title: string
+          version: number
+        }
+        Insert: {
+          article_id: string
+          change_summary?: string | null
+          changed_by?: string | null
+          content: string
+          created_at?: string
+          id?: string
+          title: string
+          version: number
+        }
+        Update: {
+          article_id?: string
+          change_summary?: string | null
+          changed_by?: string | null
+          content?: string
+          created_at?: string
+          id?: string
+          title?: string
+          version?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "article_versions_article_id_fkey"
+            columns: ["article_id"]
+            isOneToOne: false
+            referencedRelation: "knowledge_articles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "article_versions_changed_by_fkey"
+            columns: ["changed_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       assignment_log: {
         Row: {
           assigned_from: string | null
@@ -835,6 +931,69 @@ export type Database = {
           },
         ]
       }
+      canned_responses: {
+        Row: {
+          category: string | null
+          content: string
+          content_html: string | null
+          created_at: string
+          id: string
+          is_active: boolean
+          is_public: boolean
+          name: string
+          organization_id: string
+          owner_id: string | null
+          shortcut: string | null
+          updated_at: string
+          usage_count: number
+        }
+        Insert: {
+          category?: string | null
+          content: string
+          content_html?: string | null
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          is_public?: boolean
+          name: string
+          organization_id: string
+          owner_id?: string | null
+          shortcut?: string | null
+          updated_at?: string
+          usage_count?: number
+        }
+        Update: {
+          category?: string | null
+          content?: string
+          content_html?: string | null
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          is_public?: boolean
+          name?: string
+          organization_id?: string
+          owner_id?: string | null
+          shortcut?: string | null
+          updated_at?: string
+          usage_count?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "canned_responses_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "canned_responses_owner_id_fkey"
+            columns: ["owner_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       contacts: {
         Row: {
           account_id: string | null
@@ -1087,6 +1246,98 @@ export type Database = {
           },
         ]
       }
+      csat_responses: {
+        Row: {
+          agent_id: string | null
+          contact_id: string | null
+          created_at: string
+          feedback: string | null
+          id: string
+          ip_address: string | null
+          organization_id: string
+          rating_friendliness: number | null
+          rating_knowledge: number | null
+          rating_resolution: number | null
+          rating_response_time: number | null
+          respondent_email: string | null
+          respondent_name: string | null
+          score: number
+          submitted_at: string
+          survey_sent_at: string | null
+          ticket_id: string
+          would_recommend: boolean | null
+        }
+        Insert: {
+          agent_id?: string | null
+          contact_id?: string | null
+          created_at?: string
+          feedback?: string | null
+          id?: string
+          ip_address?: string | null
+          organization_id: string
+          rating_friendliness?: number | null
+          rating_knowledge?: number | null
+          rating_resolution?: number | null
+          rating_response_time?: number | null
+          respondent_email?: string | null
+          respondent_name?: string | null
+          score: number
+          submitted_at?: string
+          survey_sent_at?: string | null
+          ticket_id: string
+          would_recommend?: boolean | null
+        }
+        Update: {
+          agent_id?: string | null
+          contact_id?: string | null
+          created_at?: string
+          feedback?: string | null
+          id?: string
+          ip_address?: string | null
+          organization_id?: string
+          rating_friendliness?: number | null
+          rating_knowledge?: number | null
+          rating_resolution?: number | null
+          rating_response_time?: number | null
+          respondent_email?: string | null
+          respondent_name?: string | null
+          score?: number
+          submitted_at?: string
+          survey_sent_at?: string | null
+          ticket_id?: string
+          would_recommend?: boolean | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "csat_responses_agent_id_fkey"
+            columns: ["agent_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "csat_responses_contact_id_fkey"
+            columns: ["contact_id"]
+            isOneToOne: false
+            referencedRelation: "contacts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "csat_responses_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "csat_responses_ticket_id_fkey"
+            columns: ["ticket_id"]
+            isOneToOne: false
+            referencedRelation: "tickets"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       forecasts: {
         Row: {
           best_case_amount: number | null
@@ -1149,6 +1400,217 @@ export type Database = {
             columns: ["owner_id"]
             isOneToOne: false
             referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      knowledge_articles: {
+        Row: {
+          author_id: string
+          category_id: string | null
+          content: string
+          content_html: string | null
+          created_at: string
+          custom_fields: Json | null
+          expires_at: string | null
+          helpful_count: number
+          id: string
+          is_featured: boolean
+          is_internal: boolean
+          is_public: boolean
+          last_edited_by: string | null
+          meta_description: string | null
+          meta_title: string | null
+          not_helpful_count: number
+          organization_id: string
+          published_at: string | null
+          published_by: string | null
+          related_article_ids: string[] | null
+          related_product_ids: string[] | null
+          review_notes: string | null
+          reviewed_at: string | null
+          reviewer_id: string | null
+          slug: string
+          status: Database["public"]["Enums"]["article_status"]
+          summary: string | null
+          tags: string[] | null
+          title: string
+          updated_at: string
+          version: number
+          view_count: number
+        }
+        Insert: {
+          author_id: string
+          category_id?: string | null
+          content: string
+          content_html?: string | null
+          created_at?: string
+          custom_fields?: Json | null
+          expires_at?: string | null
+          helpful_count?: number
+          id?: string
+          is_featured?: boolean
+          is_internal?: boolean
+          is_public?: boolean
+          last_edited_by?: string | null
+          meta_description?: string | null
+          meta_title?: string | null
+          not_helpful_count?: number
+          organization_id: string
+          published_at?: string | null
+          published_by?: string | null
+          related_article_ids?: string[] | null
+          related_product_ids?: string[] | null
+          review_notes?: string | null
+          reviewed_at?: string | null
+          reviewer_id?: string | null
+          slug: string
+          status?: Database["public"]["Enums"]["article_status"]
+          summary?: string | null
+          tags?: string[] | null
+          title: string
+          updated_at?: string
+          version?: number
+          view_count?: number
+        }
+        Update: {
+          author_id?: string
+          category_id?: string | null
+          content?: string
+          content_html?: string | null
+          created_at?: string
+          custom_fields?: Json | null
+          expires_at?: string | null
+          helpful_count?: number
+          id?: string
+          is_featured?: boolean
+          is_internal?: boolean
+          is_public?: boolean
+          last_edited_by?: string | null
+          meta_description?: string | null
+          meta_title?: string | null
+          not_helpful_count?: number
+          organization_id?: string
+          published_at?: string | null
+          published_by?: string | null
+          related_article_ids?: string[] | null
+          related_product_ids?: string[] | null
+          review_notes?: string | null
+          reviewed_at?: string | null
+          reviewer_id?: string | null
+          slug?: string
+          status?: Database["public"]["Enums"]["article_status"]
+          summary?: string | null
+          tags?: string[] | null
+          title?: string
+          updated_at?: string
+          version?: number
+          view_count?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "knowledge_articles_author_id_fkey"
+            columns: ["author_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "knowledge_articles_category_id_fkey"
+            columns: ["category_id"]
+            isOneToOne: false
+            referencedRelation: "knowledge_categories"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "knowledge_articles_last_edited_by_fkey"
+            columns: ["last_edited_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "knowledge_articles_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "knowledge_articles_published_by_fkey"
+            columns: ["published_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "knowledge_articles_reviewer_id_fkey"
+            columns: ["reviewer_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      knowledge_categories: {
+        Row: {
+          article_count: number
+          created_at: string
+          description: string | null
+          display_order: number
+          icon: string | null
+          id: string
+          is_active: boolean
+          is_public: boolean
+          name: string
+          organization_id: string
+          parent_id: string | null
+          slug: string
+          updated_at: string
+        }
+        Insert: {
+          article_count?: number
+          created_at?: string
+          description?: string | null
+          display_order?: number
+          icon?: string | null
+          id?: string
+          is_active?: boolean
+          is_public?: boolean
+          name: string
+          organization_id: string
+          parent_id?: string | null
+          slug: string
+          updated_at?: string
+        }
+        Update: {
+          article_count?: number
+          created_at?: string
+          description?: string | null
+          display_order?: number
+          icon?: string | null
+          id?: string
+          is_active?: boolean
+          is_public?: boolean
+          name?: string
+          organization_id?: string
+          parent_id?: string | null
+          slug?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "knowledge_categories_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "knowledge_categories_parent_id_fkey"
+            columns: ["parent_id"]
+            isOneToOne: false
+            referencedRelation: "knowledge_categories"
             referencedColumns: ["id"]
           },
         ]
@@ -2338,6 +2800,637 @@ export type Database = {
           },
         ]
       }
+      ticket_categories: {
+        Row: {
+          color: string | null
+          created_at: string
+          description: string | null
+          display_order: number
+          icon: string | null
+          id: string
+          is_active: boolean
+          name: string
+          organization_id: string
+          parent_id: string | null
+          updated_at: string
+        }
+        Insert: {
+          color?: string | null
+          created_at?: string
+          description?: string | null
+          display_order?: number
+          icon?: string | null
+          id?: string
+          is_active?: boolean
+          name: string
+          organization_id: string
+          parent_id?: string | null
+          updated_at?: string
+        }
+        Update: {
+          color?: string | null
+          created_at?: string
+          description?: string | null
+          display_order?: number
+          icon?: string | null
+          id?: string
+          is_active?: boolean
+          name?: string
+          organization_id?: string
+          parent_id?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ticket_categories_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "ticket_categories_parent_id_fkey"
+            columns: ["parent_id"]
+            isOneToOne: false
+            referencedRelation: "ticket_categories"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      ticket_messages: {
+        Row: {
+          attachment_ids: string[] | null
+          content: string
+          content_html: string | null
+          created_at: string
+          email_bcc: string[] | null
+          email_cc: string[] | null
+          email_in_reply_to: string | null
+          email_message_id: string | null
+          id: string
+          is_auto_reply: boolean
+          is_internal: boolean
+          is_resolution: boolean
+          metadata: Json | null
+          sender_email: string | null
+          sender_id: string | null
+          sender_name: string | null
+          sender_type: Database["public"]["Enums"]["message_sender_type"]
+          ticket_id: string
+          updated_at: string
+        }
+        Insert: {
+          attachment_ids?: string[] | null
+          content: string
+          content_html?: string | null
+          created_at?: string
+          email_bcc?: string[] | null
+          email_cc?: string[] | null
+          email_in_reply_to?: string | null
+          email_message_id?: string | null
+          id?: string
+          is_auto_reply?: boolean
+          is_internal?: boolean
+          is_resolution?: boolean
+          metadata?: Json | null
+          sender_email?: string | null
+          sender_id?: string | null
+          sender_name?: string | null
+          sender_type: Database["public"]["Enums"]["message_sender_type"]
+          ticket_id: string
+          updated_at?: string
+        }
+        Update: {
+          attachment_ids?: string[] | null
+          content?: string
+          content_html?: string | null
+          created_at?: string
+          email_bcc?: string[] | null
+          email_cc?: string[] | null
+          email_in_reply_to?: string | null
+          email_message_id?: string | null
+          id?: string
+          is_auto_reply?: boolean
+          is_internal?: boolean
+          is_resolution?: boolean
+          metadata?: Json | null
+          sender_email?: string | null
+          sender_id?: string | null
+          sender_name?: string | null
+          sender_type?: Database["public"]["Enums"]["message_sender_type"]
+          ticket_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ticket_messages_sender_id_fkey"
+            columns: ["sender_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "ticket_messages_ticket_id_fkey"
+            columns: ["ticket_id"]
+            isOneToOne: false
+            referencedRelation: "tickets"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      ticket_queues: {
+        Row: {
+          assignment_method: string | null
+          auto_assign: boolean
+          business_hours_only: boolean
+          created_at: string
+          description: string | null
+          email_address: string | null
+          id: string
+          is_active: boolean
+          is_default: boolean
+          members: string[] | null
+          name: string
+          organization_id: string
+          updated_at: string
+        }
+        Insert: {
+          assignment_method?: string | null
+          auto_assign?: boolean
+          business_hours_only?: boolean
+          created_at?: string
+          description?: string | null
+          email_address?: string | null
+          id?: string
+          is_active?: boolean
+          is_default?: boolean
+          members?: string[] | null
+          name: string
+          organization_id: string
+          updated_at?: string
+        }
+        Update: {
+          assignment_method?: string | null
+          auto_assign?: boolean
+          business_hours_only?: boolean
+          created_at?: string
+          description?: string | null
+          email_address?: string | null
+          id?: string
+          is_active?: boolean
+          is_default?: boolean
+          members?: string[] | null
+          name?: string
+          organization_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ticket_queues_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      ticket_slas: {
+        Row: {
+          business_days: number[] | null
+          business_hours_end: string | null
+          business_hours_only: boolean
+          business_hours_start: string | null
+          created_at: string
+          description: string | null
+          escalation_enabled: boolean
+          escalation_threshold_percent: number | null
+          escalation_to: string | null
+          first_response_critical: number
+          first_response_high: number
+          first_response_low: number
+          first_response_medium: number
+          id: string
+          is_active: boolean
+          is_default: boolean
+          name: string
+          organization_id: string
+          resolution_critical: number
+          resolution_high: number
+          resolution_low: number
+          resolution_medium: number
+          updated_at: string
+        }
+        Insert: {
+          business_days?: number[] | null
+          business_hours_end?: string | null
+          business_hours_only?: boolean
+          business_hours_start?: string | null
+          created_at?: string
+          description?: string | null
+          escalation_enabled?: boolean
+          escalation_threshold_percent?: number | null
+          escalation_to?: string | null
+          first_response_critical?: number
+          first_response_high?: number
+          first_response_low?: number
+          first_response_medium?: number
+          id?: string
+          is_active?: boolean
+          is_default?: boolean
+          name: string
+          organization_id: string
+          resolution_critical?: number
+          resolution_high?: number
+          resolution_low?: number
+          resolution_medium?: number
+          updated_at?: string
+        }
+        Update: {
+          business_days?: number[] | null
+          business_hours_end?: string | null
+          business_hours_only?: boolean
+          business_hours_start?: string | null
+          created_at?: string
+          description?: string | null
+          escalation_enabled?: boolean
+          escalation_threshold_percent?: number | null
+          escalation_to?: string | null
+          first_response_critical?: number
+          first_response_high?: number
+          first_response_low?: number
+          first_response_medium?: number
+          id?: string
+          is_active?: boolean
+          is_default?: boolean
+          name?: string
+          organization_id?: string
+          resolution_critical?: number
+          resolution_high?: number
+          resolution_low?: number
+          resolution_medium?: number
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ticket_slas_escalation_to_fkey"
+            columns: ["escalation_to"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "ticket_slas_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      ticket_status_history: {
+        Row: {
+          changed_by: string | null
+          created_at: string
+          duration_minutes: number | null
+          id: string
+          new_status: Database["public"]["Enums"]["ticket_status"]
+          old_status: Database["public"]["Enums"]["ticket_status"] | null
+          reason: string | null
+          ticket_id: string
+        }
+        Insert: {
+          changed_by?: string | null
+          created_at?: string
+          duration_minutes?: number | null
+          id?: string
+          new_status: Database["public"]["Enums"]["ticket_status"]
+          old_status?: Database["public"]["Enums"]["ticket_status"] | null
+          reason?: string | null
+          ticket_id: string
+        }
+        Update: {
+          changed_by?: string | null
+          created_at?: string
+          duration_minutes?: number | null
+          id?: string
+          new_status?: Database["public"]["Enums"]["ticket_status"]
+          old_status?: Database["public"]["Enums"]["ticket_status"] | null
+          reason?: string | null
+          ticket_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ticket_status_history_changed_by_fkey"
+            columns: ["changed_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "ticket_status_history_ticket_id_fkey"
+            columns: ["ticket_id"]
+            isOneToOne: false
+            referencedRelation: "tickets"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      ticket_watchers: {
+        Row: {
+          created_at: string
+          id: string
+          ticket_id: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          ticket_id: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          ticket_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ticket_watchers_ticket_id_fkey"
+            columns: ["ticket_id"]
+            isOneToOne: false
+            referencedRelation: "tickets"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "ticket_watchers_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      tickets: {
+        Row: {
+          account_id: string | null
+          assigned_at: string | null
+          assigned_to: string | null
+          category_id: string | null
+          channel: Database["public"]["Enums"]["ticket_channel"]
+          closed_at: string | null
+          closed_by: string | null
+          closure_code: string | null
+          contact_id: string | null
+          created_at: string
+          csat_sent: boolean | null
+          csat_sent_at: string | null
+          custom_fields: Json | null
+          description: string
+          escalated_at: string | null
+          escalated_to: string | null
+          escalation_reason: string | null
+          first_response_at: string | null
+          id: string
+          internal_notes: string | null
+          is_escalated: boolean | null
+          last_agent_response_at: string | null
+          last_customer_response_at: string | null
+          lead_id: string | null
+          opportunity_id: string | null
+          order_id: string | null
+          organization_id: string
+          priority: Database["public"]["Enums"]["ticket_priority"]
+          queue_id: string | null
+          reporter_email: string | null
+          reporter_id: string | null
+          reporter_name: string | null
+          resolution: string | null
+          resolution_code: string | null
+          resolved_at: string | null
+          resolved_by: string | null
+          sla_first_response_at: string | null
+          sla_first_response_breached: boolean | null
+          sla_first_response_due: string | null
+          sla_id: string | null
+          sla_pause_reason: string | null
+          sla_paused_at: string | null
+          sla_resolution_breached: boolean | null
+          sla_resolution_due: string | null
+          sla_total_paused_minutes: number | null
+          source_data: Json | null
+          status: Database["public"]["Enums"]["ticket_status"]
+          subcategory: string | null
+          subject: string
+          tags: string[] | null
+          ticket_number: string
+          type: Database["public"]["Enums"]["ticket_type"]
+          updated_at: string
+        }
+        Insert: {
+          account_id?: string | null
+          assigned_at?: string | null
+          assigned_to?: string | null
+          category_id?: string | null
+          channel?: Database["public"]["Enums"]["ticket_channel"]
+          closed_at?: string | null
+          closed_by?: string | null
+          closure_code?: string | null
+          contact_id?: string | null
+          created_at?: string
+          csat_sent?: boolean | null
+          csat_sent_at?: string | null
+          custom_fields?: Json | null
+          description: string
+          escalated_at?: string | null
+          escalated_to?: string | null
+          escalation_reason?: string | null
+          first_response_at?: string | null
+          id?: string
+          internal_notes?: string | null
+          is_escalated?: boolean | null
+          last_agent_response_at?: string | null
+          last_customer_response_at?: string | null
+          lead_id?: string | null
+          opportunity_id?: string | null
+          order_id?: string | null
+          organization_id: string
+          priority?: Database["public"]["Enums"]["ticket_priority"]
+          queue_id?: string | null
+          reporter_email?: string | null
+          reporter_id?: string | null
+          reporter_name?: string | null
+          resolution?: string | null
+          resolution_code?: string | null
+          resolved_at?: string | null
+          resolved_by?: string | null
+          sla_first_response_at?: string | null
+          sla_first_response_breached?: boolean | null
+          sla_first_response_due?: string | null
+          sla_id?: string | null
+          sla_pause_reason?: string | null
+          sla_paused_at?: string | null
+          sla_resolution_breached?: boolean | null
+          sla_resolution_due?: string | null
+          sla_total_paused_minutes?: number | null
+          source_data?: Json | null
+          status?: Database["public"]["Enums"]["ticket_status"]
+          subcategory?: string | null
+          subject: string
+          tags?: string[] | null
+          ticket_number: string
+          type?: Database["public"]["Enums"]["ticket_type"]
+          updated_at?: string
+        }
+        Update: {
+          account_id?: string | null
+          assigned_at?: string | null
+          assigned_to?: string | null
+          category_id?: string | null
+          channel?: Database["public"]["Enums"]["ticket_channel"]
+          closed_at?: string | null
+          closed_by?: string | null
+          closure_code?: string | null
+          contact_id?: string | null
+          created_at?: string
+          csat_sent?: boolean | null
+          csat_sent_at?: string | null
+          custom_fields?: Json | null
+          description?: string
+          escalated_at?: string | null
+          escalated_to?: string | null
+          escalation_reason?: string | null
+          first_response_at?: string | null
+          id?: string
+          internal_notes?: string | null
+          is_escalated?: boolean | null
+          last_agent_response_at?: string | null
+          last_customer_response_at?: string | null
+          lead_id?: string | null
+          opportunity_id?: string | null
+          order_id?: string | null
+          organization_id?: string
+          priority?: Database["public"]["Enums"]["ticket_priority"]
+          queue_id?: string | null
+          reporter_email?: string | null
+          reporter_id?: string | null
+          reporter_name?: string | null
+          resolution?: string | null
+          resolution_code?: string | null
+          resolved_at?: string | null
+          resolved_by?: string | null
+          sla_first_response_at?: string | null
+          sla_first_response_breached?: boolean | null
+          sla_first_response_due?: string | null
+          sla_id?: string | null
+          sla_pause_reason?: string | null
+          sla_paused_at?: string | null
+          sla_resolution_breached?: boolean | null
+          sla_resolution_due?: string | null
+          sla_total_paused_minutes?: number | null
+          source_data?: Json | null
+          status?: Database["public"]["Enums"]["ticket_status"]
+          subcategory?: string | null
+          subject?: string
+          tags?: string[] | null
+          ticket_number?: string
+          type?: Database["public"]["Enums"]["ticket_type"]
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "tickets_account_id_fkey"
+            columns: ["account_id"]
+            isOneToOne: false
+            referencedRelation: "accounts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "tickets_assigned_to_fkey"
+            columns: ["assigned_to"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "tickets_category_id_fkey"
+            columns: ["category_id"]
+            isOneToOne: false
+            referencedRelation: "ticket_categories"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "tickets_closed_by_fkey"
+            columns: ["closed_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "tickets_contact_id_fkey"
+            columns: ["contact_id"]
+            isOneToOne: false
+            referencedRelation: "contacts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "tickets_escalated_to_fkey"
+            columns: ["escalated_to"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "tickets_lead_id_fkey"
+            columns: ["lead_id"]
+            isOneToOne: false
+            referencedRelation: "leads"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "tickets_opportunity_id_fkey"
+            columns: ["opportunity_id"]
+            isOneToOne: false
+            referencedRelation: "opportunities"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "tickets_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "tickets_queue_id_fkey"
+            columns: ["queue_id"]
+            isOneToOne: false
+            referencedRelation: "ticket_queues"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "tickets_reporter_id_fkey"
+            columns: ["reporter_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "tickets_resolved_by_fkey"
+            columns: ["resolved_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "tickets_sla_id_fkey"
+            columns: ["sla_id"]
+            isOneToOne: false
+            referencedRelation: "ticket_slas"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       timeline_events: {
         Row: {
           account_id: string | null
@@ -2487,6 +3580,7 @@ export type Database = {
     }
     Functions: {
       generate_contract_number: { Args: { org_id: string }; Returns: string }
+      generate_ticket_number: { Args: { org_id: string }; Returns: string }
       get_stale_opportunities_count: {
         Args: { org_id: string; threshold_days?: number }
         Returns: number
@@ -2533,6 +3627,7 @@ export type Database = {
         | "price_override"
         | "credit_limit"
         | "exception"
+      article_status: "draft" | "in_review" | "published" | "archived"
       cadence_step_type: "email" | "call" | "linkedin" | "task"
       contact_role:
         | "decision_maker"
@@ -2558,6 +3653,7 @@ export type Database = {
         | "qualified"
         | "unqualified"
         | "converted"
+      message_sender_type: "agent" | "customer" | "system"
       opportunity_stage:
         | "prospecting"
         | "qualification"
@@ -2573,6 +3669,22 @@ export type Database = {
         | "load_balance"
         | "skill_based"
         | "priority"
+      ticket_channel:
+        | "email"
+        | "chat"
+        | "phone"
+        | "whatsapp"
+        | "portal"
+        | "form"
+      ticket_priority: "low" | "medium" | "high" | "critical"
+      ticket_status:
+        | "new"
+        | "open"
+        | "pending"
+        | "on_hold"
+        | "resolved"
+        | "closed"
+      ticket_type: "incident" | "request" | "question" | "complaint" | "return"
       timeline_event_type:
         | "lead_created"
         | "lead_converted"
@@ -2730,6 +3842,7 @@ export const Constants = {
         "credit_limit",
         "exception",
       ],
+      article_status: ["draft", "in_review", "published", "archived"],
       cadence_step_type: ["email", "call", "linkedin", "task"],
       contact_role: [
         "decision_maker",
@@ -2758,6 +3871,7 @@ export const Constants = {
         "unqualified",
         "converted",
       ],
+      message_sender_type: ["agent", "customer", "system"],
       opportunity_stage: [
         "prospecting",
         "qualification",
@@ -2775,6 +3889,17 @@ export const Constants = {
         "skill_based",
         "priority",
       ],
+      ticket_channel: ["email", "chat", "phone", "whatsapp", "portal", "form"],
+      ticket_priority: ["low", "medium", "high", "critical"],
+      ticket_status: [
+        "new",
+        "open",
+        "pending",
+        "on_hold",
+        "resolved",
+        "closed",
+      ],
+      ticket_type: ["incident", "request", "question", "complaint", "return"],
       timeline_event_type: [
         "lead_created",
         "lead_converted",
