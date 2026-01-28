@@ -1,23 +1,24 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
   TrendingUp,
-  TrendingDown,
-  Users,
   Target,
   DollarSign,
   Activity,
   ArrowUpRight,
   ArrowDownRight,
   MoreHorizontal,
+  Calendar,
 } from 'lucide-react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
+import { Skeleton } from '@/components/ui/skeleton';
 import { AppLayout } from '@/components/layout/AppLayout';
 import { useAuth } from '@/hooks/useAuth';
 import { supabase } from '@/integrations/supabase/client';
+import { format } from 'date-fns';
 import {
   BarChart,
   Bar,
@@ -31,55 +32,172 @@ import {
   Cell,
 } from 'recharts';
 
-// Mock data for demonstration
-const pipelineData = [
-  { stage: 'Prospecting', value: 45000, count: 12 },
-  { stage: 'Qualification', value: 78000, count: 8 },
-  { stage: 'Proposal', value: 125000, count: 5 },
-  { stage: 'Negotiation', value: 89000, count: 3 },
-  { stage: 'Closed Won', value: 156000, count: 7 },
-];
+interface PipelineStage {
+  stage: string;
+  value: number;
+  count: number;
+}
 
-const stageColors = ['#94a3b8', '#60a5fa', '#facc15', '#f97316', '#22c55e'];
+interface TopDeal {
+  id: string;
+  name: string;
+  account_name: string;
+  amount: number;
+  stage: string;
+  probability: number;
+}
 
-const recentActivities = [
-  { id: 1, type: 'opportunity', title: 'Enterprise Deal moved to Proposal', time: '2 hours ago', user: 'John D.' },
-  { id: 2, type: 'lead', title: 'New lead from website form', time: '3 hours ago', user: 'System' },
-  { id: 3, type: 'quote', title: 'Quote #1234 sent to Acme Corp', time: '5 hours ago', user: 'Sarah M.' },
-  { id: 4, type: 'activity', title: 'Meeting scheduled with TechStart Inc', time: '6 hours ago', user: 'John D.' },
-  { id: 5, type: 'opportunity', title: 'Enterprise Deal closed won - $45,000', time: '1 day ago', user: 'Mike R.' },
-];
+interface RecentActivity {
+  id: string;
+  title: string;
+  description: string | null;
+  created_at: string;
+  event_type: string;
+}
 
-const topDeals = [
-  { id: 1, name: 'Enterprise Cloud Migration', account: 'Acme Corp', value: 125000, stage: 'Proposal', probability: 60 },
-  { id: 2, name: 'Security Suite Implementation', account: 'TechStart Inc', value: 89000, stage: 'Negotiation', probability: 75 },
-  { id: 3, name: 'Analytics Platform', account: 'DataFlow LLC', value: 67000, stage: 'Qualification', probability: 40 },
-  { id: 4, name: 'Infrastructure Upgrade', account: 'GlobalTech', value: 54000, stage: 'Proposal', probability: 55 },
-];
+const stageLabels: Record<string, string> = {
+  prospecting: 'Prospecting',
+  qualification: 'Qualification',
+  proposal: 'Proposal',
+  negotiation: 'Negotiation',
+  closed_won: 'Closed Won',
+  closed_lost: 'Closed Lost',
+};
+
+const stageColors: Record<string, string> = {
+  prospecting: '#94a3b8',
+  qualification: '#60a5fa',
+  proposal: '#a855f7',
+  negotiation: '#f97316',
+  closed_won: '#22c55e',
+  closed_lost: '#ef4444',
+};
 
 export default function Dashboard() {
-  const { user, profile, loading } = useAuth();
+  const { user, profile, loading: authLoading } = useAuth();
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(true);
+  const [pipelineData, setPipelineData] = useState<PipelineStage[]>([]);
+  const [topDeals, setTopDeals] = useState<TopDeal[]>([]);
+  const [recentActivities, setRecentActivities] = useState<RecentActivity[]>([]);
   const [stats, setStats] = useState({
-    totalPipeline: 493000,
-    pipelineChange: 12.5,
-    openLeads: 45,
-    leadsChange: 8.2,
-    wonDeals: 156000,
-    wonChange: -3.1,
-    activitiesThisWeek: 28,
-    activitiesChange: 15.0,
+    totalPipeline: 0,
+    openLeads: 0,
+    closedWon: 0,
+    activitiesCount: 0,
   });
 
+  const fetchDashboardData = useCallback(async () => {
+    if (!profile?.organization_id) return;
+    
+    setLoading(true);
+    
+    // Fetch all opportunities for pipeline calculation
+    const { data: opportunities } = await supabase
+      .from('opportunities')
+      .select('id, name, amount, stage, probability, account:accounts!opportunities_account_id_fkey(name)')
+      .eq('organization_id', profile.organization_id);
+
+    if (opportunities) {
+      // Calculate pipeline by stage
+      const stageMap = new Map<string, { value: number; count: number }>();
+      const openStages = ['prospecting', 'qualification', 'proposal', 'negotiation'];
+      let totalPipeline = 0;
+      let closedWon = 0;
+
+      opportunities.forEach((opp) => {
+        const current = stageMap.get(opp.stage) || { value: 0, count: 0 };
+        stageMap.set(opp.stage, {
+          value: current.value + (opp.amount || 0),
+          count: current.count + 1,
+        });
+
+        if (openStages.includes(opp.stage)) {
+          totalPipeline += opp.amount || 0;
+        }
+        if (opp.stage === 'closed_won') {
+          closedWon += opp.amount || 0;
+        }
+      });
+
+      // Convert to array for charts (excluding closed_lost from visual)
+      const pipelineArray: PipelineStage[] = [];
+      ['prospecting', 'qualification', 'proposal', 'negotiation', 'closed_won'].forEach((stage) => {
+        const data = stageMap.get(stage);
+        if (data && data.count > 0) {
+          pipelineArray.push({
+            stage: stageLabels[stage],
+            value: data.value,
+            count: data.count,
+          });
+        }
+      });
+      setPipelineData(pipelineArray);
+
+      // Top deals (open opportunities, sorted by amount)
+      const openOpps = opportunities
+        .filter((o) => openStages.includes(o.stage) && (o.amount || 0) > 0)
+        .sort((a, b) => (b.amount || 0) - (a.amount || 0))
+        .slice(0, 5)
+        .map((o) => ({
+          id: o.id,
+          name: o.name,
+          account_name: (o.account as { name: string } | null)?.name || 'Unknown',
+          amount: o.amount || 0,
+          stage: stageLabels[o.stage] || o.stage,
+          probability: o.probability || 0,
+        }));
+      setTopDeals(openOpps);
+
+      setStats((prev) => ({
+        ...prev,
+        totalPipeline,
+        closedWon,
+      }));
+    }
+
+    // Fetch open leads count
+    const { count: leadsCount } = await supabase
+      .from('leads')
+      .select('id', { count: 'exact', head: true })
+      .eq('organization_id', profile.organization_id)
+      .in('status', ['new', 'contacted', 'qualified']);
+
+    setStats((prev) => ({
+      ...prev,
+      openLeads: leadsCount || 0,
+    }));
+
+    // Fetch recent timeline events
+    const { data: activities } = await supabase
+      .from('timeline_events')
+      .select('id, title, description, created_at, event_type')
+      .eq('organization_id', profile.organization_id)
+      .order('created_at', { ascending: false })
+      .limit(5);
+
+    if (activities) {
+      setRecentActivities(activities);
+      setStats((prev) => ({
+        ...prev,
+        activitiesCount: activities.length,
+      }));
+    }
+
+    setLoading(false);
+  }, [profile?.organization_id]);
+
   useEffect(() => {
-    if (!loading && !user) {
+    if (!authLoading && !user) {
       navigate('/auth');
     }
-  }, [user, loading, navigate]);
+  }, [user, authLoading, navigate]);
 
-  if (loading || !user) {
-    return null;
-  }
+  useEffect(() => {
+    if (profile?.organization_id) {
+      fetchDashboardData();
+    }
+  }, [profile?.organization_id, fetchDashboardData]);
 
   const formatCurrency = (value: number) => {
     return new Intl.NumberFormat('en-US', {
@@ -89,6 +207,12 @@ export default function Dashboard() {
       maximumFractionDigits: 0,
     }).format(value);
   };
+
+  if (authLoading || !user) {
+    return null;
+  }
+
+  const chartColors = ['#94a3b8', '#60a5fa', '#a855f7', '#f97316', '#22c55e'];
 
   return (
     <AppLayout>
@@ -111,18 +235,14 @@ export default function Dashboard() {
               <DollarSign className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">{formatCurrency(stats.totalPipeline)}</div>
-              <div className="flex items-center text-xs text-muted-foreground">
-                {stats.pipelineChange >= 0 ? (
-                  <ArrowUpRight className="mr-1 h-3 w-3 text-success" />
-                ) : (
-                  <ArrowDownRight className="mr-1 h-3 w-3 text-destructive" />
-                )}
-                <span className={stats.pipelineChange >= 0 ? 'text-success' : 'text-destructive'}>
-                  {Math.abs(stats.pipelineChange)}%
-                </span>
-                <span className="ml-1">from last month</span>
-              </div>
+              {loading ? (
+                <Skeleton className="h-8 w-24" />
+              ) : (
+                <>
+                  <div className="text-2xl font-bold">{formatCurrency(stats.totalPipeline)}</div>
+                  <p className="text-xs text-muted-foreground">Open opportunities value</p>
+                </>
+              )}
             </CardContent>
           </Card>
 
@@ -132,60 +252,48 @@ export default function Dashboard() {
               <Target className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">{stats.openLeads}</div>
-              <div className="flex items-center text-xs text-muted-foreground">
-                {stats.leadsChange >= 0 ? (
-                  <ArrowUpRight className="mr-1 h-3 w-3 text-success" />
-                ) : (
-                  <ArrowDownRight className="mr-1 h-3 w-3 text-destructive" />
-                )}
-                <span className={stats.leadsChange >= 0 ? 'text-success' : 'text-destructive'}>
-                  {Math.abs(stats.leadsChange)}%
-                </span>
-                <span className="ml-1">from last week</span>
-              </div>
+              {loading ? (
+                <Skeleton className="h-8 w-16" />
+              ) : (
+                <>
+                  <div className="text-2xl font-bold">{stats.openLeads}</div>
+                  <p className="text-xs text-muted-foreground">Awaiting qualification</p>
+                </>
+              )}
             </CardContent>
           </Card>
 
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Closed Won (MTD)</CardTitle>
+              <CardTitle className="text-sm font-medium">Closed Won</CardTitle>
               <TrendingUp className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">{formatCurrency(stats.wonDeals)}</div>
-              <div className="flex items-center text-xs text-muted-foreground">
-                {stats.wonChange >= 0 ? (
-                  <ArrowUpRight className="mr-1 h-3 w-3 text-success" />
-                ) : (
-                  <ArrowDownRight className="mr-1 h-3 w-3 text-destructive" />
-                )}
-                <span className={stats.wonChange >= 0 ? 'text-success' : 'text-destructive'}>
-                  {Math.abs(stats.wonChange)}%
-                </span>
-                <span className="ml-1">vs target</span>
-              </div>
+              {loading ? (
+                <Skeleton className="h-8 w-24" />
+              ) : (
+                <>
+                  <div className="text-2xl font-bold">{formatCurrency(stats.closedWon)}</div>
+                  <p className="text-xs text-muted-foreground">Total won deals</p>
+                </>
+              )}
             </CardContent>
           </Card>
 
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Activities This Week</CardTitle>
+              <CardTitle className="text-sm font-medium">Recent Activities</CardTitle>
               <Activity className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">{stats.activitiesThisWeek}</div>
-              <div className="flex items-center text-xs text-muted-foreground">
-                {stats.activitiesChange >= 0 ? (
-                  <ArrowUpRight className="mr-1 h-3 w-3 text-success" />
-                ) : (
-                  <ArrowDownRight className="mr-1 h-3 w-3 text-destructive" />
-                )}
-                <span className={stats.activitiesChange >= 0 ? 'text-success' : 'text-destructive'}>
-                  {Math.abs(stats.activitiesChange)}%
-                </span>
-                <span className="ml-1">from last week</span>
-              </div>
+              {loading ? (
+                <Skeleton className="h-8 w-16" />
+              ) : (
+                <>
+                  <div className="text-2xl font-bold">{stats.activitiesCount}</div>
+                  <p className="text-xs text-muted-foreground">Timeline events</p>
+                </>
+              )}
             </CardContent>
           </Card>
         </div>
@@ -199,28 +307,48 @@ export default function Dashboard() {
               <CardDescription>Value distribution across your sales pipeline</CardDescription>
             </CardHeader>
             <CardContent>
-              <div className="h-[300px]">
-                <ResponsiveContainer width="100%" height="100%">
-                  <BarChart data={pipelineData} layout="vertical">
-                    <CartesianGrid strokeDasharray="3 3" horizontal={true} vertical={false} />
-                    <XAxis type="number" tickFormatter={(value) => `$${value / 1000}k`} />
-                    <YAxis type="category" dataKey="stage" width={100} />
-                    <Tooltip
-                      formatter={(value: number) => [formatCurrency(value), 'Value']}
-                      contentStyle={{
-                        backgroundColor: 'hsl(var(--card))',
-                        border: '1px solid hsl(var(--border))',
-                        borderRadius: '8px',
-                      }}
-                    />
-                    <Bar dataKey="value" radius={[0, 4, 4, 0]}>
-                      {pipelineData.map((entry, index) => (
-                        <Cell key={`cell-${index}`} fill={stageColors[index]} />
-                      ))}
-                    </Bar>
-                  </BarChart>
-                </ResponsiveContainer>
-              </div>
+              {loading ? (
+                <div className="h-[300px] flex items-center justify-center">
+                  <Skeleton className="h-full w-full" />
+                </div>
+              ) : pipelineData.length === 0 ? (
+                <div className="h-[300px] flex items-center justify-center text-muted-foreground">
+                  <div className="text-center">
+                    <TrendingUp className="h-12 w-12 mx-auto mb-4 opacity-50" />
+                    <p>No opportunities in pipeline yet</p>
+                    <Button
+                      variant="link"
+                      className="mt-2"
+                      onClick={() => navigate('/opportunities/new')}
+                    >
+                      Create your first opportunity
+                    </Button>
+                  </div>
+                </div>
+              ) : (
+                <div className="h-[300px]">
+                  <ResponsiveContainer width="100%" height="100%">
+                    <BarChart data={pipelineData} layout="vertical">
+                      <CartesianGrid strokeDasharray="3 3" horizontal={true} vertical={false} />
+                      <XAxis type="number" tickFormatter={(value) => `$${value / 1000}k`} />
+                      <YAxis type="category" dataKey="stage" width={100} />
+                      <Tooltip
+                        formatter={(value: number) => [formatCurrency(value), 'Value']}
+                        contentStyle={{
+                          backgroundColor: 'hsl(var(--card))',
+                          border: '1px solid hsl(var(--border))',
+                          borderRadius: '8px',
+                        }}
+                      />
+                      <Bar dataKey="value" radius={[0, 4, 4, 0]}>
+                        {pipelineData.map((_, index) => (
+                          <Cell key={`cell-${index}`} fill={chartColors[index % chartColors.length]} />
+                        ))}
+                      </Bar>
+                    </BarChart>
+                  </ResponsiveContainer>
+                </div>
+              )}
             </CardContent>
           </Card>
 
@@ -231,45 +359,55 @@ export default function Dashboard() {
               <CardDescription>Number of deals by stage</CardDescription>
             </CardHeader>
             <CardContent>
-              <div className="h-[200px]">
-                <ResponsiveContainer width="100%" height="100%">
-                  <PieChart>
-                    <Pie
-                      data={pipelineData}
-                      cx="50%"
-                      cy="50%"
-                      innerRadius={50}
-                      outerRadius={80}
-                      dataKey="count"
-                      nameKey="stage"
-                    >
-                      {pipelineData.map((entry, index) => (
-                        <Cell key={`cell-${index}`} fill={stageColors[index]} />
-                      ))}
-                    </Pie>
-                    <Tooltip
-                      formatter={(value: number, name: string) => [value, name]}
-                      contentStyle={{
-                        backgroundColor: 'hsl(var(--card))',
-                        border: '1px solid hsl(var(--border))',
-                        borderRadius: '8px',
-                      }}
-                    />
-                  </PieChart>
-                </ResponsiveContainer>
-              </div>
-              <div className="mt-4 grid grid-cols-2 gap-2">
-                {pipelineData.map((item, index) => (
-                  <div key={item.stage} className="flex items-center gap-2 text-sm">
-                    <div
-                      className="h-3 w-3 rounded-full"
-                      style={{ backgroundColor: stageColors[index] }}
-                    />
-                    <span className="truncate text-muted-foreground">{item.stage}</span>
-                    <span className="ml-auto font-medium">{item.count}</span>
+              {loading ? (
+                <Skeleton className="h-[200px] w-full" />
+              ) : pipelineData.length === 0 ? (
+                <div className="h-[200px] flex items-center justify-center text-muted-foreground">
+                  <p>No data to display</p>
+                </div>
+              ) : (
+                <>
+                  <div className="h-[200px]">
+                    <ResponsiveContainer width="100%" height="100%">
+                      <PieChart>
+                        <Pie
+                          data={pipelineData}
+                          cx="50%"
+                          cy="50%"
+                          innerRadius={50}
+                          outerRadius={80}
+                          dataKey="count"
+                          nameKey="stage"
+                        >
+                          {pipelineData.map((_, index) => (
+                            <Cell key={`cell-${index}`} fill={chartColors[index % chartColors.length]} />
+                          ))}
+                        </Pie>
+                        <Tooltip
+                          formatter={(value: number, name: string) => [value, name]}
+                          contentStyle={{
+                            backgroundColor: 'hsl(var(--card))',
+                            border: '1px solid hsl(var(--border))',
+                            borderRadius: '8px',
+                          }}
+                        />
+                      </PieChart>
+                    </ResponsiveContainer>
                   </div>
-                ))}
-              </div>
+                  <div className="mt-4 grid grid-cols-2 gap-2">
+                    {pipelineData.map((item, index) => (
+                      <div key={item.stage} className="flex items-center gap-2 text-sm">
+                        <div
+                          className="h-3 w-3 rounded-full"
+                          style={{ backgroundColor: chartColors[index % chartColors.length] }}
+                        />
+                        <span className="truncate text-muted-foreground">{item.stage}</span>
+                        <span className="ml-auto font-medium">{item.count}</span>
+                      </div>
+                    ))}
+                  </div>
+                </>
+              )}
             </CardContent>
           </Card>
         </div>
@@ -288,28 +426,44 @@ export default function Dashboard() {
               </Button>
             </CardHeader>
             <CardContent>
-              <div className="space-y-4">
-                {topDeals.map((deal) => (
-                  <div key={deal.id} className="flex items-center gap-4">
-                    <div className="flex-1 space-y-1">
-                      <div className="flex items-center gap-2">
-                        <span className="font-medium">{deal.name}</span>
-                        <Badge variant="secondary" className="text-xs">
-                          {deal.stage}
-                        </Badge>
+              {loading ? (
+                <div className="space-y-4">
+                  {[1, 2, 3].map((i) => (
+                    <Skeleton key={i} className="h-12 w-full" />
+                  ))}
+                </div>
+              ) : topDeals.length === 0 ? (
+                <div className="text-center py-8 text-muted-foreground">
+                  <p>No open opportunities</p>
+                </div>
+              ) : (
+                <div className="space-y-4">
+                  {topDeals.map((deal) => (
+                    <div
+                      key={deal.id}
+                      className="flex items-center gap-4 cursor-pointer hover:bg-muted/50 p-2 rounded-lg -mx-2"
+                      onClick={() => navigate(`/opportunities/${deal.id}`)}
+                    >
+                      <div className="flex-1 space-y-1">
+                        <div className="flex items-center gap-2">
+                          <span className="font-medium">{deal.name}</span>
+                          <Badge variant="secondary" className="text-xs">
+                            {deal.stage}
+                          </Badge>
+                        </div>
+                        <p className="text-sm text-muted-foreground">{deal.account_name}</p>
                       </div>
-                      <p className="text-sm text-muted-foreground">{deal.account}</p>
-                    </div>
-                    <div className="text-right">
-                      <div className="font-medium">{formatCurrency(deal.value)}</div>
-                      <div className="flex items-center gap-1 text-xs text-muted-foreground">
-                        <Progress value={deal.probability} className="h-1 w-12" />
-                        <span>{deal.probability}%</span>
+                      <div className="text-right">
+                        <div className="font-medium">{formatCurrency(deal.amount)}</div>
+                        <div className="flex items-center gap-1 text-xs text-muted-foreground">
+                          <Progress value={deal.probability} className="h-1 w-12" />
+                          <span>{deal.probability}%</span>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                ))}
-              </div>
+                  ))}
+                </div>
+              )}
             </CardContent>
           </Card>
 
@@ -318,28 +472,42 @@ export default function Dashboard() {
             <CardHeader className="flex flex-row items-center justify-between">
               <div>
                 <CardTitle>Recent Activity</CardTitle>
-                <CardDescription>Latest updates from your team</CardDescription>
+                <CardDescription>Latest updates from your CRM</CardDescription>
               </div>
               <Button variant="ghost" size="icon">
                 <MoreHorizontal className="h-4 w-4" />
               </Button>
             </CardHeader>
             <CardContent>
-              <div className="space-y-4">
-                {recentActivities.map((activity) => (
-                  <div key={activity.id} className="flex items-start gap-4">
-                    <div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary/10">
-                      <Activity className="h-4 w-4 text-primary" />
+              {loading ? (
+                <div className="space-y-4">
+                  {[1, 2, 3].map((i) => (
+                    <Skeleton key={i} className="h-12 w-full" />
+                  ))}
+                </div>
+              ) : recentActivities.length === 0 ? (
+                <div className="text-center py-8 text-muted-foreground">
+                  <Calendar className="h-8 w-8 mx-auto mb-2 opacity-50" />
+                  <p>No recent activities</p>
+                </div>
+              ) : (
+                <div className="space-y-4">
+                  {recentActivities.map((activity) => (
+                    <div key={activity.id} className="flex items-start gap-4">
+                      <div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary/10">
+                        <Activity className="h-4 w-4 text-primary" />
+                      </div>
+                      <div className="flex-1 space-y-1">
+                        <p className="text-sm font-medium leading-none">{activity.title}</p>
+                        <p className="text-xs text-muted-foreground">
+                          {activity.event_type.replace(/_/g, ' ')} •{' '}
+                          {format(new Date(activity.created_at), 'MMM d, h:mm a')}
+                        </p>
+                      </div>
                     </div>
-                    <div className="flex-1 space-y-1">
-                      <p className="text-sm font-medium leading-none">{activity.title}</p>
-                      <p className="text-xs text-muted-foreground">
-                        {activity.user} • {activity.time}
-                      </p>
-                    </div>
-                  </div>
-                ))}
-              </div>
+                  ))}
+                </div>
+              )}
             </CardContent>
           </Card>
         </div>
