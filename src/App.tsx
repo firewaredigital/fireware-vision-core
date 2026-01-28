@@ -30,6 +30,8 @@ import Territories from "./pages/Territories";
 import Cadences from "./pages/Cadences";
 import Forecast from "./pages/Forecast";
 import Settings from "./pages/Settings";
+import AuditLogs from "./pages/AuditLogs";
+import Reports from "./pages/Reports";
 
 const queryClient = new QueryClient();
 
@@ -85,6 +87,8 @@ const App = () => (
             <Route path="/territories" element={<Territories />} />
             <Route path="/cadences" element={<Cadences />} />
             <Route path="/forecast" element={<Forecast />} />
+            <Route path="/reports" element={<Reports />} />
+            <Route path="/audit-logs" element={<AuditLogs />} />
             <Route path="/settings" element={<Settings />} />
             
             {/* Catch-all */}
