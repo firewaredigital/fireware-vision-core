@@ -233,6 +233,354 @@ export type Database = {
           },
         ]
       }
+      approval_requests: {
+        Row: {
+          approval_level: number | null
+          approval_type: Database["public"]["Enums"]["approval_type"]
+          assigned_to: string | null
+          created_at: string
+          decision_at: string | null
+          decision_by: string | null
+          decision_notes: string | null
+          description: string | null
+          entity_id: string
+          entity_name: string | null
+          entity_type: string
+          escalated_at: string | null
+          escalated_to: string | null
+          escalation_reason: string | null
+          expires_at: string | null
+          id: string
+          max_approval_level: number | null
+          metadata: Json | null
+          organization_id: string
+          original_value: Json | null
+          reason: string | null
+          requested_by: string
+          requested_value: Json | null
+          status: Database["public"]["Enums"]["approval_request_status"]
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          approval_level?: number | null
+          approval_type: Database["public"]["Enums"]["approval_type"]
+          assigned_to?: string | null
+          created_at?: string
+          decision_at?: string | null
+          decision_by?: string | null
+          decision_notes?: string | null
+          description?: string | null
+          entity_id: string
+          entity_name?: string | null
+          entity_type: string
+          escalated_at?: string | null
+          escalated_to?: string | null
+          escalation_reason?: string | null
+          expires_at?: string | null
+          id?: string
+          max_approval_level?: number | null
+          metadata?: Json | null
+          organization_id: string
+          original_value?: Json | null
+          reason?: string | null
+          requested_by: string
+          requested_value?: Json | null
+          status?: Database["public"]["Enums"]["approval_request_status"]
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          approval_level?: number | null
+          approval_type?: Database["public"]["Enums"]["approval_type"]
+          assigned_to?: string | null
+          created_at?: string
+          decision_at?: string | null
+          decision_by?: string | null
+          decision_notes?: string | null
+          description?: string | null
+          entity_id?: string
+          entity_name?: string | null
+          entity_type?: string
+          escalated_at?: string | null
+          escalated_to?: string | null
+          escalation_reason?: string | null
+          expires_at?: string | null
+          id?: string
+          max_approval_level?: number | null
+          metadata?: Json | null
+          organization_id?: string
+          original_value?: Json | null
+          reason?: string | null
+          requested_by?: string
+          requested_value?: Json | null
+          status?: Database["public"]["Enums"]["approval_request_status"]
+          title?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "approval_requests_assigned_to_fkey"
+            columns: ["assigned_to"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "approval_requests_decision_by_fkey"
+            columns: ["decision_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "approval_requests_escalated_to_fkey"
+            columns: ["escalated_to"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "approval_requests_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "approval_requests_requested_by_fkey"
+            columns: ["requested_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      assignment_log: {
+        Row: {
+          assigned_from: string | null
+          assigned_to: string
+          assignment_method: string
+          created_at: string
+          entity_id: string
+          entity_name: string | null
+          entity_type: string
+          id: string
+          metadata: Json | null
+          organization_id: string
+          reason: string | null
+          routing_rule_id: string | null
+        }
+        Insert: {
+          assigned_from?: string | null
+          assigned_to: string
+          assignment_method?: string
+          created_at?: string
+          entity_id: string
+          entity_name?: string | null
+          entity_type: string
+          id?: string
+          metadata?: Json | null
+          organization_id: string
+          reason?: string | null
+          routing_rule_id?: string | null
+        }
+        Update: {
+          assigned_from?: string | null
+          assigned_to?: string
+          assignment_method?: string
+          created_at?: string
+          entity_id?: string
+          entity_name?: string | null
+          entity_type?: string
+          id?: string
+          metadata?: Json | null
+          organization_id?: string
+          reason?: string | null
+          routing_rule_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "assignment_log_assigned_from_fkey"
+            columns: ["assigned_from"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "assignment_log_assigned_to_fkey"
+            columns: ["assigned_to"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "assignment_log_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "assignment_log_routing_rule_id_fkey"
+            columns: ["routing_rule_id"]
+            isOneToOne: false
+            referencedRelation: "routing_rules"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      attachments: {
+        Row: {
+          access_level: string | null
+          account_id: string | null
+          category: string | null
+          contact_id: string | null
+          contract_id: string | null
+          created_at: string
+          description: string | null
+          entity_id: string
+          entity_type: string
+          file_name: string
+          file_path: string
+          file_size: number | null
+          file_type: string | null
+          id: string
+          is_latest: boolean | null
+          is_public: boolean | null
+          lead_id: string | null
+          mime_type: string | null
+          opportunity_id: string | null
+          organization_id: string
+          parent_attachment_id: string | null
+          quote_id: string | null
+          tags: string[] | null
+          updated_at: string
+          uploaded_by: string
+          version: number | null
+        }
+        Insert: {
+          access_level?: string | null
+          account_id?: string | null
+          category?: string | null
+          contact_id?: string | null
+          contract_id?: string | null
+          created_at?: string
+          description?: string | null
+          entity_id: string
+          entity_type: string
+          file_name: string
+          file_path: string
+          file_size?: number | null
+          file_type?: string | null
+          id?: string
+          is_latest?: boolean | null
+          is_public?: boolean | null
+          lead_id?: string | null
+          mime_type?: string | null
+          opportunity_id?: string | null
+          organization_id: string
+          parent_attachment_id?: string | null
+          quote_id?: string | null
+          tags?: string[] | null
+          updated_at?: string
+          uploaded_by: string
+          version?: number | null
+        }
+        Update: {
+          access_level?: string | null
+          account_id?: string | null
+          category?: string | null
+          contact_id?: string | null
+          contract_id?: string | null
+          created_at?: string
+          description?: string | null
+          entity_id?: string
+          entity_type?: string
+          file_name?: string
+          file_path?: string
+          file_size?: number | null
+          file_type?: string | null
+          id?: string
+          is_latest?: boolean | null
+          is_public?: boolean | null
+          lead_id?: string | null
+          mime_type?: string | null
+          opportunity_id?: string | null
+          organization_id?: string
+          parent_attachment_id?: string | null
+          quote_id?: string | null
+          tags?: string[] | null
+          updated_at?: string
+          uploaded_by?: string
+          version?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "attachments_account_id_fkey"
+            columns: ["account_id"]
+            isOneToOne: false
+            referencedRelation: "accounts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "attachments_contact_id_fkey"
+            columns: ["contact_id"]
+            isOneToOne: false
+            referencedRelation: "contacts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "attachments_contract_id_fkey"
+            columns: ["contract_id"]
+            isOneToOne: false
+            referencedRelation: "contracts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "attachments_lead_id_fkey"
+            columns: ["lead_id"]
+            isOneToOne: false
+            referencedRelation: "leads"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "attachments_opportunity_id_fkey"
+            columns: ["opportunity_id"]
+            isOneToOne: false
+            referencedRelation: "opportunities"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "attachments_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "attachments_parent_attachment_id_fkey"
+            columns: ["parent_attachment_id"]
+            isOneToOne: false
+            referencedRelation: "attachments"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "attachments_quote_id_fkey"
+            columns: ["quote_id"]
+            isOneToOne: false
+            referencedRelation: "quotes"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "attachments_uploaded_by_fkey"
+            columns: ["uploaded_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       audit_logs: {
         Row: {
           action: string
@@ -590,6 +938,155 @@ export type Database = {
           },
         ]
       }
+      contracts: {
+        Row: {
+          account_id: string
+          auto_renewal: boolean | null
+          billing_frequency: string | null
+          contact_id: string | null
+          contract_number: string
+          created_at: string
+          custom_fields: Json | null
+          description: string | null
+          end_date: string | null
+          id: string
+          name: string
+          opportunity_id: string | null
+          organization_id: string
+          owner_id: string | null
+          parent_contract_id: string | null
+          payment_terms: string | null
+          quote_id: string | null
+          recurring_value: number | null
+          renewal_notice_days: number | null
+          renewal_reminder_sent: boolean | null
+          sent_date: string | null
+          signed_date: string | null
+          special_conditions: string | null
+          start_date: string | null
+          status: Database["public"]["Enums"]["contract_status"]
+          tags: string[] | null
+          terms_and_conditions: string | null
+          total_value: number | null
+          updated_at: string
+          version: number | null
+        }
+        Insert: {
+          account_id: string
+          auto_renewal?: boolean | null
+          billing_frequency?: string | null
+          contact_id?: string | null
+          contract_number: string
+          created_at?: string
+          custom_fields?: Json | null
+          description?: string | null
+          end_date?: string | null
+          id?: string
+          name: string
+          opportunity_id?: string | null
+          organization_id: string
+          owner_id?: string | null
+          parent_contract_id?: string | null
+          payment_terms?: string | null
+          quote_id?: string | null
+          recurring_value?: number | null
+          renewal_notice_days?: number | null
+          renewal_reminder_sent?: boolean | null
+          sent_date?: string | null
+          signed_date?: string | null
+          special_conditions?: string | null
+          start_date?: string | null
+          status?: Database["public"]["Enums"]["contract_status"]
+          tags?: string[] | null
+          terms_and_conditions?: string | null
+          total_value?: number | null
+          updated_at?: string
+          version?: number | null
+        }
+        Update: {
+          account_id?: string
+          auto_renewal?: boolean | null
+          billing_frequency?: string | null
+          contact_id?: string | null
+          contract_number?: string
+          created_at?: string
+          custom_fields?: Json | null
+          description?: string | null
+          end_date?: string | null
+          id?: string
+          name?: string
+          opportunity_id?: string | null
+          organization_id?: string
+          owner_id?: string | null
+          parent_contract_id?: string | null
+          payment_terms?: string | null
+          quote_id?: string | null
+          recurring_value?: number | null
+          renewal_notice_days?: number | null
+          renewal_reminder_sent?: boolean | null
+          sent_date?: string | null
+          signed_date?: string | null
+          special_conditions?: string | null
+          start_date?: string | null
+          status?: Database["public"]["Enums"]["contract_status"]
+          tags?: string[] | null
+          terms_and_conditions?: string | null
+          total_value?: number | null
+          updated_at?: string
+          version?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "contracts_account_id_fkey"
+            columns: ["account_id"]
+            isOneToOne: false
+            referencedRelation: "accounts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "contracts_contact_id_fkey"
+            columns: ["contact_id"]
+            isOneToOne: false
+            referencedRelation: "contacts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "contracts_opportunity_id_fkey"
+            columns: ["opportunity_id"]
+            isOneToOne: false
+            referencedRelation: "opportunities"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "contracts_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "contracts_owner_id_fkey"
+            columns: ["owner_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "contracts_parent_contract_id_fkey"
+            columns: ["parent_contract_id"]
+            isOneToOne: false
+            referencedRelation: "contracts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "contracts_quote_id_fkey"
+            columns: ["quote_id"]
+            isOneToOne: false
+            referencedRelation: "quotes"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       forecasts: {
         Row: {
           best_case_amount: number | null
@@ -912,6 +1409,75 @@ export type Database = {
           {
             foreignKeyName: "notes_owner_id_fkey"
             columns: ["owner_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      notifications: {
+        Row: {
+          created_at: string
+          entity_id: string | null
+          entity_type: string | null
+          expires_at: string | null
+          id: string
+          is_read: boolean | null
+          link: string | null
+          message: string | null
+          metadata: Json | null
+          organization_id: string
+          priority: string | null
+          read_at: string | null
+          title: string
+          type: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          entity_id?: string | null
+          entity_type?: string | null
+          expires_at?: string | null
+          id?: string
+          is_read?: boolean | null
+          link?: string | null
+          message?: string | null
+          metadata?: Json | null
+          organization_id: string
+          priority?: string | null
+          read_at?: string | null
+          title: string
+          type?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          entity_id?: string | null
+          entity_type?: string | null
+          expires_at?: string | null
+          id?: string
+          is_read?: boolean | null
+          link?: string | null
+          message?: string | null
+          metadata?: Json | null
+          organization_id?: string
+          priority?: string | null
+          read_at?: string | null
+          title?: string
+          type?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "notifications_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "notifications_user_id_fkey"
+            columns: ["user_id"]
             isOneToOne: false
             referencedRelation: "profiles"
             referencedColumns: ["id"]
@@ -1562,6 +2128,110 @@ export type Database = {
           },
         ]
       }
+      routing_rules: {
+        Row: {
+          actions: Json | null
+          active_days: string[] | null
+          active_end_time: string | null
+          active_start_time: string | null
+          assignment_index: number | null
+          conditions: Json | null
+          created_at: string
+          description: string | null
+          entity_type: string
+          id: string
+          is_active: boolean | null
+          is_default: boolean | null
+          last_assigned_user_id: string | null
+          metadata: Json | null
+          name: string
+          organization_id: string
+          priority: number | null
+          rule_type: Database["public"]["Enums"]["routing_rule_type"]
+          target_team_id: string | null
+          target_territory_id: string | null
+          target_user_ids: string[] | null
+          updated_at: string
+        }
+        Insert: {
+          actions?: Json | null
+          active_days?: string[] | null
+          active_end_time?: string | null
+          active_start_time?: string | null
+          assignment_index?: number | null
+          conditions?: Json | null
+          created_at?: string
+          description?: string | null
+          entity_type?: string
+          id?: string
+          is_active?: boolean | null
+          is_default?: boolean | null
+          last_assigned_user_id?: string | null
+          metadata?: Json | null
+          name: string
+          organization_id: string
+          priority?: number | null
+          rule_type?: Database["public"]["Enums"]["routing_rule_type"]
+          target_team_id?: string | null
+          target_territory_id?: string | null
+          target_user_ids?: string[] | null
+          updated_at?: string
+        }
+        Update: {
+          actions?: Json | null
+          active_days?: string[] | null
+          active_end_time?: string | null
+          active_start_time?: string | null
+          assignment_index?: number | null
+          conditions?: Json | null
+          created_at?: string
+          description?: string | null
+          entity_type?: string
+          id?: string
+          is_active?: boolean | null
+          is_default?: boolean | null
+          last_assigned_user_id?: string | null
+          metadata?: Json | null
+          name?: string
+          organization_id?: string
+          priority?: number | null
+          rule_type?: Database["public"]["Enums"]["routing_rule_type"]
+          target_team_id?: string | null
+          target_territory_id?: string | null
+          target_user_ids?: string[] | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "routing_rules_last_assigned_user_id_fkey"
+            columns: ["last_assigned_user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "routing_rules_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "routing_rules_target_team_id_fkey"
+            columns: ["target_team_id"]
+            isOneToOne: false
+            referencedRelation: "teams"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "routing_rules_target_territory_id_fkey"
+            columns: ["target_territory_id"]
+            isOneToOne: false
+            referencedRelation: "territories"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       teams: {
         Row: {
           created_at: string
@@ -1816,10 +2486,19 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      generate_contract_number: { Args: { org_id: string }; Returns: string }
+      get_stale_opportunities_count: {
+        Args: { org_id: string; threshold_days?: number }
+        Returns: number
+      }
       get_user_org_id: { Args: never; Returns: string }
       get_user_team_id: { Args: never; Returns: string }
       has_role: {
         Args: { role_name: Database["public"]["Enums"]["user_role"] }
+        Returns: boolean
+      }
+      is_deal_stale: {
+        Args: { opp_id: string; threshold_days?: number }
         Returns: boolean
       }
       is_manager_of_team: { Args: { team_id_param: string }; Returns: boolean }
@@ -1841,6 +2520,19 @@ export type Database = {
     }
     Enums: {
       activity_type: "call" | "email" | "meeting" | "task" | "note"
+      approval_request_status:
+        | "pending"
+        | "approved"
+        | "rejected"
+        | "cancelled"
+        | "escalated"
+      approval_type:
+        | "discount"
+        | "special_terms"
+        | "contract"
+        | "price_override"
+        | "credit_limit"
+        | "exception"
       cadence_step_type: "email" | "call" | "linkedin" | "task"
       contact_role:
         | "decision_maker"
@@ -1849,6 +2541,16 @@ export type Database = {
         | "influencer"
         | "end_user"
         | "other"
+      contract_status:
+        | "draft"
+        | "pending_approval"
+        | "sent"
+        | "negotiating"
+        | "signed"
+        | "active"
+        | "expired"
+        | "terminated"
+        | "renewed"
       forecast_category: "commit" | "best_case" | "pipeline" | "omitted"
       lead_status:
         | "new"
@@ -1864,6 +2566,13 @@ export type Database = {
         | "closed_won"
         | "closed_lost"
       quote_status: "draft" | "sent" | "accepted" | "rejected" | "expired"
+      routing_rule_type:
+        | "round_robin"
+        | "territory"
+        | "segment"
+        | "load_balance"
+        | "skill_based"
+        | "priority"
       timeline_event_type:
         | "lead_created"
         | "lead_converted"
@@ -2006,6 +2715,21 @@ export const Constants = {
   public: {
     Enums: {
       activity_type: ["call", "email", "meeting", "task", "note"],
+      approval_request_status: [
+        "pending",
+        "approved",
+        "rejected",
+        "cancelled",
+        "escalated",
+      ],
+      approval_type: [
+        "discount",
+        "special_terms",
+        "contract",
+        "price_override",
+        "credit_limit",
+        "exception",
+      ],
       cadence_step_type: ["email", "call", "linkedin", "task"],
       contact_role: [
         "decision_maker",
@@ -2014,6 +2738,17 @@ export const Constants = {
         "influencer",
         "end_user",
         "other",
+      ],
+      contract_status: [
+        "draft",
+        "pending_approval",
+        "sent",
+        "negotiating",
+        "signed",
+        "active",
+        "expired",
+        "terminated",
+        "renewed",
       ],
       forecast_category: ["commit", "best_case", "pipeline", "omitted"],
       lead_status: [
@@ -2032,6 +2767,14 @@ export const Constants = {
         "closed_lost",
       ],
       quote_status: ["draft", "sent", "accepted", "rejected", "expired"],
+      routing_rule_type: [
+        "round_robin",
+        "territory",
+        "segment",
+        "load_balance",
+        "skill_based",
+        "priority",
+      ],
       timeline_event_type: [
         "lead_created",
         "lead_converted",
