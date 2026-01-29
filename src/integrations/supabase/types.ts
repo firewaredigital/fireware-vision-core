@@ -931,6 +931,437 @@ export type Database = {
           },
         ]
       }
+      campaign_links: {
+        Row: {
+          campaign_id: string
+          click_count: number | null
+          created_at: string
+          id: string
+          name: string | null
+          original_url: string
+          short_code: string
+          tracking_url: string
+          unique_clicks: number | null
+        }
+        Insert: {
+          campaign_id: string
+          click_count?: number | null
+          created_at?: string
+          id?: string
+          name?: string | null
+          original_url: string
+          short_code: string
+          tracking_url: string
+          unique_clicks?: number | null
+        }
+        Update: {
+          campaign_id?: string
+          click_count?: number | null
+          created_at?: string
+          id?: string
+          name?: string | null
+          original_url?: string
+          short_code?: string
+          tracking_url?: string
+          unique_clicks?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "campaign_links_campaign_id_fkey"
+            columns: ["campaign_id"]
+            isOneToOne: false
+            referencedRelation: "campaigns"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      campaign_members: {
+        Row: {
+          bounce_reason: string | null
+          bounce_type: string | null
+          bounced_at: string | null
+          browser: string | null
+          campaign_id: string
+          click_count: number | null
+          clicked_at: string | null
+          clicked_links: Json | null
+          complained_at: string | null
+          contact_id: string | null
+          conversion_value: number | null
+          converted_at: string | null
+          created_at: string
+          delivered_at: string | null
+          device_type: string | null
+          email: string | null
+          email_client: string | null
+          failed_at: string | null
+          failure_reason: string | null
+          first_click_at: string | null
+          first_open_at: string | null
+          id: string
+          ip_address: string | null
+          last_click_at: string | null
+          last_open_at: string | null
+          lead_id: string | null
+          location: Json | null
+          metadata: Json | null
+          open_count: number | null
+          opened_at: string | null
+          organization_id: string
+          os: string | null
+          phone: string | null
+          sent_at: string | null
+          status: Database["public"]["Enums"]["campaign_member_status"]
+          unsubscribed_at: string | null
+          updated_at: string
+          variant_id: string | null
+        }
+        Insert: {
+          bounce_reason?: string | null
+          bounce_type?: string | null
+          bounced_at?: string | null
+          browser?: string | null
+          campaign_id: string
+          click_count?: number | null
+          clicked_at?: string | null
+          clicked_links?: Json | null
+          complained_at?: string | null
+          contact_id?: string | null
+          conversion_value?: number | null
+          converted_at?: string | null
+          created_at?: string
+          delivered_at?: string | null
+          device_type?: string | null
+          email?: string | null
+          email_client?: string | null
+          failed_at?: string | null
+          failure_reason?: string | null
+          first_click_at?: string | null
+          first_open_at?: string | null
+          id?: string
+          ip_address?: string | null
+          last_click_at?: string | null
+          last_open_at?: string | null
+          lead_id?: string | null
+          location?: Json | null
+          metadata?: Json | null
+          open_count?: number | null
+          opened_at?: string | null
+          organization_id: string
+          os?: string | null
+          phone?: string | null
+          sent_at?: string | null
+          status?: Database["public"]["Enums"]["campaign_member_status"]
+          unsubscribed_at?: string | null
+          updated_at?: string
+          variant_id?: string | null
+        }
+        Update: {
+          bounce_reason?: string | null
+          bounce_type?: string | null
+          bounced_at?: string | null
+          browser?: string | null
+          campaign_id?: string
+          click_count?: number | null
+          clicked_at?: string | null
+          clicked_links?: Json | null
+          complained_at?: string | null
+          contact_id?: string | null
+          conversion_value?: number | null
+          converted_at?: string | null
+          created_at?: string
+          delivered_at?: string | null
+          device_type?: string | null
+          email?: string | null
+          email_client?: string | null
+          failed_at?: string | null
+          failure_reason?: string | null
+          first_click_at?: string | null
+          first_open_at?: string | null
+          id?: string
+          ip_address?: string | null
+          last_click_at?: string | null
+          last_open_at?: string | null
+          lead_id?: string | null
+          location?: Json | null
+          metadata?: Json | null
+          open_count?: number | null
+          opened_at?: string | null
+          organization_id?: string
+          os?: string | null
+          phone?: string | null
+          sent_at?: string | null
+          status?: Database["public"]["Enums"]["campaign_member_status"]
+          unsubscribed_at?: string | null
+          updated_at?: string
+          variant_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "campaign_members_campaign_id_fkey"
+            columns: ["campaign_id"]
+            isOneToOne: false
+            referencedRelation: "campaigns"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "campaign_members_contact_id_fkey"
+            columns: ["contact_id"]
+            isOneToOne: false
+            referencedRelation: "contacts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "campaign_members_lead_id_fkey"
+            columns: ["lead_id"]
+            isOneToOne: false
+            referencedRelation: "leads"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "campaign_members_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      campaigns: {
+        Row: {
+          ab_test_duration_hours: number | null
+          ab_variants: Json | null
+          ab_winner_criteria: string | null
+          ab_winner_variant_id: string | null
+          actual_cost: number | null
+          approved_at: string | null
+          approved_by: string | null
+          bounce_count: number | null
+          bounce_rate: number | null
+          budget: number | null
+          click_count: number | null
+          click_rate: number | null
+          complaint_count: number | null
+          completed_at: string | null
+          content: string | null
+          content_html: string | null
+          conversion_count: number | null
+          conversion_rate: number | null
+          conversion_value: number | null
+          cost_per_send: number | null
+          created_at: string
+          created_by: string | null
+          custom_fields: Json | null
+          delivered_count: number | null
+          description: string | null
+          end_date: string | null
+          exclusion_list: Json | null
+          from_email: string | null
+          from_name: string | null
+          id: string
+          is_ab_test: boolean | null
+          name: string
+          open_count: number | null
+          open_rate: number | null
+          organization_id: string
+          owner_id: string | null
+          preview_text: string | null
+          reply_to: string | null
+          scheduled_at: string | null
+          segment_id: string | null
+          sent_at: string | null
+          sent_count: number | null
+          start_date: string | null
+          status: Database["public"]["Enums"]["campaign_status"]
+          subject: string | null
+          tags: string[] | null
+          target_list: Json | null
+          template_id: string | null
+          timezone: string | null
+          total_recipients: number | null
+          type: Database["public"]["Enums"]["campaign_type"]
+          unique_clicks: number | null
+          unique_opens: number | null
+          unsubscribe_count: number | null
+          unsubscribe_rate: number | null
+          updated_at: string
+          utm_campaign: string | null
+          utm_content: string | null
+          utm_medium: string | null
+          utm_source: string | null
+          utm_term: string | null
+        }
+        Insert: {
+          ab_test_duration_hours?: number | null
+          ab_variants?: Json | null
+          ab_winner_criteria?: string | null
+          ab_winner_variant_id?: string | null
+          actual_cost?: number | null
+          approved_at?: string | null
+          approved_by?: string | null
+          bounce_count?: number | null
+          bounce_rate?: number | null
+          budget?: number | null
+          click_count?: number | null
+          click_rate?: number | null
+          complaint_count?: number | null
+          completed_at?: string | null
+          content?: string | null
+          content_html?: string | null
+          conversion_count?: number | null
+          conversion_rate?: number | null
+          conversion_value?: number | null
+          cost_per_send?: number | null
+          created_at?: string
+          created_by?: string | null
+          custom_fields?: Json | null
+          delivered_count?: number | null
+          description?: string | null
+          end_date?: string | null
+          exclusion_list?: Json | null
+          from_email?: string | null
+          from_name?: string | null
+          id?: string
+          is_ab_test?: boolean | null
+          name: string
+          open_count?: number | null
+          open_rate?: number | null
+          organization_id: string
+          owner_id?: string | null
+          preview_text?: string | null
+          reply_to?: string | null
+          scheduled_at?: string | null
+          segment_id?: string | null
+          sent_at?: string | null
+          sent_count?: number | null
+          start_date?: string | null
+          status?: Database["public"]["Enums"]["campaign_status"]
+          subject?: string | null
+          tags?: string[] | null
+          target_list?: Json | null
+          template_id?: string | null
+          timezone?: string | null
+          total_recipients?: number | null
+          type: Database["public"]["Enums"]["campaign_type"]
+          unique_clicks?: number | null
+          unique_opens?: number | null
+          unsubscribe_count?: number | null
+          unsubscribe_rate?: number | null
+          updated_at?: string
+          utm_campaign?: string | null
+          utm_content?: string | null
+          utm_medium?: string | null
+          utm_source?: string | null
+          utm_term?: string | null
+        }
+        Update: {
+          ab_test_duration_hours?: number | null
+          ab_variants?: Json | null
+          ab_winner_criteria?: string | null
+          ab_winner_variant_id?: string | null
+          actual_cost?: number | null
+          approved_at?: string | null
+          approved_by?: string | null
+          bounce_count?: number | null
+          bounce_rate?: number | null
+          budget?: number | null
+          click_count?: number | null
+          click_rate?: number | null
+          complaint_count?: number | null
+          completed_at?: string | null
+          content?: string | null
+          content_html?: string | null
+          conversion_count?: number | null
+          conversion_rate?: number | null
+          conversion_value?: number | null
+          cost_per_send?: number | null
+          created_at?: string
+          created_by?: string | null
+          custom_fields?: Json | null
+          delivered_count?: number | null
+          description?: string | null
+          end_date?: string | null
+          exclusion_list?: Json | null
+          from_email?: string | null
+          from_name?: string | null
+          id?: string
+          is_ab_test?: boolean | null
+          name?: string
+          open_count?: number | null
+          open_rate?: number | null
+          organization_id?: string
+          owner_id?: string | null
+          preview_text?: string | null
+          reply_to?: string | null
+          scheduled_at?: string | null
+          segment_id?: string | null
+          sent_at?: string | null
+          sent_count?: number | null
+          start_date?: string | null
+          status?: Database["public"]["Enums"]["campaign_status"]
+          subject?: string | null
+          tags?: string[] | null
+          target_list?: Json | null
+          template_id?: string | null
+          timezone?: string | null
+          total_recipients?: number | null
+          type?: Database["public"]["Enums"]["campaign_type"]
+          unique_clicks?: number | null
+          unique_opens?: number | null
+          unsubscribe_count?: number | null
+          unsubscribe_rate?: number | null
+          updated_at?: string
+          utm_campaign?: string | null
+          utm_content?: string | null
+          utm_medium?: string | null
+          utm_source?: string | null
+          utm_term?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "campaigns_approved_by_fkey"
+            columns: ["approved_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "campaigns_created_by_fkey"
+            columns: ["created_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "campaigns_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "campaigns_owner_id_fkey"
+            columns: ["owner_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "campaigns_segment_id_fkey"
+            columns: ["segment_id"]
+            isOneToOne: false
+            referencedRelation: "segments"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "campaigns_template_id_fkey"
+            columns: ["template_id"]
+            isOneToOne: false
+            referencedRelation: "email_templates"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       canned_responses: {
         Row: {
           category: string | null
@@ -1639,6 +2070,112 @@ export type Database = {
           },
         ]
       }
+      email_templates: {
+        Row: {
+          avg_click_rate: number | null
+          avg_open_rate: number | null
+          body_html: string
+          body_json: Json | null
+          body_text: string | null
+          category: string | null
+          created_at: string
+          created_by: string | null
+          description: string | null
+          id: string
+          is_active: boolean | null
+          is_shared: boolean | null
+          is_system: boolean | null
+          last_used_at: string | null
+          layout: string | null
+          name: string
+          organization_id: string
+          preview_text: string | null
+          subject: string
+          tags: string[] | null
+          thumbnail_url: string | null
+          updated_at: string
+          updated_by: string | null
+          usage_count: number | null
+          variables: Json | null
+        }
+        Insert: {
+          avg_click_rate?: number | null
+          avg_open_rate?: number | null
+          body_html: string
+          body_json?: Json | null
+          body_text?: string | null
+          category?: string | null
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          id?: string
+          is_active?: boolean | null
+          is_shared?: boolean | null
+          is_system?: boolean | null
+          last_used_at?: string | null
+          layout?: string | null
+          name: string
+          organization_id: string
+          preview_text?: string | null
+          subject: string
+          tags?: string[] | null
+          thumbnail_url?: string | null
+          updated_at?: string
+          updated_by?: string | null
+          usage_count?: number | null
+          variables?: Json | null
+        }
+        Update: {
+          avg_click_rate?: number | null
+          avg_open_rate?: number | null
+          body_html?: string
+          body_json?: Json | null
+          body_text?: string | null
+          category?: string | null
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          id?: string
+          is_active?: boolean | null
+          is_shared?: boolean | null
+          is_system?: boolean | null
+          last_used_at?: string | null
+          layout?: string | null
+          name?: string
+          organization_id?: string
+          preview_text?: string | null
+          subject?: string
+          tags?: string[] | null
+          thumbnail_url?: string | null
+          updated_at?: string
+          updated_by?: string | null
+          usage_count?: number | null
+          variables?: Json | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "email_templates_created_by_fkey"
+            columns: ["created_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "email_templates_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "email_templates_updated_by_fkey"
+            columns: ["updated_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       forecasts: {
         Row: {
           best_case_amount: number | null
@@ -1701,6 +2238,437 @@ export type Database = {
             columns: ["owner_id"]
             isOneToOne: false
             referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      form_submissions: {
+        Row: {
+          contact_id: string | null
+          created_at: string
+          data: Json
+          error_message: string | null
+          form_id: string
+          id: string
+          ip_address: string | null
+          lead_id: string | null
+          organization_id: string
+          page_url: string | null
+          processed: boolean | null
+          processed_at: string | null
+          referrer: string | null
+          user_agent: string | null
+          utm_campaign: string | null
+          utm_medium: string | null
+          utm_source: string | null
+        }
+        Insert: {
+          contact_id?: string | null
+          created_at?: string
+          data: Json
+          error_message?: string | null
+          form_id: string
+          id?: string
+          ip_address?: string | null
+          lead_id?: string | null
+          organization_id: string
+          page_url?: string | null
+          processed?: boolean | null
+          processed_at?: string | null
+          referrer?: string | null
+          user_agent?: string | null
+          utm_campaign?: string | null
+          utm_medium?: string | null
+          utm_source?: string | null
+        }
+        Update: {
+          contact_id?: string | null
+          created_at?: string
+          data?: Json
+          error_message?: string | null
+          form_id?: string
+          id?: string
+          ip_address?: string | null
+          lead_id?: string | null
+          organization_id?: string
+          page_url?: string | null
+          processed?: boolean | null
+          processed_at?: string | null
+          referrer?: string | null
+          user_agent?: string | null
+          utm_campaign?: string | null
+          utm_medium?: string | null
+          utm_source?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "form_submissions_contact_id_fkey"
+            columns: ["contact_id"]
+            isOneToOne: false
+            referencedRelation: "contacts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "form_submissions_form_id_fkey"
+            columns: ["form_id"]
+            isOneToOne: false
+            referencedRelation: "marketing_forms"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "form_submissions_lead_id_fkey"
+            columns: ["lead_id"]
+            isOneToOne: false
+            referencedRelation: "leads"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "form_submissions_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      journey_enrollments: {
+        Row: {
+          completed_at: string | null
+          contact_id: string | null
+          context: Json | null
+          created_at: string
+          current_step_id: string | null
+          current_step_key: string | null
+          entered_at: string | null
+          entry_source: string | null
+          exit_reason: string | null
+          exited_at: string | null
+          goal_achieved_at: string | null
+          id: string
+          journey_id: string
+          last_step_at: string | null
+          lead_id: string | null
+          next_step_at: string | null
+          organization_id: string
+          status: Database["public"]["Enums"]["enrollment_status"]
+          step_history: Json | null
+          updated_at: string
+        }
+        Insert: {
+          completed_at?: string | null
+          contact_id?: string | null
+          context?: Json | null
+          created_at?: string
+          current_step_id?: string | null
+          current_step_key?: string | null
+          entered_at?: string | null
+          entry_source?: string | null
+          exit_reason?: string | null
+          exited_at?: string | null
+          goal_achieved_at?: string | null
+          id?: string
+          journey_id: string
+          last_step_at?: string | null
+          lead_id?: string | null
+          next_step_at?: string | null
+          organization_id: string
+          status?: Database["public"]["Enums"]["enrollment_status"]
+          step_history?: Json | null
+          updated_at?: string
+        }
+        Update: {
+          completed_at?: string | null
+          contact_id?: string | null
+          context?: Json | null
+          created_at?: string
+          current_step_id?: string | null
+          current_step_key?: string | null
+          entered_at?: string | null
+          entry_source?: string | null
+          exit_reason?: string | null
+          exited_at?: string | null
+          goal_achieved_at?: string | null
+          id?: string
+          journey_id?: string
+          last_step_at?: string | null
+          lead_id?: string | null
+          next_step_at?: string | null
+          organization_id?: string
+          status?: Database["public"]["Enums"]["enrollment_status"]
+          step_history?: Json | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "journey_enrollments_contact_id_fkey"
+            columns: ["contact_id"]
+            isOneToOne: false
+            referencedRelation: "contacts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "journey_enrollments_current_step_id_fkey"
+            columns: ["current_step_id"]
+            isOneToOne: false
+            referencedRelation: "journey_steps"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "journey_enrollments_journey_id_fkey"
+            columns: ["journey_id"]
+            isOneToOne: false
+            referencedRelation: "journeys"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "journey_enrollments_lead_id_fkey"
+            columns: ["lead_id"]
+            isOneToOne: false
+            referencedRelation: "leads"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "journey_enrollments_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      journey_steps: {
+        Row: {
+          avg_duration_ms: number | null
+          branches: Json | null
+          completed_count: number | null
+          conditions: Json | null
+          config: Json
+          created_at: string
+          description: string | null
+          entered_count: number | null
+          failed_count: number | null
+          id: string
+          is_entry_point: boolean | null
+          is_exit_point: boolean | null
+          journey_id: string
+          name: string
+          next_step_on_failure: string | null
+          next_step_on_success: string | null
+          position_x: number | null
+          position_y: number | null
+          step_key: string
+          step_order: number
+          type: Database["public"]["Enums"]["journey_step_type"]
+          updated_at: string
+          wait_duration_unit: string | null
+          wait_duration_value: number | null
+          wait_until_day: string | null
+          wait_until_time: string | null
+        }
+        Insert: {
+          avg_duration_ms?: number | null
+          branches?: Json | null
+          completed_count?: number | null
+          conditions?: Json | null
+          config?: Json
+          created_at?: string
+          description?: string | null
+          entered_count?: number | null
+          failed_count?: number | null
+          id?: string
+          is_entry_point?: boolean | null
+          is_exit_point?: boolean | null
+          journey_id: string
+          name: string
+          next_step_on_failure?: string | null
+          next_step_on_success?: string | null
+          position_x?: number | null
+          position_y?: number | null
+          step_key: string
+          step_order: number
+          type: Database["public"]["Enums"]["journey_step_type"]
+          updated_at?: string
+          wait_duration_unit?: string | null
+          wait_duration_value?: number | null
+          wait_until_day?: string | null
+          wait_until_time?: string | null
+        }
+        Update: {
+          avg_duration_ms?: number | null
+          branches?: Json | null
+          completed_count?: number | null
+          conditions?: Json | null
+          config?: Json
+          created_at?: string
+          description?: string | null
+          entered_count?: number | null
+          failed_count?: number | null
+          id?: string
+          is_entry_point?: boolean | null
+          is_exit_point?: boolean | null
+          journey_id?: string
+          name?: string
+          next_step_on_failure?: string | null
+          next_step_on_success?: string | null
+          position_x?: number | null
+          position_y?: number | null
+          step_key?: string
+          step_order?: number
+          type?: Database["public"]["Enums"]["journey_step_type"]
+          updated_at?: string
+          wait_duration_unit?: string | null
+          wait_duration_value?: number | null
+          wait_until_day?: string | null
+          wait_until_time?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "journey_steps_journey_id_fkey"
+            columns: ["journey_id"]
+            isOneToOne: false
+            referencedRelation: "journeys"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      journeys: {
+        Row: {
+          active_count: number | null
+          allow_reentry: boolean | null
+          avg_duration_hours: number | null
+          completed_count: number | null
+          conversion_rate: number | null
+          created_at: string
+          created_by: string | null
+          description: string | null
+          entry_count: number | null
+          exited_count: number | null
+          goal_achieved_count: number | null
+          goal_config: Json | null
+          goal_segment_id: string | null
+          goal_type: string | null
+          id: string
+          max_enrollments: number | null
+          name: string
+          organization_id: string
+          owner_id: string | null
+          published_at: string | null
+          published_by: string | null
+          reentry_wait_days: number | null
+          status: Database["public"]["Enums"]["journey_status"]
+          tags: string[] | null
+          timezone: string | null
+          trigger_config: Json | null
+          trigger_event_name: string | null
+          trigger_segment_id: string | null
+          trigger_type: string
+          updated_at: string
+        }
+        Insert: {
+          active_count?: number | null
+          allow_reentry?: boolean | null
+          avg_duration_hours?: number | null
+          completed_count?: number | null
+          conversion_rate?: number | null
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          entry_count?: number | null
+          exited_count?: number | null
+          goal_achieved_count?: number | null
+          goal_config?: Json | null
+          goal_segment_id?: string | null
+          goal_type?: string | null
+          id?: string
+          max_enrollments?: number | null
+          name: string
+          organization_id: string
+          owner_id?: string | null
+          published_at?: string | null
+          published_by?: string | null
+          reentry_wait_days?: number | null
+          status?: Database["public"]["Enums"]["journey_status"]
+          tags?: string[] | null
+          timezone?: string | null
+          trigger_config?: Json | null
+          trigger_event_name?: string | null
+          trigger_segment_id?: string | null
+          trigger_type: string
+          updated_at?: string
+        }
+        Update: {
+          active_count?: number | null
+          allow_reentry?: boolean | null
+          avg_duration_hours?: number | null
+          completed_count?: number | null
+          conversion_rate?: number | null
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          entry_count?: number | null
+          exited_count?: number | null
+          goal_achieved_count?: number | null
+          goal_config?: Json | null
+          goal_segment_id?: string | null
+          goal_type?: string | null
+          id?: string
+          max_enrollments?: number | null
+          name?: string
+          organization_id?: string
+          owner_id?: string | null
+          published_at?: string | null
+          published_by?: string | null
+          reentry_wait_days?: number | null
+          status?: Database["public"]["Enums"]["journey_status"]
+          tags?: string[] | null
+          timezone?: string | null
+          trigger_config?: Json | null
+          trigger_event_name?: string | null
+          trigger_segment_id?: string | null
+          trigger_type?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "journeys_created_by_fkey"
+            columns: ["created_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "journeys_goal_segment_id_fkey"
+            columns: ["goal_segment_id"]
+            isOneToOne: false
+            referencedRelation: "segments"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "journeys_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "journeys_owner_id_fkey"
+            columns: ["owner_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "journeys_published_by_fkey"
+            columns: ["published_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "journeys_trigger_segment_id_fkey"
+            columns: ["trigger_segment_id"]
+            isOneToOne: false
+            referencedRelation: "segments"
             referencedColumns: ["id"]
           },
         ]
@@ -2199,6 +3167,349 @@ export type Database = {
           },
           {
             foreignKeyName: "lgpd_requests_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      marketing_consents: {
+        Row: {
+          consent_ip: string | null
+          consent_source: string | null
+          consent_user_agent: string | null
+          contact_id: string | null
+          created_at: string
+          email: string | null
+          email_marketing: boolean | null
+          global_unsubscribe: boolean | null
+          id: string
+          interests: string[] | null
+          last_consent_update: string | null
+          lead_id: string | null
+          organization_id: string
+          phone: string | null
+          phone_calls: boolean | null
+          preferred_frequency: string | null
+          preferred_language: string | null
+          preferred_time: string | null
+          push_notifications: boolean | null
+          sms_marketing: boolean | null
+          unsubscribe_reason: string | null
+          unsubscribed_at: string | null
+          updated_at: string
+          whatsapp_marketing: boolean | null
+        }
+        Insert: {
+          consent_ip?: string | null
+          consent_source?: string | null
+          consent_user_agent?: string | null
+          contact_id?: string | null
+          created_at?: string
+          email?: string | null
+          email_marketing?: boolean | null
+          global_unsubscribe?: boolean | null
+          id?: string
+          interests?: string[] | null
+          last_consent_update?: string | null
+          lead_id?: string | null
+          organization_id: string
+          phone?: string | null
+          phone_calls?: boolean | null
+          preferred_frequency?: string | null
+          preferred_language?: string | null
+          preferred_time?: string | null
+          push_notifications?: boolean | null
+          sms_marketing?: boolean | null
+          unsubscribe_reason?: string | null
+          unsubscribed_at?: string | null
+          updated_at?: string
+          whatsapp_marketing?: boolean | null
+        }
+        Update: {
+          consent_ip?: string | null
+          consent_source?: string | null
+          consent_user_agent?: string | null
+          contact_id?: string | null
+          created_at?: string
+          email?: string | null
+          email_marketing?: boolean | null
+          global_unsubscribe?: boolean | null
+          id?: string
+          interests?: string[] | null
+          last_consent_update?: string | null
+          lead_id?: string | null
+          organization_id?: string
+          phone?: string | null
+          phone_calls?: boolean | null
+          preferred_frequency?: string | null
+          preferred_language?: string | null
+          preferred_time?: string | null
+          push_notifications?: boolean | null
+          sms_marketing?: boolean | null
+          unsubscribe_reason?: string | null
+          unsubscribed_at?: string | null
+          updated_at?: string
+          whatsapp_marketing?: boolean | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "marketing_consents_contact_id_fkey"
+            columns: ["contact_id"]
+            isOneToOne: false
+            referencedRelation: "contacts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "marketing_consents_lead_id_fkey"
+            columns: ["lead_id"]
+            isOneToOne: false
+            referencedRelation: "leads"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "marketing_consents_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      marketing_events: {
+        Row: {
+          browser: string | null
+          campaign_id: string | null
+          contact_id: string | null
+          created_at: string
+          device_type: string | null
+          event_category: string | null
+          event_name: string
+          id: string
+          ip_address: string | null
+          journey_id: string | null
+          landing_page: string | null
+          lead_id: string | null
+          location: Json | null
+          organization_id: string
+          os: string | null
+          page_url: string | null
+          properties: Json | null
+          referrer: string | null
+          session_id: string | null
+          utm_campaign: string | null
+          utm_content: string | null
+          utm_medium: string | null
+          utm_source: string | null
+          utm_term: string | null
+        }
+        Insert: {
+          browser?: string | null
+          campaign_id?: string | null
+          contact_id?: string | null
+          created_at?: string
+          device_type?: string | null
+          event_category?: string | null
+          event_name: string
+          id?: string
+          ip_address?: string | null
+          journey_id?: string | null
+          landing_page?: string | null
+          lead_id?: string | null
+          location?: Json | null
+          organization_id: string
+          os?: string | null
+          page_url?: string | null
+          properties?: Json | null
+          referrer?: string | null
+          session_id?: string | null
+          utm_campaign?: string | null
+          utm_content?: string | null
+          utm_medium?: string | null
+          utm_source?: string | null
+          utm_term?: string | null
+        }
+        Update: {
+          browser?: string | null
+          campaign_id?: string | null
+          contact_id?: string | null
+          created_at?: string
+          device_type?: string | null
+          event_category?: string | null
+          event_name?: string
+          id?: string
+          ip_address?: string | null
+          journey_id?: string | null
+          landing_page?: string | null
+          lead_id?: string | null
+          location?: Json | null
+          organization_id?: string
+          os?: string | null
+          page_url?: string | null
+          properties?: Json | null
+          referrer?: string | null
+          session_id?: string | null
+          utm_campaign?: string | null
+          utm_content?: string | null
+          utm_medium?: string | null
+          utm_source?: string | null
+          utm_term?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "marketing_events_campaign_id_fkey"
+            columns: ["campaign_id"]
+            isOneToOne: false
+            referencedRelation: "campaigns"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "marketing_events_contact_id_fkey"
+            columns: ["contact_id"]
+            isOneToOne: false
+            referencedRelation: "contacts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "marketing_events_journey_id_fkey"
+            columns: ["journey_id"]
+            isOneToOne: false
+            referencedRelation: "journeys"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "marketing_events_lead_id_fkey"
+            columns: ["lead_id"]
+            isOneToOne: false
+            referencedRelation: "leads"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "marketing_events_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      marketing_forms: {
+        Row: {
+          add_to_segment_id: string | null
+          assign_to_owner: string | null
+          conversion_rate: number | null
+          create_lead: boolean | null
+          created_at: string
+          created_by: string | null
+          description: string | null
+          double_opt_in: boolean | null
+          embed_code: string | null
+          enable_captcha: boolean | null
+          enroll_in_journey_id: string | null
+          fields: Json
+          id: string
+          is_active: boolean | null
+          name: string
+          notify_emails: string[] | null
+          organization_id: string
+          public_url: string | null
+          published_at: string | null
+          redirect_url: string | null
+          style_config: Json | null
+          submission_count: number | null
+          submit_button_text: string | null
+          success_message: string | null
+          updated_at: string
+          view_count: number | null
+        }
+        Insert: {
+          add_to_segment_id?: string | null
+          assign_to_owner?: string | null
+          conversion_rate?: number | null
+          create_lead?: boolean | null
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          double_opt_in?: boolean | null
+          embed_code?: string | null
+          enable_captcha?: boolean | null
+          enroll_in_journey_id?: string | null
+          fields?: Json
+          id?: string
+          is_active?: boolean | null
+          name: string
+          notify_emails?: string[] | null
+          organization_id: string
+          public_url?: string | null
+          published_at?: string | null
+          redirect_url?: string | null
+          style_config?: Json | null
+          submission_count?: number | null
+          submit_button_text?: string | null
+          success_message?: string | null
+          updated_at?: string
+          view_count?: number | null
+        }
+        Update: {
+          add_to_segment_id?: string | null
+          assign_to_owner?: string | null
+          conversion_rate?: number | null
+          create_lead?: boolean | null
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          double_opt_in?: boolean | null
+          embed_code?: string | null
+          enable_captcha?: boolean | null
+          enroll_in_journey_id?: string | null
+          fields?: Json
+          id?: string
+          is_active?: boolean | null
+          name?: string
+          notify_emails?: string[] | null
+          organization_id?: string
+          public_url?: string | null
+          published_at?: string | null
+          redirect_url?: string | null
+          style_config?: Json | null
+          submission_count?: number | null
+          submit_button_text?: string | null
+          success_message?: string | null
+          updated_at?: string
+          view_count?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "marketing_forms_add_to_segment_id_fkey"
+            columns: ["add_to_segment_id"]
+            isOneToOne: false
+            referencedRelation: "segments"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "marketing_forms_assign_to_owner_fkey"
+            columns: ["assign_to_owner"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "marketing_forms_created_by_fkey"
+            columns: ["created_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "marketing_forms_enroll_in_journey_id_fkey"
+            columns: ["enroll_in_journey_id"]
+            isOneToOne: false
+            referencedRelation: "journeys"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "marketing_forms_organization_id_fkey"
             columns: ["organization_id"]
             isOneToOne: false
             referencedRelation: "organizations"
@@ -3226,6 +4537,175 @@ export type Database = {
           },
         ]
       }
+      segment_members: {
+        Row: {
+          account_id: string | null
+          added_at: string | null
+          added_by: string | null
+          contact_id: string | null
+          id: string
+          lead_id: string | null
+          segment_id: string
+          source: string | null
+        }
+        Insert: {
+          account_id?: string | null
+          added_at?: string | null
+          added_by?: string | null
+          contact_id?: string | null
+          id?: string
+          lead_id?: string | null
+          segment_id: string
+          source?: string | null
+        }
+        Update: {
+          account_id?: string | null
+          added_at?: string | null
+          added_by?: string | null
+          contact_id?: string | null
+          id?: string
+          lead_id?: string | null
+          segment_id?: string
+          source?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "segment_members_account_id_fkey"
+            columns: ["account_id"]
+            isOneToOne: false
+            referencedRelation: "accounts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "segment_members_added_by_fkey"
+            columns: ["added_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "segment_members_contact_id_fkey"
+            columns: ["contact_id"]
+            isOneToOne: false
+            referencedRelation: "contacts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "segment_members_lead_id_fkey"
+            columns: ["lead_id"]
+            isOneToOne: false
+            referencedRelation: "leads"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "segment_members_segment_id_fkey"
+            columns: ["segment_id"]
+            isOneToOne: false
+            referencedRelation: "segments"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      segments: {
+        Row: {
+          auto_refresh: boolean | null
+          calculation_duration_ms: number | null
+          color: string | null
+          created_at: string
+          created_by: string | null
+          custom_filter_expression: string | null
+          description: string | null
+          entity_type: string | null
+          filter_logic: string | null
+          filters: Json | null
+          icon: string | null
+          id: string
+          is_active: boolean | null
+          is_system: boolean | null
+          last_calculated_at: string | null
+          member_count: number | null
+          name: string
+          organization_id: string
+          owner_id: string | null
+          refresh_interval_hours: number | null
+          tags: string[] | null
+          type: string
+          updated_at: string
+        }
+        Insert: {
+          auto_refresh?: boolean | null
+          calculation_duration_ms?: number | null
+          color?: string | null
+          created_at?: string
+          created_by?: string | null
+          custom_filter_expression?: string | null
+          description?: string | null
+          entity_type?: string | null
+          filter_logic?: string | null
+          filters?: Json | null
+          icon?: string | null
+          id?: string
+          is_active?: boolean | null
+          is_system?: boolean | null
+          last_calculated_at?: string | null
+          member_count?: number | null
+          name: string
+          organization_id: string
+          owner_id?: string | null
+          refresh_interval_hours?: number | null
+          tags?: string[] | null
+          type?: string
+          updated_at?: string
+        }
+        Update: {
+          auto_refresh?: boolean | null
+          calculation_duration_ms?: number | null
+          color?: string | null
+          created_at?: string
+          created_by?: string | null
+          custom_filter_expression?: string | null
+          description?: string | null
+          entity_type?: string | null
+          filter_logic?: string | null
+          filters?: Json | null
+          icon?: string | null
+          id?: string
+          is_active?: boolean | null
+          is_system?: boolean | null
+          last_calculated_at?: string | null
+          member_count?: number | null
+          name?: string
+          organization_id?: string
+          owner_id?: string | null
+          refresh_interval_hours?: number | null
+          tags?: string[] | null
+          type?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "segments_created_by_fkey"
+            columns: ["created_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "segments_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "segments_owner_id_fkey"
+            columns: ["owner_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       teams: {
         Row: {
           created_at: string
@@ -4147,6 +5627,561 @@ export type Database = {
           },
         ]
       }
+      workflow_logs: {
+        Row: {
+          created_at: string
+          data: Json | null
+          id: string
+          level: string
+          message: string
+          run_id: string
+          step_execution_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          data?: Json | null
+          id?: string
+          level?: string
+          message: string
+          run_id: string
+          step_execution_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          data?: Json | null
+          id?: string
+          level?: string
+          message?: string
+          run_id?: string
+          step_execution_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "workflow_logs_run_id_fkey"
+            columns: ["run_id"]
+            isOneToOne: false
+            referencedRelation: "workflow_runs"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "workflow_logs_step_execution_id_fkey"
+            columns: ["step_execution_id"]
+            isOneToOne: false
+            referencedRelation: "workflow_step_executions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      workflow_runs: {
+        Row: {
+          completed_at: string | null
+          context: Json | null
+          created_at: string
+          current_step_id: string | null
+          current_step_key: string | null
+          duration_ms: number | null
+          error_details: Json | null
+          error_message: string | null
+          error_step_key: string | null
+          execution_path: string[] | null
+          id: string
+          organization_id: string
+          parent_run_id: string | null
+          retry_count: number | null
+          started_at: string | null
+          status: Database["public"]["Enums"]["workflow_run_status"]
+          trigger_data: Json | null
+          trigger_record_id: string | null
+          trigger_record_type: string | null
+          triggered_by: string | null
+          workflow_id: string
+        }
+        Insert: {
+          completed_at?: string | null
+          context?: Json | null
+          created_at?: string
+          current_step_id?: string | null
+          current_step_key?: string | null
+          duration_ms?: number | null
+          error_details?: Json | null
+          error_message?: string | null
+          error_step_key?: string | null
+          execution_path?: string[] | null
+          id?: string
+          organization_id: string
+          parent_run_id?: string | null
+          retry_count?: number | null
+          started_at?: string | null
+          status?: Database["public"]["Enums"]["workflow_run_status"]
+          trigger_data?: Json | null
+          trigger_record_id?: string | null
+          trigger_record_type?: string | null
+          triggered_by?: string | null
+          workflow_id: string
+        }
+        Update: {
+          completed_at?: string | null
+          context?: Json | null
+          created_at?: string
+          current_step_id?: string | null
+          current_step_key?: string | null
+          duration_ms?: number | null
+          error_details?: Json | null
+          error_message?: string | null
+          error_step_key?: string | null
+          execution_path?: string[] | null
+          id?: string
+          organization_id?: string
+          parent_run_id?: string | null
+          retry_count?: number | null
+          started_at?: string | null
+          status?: Database["public"]["Enums"]["workflow_run_status"]
+          trigger_data?: Json | null
+          trigger_record_id?: string | null
+          trigger_record_type?: string | null
+          triggered_by?: string | null
+          workflow_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "workflow_runs_current_step_id_fkey"
+            columns: ["current_step_id"]
+            isOneToOne: false
+            referencedRelation: "workflow_steps"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "workflow_runs_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "workflow_runs_parent_run_id_fkey"
+            columns: ["parent_run_id"]
+            isOneToOne: false
+            referencedRelation: "workflow_runs"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "workflow_runs_triggered_by_fkey"
+            columns: ["triggered_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "workflow_runs_workflow_id_fkey"
+            columns: ["workflow_id"]
+            isOneToOne: false
+            referencedRelation: "workflows"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      workflow_schedules: {
+        Row: {
+          created_at: string
+          cron_expression: string
+          id: string
+          is_active: boolean | null
+          last_run_at: string | null
+          next_run_at: string | null
+          organization_id: string
+          run_count: number | null
+          timezone: string | null
+          updated_at: string
+          workflow_id: string
+        }
+        Insert: {
+          created_at?: string
+          cron_expression: string
+          id?: string
+          is_active?: boolean | null
+          last_run_at?: string | null
+          next_run_at?: string | null
+          organization_id: string
+          run_count?: number | null
+          timezone?: string | null
+          updated_at?: string
+          workflow_id: string
+        }
+        Update: {
+          created_at?: string
+          cron_expression?: string
+          id?: string
+          is_active?: boolean | null
+          last_run_at?: string | null
+          next_run_at?: string | null
+          organization_id?: string
+          run_count?: number | null
+          timezone?: string | null
+          updated_at?: string
+          workflow_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "workflow_schedules_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "workflow_schedules_workflow_id_fkey"
+            columns: ["workflow_id"]
+            isOneToOne: false
+            referencedRelation: "workflows"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      workflow_step_executions: {
+        Row: {
+          completed_at: string | null
+          created_at: string
+          duration_ms: number | null
+          error_details: Json | null
+          error_message: string | null
+          id: string
+          input_data: Json | null
+          output_data: Json | null
+          retry_count: number | null
+          run_id: string
+          started_at: string | null
+          status: Database["public"]["Enums"]["step_execution_status"]
+          step_id: string
+          step_key: string
+        }
+        Insert: {
+          completed_at?: string | null
+          created_at?: string
+          duration_ms?: number | null
+          error_details?: Json | null
+          error_message?: string | null
+          id?: string
+          input_data?: Json | null
+          output_data?: Json | null
+          retry_count?: number | null
+          run_id: string
+          started_at?: string | null
+          status?: Database["public"]["Enums"]["step_execution_status"]
+          step_id: string
+          step_key: string
+        }
+        Update: {
+          completed_at?: string | null
+          created_at?: string
+          duration_ms?: number | null
+          error_details?: Json | null
+          error_message?: string | null
+          id?: string
+          input_data?: Json | null
+          output_data?: Json | null
+          retry_count?: number | null
+          run_id?: string
+          started_at?: string | null
+          status?: Database["public"]["Enums"]["step_execution_status"]
+          step_id?: string
+          step_key?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "workflow_step_executions_run_id_fkey"
+            columns: ["run_id"]
+            isOneToOne: false
+            referencedRelation: "workflow_runs"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "workflow_step_executions_step_id_fkey"
+            columns: ["step_id"]
+            isOneToOne: false
+            referencedRelation: "workflow_steps"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      workflow_steps: {
+        Row: {
+          conditions: Json | null
+          config: Json
+          continue_on_error: boolean | null
+          created_at: string
+          description: string | null
+          id: string
+          is_entry_point: boolean | null
+          is_exit_point: boolean | null
+          loop_config: Json | null
+          name: string
+          next_step_on_failure: string | null
+          next_step_on_success: string | null
+          parallel_branches: Json | null
+          position_x: number | null
+          position_y: number | null
+          retry_count: number | null
+          retry_delay_seconds: number | null
+          step_key: string
+          step_order: number
+          timeout_seconds: number | null
+          type: Database["public"]["Enums"]["workflow_step_type"]
+          updated_at: string
+          workflow_id: string
+        }
+        Insert: {
+          conditions?: Json | null
+          config?: Json
+          continue_on_error?: boolean | null
+          created_at?: string
+          description?: string | null
+          id?: string
+          is_entry_point?: boolean | null
+          is_exit_point?: boolean | null
+          loop_config?: Json | null
+          name: string
+          next_step_on_failure?: string | null
+          next_step_on_success?: string | null
+          parallel_branches?: Json | null
+          position_x?: number | null
+          position_y?: number | null
+          retry_count?: number | null
+          retry_delay_seconds?: number | null
+          step_key: string
+          step_order: number
+          timeout_seconds?: number | null
+          type: Database["public"]["Enums"]["workflow_step_type"]
+          updated_at?: string
+          workflow_id: string
+        }
+        Update: {
+          conditions?: Json | null
+          config?: Json
+          continue_on_error?: boolean | null
+          created_at?: string
+          description?: string | null
+          id?: string
+          is_entry_point?: boolean | null
+          is_exit_point?: boolean | null
+          loop_config?: Json | null
+          name?: string
+          next_step_on_failure?: string | null
+          next_step_on_success?: string | null
+          parallel_branches?: Json | null
+          position_x?: number | null
+          position_y?: number | null
+          retry_count?: number | null
+          retry_delay_seconds?: number | null
+          step_key?: string
+          step_order?: number
+          timeout_seconds?: number | null
+          type?: Database["public"]["Enums"]["workflow_step_type"]
+          updated_at?: string
+          workflow_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "workflow_steps_workflow_id_fkey"
+            columns: ["workflow_id"]
+            isOneToOne: false
+            referencedRelation: "workflows"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      workflow_templates: {
+        Row: {
+          category: string
+          created_at: string
+          created_by: string | null
+          description: string | null
+          icon: string | null
+          id: string
+          is_global: boolean | null
+          name: string
+          organization_id: string | null
+          rating: number | null
+          steps_config: Json
+          tags: string[] | null
+          trigger_entity: string
+          trigger_type: Database["public"]["Enums"]["workflow_trigger"]
+          updated_at: string
+          usage_count: number | null
+          variables: Json | null
+        }
+        Insert: {
+          category: string
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          icon?: string | null
+          id?: string
+          is_global?: boolean | null
+          name: string
+          organization_id?: string | null
+          rating?: number | null
+          steps_config?: Json
+          tags?: string[] | null
+          trigger_entity: string
+          trigger_type: Database["public"]["Enums"]["workflow_trigger"]
+          updated_at?: string
+          usage_count?: number | null
+          variables?: Json | null
+        }
+        Update: {
+          category?: string
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          icon?: string | null
+          id?: string
+          is_global?: boolean | null
+          name?: string
+          organization_id?: string | null
+          rating?: number | null
+          steps_config?: Json
+          tags?: string[] | null
+          trigger_entity?: string
+          trigger_type?: Database["public"]["Enums"]["workflow_trigger"]
+          updated_at?: string
+          usage_count?: number | null
+          variables?: Json | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "workflow_templates_created_by_fkey"
+            columns: ["created_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "workflow_templates_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      workflows: {
+        Row: {
+          avg_execution_time_ms: number | null
+          created_at: string
+          created_by: string | null
+          description: string | null
+          failure_count: number | null
+          failure_notification_emails: string[] | null
+          id: string
+          is_template: boolean | null
+          last_run_at: string | null
+          last_success_at: string | null
+          max_concurrent_runs: number | null
+          max_retries: number | null
+          name: string
+          notify_on_failure: boolean | null
+          organization_id: string
+          retry_on_failure: boolean | null
+          run_count: number | null
+          schedule_config: Json | null
+          status: string
+          success_count: number | null
+          template_category: string | null
+          timeout_minutes: number | null
+          trigger_conditions: Json | null
+          trigger_entity: string
+          trigger_fields: string[] | null
+          trigger_type: Database["public"]["Enums"]["workflow_trigger"]
+          updated_at: string
+          updated_by: string | null
+          version: number
+        }
+        Insert: {
+          avg_execution_time_ms?: number | null
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          failure_count?: number | null
+          failure_notification_emails?: string[] | null
+          id?: string
+          is_template?: boolean | null
+          last_run_at?: string | null
+          last_success_at?: string | null
+          max_concurrent_runs?: number | null
+          max_retries?: number | null
+          name: string
+          notify_on_failure?: boolean | null
+          organization_id: string
+          retry_on_failure?: boolean | null
+          run_count?: number | null
+          schedule_config?: Json | null
+          status?: string
+          success_count?: number | null
+          template_category?: string | null
+          timeout_minutes?: number | null
+          trigger_conditions?: Json | null
+          trigger_entity: string
+          trigger_fields?: string[] | null
+          trigger_type: Database["public"]["Enums"]["workflow_trigger"]
+          updated_at?: string
+          updated_by?: string | null
+          version?: number
+        }
+        Update: {
+          avg_execution_time_ms?: number | null
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          failure_count?: number | null
+          failure_notification_emails?: string[] | null
+          id?: string
+          is_template?: boolean | null
+          last_run_at?: string | null
+          last_success_at?: string | null
+          max_concurrent_runs?: number | null
+          max_retries?: number | null
+          name?: string
+          notify_on_failure?: boolean | null
+          organization_id?: string
+          retry_on_failure?: boolean | null
+          run_count?: number | null
+          schedule_config?: Json | null
+          status?: string
+          success_count?: number | null
+          template_category?: string | null
+          timeout_minutes?: number | null
+          trigger_conditions?: Json | null
+          trigger_entity?: string
+          trigger_fields?: string[] | null
+          trigger_type?: Database["public"]["Enums"]["workflow_trigger"]
+          updated_at?: string
+          updated_by?: string | null
+          version?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "workflows_created_by_fkey"
+            columns: ["created_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "workflows_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "workflows_updated_by_fkey"
+            columns: ["updated_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
@@ -4154,6 +6189,10 @@ export type Database = {
     Functions: {
       calculate_health_score: {
         Args: { p_account_id: string }
+        Returns: number
+      }
+      calculate_segment_members: {
+        Args: { p_segment_id: string }
         Returns: number
       }
       generate_contract_number: { Args: { org_id: string }; Returns: string }
@@ -4217,6 +6256,37 @@ export type Database = {
         | "exception"
       article_status: "draft" | "in_review" | "published" | "archived"
       cadence_step_type: "email" | "call" | "linkedin" | "task"
+      campaign_member_status:
+        | "pending"
+        | "sent"
+        | "delivered"
+        | "opened"
+        | "clicked"
+        | "converted"
+        | "unsubscribed"
+        | "bounced"
+        | "complained"
+        | "failed"
+      campaign_status:
+        | "draft"
+        | "scheduled"
+        | "sending"
+        | "active"
+        | "paused"
+        | "completed"
+        | "cancelled"
+        | "archived"
+      campaign_type:
+        | "email"
+        | "sms"
+        | "whatsapp"
+        | "push"
+        | "social"
+        | "ads"
+        | "event"
+        | "webinar"
+        | "content"
+        | "referral"
       contact_role:
         | "decision_maker"
         | "technical"
@@ -4234,7 +6304,25 @@ export type Database = {
         | "expired"
         | "terminated"
         | "renewed"
+      enrollment_status: "active" | "completed" | "exited" | "paused" | "failed"
       forecast_category: "commit" | "best_case" | "pipeline" | "omitted"
+      journey_status: "draft" | "active" | "paused" | "completed" | "archived"
+      journey_step_type:
+        | "email"
+        | "sms"
+        | "whatsapp"
+        | "push"
+        | "wait"
+        | "condition"
+        | "split"
+        | "goal"
+        | "action"
+        | "webhook"
+        | "add_to_segment"
+        | "remove_from_segment"
+        | "update_field"
+        | "create_task"
+        | "notify_owner"
       lead_status:
         | "new"
         | "contacted"
@@ -4279,6 +6367,13 @@ export type Database = {
         | "load_balance"
         | "skill_based"
         | "priority"
+      step_execution_status:
+        | "pending"
+        | "running"
+        | "completed"
+        | "failed"
+        | "skipped"
+        | "waiting"
       ticket_channel:
         | "email"
         | "chat"
@@ -4309,6 +6404,40 @@ export type Database = {
         | "contact_added"
         | "account_created"
       user_role: "user" | "manager" | "admin"
+      workflow_run_status:
+        | "pending"
+        | "running"
+        | "completed"
+        | "failed"
+        | "cancelled"
+        | "paused"
+        | "waiting_approval"
+      workflow_step_type:
+        | "condition"
+        | "action"
+        | "delay"
+        | "parallel"
+        | "approval"
+        | "loop"
+        | "webhook"
+        | "notification"
+        | "field_update"
+        | "create_record"
+        | "send_email"
+        | "assign_owner"
+        | "add_tag"
+        | "create_task"
+        | "call_function"
+      workflow_trigger:
+        | "record_created"
+        | "record_updated"
+        | "field_changed"
+        | "scheduled"
+        | "manual"
+        | "approval_completed"
+        | "sla_breach"
+        | "stage_changed"
+        | "score_changed"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -4454,6 +6583,40 @@ export const Constants = {
       ],
       article_status: ["draft", "in_review", "published", "archived"],
       cadence_step_type: ["email", "call", "linkedin", "task"],
+      campaign_member_status: [
+        "pending",
+        "sent",
+        "delivered",
+        "opened",
+        "clicked",
+        "converted",
+        "unsubscribed",
+        "bounced",
+        "complained",
+        "failed",
+      ],
+      campaign_status: [
+        "draft",
+        "scheduled",
+        "sending",
+        "active",
+        "paused",
+        "completed",
+        "cancelled",
+        "archived",
+      ],
+      campaign_type: [
+        "email",
+        "sms",
+        "whatsapp",
+        "push",
+        "social",
+        "ads",
+        "event",
+        "webinar",
+        "content",
+        "referral",
+      ],
       contact_role: [
         "decision_maker",
         "technical",
@@ -4473,7 +6636,26 @@ export const Constants = {
         "terminated",
         "renewed",
       ],
+      enrollment_status: ["active", "completed", "exited", "paused", "failed"],
       forecast_category: ["commit", "best_case", "pipeline", "omitted"],
+      journey_status: ["draft", "active", "paused", "completed", "archived"],
+      journey_step_type: [
+        "email",
+        "sms",
+        "whatsapp",
+        "push",
+        "wait",
+        "condition",
+        "split",
+        "goal",
+        "action",
+        "webhook",
+        "add_to_segment",
+        "remove_from_segment",
+        "update_field",
+        "create_task",
+        "notify_owner",
+      ],
       lead_status: [
         "new",
         "contacted",
@@ -4524,6 +6706,14 @@ export const Constants = {
         "skill_based",
         "priority",
       ],
+      step_execution_status: [
+        "pending",
+        "running",
+        "completed",
+        "failed",
+        "skipped",
+        "waiting",
+      ],
       ticket_channel: ["email", "chat", "phone", "whatsapp", "portal", "form"],
       ticket_priority: ["low", "medium", "high", "critical"],
       ticket_status: [
@@ -4550,6 +6740,43 @@ export const Constants = {
         "account_created",
       ],
       user_role: ["user", "manager", "admin"],
+      workflow_run_status: [
+        "pending",
+        "running",
+        "completed",
+        "failed",
+        "cancelled",
+        "paused",
+        "waiting_approval",
+      ],
+      workflow_step_type: [
+        "condition",
+        "action",
+        "delay",
+        "parallel",
+        "approval",
+        "loop",
+        "webhook",
+        "notification",
+        "field_update",
+        "create_record",
+        "send_email",
+        "assign_owner",
+        "add_tag",
+        "create_task",
+        "call_function",
+      ],
+      workflow_trigger: [
+        "record_created",
+        "record_updated",
+        "field_changed",
+        "scheduled",
+        "manual",
+        "approval_completed",
+        "sla_breach",
+        "stage_changed",
+        "score_changed",
+      ],
     },
   },
 } as const
