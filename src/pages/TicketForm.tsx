@@ -223,21 +223,24 @@ export default function TicketForm() {
     mutationFn: async (data: TicketFormData) => {
       if (!profile?.organization_id) throw new Error('Organização não encontrada');
 
-      const ticketData = {
-        ...data,
-        organization_id: profile.organization_id,
-        account_id: data.account_id || null,
-        contact_id: data.contact_id || null,
-        category_id: data.category_id || null,
-        queue_id: data.queue_id || null,
-        assigned_to: data.assigned_to || null,
-        ...(data.assigned_to && !ticket?.assigned_to ? { assigned_at: new Date().toISOString() } : {}),
-      };
-
       if (isEditing) {
+        const updateData = {
+          subject: data.subject,
+          description: data.description,
+          type: data.type,
+          priority: data.priority,
+          channel: data.channel,
+          account_id: data.account_id || null,
+          contact_id: data.contact_id || null,
+          category_id: data.category_id || null,
+          queue_id: data.queue_id || null,
+          assigned_to: data.assigned_to || null,
+          ...(data.assigned_to && !ticket?.assigned_to ? { assigned_at: new Date().toISOString() } : {}),
+        };
+
         const { error } = await supabase
           .from('tickets')
-          .update(ticketData)
+          .update(updateData)
           .eq('id', id);
         if (error) throw error;
         return id;
@@ -247,13 +250,26 @@ export default function TicketForm() {
           org_id: profile.organization_id,
         });
         
+        const insertData = {
+          organization_id: profile.organization_id,
+          subject: data.subject,
+          description: data.description,
+          type: data.type,
+          priority: data.priority,
+          channel: data.channel,
+          account_id: data.account_id || null,
+          contact_id: data.contact_id || null,
+          category_id: data.category_id || null,
+          queue_id: data.queue_id || null,
+          assigned_to: data.assigned_to || null,
+          ticket_number: ticketNumber || `TKT-${Date.now()}`,
+          reporter_id: profile.id,
+          ...(data.assigned_to ? { assigned_at: new Date().toISOString() } : {}),
+        };
+
         const { data: newTicket, error } = await supabase
           .from('tickets')
-          .insert({
-            ...ticketData,
-            ticket_number: ticketNumber || `TKT-${Date.now()}`,
-            reporter_id: profile.id,
-          })
+          .insert(insertData)
           .select('id')
           .single();
         if (error) throw error;

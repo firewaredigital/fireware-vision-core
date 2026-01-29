@@ -17,6 +17,10 @@ import {
   Flame,
   PieChart,
   ClipboardList,
+  Headphones,
+  Ticket,
+  BookOpen,
+  FileSignature,
 } from 'lucide-react';
 import { NavLink } from '@/components/NavLink';
 import {
@@ -48,23 +52,30 @@ const mainNavItems = [
 
 const salesNavItems = [
   { title: 'Leads', url: '/leads', icon: Target },
-  { title: 'Accounts', url: '/accounts', icon: Building2 },
-  { title: 'Contacts', url: '/contacts', icon: Users },
-  { title: 'Opportunities', url: '/opportunities', icon: TrendingUp },
-  { title: 'Quotes', url: '/quotes', icon: FileText },
+  { title: 'Contas', url: '/accounts', icon: Building2 },
+  { title: 'Contatos', url: '/contacts', icon: Users },
+  { title: 'Oportunidades', url: '/opportunities', icon: TrendingUp },
+  { title: 'Propostas', url: '/quotes', icon: FileText },
+  { title: 'Contratos', url: '/contracts', icon: FileSignature },
+];
+
+const serviceNavItems = [
+  { title: 'Dashboard de Service', url: '/service', icon: Headphones },
+  { title: 'Tickets', url: '/tickets', icon: Ticket },
+  { title: 'Base de Conhecimento', url: '/knowledge', icon: BookOpen },
 ];
 
 const managementNavItems = [
-  { title: 'Products', url: '/products', icon: Package },
-  { title: 'Territories', url: '/territories', icon: Map },
-  { title: 'Cadences', url: '/cadences', icon: Zap },
+  { title: 'Produtos', url: '/products', icon: Package },
+  { title: 'Territórios', url: '/territories', icon: Map },
+  { title: 'Cadências', url: '/cadences', icon: Zap },
   { title: 'Forecast', url: '/forecast', icon: BarChart3 },
-  { title: 'Reports', url: '/reports', icon: PieChart },
-  { title: 'Audit Logs', url: '/audit-logs', icon: ClipboardList },
+  { title: 'Relatórios', url: '/reports', icon: PieChart },
+  { title: 'Auditoria', url: '/audit-logs', icon: ClipboardList },
 ];
 
 const settingsNavItems = [
-  { title: 'Settings', url: '/settings', icon: Settings },
+  { title: 'Configurações', url: '/settings', icon: Settings },
 ];
 
 export function AppSidebar() {
@@ -74,6 +85,7 @@ export function AppSidebar() {
   const collapsed = state === 'collapsed';
 
   const [salesOpen, setSalesOpen] = useState(true);
+  const [serviceOpen, setServiceOpen] = useState(true);
   const [managementOpen, setManagementOpen] = useState(true);
 
   const isActive = (path: string) => location.pathname === path || location.pathname.startsWith(path + '/');
@@ -114,7 +126,7 @@ export function AppSidebar() {
           {!collapsed && (
             <div className="flex flex-col">
               <span className="text-lg font-bold text-sidebar-foreground">Fireware</span>
-              <span className="text-xs text-sidebar-foreground/60">CRM Sales</span>
+              <span className="text-xs text-sidebar-foreground/60">CRM Enterprise</span>
             </div>
           )}
         </div>
@@ -136,7 +148,7 @@ export function AppSidebar() {
             <CollapsibleTrigger asChild>
               <SidebarGroupLabel className="cursor-pointer hover:text-sidebar-foreground">
                 <span className={cn(!collapsed && 'flex-1')}>
-                  {!collapsed && 'Sales'}
+                  {!collapsed && 'Vendas'}
                 </span>
                 {!collapsed && (
                   <ChevronDown
@@ -158,13 +170,41 @@ export function AppSidebar() {
           </Collapsible>
         </SidebarGroup>
 
+        {/* Service */}
+        <SidebarGroup>
+          <Collapsible open={serviceOpen} onOpenChange={setServiceOpen}>
+            <CollapsibleTrigger asChild>
+              <SidebarGroupLabel className="cursor-pointer hover:text-sidebar-foreground">
+                <span className={cn(!collapsed && 'flex-1')}>
+                  {!collapsed && 'Atendimento'}
+                </span>
+                {!collapsed && (
+                  <ChevronDown
+                    className={cn(
+                      'h-4 w-4 transition-transform',
+                      serviceOpen && 'rotate-180'
+                    )}
+                  />
+                )}
+              </SidebarGroupLabel>
+            </CollapsibleTrigger>
+            <CollapsibleContent>
+              <SidebarGroupContent>
+                <SidebarMenu>
+                  {serviceNavItems.map(renderNavItem)}
+                </SidebarMenu>
+              </SidebarGroupContent>
+            </CollapsibleContent>
+          </Collapsible>
+        </SidebarGroup>
+
         {/* Management */}
         <SidebarGroup>
           <Collapsible open={managementOpen} onOpenChange={setManagementOpen}>
             <CollapsibleTrigger asChild>
               <SidebarGroupLabel className="cursor-pointer hover:text-sidebar-foreground">
                 <span className={cn(!collapsed && 'flex-1')}>
-                  {!collapsed && 'Management'}
+                  {!collapsed && 'Gestão'}
                 </span>
                 {!collapsed && (
                   <ChevronDown
@@ -212,7 +252,7 @@ export function AppSidebar() {
                   : profile?.email}
               </span>
               <span className="truncate text-xs capitalize text-sidebar-foreground/60">
-                {profile?.role || 'User'}
+                {profile?.role || 'Usuário'}
               </span>
             </div>
           )}

@@ -41,6 +41,8 @@ import TicketDetail from "./pages/TicketDetail";
 import TicketForm from "./pages/TicketForm";
 import Knowledge from "./pages/Knowledge";
 import ArticleDetail from "./pages/ArticleDetail";
+import ArticleForm from "./pages/ArticleForm";
+import ServiceDashboard from "./pages/ServiceDashboard";
 
 const queryClient = new QueryClient();
 
@@ -106,7 +108,12 @@ const App = () => (
             
             {/* Knowledge Base */}
             <Route path="/knowledge" element={<Knowledge />} />
+            <Route path="/knowledge/new" element={<ArticleForm />} />
             <Route path="/knowledge/:id" element={<ArticleDetail />} />
+            <Route path="/knowledge/:id/edit" element={<ArticleForm />} />
+            
+            {/* Service Dashboard */}
+            <Route path="/service" element={<ServiceDashboard />} />
             
             {/* Management */}
             <Route path="/territories" element={<Territories />} />
