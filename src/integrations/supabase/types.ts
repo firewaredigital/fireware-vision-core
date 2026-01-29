@@ -994,6 +994,85 @@ export type Database = {
           },
         ]
       }
+      consent_log: {
+        Row: {
+          action: string
+          channel: string | null
+          consent_type: string
+          contact_id: string | null
+          created_at: string
+          id: string
+          ip_address: string | null
+          lead_id: string | null
+          legal_basis: string | null
+          metadata: Json | null
+          new_status: string | null
+          organization_id: string
+          previous_status: string | null
+          purpose: string | null
+          source: string | null
+          user_agent: string | null
+        }
+        Insert: {
+          action: string
+          channel?: string | null
+          consent_type: string
+          contact_id?: string | null
+          created_at?: string
+          id?: string
+          ip_address?: string | null
+          lead_id?: string | null
+          legal_basis?: string | null
+          metadata?: Json | null
+          new_status?: string | null
+          organization_id: string
+          previous_status?: string | null
+          purpose?: string | null
+          source?: string | null
+          user_agent?: string | null
+        }
+        Update: {
+          action?: string
+          channel?: string | null
+          consent_type?: string
+          contact_id?: string | null
+          created_at?: string
+          id?: string
+          ip_address?: string | null
+          lead_id?: string | null
+          legal_basis?: string | null
+          metadata?: Json | null
+          new_status?: string | null
+          organization_id?: string
+          previous_status?: string | null
+          purpose?: string | null
+          source?: string | null
+          user_agent?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "consent_log_contact_id_fkey"
+            columns: ["contact_id"]
+            isOneToOne: false
+            referencedRelation: "contacts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "consent_log_lead_id_fkey"
+            columns: ["lead_id"]
+            isOneToOne: false
+            referencedRelation: "leads"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "consent_log_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       contacts: {
         Row: {
           account_id: string | null
@@ -1334,6 +1413,228 @@ export type Database = {
             columns: ["ticket_id"]
             isOneToOne: false
             referencedRelation: "tickets"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      customer_health_scores: {
+        Row: {
+          account_id: string
+          alerts: Json | null
+          created_at: string
+          engagement_score: number | null
+          factors: Json
+          id: string
+          last_calculated_at: string
+          next_calculation_at: string | null
+          notes: string | null
+          nps_score: number | null
+          organization_id: string
+          payment_score: number | null
+          previous_score: number | null
+          risk_level: string | null
+          score: number
+          support_score: number | null
+          trend: string | null
+          updated_at: string
+          usage_score: number | null
+        }
+        Insert: {
+          account_id: string
+          alerts?: Json | null
+          created_at?: string
+          engagement_score?: number | null
+          factors?: Json
+          id?: string
+          last_calculated_at?: string
+          next_calculation_at?: string | null
+          notes?: string | null
+          nps_score?: number | null
+          organization_id: string
+          payment_score?: number | null
+          previous_score?: number | null
+          risk_level?: string | null
+          score: number
+          support_score?: number | null
+          trend?: string | null
+          updated_at?: string
+          usage_score?: number | null
+        }
+        Update: {
+          account_id?: string
+          alerts?: Json | null
+          created_at?: string
+          engagement_score?: number | null
+          factors?: Json
+          id?: string
+          last_calculated_at?: string
+          next_calculation_at?: string | null
+          notes?: string | null
+          nps_score?: number | null
+          organization_id?: string
+          payment_score?: number | null
+          previous_score?: number | null
+          risk_level?: string | null
+          score?: number
+          support_score?: number | null
+          trend?: string | null
+          updated_at?: string
+          usage_score?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "customer_health_scores_account_id_fkey"
+            columns: ["account_id"]
+            isOneToOne: true
+            referencedRelation: "accounts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "customer_health_scores_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      customer_playbooks: {
+        Row: {
+          auto_enroll: boolean
+          created_at: string
+          description: string | null
+          duration_days: number | null
+          enrollment_count: number | null
+          id: string
+          is_active: boolean
+          name: string
+          organization_id: string
+          owner_id: string | null
+          steps: Json
+          success_count: number | null
+          success_criteria: Json | null
+          trigger_conditions: Json | null
+          type: Database["public"]["Enums"]["playbook_type"]
+          updated_at: string
+        }
+        Insert: {
+          auto_enroll?: boolean
+          created_at?: string
+          description?: string | null
+          duration_days?: number | null
+          enrollment_count?: number | null
+          id?: string
+          is_active?: boolean
+          name: string
+          organization_id: string
+          owner_id?: string | null
+          steps?: Json
+          success_count?: number | null
+          success_criteria?: Json | null
+          trigger_conditions?: Json | null
+          type: Database["public"]["Enums"]["playbook_type"]
+          updated_at?: string
+        }
+        Update: {
+          auto_enroll?: boolean
+          created_at?: string
+          description?: string | null
+          duration_days?: number | null
+          enrollment_count?: number | null
+          id?: string
+          is_active?: boolean
+          name?: string
+          organization_id?: string
+          owner_id?: string | null
+          steps?: Json
+          success_count?: number | null
+          success_criteria?: Json | null
+          trigger_conditions?: Json | null
+          type?: Database["public"]["Enums"]["playbook_type"]
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "customer_playbooks_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "customer_playbooks_owner_id_fkey"
+            columns: ["owner_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      data_retention_policies: {
+        Row: {
+          action: string
+          conditions: Json | null
+          created_at: string
+          created_by: string | null
+          description: string | null
+          entity_type: string
+          id: string
+          is_active: boolean
+          last_run_at: string | null
+          name: string
+          next_run_at: string | null
+          organization_id: string
+          records_affected: number | null
+          retention_days: number
+          updated_at: string
+        }
+        Insert: {
+          action: string
+          conditions?: Json | null
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          entity_type: string
+          id?: string
+          is_active?: boolean
+          last_run_at?: string | null
+          name: string
+          next_run_at?: string | null
+          organization_id: string
+          records_affected?: number | null
+          retention_days: number
+          updated_at?: string
+        }
+        Update: {
+          action?: string
+          conditions?: Json | null
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          entity_type?: string
+          id?: string
+          is_active?: boolean
+          last_run_at?: string | null
+          name?: string
+          next_run_at?: string | null
+          organization_id?: string
+          records_affected?: number | null
+          retention_days?: number
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "data_retention_policies_created_by_fkey"
+            columns: ["created_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "data_retention_policies_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
             referencedColumns: ["id"]
           },
         ]
@@ -1792,6 +2093,119 @@ export type Database = {
           },
         ]
       }
+      lgpd_requests: {
+        Row: {
+          account_id: string | null
+          attachments: Json | null
+          completed_at: string | null
+          completed_by: string | null
+          contact_id: string | null
+          created_at: string
+          data_export_path: string | null
+          deadline: string
+          denied_reason: string | null
+          id: string
+          metadata: Json | null
+          organization_id: string
+          priority: string | null
+          request_details: string | null
+          requester_document: string | null
+          requester_email: string
+          requester_name: string | null
+          response_notes: string | null
+          status: Database["public"]["Enums"]["lgpd_status"]
+          type: Database["public"]["Enums"]["lgpd_request_type"]
+          updated_at: string
+          verification_method: string | null
+          verification_token: string | null
+          verified: boolean
+          verified_at: string | null
+        }
+        Insert: {
+          account_id?: string | null
+          attachments?: Json | null
+          completed_at?: string | null
+          completed_by?: string | null
+          contact_id?: string | null
+          created_at?: string
+          data_export_path?: string | null
+          deadline?: string
+          denied_reason?: string | null
+          id?: string
+          metadata?: Json | null
+          organization_id: string
+          priority?: string | null
+          request_details?: string | null
+          requester_document?: string | null
+          requester_email: string
+          requester_name?: string | null
+          response_notes?: string | null
+          status?: Database["public"]["Enums"]["lgpd_status"]
+          type: Database["public"]["Enums"]["lgpd_request_type"]
+          updated_at?: string
+          verification_method?: string | null
+          verification_token?: string | null
+          verified?: boolean
+          verified_at?: string | null
+        }
+        Update: {
+          account_id?: string | null
+          attachments?: Json | null
+          completed_at?: string | null
+          completed_by?: string | null
+          contact_id?: string | null
+          created_at?: string
+          data_export_path?: string | null
+          deadline?: string
+          denied_reason?: string | null
+          id?: string
+          metadata?: Json | null
+          organization_id?: string
+          priority?: string | null
+          request_details?: string | null
+          requester_document?: string | null
+          requester_email?: string
+          requester_name?: string | null
+          response_notes?: string | null
+          status?: Database["public"]["Enums"]["lgpd_status"]
+          type?: Database["public"]["Enums"]["lgpd_request_type"]
+          updated_at?: string
+          verification_method?: string | null
+          verification_token?: string | null
+          verified?: boolean
+          verified_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "lgpd_requests_account_id_fkey"
+            columns: ["account_id"]
+            isOneToOne: false
+            referencedRelation: "accounts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "lgpd_requests_completed_by_fkey"
+            columns: ["completed_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "lgpd_requests_contact_id_fkey"
+            columns: ["contact_id"]
+            isOneToOne: false
+            referencedRelation: "contacts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "lgpd_requests_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       notes: {
         Row: {
           account_id: string | null
@@ -2187,6 +2601,124 @@ export type Database = {
           updated_at?: string
         }
         Relationships: []
+      }
+      playbook_enrollments: {
+        Row: {
+          account_id: string
+          assigned_to: string | null
+          cancel_reason: string | null
+          cancelled_at: string | null
+          completed_at: string | null
+          contact_id: string | null
+          created_at: string
+          current_step: number
+          enrolled_by: string | null
+          id: string
+          metadata: Json | null
+          next_step_due: string | null
+          organization_id: string
+          outcome_notes: string | null
+          paused_at: string | null
+          playbook_id: string
+          progress_percent: number | null
+          started_at: string
+          status: string
+          step_history: Json | null
+          success: boolean | null
+          updated_at: string
+        }
+        Insert: {
+          account_id: string
+          assigned_to?: string | null
+          cancel_reason?: string | null
+          cancelled_at?: string | null
+          completed_at?: string | null
+          contact_id?: string | null
+          created_at?: string
+          current_step?: number
+          enrolled_by?: string | null
+          id?: string
+          metadata?: Json | null
+          next_step_due?: string | null
+          organization_id: string
+          outcome_notes?: string | null
+          paused_at?: string | null
+          playbook_id: string
+          progress_percent?: number | null
+          started_at?: string
+          status?: string
+          step_history?: Json | null
+          success?: boolean | null
+          updated_at?: string
+        }
+        Update: {
+          account_id?: string
+          assigned_to?: string | null
+          cancel_reason?: string | null
+          cancelled_at?: string | null
+          completed_at?: string | null
+          contact_id?: string | null
+          created_at?: string
+          current_step?: number
+          enrolled_by?: string | null
+          id?: string
+          metadata?: Json | null
+          next_step_due?: string | null
+          organization_id?: string
+          outcome_notes?: string | null
+          paused_at?: string | null
+          playbook_id?: string
+          progress_percent?: number | null
+          started_at?: string
+          status?: string
+          step_history?: Json | null
+          success?: boolean | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "playbook_enrollments_account_id_fkey"
+            columns: ["account_id"]
+            isOneToOne: false
+            referencedRelation: "accounts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "playbook_enrollments_assigned_to_fkey"
+            columns: ["assigned_to"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "playbook_enrollments_contact_id_fkey"
+            columns: ["contact_id"]
+            isOneToOne: false
+            referencedRelation: "contacts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "playbook_enrollments_enrolled_by_fkey"
+            columns: ["enrolled_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "playbook_enrollments_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "playbook_enrollments_playbook_id_fkey"
+            columns: ["playbook_id"]
+            isOneToOne: false
+            referencedRelation: "customer_playbooks"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       price_list_items: {
         Row: {
@@ -3539,6 +4071,47 @@ export type Database = {
           },
         ]
       }
+      user_roles: {
+        Row: {
+          granted_at: string
+          granted_by: string | null
+          id: string
+          is_active: boolean
+          notes: string | null
+          revoked_at: string | null
+          role: Database["public"]["Enums"]["user_role"]
+          user_id: string
+        }
+        Insert: {
+          granted_at?: string
+          granted_by?: string | null
+          id?: string
+          is_active?: boolean
+          notes?: string | null
+          revoked_at?: string | null
+          role?: Database["public"]["Enums"]["user_role"]
+          user_id: string
+        }
+        Update: {
+          granted_at?: string
+          granted_by?: string | null
+          id?: string
+          is_active?: boolean
+          notes?: string | null
+          revoked_at?: string | null
+          role?: Database["public"]["Enums"]["user_role"]
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "user_roles_granted_by_fkey"
+            columns: ["granted_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       win_loss_reasons: {
         Row: {
           created_at: string
@@ -3579,11 +4152,19 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      calculate_health_score: {
+        Args: { p_account_id: string }
+        Returns: number
+      }
       generate_contract_number: { Args: { org_id: string }; Returns: string }
       generate_ticket_number: { Args: { org_id: string }; Returns: string }
       get_stale_opportunities_count: {
         Args: { org_id: string; threshold_days?: number }
         Returns: number
+      }
+      get_user_highest_role: {
+        Args: { _user_id: string }
+        Returns: Database["public"]["Enums"]["user_role"]
       }
       get_user_org_id: { Args: never; Returns: string }
       get_user_team_id: { Args: never; Returns: string }
@@ -3610,6 +4191,13 @@ export type Database = {
           p_organization_id: string
         }
         Returns: string
+      }
+      user_has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["user_role"]
+          _user_id: string
+        }
+        Returns: boolean
       }
     }
     Enums: {
@@ -3653,6 +4241,20 @@ export type Database = {
         | "qualified"
         | "unqualified"
         | "converted"
+      lgpd_request_type:
+        | "access"
+        | "rectification"
+        | "deletion"
+        | "portability"
+        | "objection"
+        | "restriction"
+      lgpd_status:
+        | "received"
+        | "verified"
+        | "processing"
+        | "completed"
+        | "denied"
+        | "expired"
       message_sender_type: "agent" | "customer" | "system"
       opportunity_stage:
         | "prospecting"
@@ -3661,6 +4263,14 @@ export type Database = {
         | "negotiation"
         | "closed_won"
         | "closed_lost"
+      playbook_type:
+        | "onboarding"
+        | "adoption"
+        | "renewal"
+        | "expansion"
+        | "risk_mitigation"
+        | "reactivation"
+        | "offboarding"
       quote_status: "draft" | "sent" | "accepted" | "rejected" | "expired"
       routing_rule_type:
         | "round_robin"
@@ -3871,6 +4481,22 @@ export const Constants = {
         "unqualified",
         "converted",
       ],
+      lgpd_request_type: [
+        "access",
+        "rectification",
+        "deletion",
+        "portability",
+        "objection",
+        "restriction",
+      ],
+      lgpd_status: [
+        "received",
+        "verified",
+        "processing",
+        "completed",
+        "denied",
+        "expired",
+      ],
       message_sender_type: ["agent", "customer", "system"],
       opportunity_stage: [
         "prospecting",
@@ -3879,6 +4505,15 @@ export const Constants = {
         "negotiation",
         "closed_won",
         "closed_lost",
+      ],
+      playbook_type: [
+        "onboarding",
+        "adoption",
+        "renewal",
+        "expansion",
+        "risk_mitigation",
+        "reactivation",
+        "offboarding",
       ],
       quote_status: ["draft", "sent", "accepted", "rejected", "expired"],
       routing_rule_type: [

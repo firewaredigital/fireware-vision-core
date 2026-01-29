@@ -43,6 +43,9 @@ import Knowledge from "./pages/Knowledge";
 import ArticleDetail from "./pages/ArticleDetail";
 import ArticleForm from "./pages/ArticleForm";
 import ServiceDashboard from "./pages/ServiceDashboard";
+import Governance from "./pages/Governance";
+import LGPDRequestForm from "./pages/LGPDRequestForm";
+import CustomerSuccess from "./pages/CustomerSuccess";
 
 const queryClient = new QueryClient();
 
@@ -114,6 +117,14 @@ const App = () => (
             
             {/* Service Dashboard */}
             <Route path="/service" element={<ServiceDashboard />} />
+            
+            {/* Governance */}
+            <Route path="/governance" element={<Governance />} />
+            <Route path="/governance/lgpd/new" element={<LGPDRequestForm />} />
+            <Route path="/governance/lgpd/:id" element={<LGPDRequestForm />} />
+            
+            {/* Customer Success */}
+            <Route path="/customer-success" element={<CustomerSuccess />} />
             
             {/* Management */}
             <Route path="/territories" element={<Territories />} />
