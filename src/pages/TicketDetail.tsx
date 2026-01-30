@@ -58,6 +58,7 @@ import { TicketPriorityBadge } from '@/components/service/TicketPriorityBadge';
 import { SLACountdown } from '@/components/service/SLACountdown';
 import { TicketMessages } from '@/components/service/TicketMessages';
 import { TicketTimeline } from '@/components/service/TicketTimeline';
+import { CannedResponsePicker } from '@/components/service/CannedResponsePicker';
 
 type TicketStatus = 'new' | 'open' | 'pending' | 'on_hold' | 'resolved' | 'closed';
 type TicketPriority = 'low' | 'medium' | 'high' | 'critical';
@@ -474,6 +475,11 @@ export default function TicketDetail() {
                   
                   <div className="flex items-center justify-between">
                     <div className="flex gap-2">
+                      <CannedResponsePicker
+                        ticketId={id}
+                        contactId={ticket.contact_id}
+                        onSelect={(content) => setNewMessage(prev => prev + content)}
+                      />
                       <Button variant="outline" size="sm">
                         <Paperclip className="mr-2 h-4 w-4" />
                         Anexar

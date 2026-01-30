@@ -1679,8 +1679,123 @@ export type Database = {
           },
         ]
       }
+      canned_response_analytics: {
+        Row: {
+          canned_response_id: string
+          created_at: string | null
+          customer_response_time_seconds: number | null
+          customer_satisfaction: number | null
+          id: string
+          time_saved_seconds: number | null
+          used_by: string
+          used_in_ticket_id: string | null
+        }
+        Insert: {
+          canned_response_id: string
+          created_at?: string | null
+          customer_response_time_seconds?: number | null
+          customer_satisfaction?: number | null
+          id?: string
+          time_saved_seconds?: number | null
+          used_by: string
+          used_in_ticket_id?: string | null
+        }
+        Update: {
+          canned_response_id?: string
+          created_at?: string | null
+          customer_response_time_seconds?: number | null
+          customer_satisfaction?: number | null
+          id?: string
+          time_saved_seconds?: number | null
+          used_by?: string
+          used_in_ticket_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "canned_response_analytics_canned_response_id_fkey"
+            columns: ["canned_response_id"]
+            isOneToOne: false
+            referencedRelation: "canned_responses"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "canned_response_analytics_used_by_fkey"
+            columns: ["used_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "canned_response_analytics_used_in_ticket_id_fkey"
+            columns: ["used_in_ticket_id"]
+            isOneToOne: false
+            referencedRelation: "tickets"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      canned_response_categories: {
+        Row: {
+          color: string | null
+          created_at: string | null
+          description: string | null
+          display_order: number | null
+          icon: string | null
+          id: string
+          is_active: boolean | null
+          name: string
+          organization_id: string
+          parent_id: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          color?: string | null
+          created_at?: string | null
+          description?: string | null
+          display_order?: number | null
+          icon?: string | null
+          id?: string
+          is_active?: boolean | null
+          name: string
+          organization_id: string
+          parent_id?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          color?: string | null
+          created_at?: string | null
+          description?: string | null
+          display_order?: number | null
+          icon?: string | null
+          id?: string
+          is_active?: boolean | null
+          name?: string
+          organization_id?: string
+          parent_id?: string | null
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "canned_response_categories_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "canned_response_categories_parent_id_fkey"
+            columns: ["parent_id"]
+            isOneToOne: false
+            referencedRelation: "canned_response_categories"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       canned_responses: {
         Row: {
+          approved_at: string | null
+          approved_by: string | null
+          attachments: Json | null
           category: string | null
           content: string
           content_html: string | null
@@ -1688,14 +1803,21 @@ export type Database = {
           id: string
           is_active: boolean
           is_public: boolean
+          language: string | null
           name: string
           organization_id: string
           owner_id: string | null
+          requires_approval: boolean | null
           shortcut: string | null
+          tags: string[] | null
           updated_at: string
           usage_count: number
+          variables: Json | null
         }
         Insert: {
+          approved_at?: string | null
+          approved_by?: string | null
+          attachments?: Json | null
           category?: string | null
           content: string
           content_html?: string | null
@@ -1703,14 +1825,21 @@ export type Database = {
           id?: string
           is_active?: boolean
           is_public?: boolean
+          language?: string | null
           name: string
           organization_id: string
           owner_id?: string | null
+          requires_approval?: boolean | null
           shortcut?: string | null
+          tags?: string[] | null
           updated_at?: string
           usage_count?: number
+          variables?: Json | null
         }
         Update: {
+          approved_at?: string | null
+          approved_by?: string | null
+          attachments?: Json | null
           category?: string | null
           content?: string
           content_html?: string | null
@@ -1718,14 +1847,25 @@ export type Database = {
           id?: string
           is_active?: boolean
           is_public?: boolean
+          language?: string | null
           name?: string
           organization_id?: string
           owner_id?: string | null
+          requires_approval?: boolean | null
           shortcut?: string | null
+          tags?: string[] | null
           updated_at?: string
           usage_count?: number
+          variables?: Json | null
         }
         Relationships: [
+          {
+            foreignKeyName: "canned_responses_approved_by_fkey"
+            columns: ["approved_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "canned_responses_organization_id_fkey"
             columns: ["organization_id"]
@@ -2820,6 +2960,152 @@ export type Database = {
             columns: ["owner_id"]
             isOneToOne: false
             referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      customer_portal_users: {
+        Row: {
+          account_id: string | null
+          avatar_url: string | null
+          can_create_tickets: boolean | null
+          can_view_contracts: boolean | null
+          can_view_invoices: boolean | null
+          can_view_knowledge_base: boolean | null
+          contact_id: string
+          created_at: string | null
+          created_by: string | null
+          email: string
+          email_verification_sent_at: string | null
+          email_verification_token: string | null
+          email_verified: boolean | null
+          email_verified_at: string | null
+          failed_login_attempts: number | null
+          first_name: string | null
+          id: string
+          language: string | null
+          last_login_at: string | null
+          last_login_ip: string | null
+          last_name: string | null
+          locked_until: string | null
+          login_count: number | null
+          notification_preferences: Json | null
+          organization_id: string
+          password_changed_at: string | null
+          password_hash: string
+          password_reset_expires_at: string | null
+          password_reset_token: string | null
+          phone: string | null
+          status: Database["public"]["Enums"]["portal_user_status"] | null
+          ticket_visibility:
+            | Database["public"]["Enums"]["portal_ticket_visibility"]
+            | null
+          timezone: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          account_id?: string | null
+          avatar_url?: string | null
+          can_create_tickets?: boolean | null
+          can_view_contracts?: boolean | null
+          can_view_invoices?: boolean | null
+          can_view_knowledge_base?: boolean | null
+          contact_id: string
+          created_at?: string | null
+          created_by?: string | null
+          email: string
+          email_verification_sent_at?: string | null
+          email_verification_token?: string | null
+          email_verified?: boolean | null
+          email_verified_at?: string | null
+          failed_login_attempts?: number | null
+          first_name?: string | null
+          id?: string
+          language?: string | null
+          last_login_at?: string | null
+          last_login_ip?: string | null
+          last_name?: string | null
+          locked_until?: string | null
+          login_count?: number | null
+          notification_preferences?: Json | null
+          organization_id: string
+          password_changed_at?: string | null
+          password_hash: string
+          password_reset_expires_at?: string | null
+          password_reset_token?: string | null
+          phone?: string | null
+          status?: Database["public"]["Enums"]["portal_user_status"] | null
+          ticket_visibility?:
+            | Database["public"]["Enums"]["portal_ticket_visibility"]
+            | null
+          timezone?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          account_id?: string | null
+          avatar_url?: string | null
+          can_create_tickets?: boolean | null
+          can_view_contracts?: boolean | null
+          can_view_invoices?: boolean | null
+          can_view_knowledge_base?: boolean | null
+          contact_id?: string
+          created_at?: string | null
+          created_by?: string | null
+          email?: string
+          email_verification_sent_at?: string | null
+          email_verification_token?: string | null
+          email_verified?: boolean | null
+          email_verified_at?: string | null
+          failed_login_attempts?: number | null
+          first_name?: string | null
+          id?: string
+          language?: string | null
+          last_login_at?: string | null
+          last_login_ip?: string | null
+          last_name?: string | null
+          locked_until?: string | null
+          login_count?: number | null
+          notification_preferences?: Json | null
+          organization_id?: string
+          password_changed_at?: string | null
+          password_hash?: string
+          password_reset_expires_at?: string | null
+          password_reset_token?: string | null
+          phone?: string | null
+          status?: Database["public"]["Enums"]["portal_user_status"] | null
+          ticket_visibility?:
+            | Database["public"]["Enums"]["portal_ticket_visibility"]
+            | null
+          timezone?: string | null
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "customer_portal_users_account_id_fkey"
+            columns: ["account_id"]
+            isOneToOne: false
+            referencedRelation: "accounts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "customer_portal_users_contact_id_fkey"
+            columns: ["contact_id"]
+            isOneToOne: false
+            referencedRelation: "contacts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "customer_portal_users_created_by_fkey"
+            columns: ["created_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "customer_portal_users_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
             referencedColumns: ["id"]
           },
         ]
@@ -7143,6 +7429,369 @@ export type Database = {
           },
         ]
       }
+      portal_activity_log: {
+        Row: {
+          action: string
+          created_at: string | null
+          entity_id: string | null
+          entity_name: string | null
+          entity_type: string | null
+          id: string
+          ip_address: string | null
+          metadata: Json | null
+          portal_user_id: string
+          session_id: string | null
+          user_agent: string | null
+        }
+        Insert: {
+          action: string
+          created_at?: string | null
+          entity_id?: string | null
+          entity_name?: string | null
+          entity_type?: string | null
+          id?: string
+          ip_address?: string | null
+          metadata?: Json | null
+          portal_user_id: string
+          session_id?: string | null
+          user_agent?: string | null
+        }
+        Update: {
+          action?: string
+          created_at?: string | null
+          entity_id?: string | null
+          entity_name?: string | null
+          entity_type?: string | null
+          id?: string
+          ip_address?: string | null
+          metadata?: Json | null
+          portal_user_id?: string
+          session_id?: string | null
+          user_agent?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "portal_activity_log_portal_user_id_fkey"
+            columns: ["portal_user_id"]
+            isOneToOne: false
+            referencedRelation: "customer_portal_users"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "portal_activity_log_session_id_fkey"
+            columns: ["session_id"]
+            isOneToOne: false
+            referencedRelation: "portal_sessions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      portal_announcements: {
+        Row: {
+          content: string
+          content_html: string | null
+          created_at: string | null
+          created_by: string | null
+          ends_at: string | null
+          id: string
+          is_active: boolean | null
+          is_dismissible: boolean | null
+          is_sticky: boolean | null
+          organization_id: string
+          priority: number | null
+          starts_at: string | null
+          target_accounts: string[] | null
+          target_all: boolean | null
+          title: string
+          type: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          content: string
+          content_html?: string | null
+          created_at?: string | null
+          created_by?: string | null
+          ends_at?: string | null
+          id?: string
+          is_active?: boolean | null
+          is_dismissible?: boolean | null
+          is_sticky?: boolean | null
+          organization_id: string
+          priority?: number | null
+          starts_at?: string | null
+          target_accounts?: string[] | null
+          target_all?: boolean | null
+          title: string
+          type?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          content?: string
+          content_html?: string | null
+          created_at?: string | null
+          created_by?: string | null
+          ends_at?: string | null
+          id?: string
+          is_active?: boolean | null
+          is_dismissible?: boolean | null
+          is_sticky?: boolean | null
+          organization_id?: string
+          priority?: number | null
+          starts_at?: string | null
+          target_accounts?: string[] | null
+          target_all?: boolean | null
+          title?: string
+          type?: string | null
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "portal_announcements_created_by_fkey"
+            columns: ["created_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "portal_announcements_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      portal_notifications: {
+        Row: {
+          created_at: string | null
+          entity_id: string | null
+          entity_type: string | null
+          id: string
+          is_read: boolean | null
+          link: string | null
+          message: string
+          portal_user_id: string
+          read_at: string | null
+          title: string
+          type: string
+        }
+        Insert: {
+          created_at?: string | null
+          entity_id?: string | null
+          entity_type?: string | null
+          id?: string
+          is_read?: boolean | null
+          link?: string | null
+          message: string
+          portal_user_id: string
+          read_at?: string | null
+          title: string
+          type: string
+        }
+        Update: {
+          created_at?: string | null
+          entity_id?: string | null
+          entity_type?: string | null
+          id?: string
+          is_read?: boolean | null
+          link?: string | null
+          message?: string
+          portal_user_id?: string
+          read_at?: string | null
+          title?: string
+          type?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "portal_notifications_portal_user_id_fkey"
+            columns: ["portal_user_id"]
+            isOneToOne: false
+            referencedRelation: "customer_portal_users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      portal_sessions: {
+        Row: {
+          browser: string | null
+          city: string | null
+          country: string | null
+          created_at: string | null
+          device_type: string | null
+          expires_at: string
+          id: string
+          ip_address: string | null
+          last_activity_at: string | null
+          os: string | null
+          portal_user_id: string
+          refresh_token: string | null
+          revoked_at: string | null
+          revoked_reason: string | null
+          session_token: string
+          user_agent: string | null
+        }
+        Insert: {
+          browser?: string | null
+          city?: string | null
+          country?: string | null
+          created_at?: string | null
+          device_type?: string | null
+          expires_at: string
+          id?: string
+          ip_address?: string | null
+          last_activity_at?: string | null
+          os?: string | null
+          portal_user_id: string
+          refresh_token?: string | null
+          revoked_at?: string | null
+          revoked_reason?: string | null
+          session_token: string
+          user_agent?: string | null
+        }
+        Update: {
+          browser?: string | null
+          city?: string | null
+          country?: string | null
+          created_at?: string | null
+          device_type?: string | null
+          expires_at?: string
+          id?: string
+          ip_address?: string | null
+          last_activity_at?: string | null
+          os?: string | null
+          portal_user_id?: string
+          refresh_token?: string | null
+          revoked_at?: string | null
+          revoked_reason?: string | null
+          session_token?: string
+          user_agent?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "portal_sessions_portal_user_id_fkey"
+            columns: ["portal_user_id"]
+            isOneToOne: false
+            referencedRelation: "customer_portal_users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      portal_settings: {
+        Row: {
+          allow_self_registration: boolean | null
+          allowed_email_domains: string[] | null
+          allowed_file_types: string[] | null
+          created_at: string | null
+          custom_css: string | null
+          custom_domain: string | null
+          custom_js: string | null
+          default_ticket_visibility:
+            | Database["public"]["Enums"]["portal_ticket_visibility"]
+            | null
+          enable_community: boolean | null
+          enable_knowledge_base: boolean | null
+          enable_live_chat: boolean | null
+          enable_ticket_creation: boolean | null
+          favicon_url: string | null
+          footer_text: string | null
+          id: string
+          logo_url: string | null
+          max_file_size_mb: number | null
+          max_sessions_per_user: number | null
+          meta_description: string | null
+          meta_title: string | null
+          organization_id: string
+          portal_name: string | null
+          primary_color: string | null
+          privacy_policy_url: string | null
+          require_category: boolean | null
+          require_email_verification: boolean | null
+          secondary_color: string | null
+          session_timeout_minutes: number | null
+          terms_of_service_url: string | null
+          updated_at: string | null
+          welcome_message: string | null
+        }
+        Insert: {
+          allow_self_registration?: boolean | null
+          allowed_email_domains?: string[] | null
+          allowed_file_types?: string[] | null
+          created_at?: string | null
+          custom_css?: string | null
+          custom_domain?: string | null
+          custom_js?: string | null
+          default_ticket_visibility?:
+            | Database["public"]["Enums"]["portal_ticket_visibility"]
+            | null
+          enable_community?: boolean | null
+          enable_knowledge_base?: boolean | null
+          enable_live_chat?: boolean | null
+          enable_ticket_creation?: boolean | null
+          favicon_url?: string | null
+          footer_text?: string | null
+          id?: string
+          logo_url?: string | null
+          max_file_size_mb?: number | null
+          max_sessions_per_user?: number | null
+          meta_description?: string | null
+          meta_title?: string | null
+          organization_id: string
+          portal_name?: string | null
+          primary_color?: string | null
+          privacy_policy_url?: string | null
+          require_category?: boolean | null
+          require_email_verification?: boolean | null
+          secondary_color?: string | null
+          session_timeout_minutes?: number | null
+          terms_of_service_url?: string | null
+          updated_at?: string | null
+          welcome_message?: string | null
+        }
+        Update: {
+          allow_self_registration?: boolean | null
+          allowed_email_domains?: string[] | null
+          allowed_file_types?: string[] | null
+          created_at?: string | null
+          custom_css?: string | null
+          custom_domain?: string | null
+          custom_js?: string | null
+          default_ticket_visibility?:
+            | Database["public"]["Enums"]["portal_ticket_visibility"]
+            | null
+          enable_community?: boolean | null
+          enable_knowledge_base?: boolean | null
+          enable_live_chat?: boolean | null
+          enable_ticket_creation?: boolean | null
+          favicon_url?: string | null
+          footer_text?: string | null
+          id?: string
+          logo_url?: string | null
+          max_file_size_mb?: number | null
+          max_sessions_per_user?: number | null
+          meta_description?: string | null
+          meta_title?: string | null
+          organization_id?: string
+          portal_name?: string | null
+          primary_color?: string | null
+          privacy_policy_url?: string | null
+          require_category?: boolean | null
+          require_email_verification?: boolean | null
+          secondary_color?: string | null
+          session_timeout_minutes?: number | null
+          terms_of_service_url?: string | null
+          updated_at?: string | null
+          welcome_message?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "portal_settings_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: true
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       price_list_items: {
         Row: {
           created_at: string
@@ -9723,6 +10372,14 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      authenticate_portal_user: {
+        Args: { p_email: string; p_organization_id: string; p_password: string }
+        Returns: {
+          message: string
+          success: boolean
+          user_id: string
+        }[]
+      }
       calculate_attribution: {
         Args: {
           p_model?: Database["public"]["Enums"]["attribution_model"]
@@ -9751,6 +10408,15 @@ export type Database = {
           p_date?: string
           p_organization_id: string
           p_period_type?: string
+        }
+        Returns: string
+      }
+      create_portal_user_from_contact: {
+        Args: {
+          p_contact_id: string
+          p_created_by?: string
+          p_email: string
+          p_password: string
         }
         Returns: string
       }
@@ -9808,6 +10474,10 @@ export type Database = {
           p_old_values?: Json
           p_organization_id: string
         }
+        Returns: string
+      }
+      parse_canned_response: {
+        Args: { p_contact_id?: string; p_content: string; p_ticket_id?: string }
         Returns: string
       }
       user_has_role: {
@@ -10125,6 +10795,8 @@ export type Database = {
         | "risk_mitigation"
         | "reactivation"
         | "offboarding"
+      portal_ticket_visibility: "all" | "own" | "company"
+      portal_user_status: "pending" | "active" | "suspended" | "deactivated"
       promotion_type: "percentage" | "fixed" | "buy_x_get_y" | "free_shipping"
       quote_status: "draft" | "sent" | "accepted" | "rejected" | "expired"
       return_status:
@@ -10683,6 +11355,8 @@ export const Constants = {
         "reactivation",
         "offboarding",
       ],
+      portal_ticket_visibility: ["all", "own", "company"],
+      portal_user_status: ["pending", "active", "suspended", "deactivated"],
       promotion_type: ["percentage", "fixed", "buy_x_get_y", "free_shipping"],
       quote_status: ["draft", "sent", "accepted", "rejected", "expired"],
       return_status: [
