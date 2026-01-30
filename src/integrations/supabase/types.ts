@@ -677,6 +677,156 @@ export type Database = {
           },
         ]
       }
+      attribution_touchpoints: {
+        Row: {
+          account_id: string | null
+          campaign_id: string | null
+          channel: string | null
+          contact_id: string | null
+          conversion_date: string | null
+          conversion_value: number | null
+          created_at: string | null
+          currency: string | null
+          days_to_conversion: number | null
+          id: string
+          is_conversion_touch: boolean | null
+          is_first_touch: boolean | null
+          is_last_touch: boolean | null
+          journey_id: string | null
+          lead_id: string | null
+          opportunity_id: string | null
+          order_id: string | null
+          organization_id: string
+          source: string | null
+          touchpoint_date: string
+          touchpoint_name: string | null
+          touchpoint_position: number | null
+          touchpoint_type: string
+          utm_campaign: string | null
+          utm_content: string | null
+          utm_medium: string | null
+          utm_source: string | null
+          utm_term: string | null
+        }
+        Insert: {
+          account_id?: string | null
+          campaign_id?: string | null
+          channel?: string | null
+          contact_id?: string | null
+          conversion_date?: string | null
+          conversion_value?: number | null
+          created_at?: string | null
+          currency?: string | null
+          days_to_conversion?: number | null
+          id?: string
+          is_conversion_touch?: boolean | null
+          is_first_touch?: boolean | null
+          is_last_touch?: boolean | null
+          journey_id?: string | null
+          lead_id?: string | null
+          opportunity_id?: string | null
+          order_id?: string | null
+          organization_id: string
+          source?: string | null
+          touchpoint_date: string
+          touchpoint_name?: string | null
+          touchpoint_position?: number | null
+          touchpoint_type: string
+          utm_campaign?: string | null
+          utm_content?: string | null
+          utm_medium?: string | null
+          utm_source?: string | null
+          utm_term?: string | null
+        }
+        Update: {
+          account_id?: string | null
+          campaign_id?: string | null
+          channel?: string | null
+          contact_id?: string | null
+          conversion_date?: string | null
+          conversion_value?: number | null
+          created_at?: string | null
+          currency?: string | null
+          days_to_conversion?: number | null
+          id?: string
+          is_conversion_touch?: boolean | null
+          is_first_touch?: boolean | null
+          is_last_touch?: boolean | null
+          journey_id?: string | null
+          lead_id?: string | null
+          opportunity_id?: string | null
+          order_id?: string | null
+          organization_id?: string
+          source?: string | null
+          touchpoint_date?: string
+          touchpoint_name?: string | null
+          touchpoint_position?: number | null
+          touchpoint_type?: string
+          utm_campaign?: string | null
+          utm_content?: string | null
+          utm_medium?: string | null
+          utm_source?: string | null
+          utm_term?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "attribution_touchpoints_account_id_fkey"
+            columns: ["account_id"]
+            isOneToOne: false
+            referencedRelation: "accounts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "attribution_touchpoints_campaign_id_fkey"
+            columns: ["campaign_id"]
+            isOneToOne: false
+            referencedRelation: "campaigns"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "attribution_touchpoints_contact_id_fkey"
+            columns: ["contact_id"]
+            isOneToOne: false
+            referencedRelation: "contacts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "attribution_touchpoints_journey_id_fkey"
+            columns: ["journey_id"]
+            isOneToOne: false
+            referencedRelation: "journeys"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "attribution_touchpoints_lead_id_fkey"
+            columns: ["lead_id"]
+            isOneToOne: false
+            referencedRelation: "leads"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "attribution_touchpoints_opportunity_id_fkey"
+            columns: ["opportunity_id"]
+            isOneToOne: false
+            referencedRelation: "opportunities"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "attribution_touchpoints_order_id_fkey"
+            columns: ["order_id"]
+            isOneToOne: false
+            referencedRelation: "orders"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "attribution_touchpoints_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       audit_logs: {
         Row: {
           action: string
@@ -745,6 +895,173 @@ export type Database = {
             columns: ["user_id"]
             isOneToOne: false
             referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      behavioral_events: {
+        Row: {
+          account_id: string | null
+          anonymous_id: string | null
+          campaign_id: string | null
+          channel: string | null
+          contact_id: string | null
+          created_at: string | null
+          currency: string | null
+          customer_identity_id: string | null
+          device_info: Json | null
+          device_type: string | null
+          event_category: string | null
+          event_name: string
+          event_type: Database["public"]["Enums"]["behavioral_event_type"]
+          event_value: number | null
+          id: string
+          ip_address: string | null
+          journey_id: string | null
+          lead_id: string | null
+          location: Json | null
+          occurred_at: string
+          organization_id: string
+          page_path: string | null
+          page_title: string | null
+          page_url: string | null
+          properties: Json | null
+          received_at: string | null
+          referrer: string | null
+          referrer_domain: string | null
+          session_id: string | null
+          source: string | null
+          utm_campaign: string | null
+          utm_content: string | null
+          utm_medium: string | null
+          utm_source: string | null
+          utm_term: string | null
+          visitor_id: string | null
+        }
+        Insert: {
+          account_id?: string | null
+          anonymous_id?: string | null
+          campaign_id?: string | null
+          channel?: string | null
+          contact_id?: string | null
+          created_at?: string | null
+          currency?: string | null
+          customer_identity_id?: string | null
+          device_info?: Json | null
+          device_type?: string | null
+          event_category?: string | null
+          event_name: string
+          event_type: Database["public"]["Enums"]["behavioral_event_type"]
+          event_value?: number | null
+          id?: string
+          ip_address?: string | null
+          journey_id?: string | null
+          lead_id?: string | null
+          location?: Json | null
+          occurred_at?: string
+          organization_id: string
+          page_path?: string | null
+          page_title?: string | null
+          page_url?: string | null
+          properties?: Json | null
+          received_at?: string | null
+          referrer?: string | null
+          referrer_domain?: string | null
+          session_id?: string | null
+          source?: string | null
+          utm_campaign?: string | null
+          utm_content?: string | null
+          utm_medium?: string | null
+          utm_source?: string | null
+          utm_term?: string | null
+          visitor_id?: string | null
+        }
+        Update: {
+          account_id?: string | null
+          anonymous_id?: string | null
+          campaign_id?: string | null
+          channel?: string | null
+          contact_id?: string | null
+          created_at?: string | null
+          currency?: string | null
+          customer_identity_id?: string | null
+          device_info?: Json | null
+          device_type?: string | null
+          event_category?: string | null
+          event_name?: string
+          event_type?: Database["public"]["Enums"]["behavioral_event_type"]
+          event_value?: number | null
+          id?: string
+          ip_address?: string | null
+          journey_id?: string | null
+          lead_id?: string | null
+          location?: Json | null
+          occurred_at?: string
+          organization_id?: string
+          page_path?: string | null
+          page_title?: string | null
+          page_url?: string | null
+          properties?: Json | null
+          received_at?: string | null
+          referrer?: string | null
+          referrer_domain?: string | null
+          session_id?: string | null
+          source?: string | null
+          utm_campaign?: string | null
+          utm_content?: string | null
+          utm_medium?: string | null
+          utm_source?: string | null
+          utm_term?: string | null
+          visitor_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "behavioral_events_account_id_fkey"
+            columns: ["account_id"]
+            isOneToOne: false
+            referencedRelation: "accounts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "behavioral_events_campaign_id_fkey"
+            columns: ["campaign_id"]
+            isOneToOne: false
+            referencedRelation: "campaigns"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "behavioral_events_contact_id_fkey"
+            columns: ["contact_id"]
+            isOneToOne: false
+            referencedRelation: "contacts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "behavioral_events_customer_identity_id_fkey"
+            columns: ["customer_identity_id"]
+            isOneToOne: false
+            referencedRelation: "customer_identities"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "behavioral_events_journey_id_fkey"
+            columns: ["journey_id"]
+            isOneToOne: false
+            referencedRelation: "journeys"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "behavioral_events_lead_id_fkey"
+            columns: ["lead_id"]
+            isOneToOne: false
+            referencedRelation: "leads"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "behavioral_events_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
             referencedColumns: ["id"]
           },
         ]
@@ -2329,6 +2646,112 @@ export type Database = {
           },
         ]
       }
+      customer_identities: {
+        Row: {
+          churn_risk_score: number | null
+          confidence_score: number | null
+          consents: Json | null
+          created_at: string | null
+          engagement_score: number | null
+          first_seen_at: string | null
+          health_score: number | null
+          id: string
+          identifiers: Json
+          last_activity_at: string | null
+          last_seen_at: string | null
+          linked_account_ids: string[] | null
+          linked_contact_ids: string[] | null
+          linked_lead_ids: string[] | null
+          merge_history: Json | null
+          organization_id: string
+          preferences: Json | null
+          primary_account_id: string | null
+          primary_contact_id: string | null
+          total_opportunities: number | null
+          total_orders: number | null
+          total_revenue: number | null
+          total_tickets: number | null
+          unified_profile: Json | null
+          updated_at: string | null
+        }
+        Insert: {
+          churn_risk_score?: number | null
+          confidence_score?: number | null
+          consents?: Json | null
+          created_at?: string | null
+          engagement_score?: number | null
+          first_seen_at?: string | null
+          health_score?: number | null
+          id?: string
+          identifiers?: Json
+          last_activity_at?: string | null
+          last_seen_at?: string | null
+          linked_account_ids?: string[] | null
+          linked_contact_ids?: string[] | null
+          linked_lead_ids?: string[] | null
+          merge_history?: Json | null
+          organization_id: string
+          preferences?: Json | null
+          primary_account_id?: string | null
+          primary_contact_id?: string | null
+          total_opportunities?: number | null
+          total_orders?: number | null
+          total_revenue?: number | null
+          total_tickets?: number | null
+          unified_profile?: Json | null
+          updated_at?: string | null
+        }
+        Update: {
+          churn_risk_score?: number | null
+          confidence_score?: number | null
+          consents?: Json | null
+          created_at?: string | null
+          engagement_score?: number | null
+          first_seen_at?: string | null
+          health_score?: number | null
+          id?: string
+          identifiers?: Json
+          last_activity_at?: string | null
+          last_seen_at?: string | null
+          linked_account_ids?: string[] | null
+          linked_contact_ids?: string[] | null
+          linked_lead_ids?: string[] | null
+          merge_history?: Json | null
+          organization_id?: string
+          preferences?: Json | null
+          primary_account_id?: string | null
+          primary_contact_id?: string | null
+          total_opportunities?: number | null
+          total_orders?: number | null
+          total_revenue?: number | null
+          total_tickets?: number | null
+          unified_profile?: Json | null
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "customer_identities_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "customer_identities_primary_account_id_fkey"
+            columns: ["primary_account_id"]
+            isOneToOne: false
+            referencedRelation: "accounts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "customer_identities_primary_contact_id_fkey"
+            columns: ["primary_contact_id"]
+            isOneToOne: false
+            referencedRelation: "contacts"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       customer_playbooks: {
         Row: {
           auto_enroll: boolean
@@ -2463,6 +2886,135 @@ export type Database = {
           },
           {
             foreignKeyName: "data_retention_policies_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      detected_duplicates: {
+        Row: {
+          created_at: string | null
+          decision_at: string | null
+          decision_by: string | null
+          decision_notes: string | null
+          entity_ids: string[]
+          entity_type: string
+          id: string
+          match_reasons: Json
+          merge_request_id: string | null
+          organization_id: string
+          similarity_score: number
+          status: Database["public"]["Enums"]["duplicate_status"] | null
+          suggested_primary_id: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          decision_at?: string | null
+          decision_by?: string | null
+          decision_notes?: string | null
+          entity_ids: string[]
+          entity_type: string
+          id?: string
+          match_reasons?: Json
+          merge_request_id?: string | null
+          organization_id: string
+          similarity_score?: number
+          status?: Database["public"]["Enums"]["duplicate_status"] | null
+          suggested_primary_id?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          decision_at?: string | null
+          decision_by?: string | null
+          decision_notes?: string | null
+          entity_ids?: string[]
+          entity_type?: string
+          id?: string
+          match_reasons?: Json
+          merge_request_id?: string | null
+          organization_id?: string
+          similarity_score?: number
+          status?: Database["public"]["Enums"]["duplicate_status"] | null
+          suggested_primary_id?: string | null
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "detected_duplicates_decision_by_fkey"
+            columns: ["decision_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "detected_duplicates_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      duplicate_detection_rules: {
+        Row: {
+          auto_merge_threshold: number | null
+          created_at: string | null
+          created_by: string | null
+          description: string | null
+          entity_type: string
+          id: string
+          is_active: boolean | null
+          match_fields: Json
+          name: string
+          organization_id: string
+          priority: number | null
+          threshold_score: number | null
+          updated_at: string | null
+        }
+        Insert: {
+          auto_merge_threshold?: number | null
+          created_at?: string | null
+          created_by?: string | null
+          description?: string | null
+          entity_type: string
+          id?: string
+          is_active?: boolean | null
+          match_fields?: Json
+          name: string
+          organization_id: string
+          priority?: number | null
+          threshold_score?: number | null
+          updated_at?: string | null
+        }
+        Update: {
+          auto_merge_threshold?: number | null
+          created_at?: string | null
+          created_by?: string | null
+          description?: string | null
+          entity_type?: string
+          id?: string
+          is_active?: boolean | null
+          match_fields?: Json
+          name?: string
+          organization_id?: string
+          priority?: number | null
+          threshold_score?: number | null
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "duplicate_detection_rules_created_by_fkey"
+            columns: ["created_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "duplicate_detection_rules_organization_id_fkey"
             columns: ["organization_id"]
             isOneToOne: false
             referencedRelation: "organizations"
@@ -2724,6 +3276,164 @@ export type Database = {
           },
           {
             foreignKeyName: "form_submissions_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      funnel_snapshots: {
+        Row: {
+          commerce_avg_order_value: number | null
+          commerce_cart_abandonment_rate: number | null
+          commerce_orders: number | null
+          commerce_return_rate: number | null
+          commerce_returns: number | null
+          commerce_revenue: number | null
+          created_at: string | null
+          customer_lifetime_value: number | null
+          customers_at_risk: number | null
+          customers_churned: number | null
+          customers_new: number | null
+          customers_total: number | null
+          id: string
+          lead_to_mql_rate: number | null
+          marketing_campaigns_active: number | null
+          marketing_conversions: number | null
+          marketing_email_clicks: number | null
+          marketing_email_opens: number | null
+          marketing_emails_sent: number | null
+          marketing_leads: number | null
+          marketing_mqls: number | null
+          marketing_spend: number | null
+          marketing_visitors: number | null
+          mql_to_sql_rate: number | null
+          opportunity_to_customer_rate: number | null
+          organization_id: string
+          period_type: string
+          sales_avg_cycle_days: number | null
+          sales_avg_deal_size: number | null
+          sales_closed_value: number | null
+          sales_leads_received: number | null
+          sales_opportunities_created: number | null
+          sales_opportunities_lost: number | null
+          sales_opportunities_won: number | null
+          sales_pipeline_value: number | null
+          sales_sqls: number | null
+          sales_win_rate: number | null
+          service_avg_resolution_hours: number | null
+          service_csat_score: number | null
+          service_nps_score: number | null
+          service_sla_compliance: number | null
+          service_tickets_backlog: number | null
+          service_tickets_created: number | null
+          service_tickets_resolved: number | null
+          snapshot_date: string
+          sql_to_opportunity_rate: number | null
+          visitor_to_lead_rate: number | null
+        }
+        Insert: {
+          commerce_avg_order_value?: number | null
+          commerce_cart_abandonment_rate?: number | null
+          commerce_orders?: number | null
+          commerce_return_rate?: number | null
+          commerce_returns?: number | null
+          commerce_revenue?: number | null
+          created_at?: string | null
+          customer_lifetime_value?: number | null
+          customers_at_risk?: number | null
+          customers_churned?: number | null
+          customers_new?: number | null
+          customers_total?: number | null
+          id?: string
+          lead_to_mql_rate?: number | null
+          marketing_campaigns_active?: number | null
+          marketing_conversions?: number | null
+          marketing_email_clicks?: number | null
+          marketing_email_opens?: number | null
+          marketing_emails_sent?: number | null
+          marketing_leads?: number | null
+          marketing_mqls?: number | null
+          marketing_spend?: number | null
+          marketing_visitors?: number | null
+          mql_to_sql_rate?: number | null
+          opportunity_to_customer_rate?: number | null
+          organization_id: string
+          period_type: string
+          sales_avg_cycle_days?: number | null
+          sales_avg_deal_size?: number | null
+          sales_closed_value?: number | null
+          sales_leads_received?: number | null
+          sales_opportunities_created?: number | null
+          sales_opportunities_lost?: number | null
+          sales_opportunities_won?: number | null
+          sales_pipeline_value?: number | null
+          sales_sqls?: number | null
+          sales_win_rate?: number | null
+          service_avg_resolution_hours?: number | null
+          service_csat_score?: number | null
+          service_nps_score?: number | null
+          service_sla_compliance?: number | null
+          service_tickets_backlog?: number | null
+          service_tickets_created?: number | null
+          service_tickets_resolved?: number | null
+          snapshot_date: string
+          sql_to_opportunity_rate?: number | null
+          visitor_to_lead_rate?: number | null
+        }
+        Update: {
+          commerce_avg_order_value?: number | null
+          commerce_cart_abandonment_rate?: number | null
+          commerce_orders?: number | null
+          commerce_return_rate?: number | null
+          commerce_returns?: number | null
+          commerce_revenue?: number | null
+          created_at?: string | null
+          customer_lifetime_value?: number | null
+          customers_at_risk?: number | null
+          customers_churned?: number | null
+          customers_new?: number | null
+          customers_total?: number | null
+          id?: string
+          lead_to_mql_rate?: number | null
+          marketing_campaigns_active?: number | null
+          marketing_conversions?: number | null
+          marketing_email_clicks?: number | null
+          marketing_email_opens?: number | null
+          marketing_emails_sent?: number | null
+          marketing_leads?: number | null
+          marketing_mqls?: number | null
+          marketing_spend?: number | null
+          marketing_visitors?: number | null
+          mql_to_sql_rate?: number | null
+          opportunity_to_customer_rate?: number | null
+          organization_id?: string
+          period_type?: string
+          sales_avg_cycle_days?: number | null
+          sales_avg_deal_size?: number | null
+          sales_closed_value?: number | null
+          sales_leads_received?: number | null
+          sales_opportunities_created?: number | null
+          sales_opportunities_lost?: number | null
+          sales_opportunities_won?: number | null
+          sales_pipeline_value?: number | null
+          sales_sqls?: number | null
+          sales_win_rate?: number | null
+          service_avg_resolution_hours?: number | null
+          service_csat_score?: number | null
+          service_nps_score?: number | null
+          service_sla_compliance?: number | null
+          service_tickets_backlog?: number | null
+          service_tickets_created?: number | null
+          service_tickets_resolved?: number | null
+          snapshot_date?: string
+          sql_to_opportunity_rate?: number | null
+          visitor_to_lead_rate?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "funnel_snapshots_organization_id_fkey"
             columns: ["organization_id"]
             isOneToOne: false
             referencedRelation: "organizations"
@@ -4963,6 +5673,136 @@ export type Database = {
           },
         ]
       }
+      marketing_attribution: {
+        Row: {
+          account_id: string | null
+          attribution_model: Database["public"]["Enums"]["attribution_model"]
+          attribution_period_end: string | null
+          attribution_period_start: string | null
+          attribution_weight: number
+          calculated_at: string | null
+          calculation_details: Json | null
+          campaign_id: string | null
+          contact_id: string | null
+          created_at: string | null
+          currency: string | null
+          id: string
+          journey_id: string | null
+          lead_id: string | null
+          opportunity_id: string | null
+          order_id: string | null
+          organization_id: string
+          revenue_attributed: number | null
+          touchpoint_id: string | null
+        }
+        Insert: {
+          account_id?: string | null
+          attribution_model: Database["public"]["Enums"]["attribution_model"]
+          attribution_period_end?: string | null
+          attribution_period_start?: string | null
+          attribution_weight: number
+          calculated_at?: string | null
+          calculation_details?: Json | null
+          campaign_id?: string | null
+          contact_id?: string | null
+          created_at?: string | null
+          currency?: string | null
+          id?: string
+          journey_id?: string | null
+          lead_id?: string | null
+          opportunity_id?: string | null
+          order_id?: string | null
+          organization_id: string
+          revenue_attributed?: number | null
+          touchpoint_id?: string | null
+        }
+        Update: {
+          account_id?: string | null
+          attribution_model?: Database["public"]["Enums"]["attribution_model"]
+          attribution_period_end?: string | null
+          attribution_period_start?: string | null
+          attribution_weight?: number
+          calculated_at?: string | null
+          calculation_details?: Json | null
+          campaign_id?: string | null
+          contact_id?: string | null
+          created_at?: string | null
+          currency?: string | null
+          id?: string
+          journey_id?: string | null
+          lead_id?: string | null
+          opportunity_id?: string | null
+          order_id?: string | null
+          organization_id?: string
+          revenue_attributed?: number | null
+          touchpoint_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "marketing_attribution_account_id_fkey"
+            columns: ["account_id"]
+            isOneToOne: false
+            referencedRelation: "accounts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "marketing_attribution_campaign_id_fkey"
+            columns: ["campaign_id"]
+            isOneToOne: false
+            referencedRelation: "campaigns"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "marketing_attribution_contact_id_fkey"
+            columns: ["contact_id"]
+            isOneToOne: false
+            referencedRelation: "contacts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "marketing_attribution_journey_id_fkey"
+            columns: ["journey_id"]
+            isOneToOne: false
+            referencedRelation: "journeys"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "marketing_attribution_lead_id_fkey"
+            columns: ["lead_id"]
+            isOneToOne: false
+            referencedRelation: "leads"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "marketing_attribution_opportunity_id_fkey"
+            columns: ["opportunity_id"]
+            isOneToOne: false
+            referencedRelation: "opportunities"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "marketing_attribution_order_id_fkey"
+            columns: ["order_id"]
+            isOneToOne: false
+            referencedRelation: "orders"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "marketing_attribution_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "marketing_attribution_touchpoint_id_fkey"
+            columns: ["touchpoint_id"]
+            isOneToOne: false
+            referencedRelation: "attribution_touchpoints"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       marketing_consents: {
         Row: {
           consent_ip: string | null
@@ -5302,6 +6142,122 @@ export type Database = {
             columns: ["organization_id"]
             isOneToOne: false
             referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      merge_requests: {
+        Row: {
+          affected_records: Json | null
+          approval_level: number | null
+          approval_notes: string | null
+          approved_at: string | null
+          approved_by: string | null
+          completed_at: string | null
+          created_at: string | null
+          entity_type: string
+          error_details: Json | null
+          error_message: string | null
+          id: string
+          merge_rules: Json | null
+          organization_id: string
+          preview_result: Json | null
+          requested_at: string | null
+          requested_by: string | null
+          requires_approval: boolean | null
+          result_entity_id: string | null
+          rollback_data: Json | null
+          rolled_back_at: string | null
+          rolled_back_by: string | null
+          source_ids: string[]
+          started_at: string | null
+          status: Database["public"]["Enums"]["merge_status"] | null
+          target_id: string
+          updated_at: string | null
+        }
+        Insert: {
+          affected_records?: Json | null
+          approval_level?: number | null
+          approval_notes?: string | null
+          approved_at?: string | null
+          approved_by?: string | null
+          completed_at?: string | null
+          created_at?: string | null
+          entity_type: string
+          error_details?: Json | null
+          error_message?: string | null
+          id?: string
+          merge_rules?: Json | null
+          organization_id: string
+          preview_result?: Json | null
+          requested_at?: string | null
+          requested_by?: string | null
+          requires_approval?: boolean | null
+          result_entity_id?: string | null
+          rollback_data?: Json | null
+          rolled_back_at?: string | null
+          rolled_back_by?: string | null
+          source_ids: string[]
+          started_at?: string | null
+          status?: Database["public"]["Enums"]["merge_status"] | null
+          target_id: string
+          updated_at?: string | null
+        }
+        Update: {
+          affected_records?: Json | null
+          approval_level?: number | null
+          approval_notes?: string | null
+          approved_at?: string | null
+          approved_by?: string | null
+          completed_at?: string | null
+          created_at?: string | null
+          entity_type?: string
+          error_details?: Json | null
+          error_message?: string | null
+          id?: string
+          merge_rules?: Json | null
+          organization_id?: string
+          preview_result?: Json | null
+          requested_at?: string | null
+          requested_by?: string | null
+          requires_approval?: boolean | null
+          result_entity_id?: string | null
+          rollback_data?: Json | null
+          rolled_back_at?: string | null
+          rolled_back_by?: string | null
+          source_ids?: string[]
+          started_at?: string | null
+          status?: Database["public"]["Enums"]["merge_status"] | null
+          target_id?: string
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "merge_requests_approved_by_fkey"
+            columns: ["approved_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "merge_requests_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "merge_requests_requested_by_fkey"
+            columns: ["requested_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "merge_requests_rolled_back_by_fkey"
+            columns: ["rolled_back_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
             referencedColumns: ["id"]
           },
         ]
@@ -8767,6 +9723,14 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      calculate_attribution: {
+        Args: {
+          p_model?: Database["public"]["Enums"]["attribution_model"]
+          p_opportunity_id: string
+          p_organization_id: string
+        }
+        Returns: undefined
+      }
       calculate_health_score: {
         Args: { p_account_id: string }
         Returns: number
@@ -8781,6 +9745,26 @@ export type Database = {
       calculate_segment_members: {
         Args: { p_segment_id: string }
         Returns: number
+      }
+      create_funnel_snapshot: {
+        Args: {
+          p_date?: string
+          p_organization_id: string
+          p_period_type?: string
+        }
+        Returns: string
+      }
+      detect_duplicates: {
+        Args: {
+          p_entity_id: string
+          p_entity_type: string
+          p_organization_id: string
+        }
+        Returns: {
+          duplicate_id: string
+          match_reasons: Json
+          similarity_score: number
+        }[]
       }
       generate_asset_tag: { Args: { org_id: string }; Returns: string }
       generate_change_number: { Args: { org_id: string }; Returns: string }
@@ -8850,6 +9834,36 @@ export type Database = {
         | "credit_limit"
         | "exception"
       article_status: "draft" | "in_review" | "published" | "archived"
+      attribution_model:
+        | "first_touch"
+        | "last_touch"
+        | "linear"
+        | "time_decay"
+        | "position_based"
+        | "data_driven"
+        | "custom"
+      behavioral_event_type:
+        | "page_view"
+        | "form_submit"
+        | "button_click"
+        | "link_click"
+        | "video_play"
+        | "video_complete"
+        | "file_download"
+        | "search"
+        | "add_to_cart"
+        | "remove_from_cart"
+        | "checkout_start"
+        | "checkout_complete"
+        | "signup"
+        | "login"
+        | "logout"
+        | "profile_update"
+        | "email_open"
+        | "email_click"
+        | "sms_click"
+        | "push_click"
+        | "custom"
       cadence_step_type: "email" | "call" | "linkedin" | "task"
       campaign_member_status:
         | "pending"
@@ -8947,8 +9961,22 @@ export type Database = {
         | "expired"
         | "terminated"
         | "renewed"
+      duplicate_status:
+        | "detected"
+        | "confirmed"
+        | "false_positive"
+        | "merged"
+        | "ignored"
       enrollment_status: "active" | "completed" | "exited" | "paused" | "failed"
       forecast_category: "commit" | "best_case" | "pipeline" | "omitted"
+      identifier_type:
+        | "email"
+        | "phone"
+        | "document"
+        | "external_id"
+        | "cookie"
+        | "device_id"
+        | "social_id"
       it_asset_condition:
         | "new"
         | "good"
@@ -9058,6 +10086,14 @@ export type Database = {
         | "completed"
         | "denied"
         | "expired"
+      merge_status:
+        | "pending"
+        | "approved"
+        | "rejected"
+        | "in_progress"
+        | "completed"
+        | "failed"
+        | "cancelled"
       message_sender_type: "agent" | "customer" | "system"
       opportunity_stage:
         | "prospecting"
@@ -9327,6 +10363,38 @@ export const Constants = {
         "exception",
       ],
       article_status: ["draft", "in_review", "published", "archived"],
+      attribution_model: [
+        "first_touch",
+        "last_touch",
+        "linear",
+        "time_decay",
+        "position_based",
+        "data_driven",
+        "custom",
+      ],
+      behavioral_event_type: [
+        "page_view",
+        "form_submit",
+        "button_click",
+        "link_click",
+        "video_play",
+        "video_complete",
+        "file_download",
+        "search",
+        "add_to_cart",
+        "remove_from_cart",
+        "checkout_start",
+        "checkout_complete",
+        "signup",
+        "login",
+        "logout",
+        "profile_update",
+        "email_open",
+        "email_click",
+        "sms_click",
+        "push_click",
+        "custom",
+      ],
       cadence_step_type: ["email", "call", "linkedin", "task"],
       campaign_member_status: [
         "pending",
@@ -9433,8 +10501,24 @@ export const Constants = {
         "terminated",
         "renewed",
       ],
+      duplicate_status: [
+        "detected",
+        "confirmed",
+        "false_positive",
+        "merged",
+        "ignored",
+      ],
       enrollment_status: ["active", "completed", "exited", "paused", "failed"],
       forecast_category: ["commit", "best_case", "pipeline", "omitted"],
+      identifier_type: [
+        "email",
+        "phone",
+        "document",
+        "external_id",
+        "cookie",
+        "device_id",
+        "social_id",
+      ],
       it_asset_condition: [
         "new",
         "good",
@@ -9554,6 +10638,15 @@ export const Constants = {
         "completed",
         "denied",
         "expired",
+      ],
+      merge_status: [
+        "pending",
+        "approved",
+        "rejected",
+        "in_progress",
+        "completed",
+        "failed",
+        "cancelled",
       ],
       message_sender_type: ["agent", "customer", "system"],
       opportunity_stage: [

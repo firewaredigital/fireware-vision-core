@@ -70,7 +70,12 @@ import ITChanges from "./pages/ITChanges";
 import ITChangeForm from "./pages/ITChangeForm";
 import CMDB from "./pages/CMDB";
 import ITAssets from "./pages/ITAssets";
-
+// Data Module
+import Duplicates from "./pages/Duplicates";
+import MergeWizard from "./pages/MergeWizard";
+import FullFunnel from "./pages/FullFunnel";
+import AttributionDashboard from "./pages/AttributionDashboard";
+import Customer360 from "./pages/Customer360";
 const queryClient = new QueryClient();
 
 const App = () => (
@@ -195,6 +200,13 @@ const App = () => (
             <Route path="/it/assets" element={<ITAssets />} />
             <Route path="/it/assets/new" element={<ITAssets />} />
             <Route path="/it/assets/:id" element={<ITAssets />} />
+            
+            {/* Data Module */}
+            <Route path="/data/duplicates" element={<Duplicates />} />
+            <Route path="/data/merge/:id" element={<MergeWizard />} />
+            <Route path="/data/funnel" element={<FullFunnel />} />
+            <Route path="/data/attribution" element={<AttributionDashboard />} />
+            <Route path="/data/customer/:type/:id" element={<Customer360 />} />
             
             {/* Management */}
             <Route path="/territories" element={<Territories />} />
