@@ -31,6 +31,10 @@ import {
   ShoppingCart,
   RotateCcw,
   Tag,
+  Server,
+  AlertTriangle,
+  GitBranch,
+  Database,
 } from 'lucide-react';
 import { NavLink } from '@/components/NavLink';
 import {
@@ -97,6 +101,14 @@ const governanceNavItems = [
   { title: 'Governança', url: '/governance', icon: Shield },
 ];
 
+const itNavItems = [
+  { title: 'Dashboard IT', url: '/it', icon: Server },
+  { title: 'Incidentes', url: '/it/incidents', icon: AlertTriangle },
+  { title: 'Mudanças', url: '/it/changes', icon: GitBranch },
+  { title: 'CMDB', url: '/it/cmdb', icon: Database },
+  { title: 'Ativos', url: '/it/assets', icon: Package },
+];
+
 const managementNavItems = [
   { title: 'Produtos', url: '/products', icon: Package },
   { title: 'Territórios', url: '/territories', icon: Map },
@@ -123,6 +135,7 @@ export function AppSidebar() {
   const [automationsOpen, setAutomationsOpen] = useState(true);
   const [governanceOpen, setGovernanceOpen] = useState(true);
   const [managementOpen, setManagementOpen] = useState(true);
+  const [itOpen, setItOpen] = useState(true);
 
   const isActive = (path: string) => location.pathname === path || location.pathname.startsWith(path + '/');
 
@@ -234,73 +247,19 @@ export function AppSidebar() {
           </Collapsible>
         </SidebarGroup>
 
-          {/* Marketing */}
-          <Collapsible open={marketingOpen} onOpenChange={setMarketingOpen}>
-            <SidebarGroup>
-              <CollapsibleTrigger asChild>
-                <SidebarGroupLabel className="cursor-pointer hover:bg-sidebar-accent rounded-md flex items-center justify-between">
-                  Marketing
-                  <ChevronDown className={cn("h-4 w-4 transition-transform", marketingOpen && "rotate-180")} />
-                </SidebarGroupLabel>
-              </CollapsibleTrigger>
-              <CollapsibleContent>
-                <SidebarGroupContent>
-                  <SidebarMenu>
-                    {marketingNavItems.map((item) => (
-                      <SidebarMenuItem key={item.title}>
-                        <SidebarMenuButton asChild isActive={isActive(item.url)}>
-                          <NavLink to={item.url}>
-                            <item.icon className="h-4 w-4" />
-                            <span>{item.title}</span>
-                          </NavLink>
-                        </SidebarMenuButton>
-                      </SidebarMenuItem>
-                    ))}
-                  </SidebarMenu>
-                </SidebarGroupContent>
-              </CollapsibleContent>
-            </SidebarGroup>
-          </Collapsible>
-
-          {/* Commerce */}
-          <Collapsible open={commerceOpen} onOpenChange={setCommerceOpen}>
-            <SidebarGroup>
-              <CollapsibleTrigger asChild>
-                <SidebarGroupLabel className="cursor-pointer hover:bg-sidebar-accent rounded-md flex items-center justify-between">
-                  Commerce
-                  <ChevronDown className={cn("h-4 w-4 transition-transform", commerceOpen && "rotate-180")} />
-                </SidebarGroupLabel>
-              </CollapsibleTrigger>
-              <CollapsibleContent>
-                <SidebarGroupContent>
-                  <SidebarMenu>
-                    {commerceNavItems.map((item) => (
-                      <SidebarMenuItem key={item.title}>
-                        <SidebarMenuButton asChild isActive={isActive(item.url)}>
-                          <NavLink to={item.url}>
-                            <item.icon className="h-4 w-4" />
-                            <span>{item.title}</span>
-                          </NavLink>
-                        </SidebarMenuButton>
-                      </SidebarMenuItem>
-                    ))}
-                  </SidebarMenu>
-                </SidebarGroupContent>
-              </CollapsibleContent>
-            </SidebarGroup>
-          </Collapsible>
+        {/* Commerce */}
         <SidebarGroup>
-          <Collapsible open={marketingOpen} onOpenChange={setMarketingOpen}>
+          <Collapsible open={commerceOpen} onOpenChange={setCommerceOpen}>
             <CollapsibleTrigger asChild>
               <SidebarGroupLabel className="cursor-pointer hover:text-sidebar-foreground">
                 <span className={cn(!collapsed && 'flex-1')}>
-                  {!collapsed && 'Marketing'}
+                  {!collapsed && 'Commerce'}
                 </span>
                 {!collapsed && (
                   <ChevronDown
                     className={cn(
                       'h-4 w-4 transition-transform',
-                      marketingOpen && 'rotate-180'
+                      commerceOpen && 'rotate-180'
                     )}
                   />
                 )}
@@ -309,7 +268,7 @@ export function AppSidebar() {
             <CollapsibleContent>
               <SidebarGroupContent>
                 <SidebarMenu>
-                  {marketingNavItems.map(renderNavItem)}
+                  {commerceNavItems.map(renderNavItem)}
                 </SidebarMenu>
               </SidebarGroupContent>
             </CollapsibleContent>
@@ -366,6 +325,34 @@ export function AppSidebar() {
               <SidebarGroupContent>
                 <SidebarMenu>
                   {governanceNavItems.map(renderNavItem)}
+                </SidebarMenu>
+              </SidebarGroupContent>
+            </CollapsibleContent>
+          </Collapsible>
+        </SidebarGroup>
+
+        {/* IT/ITSM */}
+        <SidebarGroup>
+          <Collapsible open={itOpen} onOpenChange={setItOpen}>
+            <CollapsibleTrigger asChild>
+              <SidebarGroupLabel className="cursor-pointer hover:text-sidebar-foreground">
+                <span className={cn(!collapsed && 'flex-1')}>
+                  {!collapsed && 'TI / ITSM'}
+                </span>
+                {!collapsed && (
+                  <ChevronDown
+                    className={cn(
+                      'h-4 w-4 transition-transform',
+                      itOpen && 'rotate-180'
+                    )}
+                  />
+                )}
+              </SidebarGroupLabel>
+            </CollapsibleTrigger>
+            <CollapsibleContent>
+              <SidebarGroupContent>
+                <SidebarMenu>
+                  {itNavItems.map(renderNavItem)}
                 </SidebarMenu>
               </SidebarGroupContent>
             </CollapsibleContent>

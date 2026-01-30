@@ -61,6 +61,15 @@ import OrderForm from "./pages/OrderForm";
 import Returns from "./pages/Returns";
 import Promotions from "./pages/Promotions";
 import PromotionForm from "./pages/PromotionForm";
+// IT/ITSM Module
+import ITDashboard from "./pages/ITDashboard";
+import ITIncidents from "./pages/ITIncidents";
+import ITIncidentForm from "./pages/ITIncidentForm";
+import ITIncidentDetail from "./pages/ITIncidentDetail";
+import ITChanges from "./pages/ITChanges";
+import ITChangeForm from "./pages/ITChangeForm";
+import CMDB from "./pages/CMDB";
+import ITAssets from "./pages/ITAssets";
 
 const queryClient = new QueryClient();
 
@@ -170,6 +179,22 @@ const App = () => (
             <Route path="/promotions" element={<Promotions />} />
             <Route path="/promotions/new" element={<PromotionForm />} />
             <Route path="/promotions/:id" element={<PromotionForm />} />
+            
+            {/* IT/ITSM */}
+            <Route path="/it" element={<ITDashboard />} />
+            <Route path="/it/incidents" element={<ITIncidents />} />
+            <Route path="/it/incidents/new" element={<ITIncidentForm />} />
+            <Route path="/it/incidents/:id" element={<ITIncidentDetail />} />
+            <Route path="/it/incidents/:id/edit" element={<ITIncidentForm />} />
+            <Route path="/it/changes" element={<ITChanges />} />
+            <Route path="/it/changes/new" element={<ITChangeForm />} />
+            <Route path="/it/changes/:id" element={<ITChangeForm />} />
+            <Route path="/it/cmdb" element={<CMDB />} />
+            <Route path="/it/cmdb/new" element={<CMDB />} />
+            <Route path="/it/cmdb/:id" element={<CMDB />} />
+            <Route path="/it/assets" element={<ITAssets />} />
+            <Route path="/it/assets/new" element={<ITAssets />} />
+            <Route path="/it/assets/:id" element={<ITAssets />} />
             
             {/* Management */}
             <Route path="/territories" element={<Territories />} />
