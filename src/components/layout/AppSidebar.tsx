@@ -35,6 +35,13 @@ import {
   AlertTriangle,
   GitBranch,
   Database,
+  Copy,
+  Merge,
+  Layers,
+  Activity,
+  UserCircle,
+  MessageSquare,
+  Globe,
 } from 'lucide-react';
 import { NavLink } from '@/components/NavLink';
 import {
@@ -87,14 +94,14 @@ const marketingNavItems = [
   { title: 'Jornadas', url: '/marketing/journeys', icon: Route },
 ];
 
-const automationsNavItems = [
-  { title: 'Workflows', url: '/automations', icon: Workflow },
-];
-
 const commerceNavItems = [
   { title: 'Pedidos', url: '/orders', icon: ShoppingCart },
   { title: 'Devoluções', url: '/returns', icon: RotateCcw },
   { title: 'Promoções', url: '/promotions', icon: Tag },
+];
+
+const automationsNavItems = [
+  { title: 'Workflows', url: '/automations', icon: Workflow },
 ];
 
 const governanceNavItems = [
@@ -109,6 +116,18 @@ const itNavItems = [
   { title: 'Ativos', url: '/it/assets', icon: Package },
 ];
 
+const dataNavItems = [
+  { title: 'Duplicatas', url: '/duplicates', icon: Copy },
+  { title: 'Merge Wizard', url: '/merge-wizard', icon: Merge },
+  { title: 'Funil Completo', url: '/full-funnel', icon: Layers },
+  { title: 'Atribuição', url: '/attribution', icon: Activity },
+  { title: 'Customer 360', url: '/customer-360', icon: UserCircle },
+];
+
+const portalNavItems = [
+  { title: 'Portal do Cliente', url: '/portal', icon: Globe },
+];
+
 const managementNavItems = [
   { title: 'Produtos', url: '/products', icon: Package },
   { title: 'Territórios', url: '/territories', icon: Map },
@@ -120,6 +139,7 @@ const managementNavItems = [
 
 const settingsNavItems = [
   { title: 'Configurações', url: '/settings', icon: Settings },
+  { title: 'Respostas Rápidas', url: '/settings/canned-responses', icon: MessageSquare },
 ];
 
 export function AppSidebar() {
@@ -136,6 +156,7 @@ export function AppSidebar() {
   const [governanceOpen, setGovernanceOpen] = useState(true);
   const [managementOpen, setManagementOpen] = useState(true);
   const [itOpen, setItOpen] = useState(true);
+  const [dataOpen, setDataOpen] = useState(true);
 
   const isActive = (path: string) => location.pathname === path || location.pathname.startsWith(path + '/');
 
@@ -353,6 +374,34 @@ export function AppSidebar() {
               <SidebarGroupContent>
                 <SidebarMenu>
                   {itNavItems.map(renderNavItem)}
+                </SidebarMenu>
+              </SidebarGroupContent>
+            </CollapsibleContent>
+          </Collapsible>
+        </SidebarGroup>
+
+        {/* Data/Analytics */}
+        <SidebarGroup>
+          <Collapsible open={dataOpen} onOpenChange={setDataOpen}>
+            <CollapsibleTrigger asChild>
+              <SidebarGroupLabel className="cursor-pointer hover:text-sidebar-foreground">
+                <span className={cn(!collapsed && 'flex-1')}>
+                  {!collapsed && 'Dados & Analytics'}
+                </span>
+                {!collapsed && (
+                  <ChevronDown
+                    className={cn(
+                      'h-4 w-4 transition-transform',
+                      dataOpen && 'rotate-180'
+                    )}
+                  />
+                )}
+              </SidebarGroupLabel>
+            </CollapsibleTrigger>
+            <CollapsibleContent>
+              <SidebarGroupContent>
+                <SidebarMenu>
+                  {dataNavItems.map(renderNavItem)}
                 </SidebarMenu>
               </SidebarGroupContent>
             </CollapsibleContent>

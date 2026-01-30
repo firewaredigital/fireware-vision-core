@@ -76,6 +76,15 @@ import MergeWizard from "./pages/MergeWizard";
 import FullFunnel from "./pages/FullFunnel";
 import AttributionDashboard from "./pages/AttributionDashboard";
 import Customer360 from "./pages/Customer360";
+// Service Extras
+import CannedResponses from "./pages/CannedResponses";
+// Portal Module
+import PortalLogin from "./pages/portal/PortalLogin";
+import PortalTickets from "./pages/portal/PortalTickets";
+import PortalTicketDetail from "./pages/portal/PortalTicketDetail";
+import PortalNewTicket from "./pages/portal/PortalNewTicket";
+import PortalKnowledge from "./pages/portal/PortalKnowledge";
+
 const queryClient = new QueryClient();
 
 const App = () => (
@@ -202,11 +211,13 @@ const App = () => (
             <Route path="/it/assets/:id" element={<ITAssets />} />
             
             {/* Data Module */}
-            <Route path="/data/duplicates" element={<Duplicates />} />
-            <Route path="/data/merge/:id" element={<MergeWizard />} />
-            <Route path="/data/funnel" element={<FullFunnel />} />
-            <Route path="/data/attribution" element={<AttributionDashboard />} />
-            <Route path="/data/customer/:type/:id" element={<Customer360 />} />
+            <Route path="/duplicates" element={<Duplicates />} />
+            <Route path="/merge-wizard" element={<MergeWizard />} />
+            <Route path="/merge-wizard/:id" element={<MergeWizard />} />
+            <Route path="/full-funnel" element={<FullFunnel />} />
+            <Route path="/attribution" element={<AttributionDashboard />} />
+            <Route path="/customer-360" element={<Customer360 />} />
+            <Route path="/customer-360/:type/:id" element={<Customer360 />} />
             
             {/* Management */}
             <Route path="/territories" element={<Territories />} />
@@ -215,6 +226,15 @@ const App = () => (
             <Route path="/reports" element={<Reports />} />
             <Route path="/audit-logs" element={<AuditLogs />} />
             <Route path="/settings" element={<Settings />} />
+            <Route path="/settings/canned-responses" element={<CannedResponses />} />
+            
+            {/* Portal (Public) */}
+            <Route path="/portal/login" element={<PortalLogin />} />
+            <Route path="/portal/tickets" element={<PortalTickets />} />
+            <Route path="/portal/tickets/new" element={<PortalNewTicket />} />
+            <Route path="/portal/tickets/:id" element={<PortalTicketDetail />} />
+            <Route path="/portal/knowledge" element={<PortalKnowledge />} />
+            <Route path="/portal" element={<PortalTickets />} />
             
             {/* Catch-all */}
             <Route path="*" element={<NotFound />} />
