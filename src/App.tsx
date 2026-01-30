@@ -54,6 +54,13 @@ import Marketing from "./pages/Marketing";
 import CampaignForm from "./pages/CampaignForm";
 import SegmentForm from "./pages/SegmentForm";
 import JourneyBuilder from "./pages/JourneyBuilder";
+// Commerce Module
+import Orders from "./pages/Orders";
+import OrderDetail from "./pages/OrderDetail";
+import OrderForm from "./pages/OrderForm";
+import Returns from "./pages/Returns";
+import Promotions from "./pages/Promotions";
+import PromotionForm from "./pages/PromotionForm";
 
 const queryClient = new QueryClient();
 
@@ -154,6 +161,15 @@ const App = () => (
             <Route path="/marketing/journeys/new" element={<JourneyBuilder />} />
             <Route path="/marketing/journeys/:id" element={<JourneyBuilder />} />
             <Route path="/marketing/journeys/:id/edit" element={<JourneyBuilder />} />
+            
+            {/* Commerce */}
+            <Route path="/orders" element={<Orders />} />
+            <Route path="/orders/new" element={<OrderForm />} />
+            <Route path="/orders/:id" element={<OrderDetail />} />
+            <Route path="/returns" element={<Returns />} />
+            <Route path="/promotions" element={<Promotions />} />
+            <Route path="/promotions/new" element={<PromotionForm />} />
+            <Route path="/promotions/:id" element={<PromotionForm />} />
             
             {/* Management */}
             <Route path="/territories" element={<Territories />} />

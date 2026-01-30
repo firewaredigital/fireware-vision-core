@@ -1425,6 +1425,151 @@ export type Database = {
           },
         ]
       }
+      cart_items: {
+        Row: {
+          cart_id: string
+          created_at: string | null
+          discount_amount: number | null
+          id: string
+          metadata: Json | null
+          name: string
+          product_id: string | null
+          quantity: number | null
+          sku: string | null
+          tax_amount: number | null
+          total: number
+          unit_price: number
+        }
+        Insert: {
+          cart_id: string
+          created_at?: string | null
+          discount_amount?: number | null
+          id?: string
+          metadata?: Json | null
+          name: string
+          product_id?: string | null
+          quantity?: number | null
+          sku?: string | null
+          tax_amount?: number | null
+          total: number
+          unit_price: number
+        }
+        Update: {
+          cart_id?: string
+          created_at?: string | null
+          discount_amount?: number | null
+          id?: string
+          metadata?: Json | null
+          name?: string
+          product_id?: string | null
+          quantity?: number | null
+          sku?: string | null
+          tax_amount?: number | null
+          total?: number
+          unit_price?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "cart_items_cart_id_fkey"
+            columns: ["cart_id"]
+            isOneToOne: false
+            referencedRelation: "carts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "cart_items_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "products"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      carts: {
+        Row: {
+          account_id: string | null
+          contact_id: string | null
+          converted_to_order_id: string | null
+          coupon_code: string | null
+          created_at: string | null
+          discount_total: number | null
+          expires_at: string | null
+          id: string
+          metadata: Json | null
+          notes: string | null
+          organization_id: string
+          session_id: string | null
+          shipping_total: number | null
+          status: string | null
+          subtotal: number | null
+          tax_total: number | null
+          total: number | null
+          updated_at: string | null
+        }
+        Insert: {
+          account_id?: string | null
+          contact_id?: string | null
+          converted_to_order_id?: string | null
+          coupon_code?: string | null
+          created_at?: string | null
+          discount_total?: number | null
+          expires_at?: string | null
+          id?: string
+          metadata?: Json | null
+          notes?: string | null
+          organization_id: string
+          session_id?: string | null
+          shipping_total?: number | null
+          status?: string | null
+          subtotal?: number | null
+          tax_total?: number | null
+          total?: number | null
+          updated_at?: string | null
+        }
+        Update: {
+          account_id?: string | null
+          contact_id?: string | null
+          converted_to_order_id?: string | null
+          coupon_code?: string | null
+          created_at?: string | null
+          discount_total?: number | null
+          expires_at?: string | null
+          id?: string
+          metadata?: Json | null
+          notes?: string | null
+          organization_id?: string
+          session_id?: string | null
+          shipping_total?: number | null
+          status?: string | null
+          subtotal?: number | null
+          tax_total?: number | null
+          total?: number | null
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "carts_account_id_fkey"
+            columns: ["account_id"]
+            isOneToOne: false
+            referencedRelation: "accounts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "carts_contact_id_fkey"
+            columns: ["contact_id"]
+            isOneToOne: false
+            referencedRelation: "contacts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "carts_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       consent_log: {
         Row: {
           action: string
@@ -3883,6 +4028,268 @@ export type Database = {
           },
         ]
       }
+      order_items: {
+        Row: {
+          created_at: string | null
+          description: string | null
+          discount: number | null
+          id: string
+          metadata: Json | null
+          name: string
+          order_id: string
+          product_id: string | null
+          quantity: number
+          sku: string | null
+          tax: number | null
+          total: number
+          unit_price: number
+        }
+        Insert: {
+          created_at?: string | null
+          description?: string | null
+          discount?: number | null
+          id?: string
+          metadata?: Json | null
+          name: string
+          order_id: string
+          product_id?: string | null
+          quantity: number
+          sku?: string | null
+          tax?: number | null
+          total: number
+          unit_price: number
+        }
+        Update: {
+          created_at?: string | null
+          description?: string | null
+          discount?: number | null
+          id?: string
+          metadata?: Json | null
+          name?: string
+          order_id?: string
+          product_id?: string | null
+          quantity?: number
+          sku?: string | null
+          tax?: number | null
+          total?: number
+          unit_price?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "order_items_order_id_fkey"
+            columns: ["order_id"]
+            isOneToOne: false
+            referencedRelation: "orders"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "order_items_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "products"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      order_status_history: {
+        Row: {
+          changed_by: string | null
+          created_at: string | null
+          id: string
+          metadata: Json | null
+          new_status: Database["public"]["Enums"]["order_status"]
+          old_status: Database["public"]["Enums"]["order_status"] | null
+          order_id: string
+          reason: string | null
+        }
+        Insert: {
+          changed_by?: string | null
+          created_at?: string | null
+          id?: string
+          metadata?: Json | null
+          new_status: Database["public"]["Enums"]["order_status"]
+          old_status?: Database["public"]["Enums"]["order_status"] | null
+          order_id: string
+          reason?: string | null
+        }
+        Update: {
+          changed_by?: string | null
+          created_at?: string | null
+          id?: string
+          metadata?: Json | null
+          new_status?: Database["public"]["Enums"]["order_status"]
+          old_status?: Database["public"]["Enums"]["order_status"] | null
+          order_id?: string
+          reason?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "order_status_history_changed_by_fkey"
+            columns: ["changed_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "order_status_history_order_id_fkey"
+            columns: ["order_id"]
+            isOneToOne: false
+            referencedRelation: "orders"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      orders: {
+        Row: {
+          account_id: string | null
+          billing_address: Json | null
+          cancellation_reason: string | null
+          cancelled_at: string | null
+          cancelled_by: string | null
+          cart_id: string | null
+          contact_id: string | null
+          created_at: string | null
+          created_by: string | null
+          currency: string | null
+          custom_fields: Json | null
+          customer_notes: string | null
+          delivered_at: string | null
+          discount_total: number | null
+          estimated_delivery: string | null
+          grand_total: number
+          id: string
+          internal_notes: string | null
+          order_number: string
+          organization_id: string
+          payment_method: string | null
+          payment_status: Database["public"]["Enums"]["payment_status"] | null
+          shipped_at: string | null
+          shipping_address: Json | null
+          shipping_method: string | null
+          shipping_total: number | null
+          source: string | null
+          status: Database["public"]["Enums"]["order_status"] | null
+          subtotal: number
+          tags: string[] | null
+          tax_total: number | null
+          tracking_number: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          account_id?: string | null
+          billing_address?: Json | null
+          cancellation_reason?: string | null
+          cancelled_at?: string | null
+          cancelled_by?: string | null
+          cart_id?: string | null
+          contact_id?: string | null
+          created_at?: string | null
+          created_by?: string | null
+          currency?: string | null
+          custom_fields?: Json | null
+          customer_notes?: string | null
+          delivered_at?: string | null
+          discount_total?: number | null
+          estimated_delivery?: string | null
+          grand_total?: number
+          id?: string
+          internal_notes?: string | null
+          order_number: string
+          organization_id: string
+          payment_method?: string | null
+          payment_status?: Database["public"]["Enums"]["payment_status"] | null
+          shipped_at?: string | null
+          shipping_address?: Json | null
+          shipping_method?: string | null
+          shipping_total?: number | null
+          source?: string | null
+          status?: Database["public"]["Enums"]["order_status"] | null
+          subtotal?: number
+          tags?: string[] | null
+          tax_total?: number | null
+          tracking_number?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          account_id?: string | null
+          billing_address?: Json | null
+          cancellation_reason?: string | null
+          cancelled_at?: string | null
+          cancelled_by?: string | null
+          cart_id?: string | null
+          contact_id?: string | null
+          created_at?: string | null
+          created_by?: string | null
+          currency?: string | null
+          custom_fields?: Json | null
+          customer_notes?: string | null
+          delivered_at?: string | null
+          discount_total?: number | null
+          estimated_delivery?: string | null
+          grand_total?: number
+          id?: string
+          internal_notes?: string | null
+          order_number?: string
+          organization_id?: string
+          payment_method?: string | null
+          payment_status?: Database["public"]["Enums"]["payment_status"] | null
+          shipped_at?: string | null
+          shipping_address?: Json | null
+          shipping_method?: string | null
+          shipping_total?: number | null
+          source?: string | null
+          status?: Database["public"]["Enums"]["order_status"] | null
+          subtotal?: number
+          tags?: string[] | null
+          tax_total?: number | null
+          tracking_number?: string | null
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "orders_account_id_fkey"
+            columns: ["account_id"]
+            isOneToOne: false
+            referencedRelation: "accounts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "orders_cancelled_by_fkey"
+            columns: ["cancelled_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "orders_cart_id_fkey"
+            columns: ["cart_id"]
+            isOneToOne: false
+            referencedRelation: "carts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "orders_contact_id_fkey"
+            columns: ["contact_id"]
+            isOneToOne: false
+            referencedRelation: "contacts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "orders_created_by_fkey"
+            columns: ["created_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "orders_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       organizations: {
         Row: {
           created_at: string
@@ -3912,6 +4319,111 @@ export type Database = {
           updated_at?: string
         }
         Relationships: []
+      }
+      payments: {
+        Row: {
+          amount: number
+          authorization_code: string | null
+          boleto_barcode: string | null
+          boleto_due_date: string | null
+          boleto_url: string | null
+          card_brand: string | null
+          card_last_four: string | null
+          created_at: string | null
+          gateway: string | null
+          gateway_response: Json | null
+          id: string
+          metadata: Json | null
+          method: string
+          notes: string | null
+          order_id: string | null
+          organization_id: string
+          paid_at: string | null
+          payment_number: string | null
+          pix_copy_paste: string | null
+          pix_expiration: string | null
+          pix_qr_code: string | null
+          refund_amount: number | null
+          refund_reason: string | null
+          refunded_at: string | null
+          status: Database["public"]["Enums"]["payment_status"] | null
+          transaction_id: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          amount: number
+          authorization_code?: string | null
+          boleto_barcode?: string | null
+          boleto_due_date?: string | null
+          boleto_url?: string | null
+          card_brand?: string | null
+          card_last_four?: string | null
+          created_at?: string | null
+          gateway?: string | null
+          gateway_response?: Json | null
+          id?: string
+          metadata?: Json | null
+          method: string
+          notes?: string | null
+          order_id?: string | null
+          organization_id: string
+          paid_at?: string | null
+          payment_number?: string | null
+          pix_copy_paste?: string | null
+          pix_expiration?: string | null
+          pix_qr_code?: string | null
+          refund_amount?: number | null
+          refund_reason?: string | null
+          refunded_at?: string | null
+          status?: Database["public"]["Enums"]["payment_status"] | null
+          transaction_id?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          amount?: number
+          authorization_code?: string | null
+          boleto_barcode?: string | null
+          boleto_due_date?: string | null
+          boleto_url?: string | null
+          card_brand?: string | null
+          card_last_four?: string | null
+          created_at?: string | null
+          gateway?: string | null
+          gateway_response?: Json | null
+          id?: string
+          metadata?: Json | null
+          method?: string
+          notes?: string | null
+          order_id?: string | null
+          organization_id?: string
+          paid_at?: string | null
+          payment_number?: string | null
+          pix_copy_paste?: string | null
+          pix_expiration?: string | null
+          pix_qr_code?: string | null
+          refund_amount?: number | null
+          refund_reason?: string | null
+          refunded_at?: string | null
+          status?: Database["public"]["Enums"]["payment_status"] | null
+          transaction_id?: string | null
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "payments_order_id_fkey"
+            columns: ["order_id"]
+            isOneToOne: false
+            referencedRelation: "orders"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "payments_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       playbook_enrollments: {
         Row: {
@@ -4239,6 +4751,192 @@ export type Database = {
           },
         ]
       }
+      promotion_usage: {
+        Row: {
+          account_id: string | null
+          contact_id: string | null
+          created_at: string | null
+          discount_amount: number
+          id: string
+          order_id: string
+          promotion_id: string
+        }
+        Insert: {
+          account_id?: string | null
+          contact_id?: string | null
+          created_at?: string | null
+          discount_amount: number
+          id?: string
+          order_id: string
+          promotion_id: string
+        }
+        Update: {
+          account_id?: string | null
+          contact_id?: string | null
+          created_at?: string | null
+          discount_amount?: number
+          id?: string
+          order_id?: string
+          promotion_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "promotion_usage_account_id_fkey"
+            columns: ["account_id"]
+            isOneToOne: false
+            referencedRelation: "accounts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "promotion_usage_contact_id_fkey"
+            columns: ["contact_id"]
+            isOneToOne: false
+            referencedRelation: "contacts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "promotion_usage_order_id_fkey"
+            columns: ["order_id"]
+            isOneToOne: false
+            referencedRelation: "orders"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "promotion_usage_promotion_id_fkey"
+            columns: ["promotion_id"]
+            isOneToOne: false
+            referencedRelation: "promotions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      promotions: {
+        Row: {
+          applies_to: string | null
+          applies_to_ids: string[] | null
+          buy_quantity: number | null
+          can_combine: boolean | null
+          code: string | null
+          created_at: string | null
+          created_by: string | null
+          description: string | null
+          end_date: string | null
+          exclude_ids: string[] | null
+          first_purchase_only: boolean | null
+          get_product_id: string | null
+          get_quantity: number | null
+          id: string
+          is_active: boolean | null
+          is_automatic: boolean | null
+          max_discount: number | null
+          min_items: number | null
+          min_purchase: number | null
+          name: string
+          new_customers_only: boolean | null
+          organization_id: string
+          priority: number | null
+          specific_accounts: string[] | null
+          specific_segments: string[] | null
+          start_date: string | null
+          type: Database["public"]["Enums"]["promotion_type"]
+          updated_at: string | null
+          usage_limit: number | null
+          usage_limit_per_customer: number | null
+          used_count: number | null
+          value: number | null
+        }
+        Insert: {
+          applies_to?: string | null
+          applies_to_ids?: string[] | null
+          buy_quantity?: number | null
+          can_combine?: boolean | null
+          code?: string | null
+          created_at?: string | null
+          created_by?: string | null
+          description?: string | null
+          end_date?: string | null
+          exclude_ids?: string[] | null
+          first_purchase_only?: boolean | null
+          get_product_id?: string | null
+          get_quantity?: number | null
+          id?: string
+          is_active?: boolean | null
+          is_automatic?: boolean | null
+          max_discount?: number | null
+          min_items?: number | null
+          min_purchase?: number | null
+          name: string
+          new_customers_only?: boolean | null
+          organization_id: string
+          priority?: number | null
+          specific_accounts?: string[] | null
+          specific_segments?: string[] | null
+          start_date?: string | null
+          type: Database["public"]["Enums"]["promotion_type"]
+          updated_at?: string | null
+          usage_limit?: number | null
+          usage_limit_per_customer?: number | null
+          used_count?: number | null
+          value?: number | null
+        }
+        Update: {
+          applies_to?: string | null
+          applies_to_ids?: string[] | null
+          buy_quantity?: number | null
+          can_combine?: boolean | null
+          code?: string | null
+          created_at?: string | null
+          created_by?: string | null
+          description?: string | null
+          end_date?: string | null
+          exclude_ids?: string[] | null
+          first_purchase_only?: boolean | null
+          get_product_id?: string | null
+          get_quantity?: number | null
+          id?: string
+          is_active?: boolean | null
+          is_automatic?: boolean | null
+          max_discount?: number | null
+          min_items?: number | null
+          min_purchase?: number | null
+          name?: string
+          new_customers_only?: boolean | null
+          organization_id?: string
+          priority?: number | null
+          specific_accounts?: string[] | null
+          specific_segments?: string[] | null
+          start_date?: string | null
+          type?: Database["public"]["Enums"]["promotion_type"]
+          updated_at?: string | null
+          usage_limit?: number | null
+          usage_limit_per_customer?: number | null
+          used_count?: number | null
+          value?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "promotions_created_by_fkey"
+            columns: ["created_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "promotions_get_product_id_fkey"
+            columns: ["get_product_id"]
+            isOneToOne: false
+            referencedRelation: "products"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "promotions_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       quote_items: {
         Row: {
           created_at: string
@@ -4429,6 +5127,145 @@ export type Database = {
             columns: ["parent_quote_id"]
             isOneToOne: false
             referencedRelation: "quotes"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      returns: {
+        Row: {
+          approved_at: string | null
+          approved_by: string | null
+          created_at: string | null
+          exchange_order_id: string | null
+          id: string
+          inspected_at: string | null
+          inspection_notes: string | null
+          items: Json
+          metadata: Json | null
+          notes: string | null
+          order_id: string
+          organization_id: string
+          reason: string
+          reason_category: string | null
+          received_at: string | null
+          refund_amount: number | null
+          refund_method: string | null
+          refunded_at: string | null
+          rejected_at: string | null
+          rejected_by: string | null
+          rejection_reason: string | null
+          requested_by: string | null
+          return_carrier: string | null
+          return_label_url: string | null
+          return_number: string
+          return_tracking_number: string | null
+          status: Database["public"]["Enums"]["return_status"] | null
+          type: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          approved_at?: string | null
+          approved_by?: string | null
+          created_at?: string | null
+          exchange_order_id?: string | null
+          id?: string
+          inspected_at?: string | null
+          inspection_notes?: string | null
+          items?: Json
+          metadata?: Json | null
+          notes?: string | null
+          order_id: string
+          organization_id: string
+          reason: string
+          reason_category?: string | null
+          received_at?: string | null
+          refund_amount?: number | null
+          refund_method?: string | null
+          refunded_at?: string | null
+          rejected_at?: string | null
+          rejected_by?: string | null
+          rejection_reason?: string | null
+          requested_by?: string | null
+          return_carrier?: string | null
+          return_label_url?: string | null
+          return_number: string
+          return_tracking_number?: string | null
+          status?: Database["public"]["Enums"]["return_status"] | null
+          type?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          approved_at?: string | null
+          approved_by?: string | null
+          created_at?: string | null
+          exchange_order_id?: string | null
+          id?: string
+          inspected_at?: string | null
+          inspection_notes?: string | null
+          items?: Json
+          metadata?: Json | null
+          notes?: string | null
+          order_id?: string
+          organization_id?: string
+          reason?: string
+          reason_category?: string | null
+          received_at?: string | null
+          refund_amount?: number | null
+          refund_method?: string | null
+          refunded_at?: string | null
+          rejected_at?: string | null
+          rejected_by?: string | null
+          rejection_reason?: string | null
+          requested_by?: string | null
+          return_carrier?: string | null
+          return_label_url?: string | null
+          return_number?: string
+          return_tracking_number?: string | null
+          status?: Database["public"]["Enums"]["return_status"] | null
+          type?: string | null
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "returns_approved_by_fkey"
+            columns: ["approved_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "returns_exchange_order_id_fkey"
+            columns: ["exchange_order_id"]
+            isOneToOne: false
+            referencedRelation: "orders"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "returns_order_id_fkey"
+            columns: ["order_id"]
+            isOneToOne: false
+            referencedRelation: "orders"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "returns_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "returns_rejected_by_fkey"
+            columns: ["rejected_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "returns_requested_by_fkey"
+            columns: ["requested_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
             referencedColumns: ["id"]
           },
         ]
@@ -4702,6 +5539,105 @@ export type Database = {
             columns: ["owner_id"]
             isOneToOne: false
             referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      shipments: {
+        Row: {
+          carrier: string | null
+          carrier_service: string | null
+          cost: number | null
+          created_at: string | null
+          delivered_at: string | null
+          dimensions: Json | null
+          estimated_delivery: string | null
+          id: string
+          insurance_value: number | null
+          items: Json | null
+          metadata: Json | null
+          notes: string | null
+          order_id: string
+          organization_id: string
+          recipient_document: string | null
+          recipient_name: string | null
+          shipment_number: string | null
+          shipped_at: string | null
+          shipping_address: Json | null
+          status: Database["public"]["Enums"]["shipment_status"] | null
+          tracking_number: string | null
+          tracking_url: string | null
+          updated_at: string | null
+          weight: number | null
+          weight_unit: string | null
+        }
+        Insert: {
+          carrier?: string | null
+          carrier_service?: string | null
+          cost?: number | null
+          created_at?: string | null
+          delivered_at?: string | null
+          dimensions?: Json | null
+          estimated_delivery?: string | null
+          id?: string
+          insurance_value?: number | null
+          items?: Json | null
+          metadata?: Json | null
+          notes?: string | null
+          order_id: string
+          organization_id: string
+          recipient_document?: string | null
+          recipient_name?: string | null
+          shipment_number?: string | null
+          shipped_at?: string | null
+          shipping_address?: Json | null
+          status?: Database["public"]["Enums"]["shipment_status"] | null
+          tracking_number?: string | null
+          tracking_url?: string | null
+          updated_at?: string | null
+          weight?: number | null
+          weight_unit?: string | null
+        }
+        Update: {
+          carrier?: string | null
+          carrier_service?: string | null
+          cost?: number | null
+          created_at?: string | null
+          delivered_at?: string | null
+          dimensions?: Json | null
+          estimated_delivery?: string | null
+          id?: string
+          insurance_value?: number | null
+          items?: Json | null
+          metadata?: Json | null
+          notes?: string | null
+          order_id?: string
+          organization_id?: string
+          recipient_document?: string | null
+          recipient_name?: string | null
+          shipment_number?: string | null
+          shipped_at?: string | null
+          shipping_address?: Json | null
+          status?: Database["public"]["Enums"]["shipment_status"] | null
+          tracking_number?: string | null
+          tracking_url?: string | null
+          updated_at?: string | null
+          weight?: number | null
+          weight_unit?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "shipments_order_id_fkey"
+            columns: ["order_id"]
+            isOneToOne: false
+            referencedRelation: "orders"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "shipments_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
             referencedColumns: ["id"]
           },
         ]
@@ -6196,6 +7132,8 @@ export type Database = {
         Returns: number
       }
       generate_contract_number: { Args: { org_id: string }; Returns: string }
+      generate_order_number: { Args: { org_id: string }; Returns: string }
+      generate_return_number: { Args: { org_id: string }; Returns: string }
       generate_ticket_number: { Args: { org_id: string }; Returns: string }
       get_stale_opportunities_count: {
         Args: { org_id: string; threshold_days?: number }
@@ -6351,6 +7289,21 @@ export type Database = {
         | "negotiation"
         | "closed_won"
         | "closed_lost"
+      order_status:
+        | "pending"
+        | "confirmed"
+        | "processing"
+        | "shipped"
+        | "delivered"
+        | "cancelled"
+        | "refunded"
+      payment_status:
+        | "pending"
+        | "authorized"
+        | "captured"
+        | "failed"
+        | "refunded"
+        | "partially_refunded"
       playbook_type:
         | "onboarding"
         | "adoption"
@@ -6359,7 +7312,15 @@ export type Database = {
         | "risk_mitigation"
         | "reactivation"
         | "offboarding"
+      promotion_type: "percentage" | "fixed" | "buy_x_get_y" | "free_shipping"
       quote_status: "draft" | "sent" | "accepted" | "rejected" | "expired"
+      return_status:
+        | "requested"
+        | "approved"
+        | "rejected"
+        | "received"
+        | "refunded"
+        | "completed"
       routing_rule_type:
         | "round_robin"
         | "territory"
@@ -6367,6 +7328,13 @@ export type Database = {
         | "load_balance"
         | "skill_based"
         | "priority"
+      shipment_status:
+        | "preparing"
+        | "shipped"
+        | "in_transit"
+        | "out_for_delivery"
+        | "delivered"
+        | "returned"
       step_execution_status:
         | "pending"
         | "running"
@@ -6688,6 +7656,23 @@ export const Constants = {
         "closed_won",
         "closed_lost",
       ],
+      order_status: [
+        "pending",
+        "confirmed",
+        "processing",
+        "shipped",
+        "delivered",
+        "cancelled",
+        "refunded",
+      ],
+      payment_status: [
+        "pending",
+        "authorized",
+        "captured",
+        "failed",
+        "refunded",
+        "partially_refunded",
+      ],
       playbook_type: [
         "onboarding",
         "adoption",
@@ -6697,7 +7682,16 @@ export const Constants = {
         "reactivation",
         "offboarding",
       ],
+      promotion_type: ["percentage", "fixed", "buy_x_get_y", "free_shipping"],
       quote_status: ["draft", "sent", "accepted", "rejected", "expired"],
+      return_status: [
+        "requested",
+        "approved",
+        "rejected",
+        "received",
+        "refunded",
+        "completed",
+      ],
       routing_rule_type: [
         "round_robin",
         "territory",
@@ -6705,6 +7699,14 @@ export const Constants = {
         "load_balance",
         "skill_based",
         "priority",
+      ],
+      shipment_status: [
+        "preparing",
+        "shipped",
+        "in_transit",
+        "out_for_delivery",
+        "delivered",
+        "returned",
       ],
       step_execution_status: [
         "pending",
