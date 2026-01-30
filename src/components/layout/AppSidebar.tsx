@@ -21,6 +21,13 @@ import {
   Ticket,
   BookOpen,
   FileSignature,
+  Megaphone,
+  Mail,
+  Filter,
+  Route,
+  Workflow,
+  Shield,
+  Heart,
 } from 'lucide-react';
 import { NavLink } from '@/components/NavLink';
 import {
@@ -63,6 +70,22 @@ const serviceNavItems = [
   { title: 'Dashboard de Service', url: '/service', icon: Headphones },
   { title: 'Tickets', url: '/tickets', icon: Ticket },
   { title: 'Base de Conhecimento', url: '/knowledge', icon: BookOpen },
+  { title: 'Customer Success', url: '/customer-success', icon: Heart },
+];
+
+const marketingNavItems = [
+  { title: 'Dashboard Marketing', url: '/marketing', icon: Megaphone },
+  { title: 'Campanhas', url: '/marketing/campaigns', icon: Mail },
+  { title: 'Segmentos', url: '/marketing/segments', icon: Filter },
+  { title: 'Jornadas', url: '/marketing/journeys', icon: Route },
+];
+
+const automationsNavItems = [
+  { title: 'Workflows', url: '/automations', icon: Workflow },
+];
+
+const governanceNavItems = [
+  { title: 'Governança', url: '/governance', icon: Shield },
 ];
 
 const managementNavItems = [
@@ -86,6 +109,9 @@ export function AppSidebar() {
 
   const [salesOpen, setSalesOpen] = useState(true);
   const [serviceOpen, setServiceOpen] = useState(true);
+  const [marketingOpen, setMarketingOpen] = useState(true);
+  const [automationsOpen, setAutomationsOpen] = useState(true);
+  const [governanceOpen, setGovernanceOpen] = useState(true);
   const [managementOpen, setManagementOpen] = useState(true);
 
   const isActive = (path: string) => location.pathname === path || location.pathname.startsWith(path + '/');
@@ -192,6 +218,90 @@ export function AppSidebar() {
               <SidebarGroupContent>
                 <SidebarMenu>
                   {serviceNavItems.map(renderNavItem)}
+                </SidebarMenu>
+              </SidebarGroupContent>
+            </CollapsibleContent>
+          </Collapsible>
+        </SidebarGroup>
+
+        {/* Marketing */}
+        <SidebarGroup>
+          <Collapsible open={marketingOpen} onOpenChange={setMarketingOpen}>
+            <CollapsibleTrigger asChild>
+              <SidebarGroupLabel className="cursor-pointer hover:text-sidebar-foreground">
+                <span className={cn(!collapsed && 'flex-1')}>
+                  {!collapsed && 'Marketing'}
+                </span>
+                {!collapsed && (
+                  <ChevronDown
+                    className={cn(
+                      'h-4 w-4 transition-transform',
+                      marketingOpen && 'rotate-180'
+                    )}
+                  />
+                )}
+              </SidebarGroupLabel>
+            </CollapsibleTrigger>
+            <CollapsibleContent>
+              <SidebarGroupContent>
+                <SidebarMenu>
+                  {marketingNavItems.map(renderNavItem)}
+                </SidebarMenu>
+              </SidebarGroupContent>
+            </CollapsibleContent>
+          </Collapsible>
+        </SidebarGroup>
+
+        {/* Automations */}
+        <SidebarGroup>
+          <Collapsible open={automationsOpen} onOpenChange={setAutomationsOpen}>
+            <CollapsibleTrigger asChild>
+              <SidebarGroupLabel className="cursor-pointer hover:text-sidebar-foreground">
+                <span className={cn(!collapsed && 'flex-1')}>
+                  {!collapsed && 'Automações'}
+                </span>
+                {!collapsed && (
+                  <ChevronDown
+                    className={cn(
+                      'h-4 w-4 transition-transform',
+                      automationsOpen && 'rotate-180'
+                    )}
+                  />
+                )}
+              </SidebarGroupLabel>
+            </CollapsibleTrigger>
+            <CollapsibleContent>
+              <SidebarGroupContent>
+                <SidebarMenu>
+                  {automationsNavItems.map(renderNavItem)}
+                </SidebarMenu>
+              </SidebarGroupContent>
+            </CollapsibleContent>
+          </Collapsible>
+        </SidebarGroup>
+
+        {/* Governance */}
+        <SidebarGroup>
+          <Collapsible open={governanceOpen} onOpenChange={setGovernanceOpen}>
+            <CollapsibleTrigger asChild>
+              <SidebarGroupLabel className="cursor-pointer hover:text-sidebar-foreground">
+                <span className={cn(!collapsed && 'flex-1')}>
+                  {!collapsed && 'Governança'}
+                </span>
+                {!collapsed && (
+                  <ChevronDown
+                    className={cn(
+                      'h-4 w-4 transition-transform',
+                      governanceOpen && 'rotate-180'
+                    )}
+                  />
+                )}
+              </SidebarGroupLabel>
+            </CollapsibleTrigger>
+            <CollapsibleContent>
+              <SidebarGroupContent>
+                <SidebarMenu>
+                  {governanceNavItems.map(renderNavItem)}
                 </SidebarMenu>
               </SidebarGroupContent>
             </CollapsibleContent>

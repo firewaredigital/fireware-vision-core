@@ -46,6 +46,14 @@ import ServiceDashboard from "./pages/ServiceDashboard";
 import Governance from "./pages/Governance";
 import LGPDRequestForm from "./pages/LGPDRequestForm";
 import CustomerSuccess from "./pages/CustomerSuccess";
+// Automations Module
+import Automations from "./pages/Automations";
+import WorkflowBuilder from "./pages/WorkflowBuilder";
+// Marketing Module
+import Marketing from "./pages/Marketing";
+import CampaignForm from "./pages/CampaignForm";
+import SegmentForm from "./pages/SegmentForm";
+import JourneyBuilder from "./pages/JourneyBuilder";
 
 const queryClient = new QueryClient();
 
@@ -125,6 +133,27 @@ const App = () => (
             
             {/* Customer Success */}
             <Route path="/customer-success" element={<CustomerSuccess />} />
+            
+            {/* Automations */}
+            <Route path="/automations" element={<Automations />} />
+            <Route path="/automations/new" element={<WorkflowBuilder />} />
+            <Route path="/automations/:id" element={<WorkflowBuilder />} />
+            <Route path="/automations/:id/edit" element={<WorkflowBuilder />} />
+            
+            {/* Marketing */}
+            <Route path="/marketing" element={<Marketing />} />
+            <Route path="/marketing/campaigns" element={<Marketing />} />
+            <Route path="/marketing/campaigns/new" element={<CampaignForm />} />
+            <Route path="/marketing/campaigns/:id" element={<CampaignForm />} />
+            <Route path="/marketing/campaigns/:id/edit" element={<CampaignForm />} />
+            <Route path="/marketing/segments" element={<Marketing />} />
+            <Route path="/marketing/segments/new" element={<SegmentForm />} />
+            <Route path="/marketing/segments/:id" element={<SegmentForm />} />
+            <Route path="/marketing/segments/:id/edit" element={<SegmentForm />} />
+            <Route path="/marketing/journeys" element={<Marketing />} />
+            <Route path="/marketing/journeys/new" element={<JourneyBuilder />} />
+            <Route path="/marketing/journeys/:id" element={<JourneyBuilder />} />
+            <Route path="/marketing/journeys/:id/edit" element={<JourneyBuilder />} />
             
             {/* Management */}
             <Route path="/territories" element={<Territories />} />
