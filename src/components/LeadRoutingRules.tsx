@@ -131,51 +131,58 @@ const ruleTypeConfig: Record<RuleType, { label: string; icon: React.ReactNode; d
   round_robin: {
     label: 'Round Robin',
     icon: <RotateCcw className="h-4 w-4" />,
-    description: 'Distribute leads evenly among selected users',
+    description: 'Distribui leads igualmente entre usuários selecionados',
   },
   territory: {
-    label: 'Territory Based',
+    label: 'Por Território',
     icon: <MapPin className="h-4 w-4" />,
-    description: 'Route based on geographic territory',
+    description: 'Direciona baseado na localização geográfica',
   },
   segment: {
-    label: 'Segment Based',
+    label: 'Por Segmento',
     icon: <Target className="h-4 w-4" />,
-    description: 'Route based on lead characteristics',
+    description: 'Direciona baseado nas características do lead',
   },
   load_balance: {
-    label: 'Load Balance',
+    label: 'Balanceamento de Carga',
     icon: <Zap className="h-4 w-4" />,
-    description: 'Distribute based on current workload',
+    description: 'Distribui baseado na carga de trabalho atual',
   },
   skill_based: {
-    label: 'Skill Based',
+    label: 'Por Habilidade',
     icon: <Users className="h-4 w-4" />,
-    description: 'Route to users with matching skills',
+    description: 'Direciona para usuários com habilidades compatíveis',
   },
   priority: {
-    label: 'Priority',
+    label: 'Prioridade',
     icon: <Target className="h-4 w-4" />,
-    description: 'Route high-value leads to top performers',
+    description: 'Direciona leads de alto valor para top performers',
   },
 };
 
 const conditionFields = [
-  { value: 'source', label: 'Lead Source' },
-  { value: 'industry', label: 'Industry' },
-  { value: 'company', label: 'Company' },
-  { value: 'score', label: 'Lead Score' },
-  { value: 'address_state', label: 'State' },
-  { value: 'address_country', label: 'Country' },
+  { value: 'source', label: 'Origem do Lead' },
+  { value: 'industry', label: 'Segmento' },
+  { value: 'company', label: 'Empresa' },
+  { value: 'score', label: 'Pontuação do Lead' },
+  { value: 'address_state', label: 'Estado' },
+  { value: 'address_country', label: 'País' },
 ];
 
 const conditionOperators = [
-  { value: 'equals', label: 'Equals' },
-  { value: 'not_equals', label: 'Does not equal' },
-  { value: 'contains', label: 'Contains' },
-  { value: 'greater_than', label: 'Greater than' },
-  { value: 'less_than', label: 'Less than' },
+  { value: 'equals', label: 'Igual a' },
+  { value: 'not_equals', label: 'Diferente de' },
+  { value: 'contains', label: 'Contém' },
+  { value: 'greater_than', label: 'Maior que' },
+  { value: 'less_than', label: 'Menor que' },
 ];
+
+const entityTypeLabels: Record<string, string> = {
+  lead: 'Lead',
+  opportunity: 'Oportunidade',
+  ticket: 'Ticket',
+  account: 'Conta',
+};
 
 export function LeadRoutingRules() {
   const { profile } = useAuth();
@@ -317,13 +324,13 @@ export function LeadRoutingRules() {
     if (error) {
       toast({
         variant: 'destructive',
-        title: 'Error',
-        description: 'Failed to save routing rule',
+        title: 'Erro',
+        description: 'Falha ao salvar regra de roteamento.',
       });
     } else {
       toast({
-        title: editingRule ? 'Rule updated' : 'Rule created',
-        description: `Routing rule "${form.name}" has been saved.`,
+        title: editingRule ? 'Regra atualizada' : 'Regra criada',
+        description: `A regra de roteamento "${form.name}" foi salva com sucesso.`,
       });
       setDialogOpen(false);
       fetchRules();
@@ -338,13 +345,13 @@ export function LeadRoutingRules() {
     if (error) {
       toast({
         variant: 'destructive',
-        title: 'Error',
-        description: 'Failed to delete routing rule',
+        title: 'Erro',
+        description: 'Falha ao excluir regra de roteamento.',
       });
     } else {
       toast({
-        title: 'Rule deleted',
-        description: 'The routing rule has been deleted.',
+        title: 'Regra excluída',
+        description: 'A regra de roteamento foi excluída com sucesso.',
       });
       fetchRules();
     }
@@ -369,15 +376,15 @@ export function LeadRoutingRules() {
           <div>
             <CardTitle className="flex items-center gap-2">
               <Zap className="h-5 w-5" />
-              Lead Routing Rules
+              Regras de Roteamento de Leads
             </CardTitle>
             <CardDescription>
-              Configure automatic lead assignment based on rules
+              Configure a atribuição automática de leads baseada em regras
             </CardDescription>
           </div>
           <Button onClick={() => openDialog()}>
             <Plus className="mr-2 h-4 w-4" />
-            Add Rule
+            Nova Regra
           </Button>
         </div>
       </CardHeader>
@@ -389,23 +396,23 @@ export function LeadRoutingRules() {
         ) : rules.length === 0 ? (
           <div className="text-center py-8">
             <Settings className="h-8 w-8 mx-auto mb-2 text-muted-foreground opacity-50" />
-            <p className="text-muted-foreground">No routing rules configured</p>
+            <p className="text-muted-foreground">Nenhuma regra de roteamento configurada</p>
             <p className="text-sm text-muted-foreground mb-4">
-              Create rules to automatically assign leads to your team.
+              Crie regras para atribuir leads automaticamente à sua equipe.
             </p>
             <Button variant="outline" onClick={() => openDialog()}>
               <Plus className="mr-2 h-4 w-4" />
-              Create First Rule
+              Criar Primeira Regra
             </Button>
           </div>
         ) : (
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead>Name</TableHead>
-                <TableHead>Type</TableHead>
-                <TableHead>Entity</TableHead>
-                <TableHead>Priority</TableHead>
+                <TableHead>Nome</TableHead>
+                <TableHead>Tipo</TableHead>
+                <TableHead>Entidade</TableHead>
+                <TableHead>Prioridade</TableHead>
                 <TableHead>Status</TableHead>
                 <TableHead className="w-[100px]"></TableHead>
               </TableRow>
@@ -432,7 +439,7 @@ export function LeadRoutingRules() {
                       </div>
                     </TableCell>
                     <TableCell>
-                      <Badge variant="outline">{rule.entity_type}</Badge>
+                      <Badge variant="outline">{entityTypeLabels[rule.entity_type] || rule.entity_type}</Badge>
                     </TableCell>
                     <TableCell>{rule.priority}</TableCell>
                     <TableCell>
@@ -471,10 +478,10 @@ export function LeadRoutingRules() {
           <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
             <DialogHeader>
               <DialogTitle>
-                {editingRule ? 'Edit Routing Rule' : 'Create Routing Rule'}
+                {editingRule ? 'Editar Regra de Roteamento' : 'Criar Regra de Roteamento'}
               </DialogTitle>
               <DialogDescription>
-                Configure how leads should be automatically assigned.
+                Configure como os leads devem ser atribuídos automaticamente.
               </DialogDescription>
             </DialogHeader>
 
@@ -482,19 +489,19 @@ export function LeadRoutingRules() {
               {/* Basic Info */}
               <div className="grid gap-4">
                 <div className="space-y-2">
-                  <Label>Rule Name *</Label>
+                  <Label>Nome da Regra *</Label>
                   <Input
                     value={form.name}
                     onChange={(e) => setForm({ ...form, name: e.target.value })}
-                    placeholder="e.g., Enterprise Leads to Senior Reps"
+                    placeholder="Ex.: Leads Enterprise para Reps Seniores"
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label>Description</Label>
+                  <Label>Descrição</Label>
                   <Textarea
                     value={form.description}
                     onChange={(e) => setForm({ ...form, description: e.target.value })}
-                    placeholder="Describe when this rule applies..."
+                    placeholder="Descreva quando esta regra se aplica..."
                     rows={2}
                   />
                 </div>
@@ -502,7 +509,7 @@ export function LeadRoutingRules() {
 
               {/* Rule Type */}
               <div className="space-y-2">
-                <Label>Rule Type</Label>
+                <Label>Tipo de Regra</Label>
                 <Select
                   value={form.rule_type}
                   onValueChange={(value) => setForm({ ...form, rule_type: value as RuleType })}
@@ -531,17 +538,17 @@ export function LeadRoutingRules() {
               {/* Conditions */}
               <div className="space-y-4">
                 <div className="flex items-center justify-between">
-                  <Label>Conditions (When to apply this rule)</Label>
+                  <Label>Condições (Quando aplicar esta regra)</Label>
                   <Button variant="outline" size="sm" onClick={addCondition}>
                     <Plus className="mr-2 h-4 w-4" />
-                    Add Condition
+                    Adicionar Condição
                   </Button>
                 </div>
 
                 {form.conditions.length === 0 ? (
                   <div className="text-center py-4 border border-dashed rounded-lg">
                     <p className="text-sm text-muted-foreground">
-                      No conditions - rule applies to all leads
+                      Sem condições - a regra se aplica a todos os leads
                     </p>
                   </div>
                 ) : (
@@ -553,7 +560,7 @@ export function LeadRoutingRules() {
                           onValueChange={(v) => updateCondition(index, 'field', v)}
                         >
                           <SelectTrigger className="w-[150px]">
-                            <SelectValue placeholder="Field" />
+                            <SelectValue placeholder="Campo" />
                           </SelectTrigger>
                           <SelectContent>
                             {conditionFields.map((f) => (
@@ -566,7 +573,7 @@ export function LeadRoutingRules() {
                           onValueChange={(v) => updateCondition(index, 'operator', v)}
                         >
                           <SelectTrigger className="w-[150px]">
-                            <SelectValue placeholder="Operator" />
+                            <SelectValue placeholder="Operador" />
                           </SelectTrigger>
                           <SelectContent>
                             {conditionOperators.map((o) => (
@@ -577,7 +584,7 @@ export function LeadRoutingRules() {
                         <Input
                           value={condition.value}
                           onChange={(e) => updateCondition(index, 'value', e.target.value)}
-                          placeholder="Value"
+                          placeholder="Valor"
                           className="flex-1"
                         />
                         <Button
@@ -595,16 +602,16 @@ export function LeadRoutingRules() {
 
               {/* Target Assignment */}
               <div className="space-y-4">
-                <Label>Assign To</Label>
+                <Label>Atribuir Para</Label>
                 <div className="grid gap-4 md:grid-cols-2">
                   <div className="space-y-2">
-                    <Label className="text-sm">Team</Label>
+                    <Label className="text-sm">Equipe</Label>
                     <Select
                       value={form.target_team_id}
                       onValueChange={(v) => setForm({ ...form, target_team_id: v })}
                     >
                       <SelectTrigger>
-                        <SelectValue placeholder="Select team" />
+                        <SelectValue placeholder="Selecione uma equipe" />
                       </SelectTrigger>
                       <SelectContent>
                         {teams.map((team) => (
@@ -614,13 +621,13 @@ export function LeadRoutingRules() {
                     </Select>
                   </div>
                   <div className="space-y-2">
-                    <Label className="text-sm">Territory</Label>
+                    <Label className="text-sm">Território</Label>
                     <Select
                       value={form.target_territory_id}
                       onValueChange={(v) => setForm({ ...form, target_territory_id: v })}
                     >
                       <SelectTrigger>
-                        <SelectValue placeholder="Select territory" />
+                        <SelectValue placeholder="Selecione um território" />
                       </SelectTrigger>
                       <SelectContent>
                         {territories.map((t) => (
@@ -637,7 +644,7 @@ export function LeadRoutingRules() {
               {/* Settings */}
               <div className="grid gap-4 md:grid-cols-2">
                 <div className="space-y-2">
-                  <Label>Priority (lower = higher priority)</Label>
+                  <Label>Prioridade (menor = maior prioridade)</Label>
                   <Input
                     type="number"
                     value={form.priority}
@@ -647,8 +654,8 @@ export function LeadRoutingRules() {
                 </div>
                 <div className="flex items-center justify-between p-4 border rounded-lg">
                   <div>
-                    <Label>Active</Label>
-                    <p className="text-sm text-muted-foreground">Enable this rule</p>
+                    <Label>Ativa</Label>
+                    <p className="text-sm text-muted-foreground">Habilitar esta regra</p>
                   </div>
                   <Switch
                     checked={form.is_active}
@@ -660,7 +667,7 @@ export function LeadRoutingRules() {
 
             <DialogFooter>
               <Button variant="outline" onClick={() => setDialogOpen(false)}>
-                Cancel
+                Cancelar
               </Button>
               <Button onClick={handleSave} disabled={!form.name || saving}>
                 {saving ? (
@@ -668,7 +675,7 @@ export function LeadRoutingRules() {
                 ) : (
                   <Save className="mr-2 h-4 w-4" />
                 )}
-                {editingRule ? 'Update Rule' : 'Create Rule'}
+                {editingRule ? 'Atualizar Regra' : 'Criar Regra'}
               </Button>
             </DialogFooter>
           </DialogContent>
@@ -678,15 +685,15 @@ export function LeadRoutingRules() {
         <AlertDialog open={!!deleteRuleId} onOpenChange={() => setDeleteRuleId(null)}>
           <AlertDialogContent>
             <AlertDialogHeader>
-              <AlertDialogTitle>Delete Routing Rule</AlertDialogTitle>
+              <AlertDialogTitle>Excluir Regra de Roteamento</AlertDialogTitle>
               <AlertDialogDescription>
-                Are you sure you want to delete this rule? Future leads will not be routed using this rule.
+                Tem certeza de que deseja excluir esta regra? Leads futuros não serão roteados usando esta regra.
               </AlertDialogDescription>
             </AlertDialogHeader>
             <AlertDialogFooter>
-              <AlertDialogCancel>Cancel</AlertDialogCancel>
+              <AlertDialogCancel>Cancelar</AlertDialogCancel>
               <AlertDialogAction onClick={() => deleteRuleId && deleteRule(deleteRuleId)}>
-                Delete
+                Excluir
               </AlertDialogAction>
             </AlertDialogFooter>
           </AlertDialogContent>

@@ -16,6 +16,7 @@ import { supabase } from '@/integrations/supabase/client';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, LineChart, Line } from 'recharts';
 import { format, startOfMonth, endOfMonth, startOfQuarter, endOfQuarter, addMonths, addQuarters, subMonths, subQuarters } from 'date-fns';
+import { ptBR } from 'date-fns/locale';
 
 interface Forecast {
   id: string;
@@ -43,6 +44,22 @@ interface Opportunity {
   owner_id: string | null;
   account?: { name: string } | null;
 }
+
+const stageLabels: Record<string, string> = {
+  'prospecting': 'Prospecção',
+  'qualification': 'Qualificação',
+  'proposal': 'Proposta',
+  'negotiation': 'Negociação',
+  'closed_won': 'Fechado Ganho',
+  'closed_lost': 'Fechado Perdido',
+};
+
+const forecastCategoryLabels: Record<string, string> = {
+  'commit': 'Commit',
+  'best_case': 'Melhor Caso',
+  'pipeline': 'Pipeline',
+  'omitted': 'Omitido',
+};
 
 export default function Forecast() {
   const { user, loading } = useAuth();
@@ -194,7 +211,7 @@ export default function Forecast() {
       const aggregated = periods.map(period => {
         const periodForecasts = data.filter(f => f.period_start === period);
         return {
-          period: format(new Date(period), periodType === 'monthly' ? 'MMM yyyy' : 'QQQ yyyy'),
+          period: format(new Date(period), periodType === 'monthly' ? 'MMM yyyy' : 'QQQ yyyy', { locale: ptBR }),
           target: periodForecasts.reduce((sum, f) => sum + (f.target_amount || 0), 0),
           closed: periodForecasts.reduce((sum, f) => sum + (f.closed_amount || 0), 0)
         };
@@ -219,7 +236,7 @@ export default function Forecast() {
         .eq('id', user?.id)
         .single();
       
-      if (!profile?.organization_id) throw new Error('No organization');
+      if (!profile?.organization_id) throw new Error('Sem organização');
 
       // Calculate pipeline and closed from opportunities
       const ownerOpps = opportunities.filter(o => o.owner_id === data.owner_id);
@@ -262,13 +279,13 @@ export default function Forecast() {
       queryClient.invalidateQueries({ queryKey: ['forecasts'] });
       setEditingForecast(null);
       toast({
-        title: 'Forecast saved',
-        description: 'Changes saved successfully.'
+        title: 'Previsão salva',
+        description: 'As alterações foram salvas com sucesso.'
       });
     },
     onError: (error: any) => {
       toast({
-        title: 'Error',
+        title: 'Erro',
         description: error.message,
         variant: 'destructive'
       });
@@ -329,7 +346,7 @@ export default function Forecast() {
         <div className="flex items-center justify-between">
           <div>
             <h1 className="text-2xl font-bold">Previsão de Vendas</h1>
-            <p className="text-muted-foreground">Metas e previsões de vendas</p>
+            <p className="text-muted-foreground">Metas e previsões de vendas da equipe</p>
           </div>
           <div className="flex items-center gap-4">
             <Select value={periodType} onValueChange={(v: 'monthly' | 'quarterly') => setPeriodType(v)}>
@@ -345,8 +362,8 @@ export default function Forecast() {
               <Button variant="outline" size="icon" onClick={() => navigatePeriod('prev')}>
                 <ChevronLeft className="h-4 w-4" />
               </Button>
-              <div className="w-32 text-center font-medium">
-                {format(periodStart, periodType === 'monthly' ? 'MMMM yyyy' : 'QQQ yyyy')}
+              <div className="w-36 text-center font-medium">
+                {format(periodStart, periodType === 'monthly' ? "MMMM 'de' yyyy" : "QQQ 'de' yyyy", { locale: ptBR })}
               </div>
               <Button variant="outline" size="icon" onClick={() => navigatePeriod('next')}>
                 <ChevronRight className="h-4 w-4" />
@@ -382,7 +399,7 @@ export default function Forecast() {
             <CardContent className="p-4">
               <div className="flex items-center gap-2 text-muted-foreground mb-1">
                 <BarChart3 className="h-4 w-4" />
-                <span className="text-sm">Best Case</span>
+                <span className="text-sm">Melhor Caso</span>
               </div>
               <div className="text-2xl font-bold">{formatCurrency(byCategory.bestCase)}</div>
             </CardContent>
@@ -438,7 +455,7 @@ export default function Forecast() {
           <TabsContent value="team">
             <Card>
               <CardHeader>
-                <CardTitle>Previsão da Equipe - {format(periodStart, periodType === 'monthly' ? 'MMMM yyyy' : 'QQQ yyyy')}</CardTitle>
+                <CardTitle>Previsão da Equipe - {format(periodStart, periodType === 'monthly' ? "MMMM 'de' yyyy" : "QQQ 'de' yyyy", { locale: ptBR })}</CardTitle>
                 <CardDescription>Metas individuais e desempenho</CardDescription>
               </CardHeader>
               <CardContent>
@@ -577,26 +594,26 @@ export default function Forecast() {
           <TabsContent value="opportunities">
             <Card>
               <CardHeader>
-                <CardTitle>Opportunities Closing This Period</CardTitle>
-                <CardDescription>Deals with close dates in {format(periodStart, periodType === 'monthly' ? 'MMMM yyyy' : 'QQQ yyyy')}</CardDescription>
+                <CardTitle>Oportunidades com Fechamento neste Período</CardTitle>
+                <CardDescription>Negócios com data de fechamento em {format(periodStart, periodType === 'monthly' ? "MMMM 'de' yyyy" : "QQQ 'de' yyyy", { locale: ptBR })}</CardDescription>
               </CardHeader>
               <CardContent>
                 <Table>
                   <TableHeader>
                     <TableRow>
-                      <TableHead>Opportunity</TableHead>
-                      <TableHead>Account</TableHead>
-                      <TableHead>Stage</TableHead>
-                      <TableHead>Category</TableHead>
-                      <TableHead>Close Date</TableHead>
-                      <TableHead className="text-right">Amount</TableHead>
+                      <TableHead>Oportunidade</TableHead>
+                      <TableHead>Conta</TableHead>
+                      <TableHead>Estágio</TableHead>
+                      <TableHead>Categoria</TableHead>
+                      <TableHead>Data de Fechamento</TableHead>
+                      <TableHead className="text-right">Valor</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
                     {opportunities.length === 0 ? (
                       <TableRow>
                         <TableCell colSpan={6} className="text-center text-muted-foreground py-8">
-                          No opportunities closing this period
+                          Nenhuma oportunidade com fechamento neste período
                         </TableCell>
                       </TableRow>
                     ) : (
@@ -606,16 +623,16 @@ export default function Forecast() {
                           <TableCell>{opp.account?.name || '-'}</TableCell>
                           <TableCell>
                             <Badge variant={opp.stage === 'closed_won' ? 'default' : 'outline'}>
-                              {opp.stage.replace('_', ' ')}
+                              {stageLabels[opp.stage] || opp.stage.replace('_', ' ')}
                             </Badge>
                           </TableCell>
                           <TableCell>
                             <Badge variant="secondary">
-                              {opp.forecast_category?.replace('_', ' ') || 'pipeline'}
+                              {forecastCategoryLabels[opp.forecast_category || 'pipeline'] || opp.forecast_category?.replace('_', ' ') || 'Pipeline'}
                             </Badge>
                           </TableCell>
                           <TableCell>
-                            {opp.close_date ? format(new Date(opp.close_date), 'MMM d, yyyy') : '-'}
+                            {opp.close_date ? format(new Date(opp.close_date), "dd/MM/yyyy", { locale: ptBR }) : '-'}
                           </TableCell>
                           <TableCell className="text-right font-medium">
                             {formatCurrency(opp.amount || 0)}
@@ -632,8 +649,8 @@ export default function Forecast() {
           <TabsContent value="trends">
             <Card>
               <CardHeader>
-                <CardTitle>Historical Performance</CardTitle>
-                <CardDescription>Target vs Closed comparison over time</CardDescription>
+                <CardTitle>Desempenho Histórico</CardTitle>
+                <CardDescription>Comparação de Meta vs Fechado ao longo do tempo</CardDescription>
               </CardHeader>
               <CardContent>
                 <div className="h-[400px]">
@@ -641,14 +658,14 @@ export default function Forecast() {
                     <BarChart data={historicalData}>
                       <CartesianGrid strokeDasharray="3 3" />
                       <XAxis dataKey="period" />
-                      <YAxis tickFormatter={(value) => `$${(value / 1000).toFixed(0)}k`} />
+                      <YAxis tickFormatter={(value) => `R$${(value / 1000).toFixed(0)}k`} />
                       <Tooltip 
                         formatter={(value: number) => formatCurrency(value)}
                         labelStyle={{ color: 'var(--foreground)' }}
                       />
                       <Legend />
-                      <Bar dataKey="target" name="Target" fill="hsl(var(--muted-foreground))" />
-                      <Bar dataKey="closed" name="Closed" fill="hsl(var(--primary))" />
+                      <Bar dataKey="target" name="Meta" fill="hsl(var(--muted-foreground))" />
+                      <Bar dataKey="closed" name="Fechado" fill="hsl(var(--primary))" />
                     </BarChart>
                   </ResponsiveContainer>
                 </div>
