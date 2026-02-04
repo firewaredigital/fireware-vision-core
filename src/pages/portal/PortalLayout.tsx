@@ -35,7 +35,7 @@ const navItems = [
   { title: 'Início', url: '/portal', icon: Home },
   { title: 'Meus Tickets', url: '/portal/tickets', icon: Ticket },
   { title: 'Base de Conhecimento', url: '/portal/knowledge', icon: BookOpen },
-  { title: 'Ajuda', url: '/portal/help', icon: HelpCircle },
+  { title: 'Central de Ajuda', url: '/portal/help', icon: HelpCircle },
 ];
 
 export function PortalLayout({ children }: PortalLayoutProps) {
@@ -137,7 +137,7 @@ export function PortalLayout({ children }: PortalLayoutProps) {
                 </DropdownMenuItem>
                 <DropdownMenuItem onClick={() => navigate('/portal/settings')}>
                   <Settings className="mr-2 h-4 w-4" />
-                  Configurações
+                  Preferências
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem onClick={handleLogout}>
@@ -214,17 +214,17 @@ export function PortalLayout({ children }: PortalLayoutProps) {
         <div className="container flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-muted-foreground">
           <div className="flex items-center gap-2">
             <Flame className="h-4 w-4" />
-            <span>© 2024 Fireware CRM. Todos os direitos reservados.</span>
+            <span>© 2025 Fireware CRM. Todos os direitos reservados.</span>
           </div>
           <div className="flex gap-4">
             <Link to="/portal/terms" className="hover:text-foreground hover:underline">
               Termos de Uso
             </Link>
             <Link to="/portal/privacy" className="hover:text-foreground hover:underline">
-              Privacidade
+              Política de Privacidade
             </Link>
             <Link to="/portal/contact" className="hover:text-foreground hover:underline">
-              Contato
+              Fale Conosco
             </Link>
           </div>
         </div>

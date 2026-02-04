@@ -45,6 +45,7 @@ import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
 import { useAuth } from '@/hooks/useAuth';
 import { format, formatDistanceToNow } from 'date-fns';
+import { ptBR } from 'date-fns/locale';
 import type { Database } from '@/integrations/supabase/types';
 
 type ActivityType = Database['public']['Enums']['activity_type'];
@@ -87,6 +88,14 @@ const activityTypeIcons: Record<ActivityType, typeof Phone> = {
   note: FileText,
 };
 
+const activityTypeLabels: Record<ActivityType, string> = {
+  call: 'Ligação',
+  email: 'Email',
+  meeting: 'Reunião',
+  task: 'Tarefa',
+  note: 'Anotação',
+};
+
 const activityTypeColors: Record<ActivityType, string> = {
   call: 'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400',
   email: 'bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-400',
@@ -95,11 +104,26 @@ const activityTypeColors: Record<ActivityType, string> = {
   note: 'bg-gray-100 text-gray-700 dark:bg-gray-900/30 dark:text-gray-400',
 };
 
+const priorityLabels: Record<string, string> = {
+  low: 'Baixa',
+  normal: 'Normal',
+  high: 'Alta',
+  urgent: 'Urgente',
+};
+
 const priorityColors: Record<string, string> = {
   low: 'bg-muted text-muted-foreground',
   normal: 'bg-info/10 text-info',
   high: 'bg-warning/10 text-warning',
   urgent: 'bg-destructive/10 text-destructive',
+};
+
+const callResultLabels: Record<string, string> = {
+  connected: 'Conectado',
+  voicemail: 'Caixa Postal',
+  no_answer: 'Sem Resposta',
+  busy: 'Ocupado',
+  wrong_number: 'Número Errado',
 };
 
 export function ActivitiesWidget({
@@ -177,7 +201,7 @@ export function ActivitiesWidget({
 
   const handleSave = async () => {
     if (!formData.subject.trim()) {
-      toast({ variant: 'destructive', title: 'Error', description: 'Subject is required' });
+      toast({ variant: 'destructive', title: 'Erro', description: 'O assunto é obrigatório' });
       return;
     }
 
@@ -191,7 +215,7 @@ export function ActivitiesWidget({
       .single();
 
     if (!profile?.organization_id) {
-      toast({ variant: 'destructive', title: 'Error', description: 'Organization not found' });
+      toast({ variant: 'destructive', title: 'Erro', description: 'Organização não encontrada' });
       setSaving(false);
       return;
     }
@@ -232,9 +256,9 @@ export function ActivitiesWidget({
         .eq('id', editingActivity.id);
 
       if (error) {
-        toast({ variant: 'destructive', title: 'Error', description: 'Failed to update activity' });
+        toast({ variant: 'destructive', title: 'Erro', description: 'Falha ao atualizar atividade' });
       } else {
-        toast({ title: 'Activity updated' });
+        toast({ title: 'Atividade atualizada' });
         closeDialog();
         fetchActivities();
       }
@@ -242,9 +266,9 @@ export function ActivitiesWidget({
       const { error } = await supabase.from('activities').insert(activityData);
 
       if (error) {
-        toast({ variant: 'destructive', title: 'Error', description: 'Failed to create activity' });
+        toast({ variant: 'destructive', title: 'Erro', description: 'Falha ao criar atividade' });
       } else {
-        toast({ title: 'Activity created' });
+        toast({ title: 'Atividade criada' });
         closeDialog();
         fetchActivities();
       }
@@ -263,9 +287,9 @@ export function ActivitiesWidget({
       .eq('id', activity.id);
 
     if (error) {
-      toast({ variant: 'destructive', title: 'Error', description: 'Failed to complete activity' });
+      toast({ variant: 'destructive', title: 'Erro', description: 'Falha ao concluir atividade' });
     } else {
-      toast({ title: 'Activity completed' });
+      toast({ title: 'Atividade concluída' });
       fetchActivities();
     }
   };
@@ -274,9 +298,9 @@ export function ActivitiesWidget({
     const { error } = await supabase.from('activities').delete().eq('id', activityId);
 
     if (error) {
-      toast({ variant: 'destructive', title: 'Error', description: 'Failed to delete activity' });
+      toast({ variant: 'destructive', title: 'Erro', description: 'Falha ao excluir atividade' });
     } else {
-      toast({ title: 'Activity deleted' });
+      toast({ title: 'Atividade excluída' });
       fetchActivities();
     }
   };
@@ -310,7 +334,7 @@ export function ActivitiesWidget({
       }
       return activity.owner.email;
     }
-    return 'Unknown';
+    return 'Desconhecido';
   };
 
   const openActivities = activities.filter((a) => a.status !== 'completed');
@@ -320,16 +344,16 @@ export function ActivitiesWidget({
     return (
       <div className={className}>
         <div className="flex items-center justify-between mb-3">
-          <h4 className="text-sm font-medium">Activities ({openActivities.length} open)</h4>
+          <h4 className="text-sm font-medium">Atividades ({openActivities.length} em aberto)</h4>
           <Button size="sm" variant="ghost" onClick={() => setShowDialog(true)}>
             <Plus className="h-4 w-4" />
           </Button>
         </div>
 
         {loading ? (
-          <p className="text-sm text-muted-foreground">Loading...</p>
+          <p className="text-sm text-muted-foreground">Carregando...</p>
         ) : openActivities.length === 0 ? (
-          <p className="text-sm text-muted-foreground">No open activities</p>
+          <p className="text-sm text-muted-foreground">Nenhuma atividade em aberto</p>
         ) : (
           <div className="space-y-2 max-h-40 overflow-y-auto">
             {openActivities.slice(0, 3).map((activity) => {
@@ -340,14 +364,14 @@ export function ActivitiesWidget({
                   <span className="truncate flex-1">{activity.subject}</span>
                   {activity.due_date && (
                     <span className="text-xs text-muted-foreground shrink-0">
-                      {format(new Date(activity.due_date), 'MMM d')}
+                      {format(new Date(activity.due_date), "d 'de' MMM", { locale: ptBR })}
                     </span>
                   )}
                 </div>
               );
             })}
             {openActivities.length > 3 && (
-              <p className="text-xs text-muted-foreground">+{openActivities.length - 3} more</p>
+              <p className="text-xs text-muted-foreground">+{openActivities.length - 3} mais</p>
             )}
           </div>
         )}
@@ -355,15 +379,15 @@ export function ActivitiesWidget({
         <Dialog open={showDialog} onOpenChange={setShowDialog}>
           <DialogContent className="max-w-md">
             <DialogHeader>
-              <DialogTitle>{editingActivity ? 'Edit Activity' : 'Log Activity'}</DialogTitle>
+              <DialogTitle>{editingActivity ? 'Editar Atividade' : 'Registrar Atividade'}</DialogTitle>
               <DialogDescription>
-                Record a call, email, meeting, or task.
+                Registre uma ligação, email, reunião ou tarefa.
               </DialogDescription>
             </DialogHeader>
             <div className="space-y-4">
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <Label>Type</Label>
+                  <Label>Tipo</Label>
                   <Select
                     value={formData.type}
                     onValueChange={(v) => setFormData({ ...formData, type: v as ActivityType })}
@@ -372,15 +396,15 @@ export function ActivitiesWidget({
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="call">Call</SelectItem>
+                      <SelectItem value="call">Ligação</SelectItem>
                       <SelectItem value="email">Email</SelectItem>
-                      <SelectItem value="meeting">Meeting</SelectItem>
-                      <SelectItem value="task">Task</SelectItem>
+                      <SelectItem value="meeting">Reunião</SelectItem>
+                      <SelectItem value="task">Tarefa</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
                 <div className="space-y-2">
-                  <Label>Priority</Label>
+                  <Label>Prioridade</Label>
                   <Select
                     value={formData.priority}
                     onValueChange={(v) => setFormData({ ...formData, priority: v })}
@@ -389,24 +413,24 @@ export function ActivitiesWidget({
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="low">Low</SelectItem>
+                      <SelectItem value="low">Baixa</SelectItem>
                       <SelectItem value="normal">Normal</SelectItem>
-                      <SelectItem value="high">High</SelectItem>
-                      <SelectItem value="urgent">Urgent</SelectItem>
+                      <SelectItem value="high">Alta</SelectItem>
+                      <SelectItem value="urgent">Urgente</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
               </div>
               <div className="space-y-2">
-                <Label>Subject *</Label>
+                <Label>Assunto *</Label>
                 <Input
                   value={formData.subject}
                   onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
-                  placeholder="Activity subject"
+                  placeholder="Assunto da atividade"
                 />
               </div>
               <div className="space-y-2">
-                <Label>Due Date</Label>
+                <Label>Data de Vencimento</Label>
                 <Input
                   type="date"
                   value={formData.due_date}
@@ -414,7 +438,7 @@ export function ActivitiesWidget({
                 />
               </div>
               <div className="space-y-2">
-                <Label>Description</Label>
+                <Label>Descrição</Label>
                 <Textarea
                   value={formData.description}
                   onChange={(e) => setFormData({ ...formData, description: e.target.value })}
@@ -423,9 +447,9 @@ export function ActivitiesWidget({
               </div>
             </div>
             <DialogFooter>
-              <Button variant="outline" onClick={closeDialog}>Cancel</Button>
+              <Button variant="outline" onClick={closeDialog}>Cancelar</Button>
               <Button onClick={handleSave} disabled={saving || !formData.subject.trim()}>
-                {saving ? 'Saving...' : editingActivity ? 'Update' : 'Save'}
+                {saving ? 'Salvando...' : editingActivity ? 'Atualizar' : 'Salvar'}
               </Button>
             </DialogFooter>
           </DialogContent>
@@ -438,23 +462,23 @@ export function ActivitiesWidget({
     <Card className={className}>
       <CardHeader className="flex flex-row items-center justify-between">
         <div>
-          <CardTitle>Activities</CardTitle>
-          <CardDescription>Calls, meetings, emails, and tasks</CardDescription>
+          <CardTitle>Atividades</CardTitle>
+          <CardDescription>Ligações, reuniões, emails e tarefas</CardDescription>
         </div>
         <Button size="sm" onClick={() => setShowDialog(true)}>
           <Plus className="mr-2 h-4 w-4" />
-          Log Activity
+          Registrar Atividade
         </Button>
       </CardHeader>
       <CardContent>
         {loading ? (
           <div className="flex items-center justify-center h-32 text-muted-foreground">
-            <p>Loading activities...</p>
+            <p>Carregando atividades...</p>
           </div>
         ) : activities.length === 0 ? (
           <div className="flex flex-col items-center justify-center h-32 text-muted-foreground">
             <Activity className="h-8 w-8 mb-2" />
-            <p>No activities yet</p>
+            <p>Nenhuma atividade registrada</p>
           </div>
         ) : (
           <div className="space-y-6">
@@ -462,7 +486,7 @@ export function ActivitiesWidget({
             {openActivities.length > 0 && (
               <div>
                 <h4 className="text-sm font-medium text-muted-foreground mb-3">
-                  Open ({openActivities.length})
+                  Em Aberto ({openActivities.length})
                 </h4>
                 <div className="space-y-3">
                   {openActivities.map((activity) => {
@@ -482,7 +506,7 @@ export function ActivitiesWidget({
                           <div className="flex items-center gap-2 flex-wrap">
                             <span className="font-medium">{activity.subject}</span>
                             <Badge variant="outline" className={priorityColors[activity.priority || 'normal']}>
-                              {activity.priority}
+                              {priorityLabels[activity.priority || 'normal']}
                             </Badge>
                           </div>
                           {activity.description && (
@@ -495,8 +519,8 @@ export function ActivitiesWidget({
                             {activity.due_date && (
                               <span className={`flex items-center gap-1 ${isOverdue ? 'text-destructive' : ''}`}>
                                 <Clock className="h-3 w-3" />
-                                {isOverdue ? 'Overdue: ' : 'Due: '}
-                                {format(new Date(activity.due_date), 'MMM d, yyyy')}
+                                {isOverdue ? 'Atrasado: ' : 'Vence em: '}
+                                {format(new Date(activity.due_date), "d 'de' MMM yyyy", { locale: ptBR })}
                               </span>
                             )}
                           </div>
@@ -519,7 +543,7 @@ export function ActivitiesWidget({
                             <DropdownMenuContent align="end">
                               <DropdownMenuItem onClick={() => openEditDialog(activity)}>
                                 <Edit className="mr-2 h-4 w-4" />
-                                Edit
+                                Editar
                               </DropdownMenuItem>
                               <DropdownMenuSeparator />
                               <DropdownMenuItem
@@ -527,7 +551,7 @@ export function ActivitiesWidget({
                                 onClick={() => deleteActivity(activity.id)}
                               >
                                 <Trash2 className="mr-2 h-4 w-4" />
-                                Delete
+                                Excluir
                               </DropdownMenuItem>
                             </DropdownMenuContent>
                           </DropdownMenu>
@@ -543,7 +567,7 @@ export function ActivitiesWidget({
             {completedActivities.length > 0 && (
               <div>
                 <h4 className="text-sm font-medium text-muted-foreground mb-3">
-                  Completed ({completedActivities.length})
+                  Concluídas ({completedActivities.length})
                 </h4>
                 <div className="space-y-3">
                   {completedActivities.slice(0, 5).map((activity) => {
@@ -559,7 +583,7 @@ export function ActivitiesWidget({
                         <div className="flex-1 min-w-0">
                           <span className="font-medium line-through">{activity.subject}</span>
                           <div className="flex items-center gap-4 mt-1 text-xs text-muted-foreground">
-                            <span>Completed {activity.completed_at && formatDistanceToNow(new Date(activity.completed_at), { addSuffix: true })}</span>
+                            <span>Concluída {activity.completed_at && formatDistanceToNow(new Date(activity.completed_at), { addSuffix: true, locale: ptBR })}</span>
                           </div>
                         </div>
                       </div>
@@ -574,15 +598,15 @@ export function ActivitiesWidget({
         <Dialog open={showDialog} onOpenChange={setShowDialog}>
           <DialogContent className="max-w-lg">
             <DialogHeader>
-              <DialogTitle>{editingActivity ? 'Edit Activity' : 'Log Activity'}</DialogTitle>
+              <DialogTitle>{editingActivity ? 'Editar Atividade' : 'Registrar Atividade'}</DialogTitle>
               <DialogDescription>
-                Record a call, email, meeting, or task.
+                Registre uma ligação, email, reunião ou tarefa.
               </DialogDescription>
             </DialogHeader>
             <div className="space-y-4">
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <Label>Type</Label>
+                  <Label>Tipo</Label>
                   <Select
                     value={formData.type}
                     onValueChange={(v) => setFormData({ ...formData, type: v as ActivityType })}
@@ -591,15 +615,15 @@ export function ActivitiesWidget({
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="call">Call</SelectItem>
+                      <SelectItem value="call">Ligação</SelectItem>
                       <SelectItem value="email">Email</SelectItem>
-                      <SelectItem value="meeting">Meeting</SelectItem>
-                      <SelectItem value="task">Task</SelectItem>
+                      <SelectItem value="meeting">Reunião</SelectItem>
+                      <SelectItem value="task">Tarefa</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
                 <div className="space-y-2">
-                  <Label>Priority</Label>
+                  <Label>Prioridade</Label>
                   <Select
                     value={formData.priority}
                     onValueChange={(v) => setFormData({ ...formData, priority: v })}
@@ -608,25 +632,25 @@ export function ActivitiesWidget({
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="low">Low</SelectItem>
+                      <SelectItem value="low">Baixa</SelectItem>
                       <SelectItem value="normal">Normal</SelectItem>
-                      <SelectItem value="high">High</SelectItem>
-                      <SelectItem value="urgent">Urgent</SelectItem>
+                      <SelectItem value="high">Alta</SelectItem>
+                      <SelectItem value="urgent">Urgente</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
               </div>
               <div className="space-y-2">
-                <Label>Subject *</Label>
+                <Label>Assunto *</Label>
                 <Input
                   value={formData.subject}
                   onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
-                  placeholder="Activity subject"
+                  placeholder="Assunto da atividade"
                 />
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <Label>Due Date</Label>
+                  <Label>Data de Vencimento</Label>
                   <Input
                     type="date"
                     value={formData.due_date}
@@ -634,7 +658,7 @@ export function ActivitiesWidget({
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label>Duration (minutes)</Label>
+                  <Label>Duração (minutos)</Label>
                   <Input
                     type="number"
                     value={formData.duration_minutes}
@@ -645,56 +669,56 @@ export function ActivitiesWidget({
               </div>
               {formData.type === 'meeting' && (
                 <div className="space-y-2">
-                  <Label>Location</Label>
+                  <Label>Local</Label>
                   <Input
                     value={formData.meeting_location}
                     onChange={(e) => setFormData({ ...formData, meeting_location: e.target.value })}
-                    placeholder="Meeting location or link"
+                    placeholder="Local da reunião ou link"
                   />
                 </div>
               )}
               {formData.type === 'call' && (
                 <div className="space-y-2">
-                  <Label>Call Result</Label>
+                  <Label>Resultado da Ligação</Label>
                   <Select
                     value={formData.call_result}
                     onValueChange={(v) => setFormData({ ...formData, call_result: v })}
                   >
                     <SelectTrigger>
-                      <SelectValue placeholder="Select result" />
+                      <SelectValue placeholder="Selecione o resultado" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="connected">Connected</SelectItem>
-                      <SelectItem value="voicemail">Voicemail</SelectItem>
-                      <SelectItem value="no_answer">No Answer</SelectItem>
-                      <SelectItem value="busy">Busy</SelectItem>
-                      <SelectItem value="wrong_number">Wrong Number</SelectItem>
+                      <SelectItem value="connected">Conectado</SelectItem>
+                      <SelectItem value="voicemail">Caixa Postal</SelectItem>
+                      <SelectItem value="no_answer">Sem Resposta</SelectItem>
+                      <SelectItem value="busy">Ocupado</SelectItem>
+                      <SelectItem value="wrong_number">Número Errado</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
               )}
               <div className="space-y-2">
-                <Label>Description</Label>
+                <Label>Descrição</Label>
                 <Textarea
                   value={formData.description}
                   onChange={(e) => setFormData({ ...formData, description: e.target.value })}
                   rows={3}
-                  placeholder="Activity details..."
+                  placeholder="Detalhes da atividade..."
                 />
               </div>
               <div className="space-y-2">
-                <Label>Outcome</Label>
+                <Label>Resultado</Label>
                 <Input
                   value={formData.outcome}
                   onChange={(e) => setFormData({ ...formData, outcome: e.target.value })}
-                  placeholder="Result or next steps"
+                  placeholder="Resultado ou próximos passos"
                 />
               </div>
             </div>
             <DialogFooter>
-              <Button variant="outline" onClick={closeDialog}>Cancel</Button>
+              <Button variant="outline" onClick={closeDialog}>Cancelar</Button>
               <Button onClick={handleSave} disabled={saving || !formData.subject.trim()}>
-                {saving ? 'Saving...' : editingActivity ? 'Update' : 'Save'}
+                {saving ? 'Salvando...' : editingActivity ? 'Atualizar' : 'Salvar'}
               </Button>
             </DialogFooter>
           </DialogContent>
