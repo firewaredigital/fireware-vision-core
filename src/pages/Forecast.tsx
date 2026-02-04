@@ -294,9 +294,9 @@ export default function Forecast() {
   };
 
   const formatCurrency = (amount: number) => {
-    return new Intl.NumberFormat('en-US', {
+    return new Intl.NumberFormat('pt-BR', {
       style: 'currency',
-      currency: 'USD',
+      currency: 'BRL',
       minimumFractionDigits: 0,
       maximumFractionDigits: 0
     }).format(amount);
@@ -328,8 +328,8 @@ export default function Forecast() {
         {/* Header */}
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-2xl font-bold">Forecast</h1>
-            <p className="text-muted-foreground">Sales forecasting and targets</p>
+            <h1 className="text-2xl font-bold">Previsão de Vendas</h1>
+            <p className="text-muted-foreground">Metas e previsões de vendas</p>
           </div>
           <div className="flex items-center gap-4">
             <Select value={periodType} onValueChange={(v: 'monthly' | 'quarterly') => setPeriodType(v)}>
@@ -337,8 +337,8 @@ export default function Forecast() {
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="monthly">Monthly</SelectItem>
-                <SelectItem value="quarterly">Quarterly</SelectItem>
+                <SelectItem value="monthly">Mensal</SelectItem>
+                <SelectItem value="quarterly">Trimestral</SelectItem>
               </SelectContent>
             </Select>
             <div className="flex items-center gap-2">
@@ -361,7 +361,7 @@ export default function Forecast() {
             <CardContent className="p-4">
               <div className="flex items-center gap-2 text-muted-foreground mb-1">
                 <Target className="h-4 w-4" />
-                <span className="text-sm">Target</span>
+                <span className="text-sm">Meta</span>
               </div>
               <div className="text-2xl font-bold">{formatCurrency(totals.target)}</div>
             </CardContent>
@@ -374,7 +374,7 @@ export default function Forecast() {
               </div>
               <div className="text-2xl font-bold">{formatCurrency(byCategory.commit)}</div>
               <div className="text-xs text-muted-foreground">
-                {totals.target > 0 ? Math.round((byCategory.commit / totals.target) * 100) : 0}% of target
+                {totals.target > 0 ? Math.round((byCategory.commit / totals.target) * 100) : 0}% da meta
               </div>
             </CardContent>
           </Card>
@@ -400,11 +400,11 @@ export default function Forecast() {
             <CardContent className="p-4">
               <div className="flex items-center gap-2 text-muted-foreground mb-1">
                 <DollarSign className="h-4 w-4" />
-                <span className="text-sm">Closed Won</span>
+                <span className="text-sm">Fechado Ganho</span>
               </div>
               <div className="text-2xl font-bold text-primary">{formatCurrency(byCategory.closed)}</div>
               <div className="text-xs text-muted-foreground">
-                {totals.target > 0 ? Math.round((byCategory.closed / totals.target) * 100) : 0}% of target
+                {totals.target > 0 ? Math.round((byCategory.closed / totals.target) * 100) : 0}% da meta
               </div>
             </CardContent>
           </Card>
@@ -414,44 +414,44 @@ export default function Forecast() {
         <Card>
           <CardContent className="p-4">
             <div className="flex items-center justify-between mb-2">
-              <span className="text-sm font-medium">Progress to Target</span>
+              <span className="text-sm font-medium">Progresso para Meta</span>
               <span className="text-sm text-muted-foreground">
                 {formatCurrency(byCategory.closed)} / {formatCurrency(totals.target)}
               </span>
             </div>
             <Progress value={totals.target > 0 ? (byCategory.closed / totals.target) * 100 : 0} className="h-3" />
             <div className="flex justify-between mt-2 text-xs text-muted-foreground">
-              <span>Closed: {totals.target > 0 ? Math.round((byCategory.closed / totals.target) * 100) : 0}%</span>
+              <span>Fechado: {totals.target > 0 ? Math.round((byCategory.closed / totals.target) * 100) : 0}%</span>
               <span>Commit: +{formatCurrency(byCategory.commit)}</span>
-              <span>Best Case: +{formatCurrency(byCategory.bestCase)}</span>
+              <span>Melhor Caso: +{formatCurrency(byCategory.bestCase)}</span>
             </div>
           </CardContent>
         </Card>
 
         <Tabs defaultValue="team" className="space-y-4">
           <TabsList>
-            <TabsTrigger value="team">Team Forecast</TabsTrigger>
-            <TabsTrigger value="opportunities">Opportunities ({opportunities.length})</TabsTrigger>
-            <TabsTrigger value="trends">Trends</TabsTrigger>
+            <TabsTrigger value="team">Previsão da Equipe</TabsTrigger>
+            <TabsTrigger value="opportunities">Oportunidades ({opportunities.length})</TabsTrigger>
+            <TabsTrigger value="trends">Tendências</TabsTrigger>
           </TabsList>
 
           <TabsContent value="team">
             <Card>
               <CardHeader>
-                <CardTitle>Team Forecast - {format(periodStart, periodType === 'monthly' ? 'MMMM yyyy' : 'QQQ yyyy')}</CardTitle>
-                <CardDescription>Individual targets and performance</CardDescription>
+                <CardTitle>Previsão da Equipe - {format(periodStart, periodType === 'monthly' ? 'MMMM yyyy' : 'QQQ yyyy')}</CardTitle>
+                <CardDescription>Metas individuais e desempenho</CardDescription>
               </CardHeader>
               <CardContent>
                 <Table>
                   <TableHeader>
                     <TableRow>
-                      <TableHead>Rep</TableHead>
-                      <TableHead className="text-right">Target</TableHead>
+                      <TableHead>Vendedor</TableHead>
+                      <TableHead className="text-right">Meta</TableHead>
                       <TableHead className="text-right">Commit</TableHead>
-                      <TableHead className="text-right">Best Case</TableHead>
+                      <TableHead className="text-right">Melhor Caso</TableHead>
                       <TableHead className="text-right">Pipeline</TableHead>
-                      <TableHead className="text-right">Closed</TableHead>
-                      <TableHead className="text-right">Attainment</TableHead>
+                      <TableHead className="text-right">Fechado</TableHead>
+                      <TableHead className="text-right">Atingimento</TableHead>
                       <TableHead></TableHead>
                     </TableRow>
                   </TableHeader>

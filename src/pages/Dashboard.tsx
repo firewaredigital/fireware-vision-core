@@ -59,12 +59,12 @@ interface RecentActivity {
 }
 
 const stageLabels: Record<string, string> = {
-  prospecting: 'Prospecting',
-  qualification: 'Qualification',
-  proposal: 'Proposal',
-  negotiation: 'Negotiation',
-  closed_won: 'Closed Won',
-  closed_lost: 'Closed Lost',
+  prospecting: 'Prospecção',
+  qualification: 'Qualificação',
+  proposal: 'Proposta',
+  negotiation: 'Negociação',
+  closed_won: 'Ganho',
+  closed_lost: 'Perdido',
 };
 
 const stageColors: Record<string, string> = {
@@ -145,7 +145,7 @@ export default function Dashboard() {
         .map((o) => ({
           id: o.id,
           name: o.name,
-          account_name: (o.account as { name: string } | null)?.name || 'Unknown',
+          account_name: (o.account as { name: string } | null)?.name || 'Desconhecido',
           amount: o.amount || 0,
           stage: stageLabels[o.stage] || o.stage,
           probability: o.probability || 0,
@@ -203,9 +203,9 @@ export default function Dashboard() {
   }, [profile?.organization_id, fetchDashboardData]);
 
   const formatCurrency = (value: number) => {
-    return new Intl.NumberFormat('en-US', {
+    return new Intl.NumberFormat('pt-BR', {
       style: 'currency',
-      currency: 'USD',
+      currency: 'BRL',
       minimumFractionDigits: 0,
       maximumFractionDigits: 0,
     }).format(value);

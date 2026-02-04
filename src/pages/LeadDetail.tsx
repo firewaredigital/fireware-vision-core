@@ -106,8 +106,8 @@ export default function LeadDetail() {
       console.error('Error fetching lead:', error);
       toast({
         variant: 'destructive',
-        title: 'Error',
-        description: 'Failed to load lead details',
+        title: 'Erro',
+        description: 'Falha ao carregar detalhes do lead',
       });
       navigate('/leads');
     } else {
@@ -124,13 +124,13 @@ export default function LeadDetail() {
     if (error) {
       toast({
         variant: 'destructive',
-        title: 'Error',
-        description: 'Failed to delete lead',
+        title: 'Erro',
+        description: 'Falha ao excluir lead',
       });
     } else {
       toast({
-        title: 'Lead deleted',
-        description: 'The lead has been successfully deleted.',
+        title: 'Lead excluído',
+        description: 'O lead foi excluído com sucesso.',
       });
       navigate('/leads');
     }
@@ -162,8 +162,8 @@ export default function LeadDetail() {
     return (
       <AppLayout>
         <div className="flex flex-col items-center justify-center h-64 gap-4">
-          <p className="text-muted-foreground">Lead not found</p>
-          <Button onClick={() => navigate('/leads')}>Back to Leads</Button>
+          <p className="text-muted-foreground">Lead não encontrado</p>
+          <Button onClick={() => navigate('/leads')}>Voltar para Leads</Button>
         </div>
       </AppLayout>
     );
@@ -203,30 +203,30 @@ export default function LeadDetail() {
             {lead.status !== 'converted' && (
               <Button variant="default" onClick={() => setShowConversionWizard(true)}>
                 <Target className="mr-2 h-4 w-4" />
-                Convert Lead
+                Converter Lead
               </Button>
             )}
             <Button variant="outline" onClick={() => navigate(`/leads/${id}/edit`)}>
               <Edit className="mr-2 h-4 w-4" />
-              Edit
+              Editar
             </Button>
             <AlertDialog>
               <AlertDialogTrigger asChild>
                 <Button variant="destructive">
                   <Trash2 className="mr-2 h-4 w-4" />
-                  Delete
+                  Excluir
                 </Button>
               </AlertDialogTrigger>
               <AlertDialogContent>
                 <AlertDialogHeader>
-                  <AlertDialogTitle>Delete Lead</AlertDialogTitle>
+                  <AlertDialogTitle>Excluir Lead</AlertDialogTitle>
                   <AlertDialogDescription>
-                    Are you sure you want to delete this lead? This action cannot be undone.
+                    Tem certeza que deseja excluir este lead? Esta ação não pode ser desfeita.
                   </AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter>
-                  <AlertDialogCancel>Cancel</AlertDialogCancel>
-                  <AlertDialogAction onClick={deleteLead}>Delete</AlertDialogAction>
+                  <AlertDialogCancel>Cancelar</AlertDialogCancel>
+                  <AlertDialogAction onClick={deleteLead}>Excluir</AlertDialogAction>
                 </AlertDialogFooter>
               </AlertDialogContent>
             </AlertDialog>
@@ -239,23 +239,23 @@ export default function LeadDetail() {
           <div className="lg:col-span-2 space-y-6">
             <Tabs defaultValue="details" className="w-full">
               <TabsList>
-                <TabsTrigger value="details">Details</TabsTrigger>
-                <TabsTrigger value="activities">Activities</TabsTrigger>
-                <TabsTrigger value="notes">Notes</TabsTrigger>
+                <TabsTrigger value="details">Detalhes</TabsTrigger>
+                <TabsTrigger value="activities">Atividades</TabsTrigger>
+                <TabsTrigger value="notes">Notas</TabsTrigger>
                 <TabsTrigger value="timeline">Timeline</TabsTrigger>
               </TabsList>
 
               <TabsContent value="details" className="mt-6">
                 <Card>
                   <CardHeader>
-                    <CardTitle>Lead Information</CardTitle>
-                    <CardDescription>Contact and company details</CardDescription>
+                    <CardTitle>Informações do Lead</CardTitle>
+                    <CardDescription>Dados de contato e empresa</CardDescription>
                   </CardHeader>
                   <CardContent className="space-y-6">
                     {/* Contact Info */}
                     <div>
                       <h4 className="text-sm font-medium text-muted-foreground mb-3">
-                        Contact Information
+                        Informações de Contato
                       </h4>
                       <div className="grid gap-4 sm:grid-cols-2">
                         {lead.email && (
@@ -278,7 +278,7 @@ export default function LeadDetail() {
                           <div className="flex items-center gap-3">
                             <Phone className="h-4 w-4 text-muted-foreground" />
                             <a href={`tel:${lead.mobile}`} className="text-sm hover:underline">
-                              {lead.mobile} (Mobile)
+                              {lead.mobile} (Celular)
                             </a>
                           </div>
                         )}
@@ -290,7 +290,7 @@ export default function LeadDetail() {
                     {/* Company Info */}
                     <div>
                       <h4 className="text-sm font-medium text-muted-foreground mb-3">
-                        Company Information
+                        Informações da Empresa
                       </h4>
                       <div className="grid gap-4 sm:grid-cols-2">
                         {lead.company && (
@@ -332,7 +332,7 @@ export default function LeadDetail() {
                         <Separator />
                         <div>
                           <h4 className="text-sm font-medium text-muted-foreground mb-3">
-                            Description
+                            Descrição
                           </h4>
                           <p className="text-sm whitespace-pre-wrap">{lead.description}</p>
                         </div>
@@ -362,18 +362,18 @@ export default function LeadDetail() {
                 <Card>
                   <CardHeader className="flex flex-row items-center justify-between">
                     <div>
-                      <CardTitle>Activities</CardTitle>
-                      <CardDescription>Calls, meetings, and tasks</CardDescription>
+                      <CardTitle>Atividades</CardTitle>
+                      <CardDescription>Ligações, reuniões e tarefas</CardDescription>
                     </div>
                     <Button size="sm">
                       <Plus className="mr-2 h-4 w-4" />
-                      Log Activity
+                      Registrar Atividade
                     </Button>
                   </CardHeader>
                   <CardContent>
                     <div className="flex flex-col items-center justify-center h-32 text-muted-foreground">
                       <Activity className="h-8 w-8 mb-2" />
-                      <p>No activities yet</p>
+                      <p>Nenhuma atividade ainda</p>
                     </div>
                   </CardContent>
                 </Card>
@@ -383,18 +383,18 @@ export default function LeadDetail() {
                 <Card>
                   <CardHeader className="flex flex-row items-center justify-between">
                     <div>
-                      <CardTitle>Notes</CardTitle>
-                      <CardDescription>Internal notes and comments</CardDescription>
+                      <CardTitle>Notas</CardTitle>
+                      <CardDescription>Notas internas e comentários</CardDescription>
                     </div>
                     <Button size="sm">
                       <Plus className="mr-2 h-4 w-4" />
-                      Add Note
+                      Adicionar Nota
                     </Button>
                   </CardHeader>
                   <CardContent>
                     <div className="flex flex-col items-center justify-center h-32 text-muted-foreground">
                       <FileText className="h-8 w-8 mb-2" />
-                      <p>No notes yet</p>
+                      <p>Nenhuma nota ainda</p>
                     </div>
                   </CardContent>
                 </Card>
@@ -404,7 +404,7 @@ export default function LeadDetail() {
                 <Card>
                   <CardHeader>
                     <CardTitle>Timeline</CardTitle>
-                    <CardDescription>Complete history of interactions</CardDescription>
+                    <CardDescription>Histórico completo de interações</CardDescription>
                   </CardHeader>
                   <CardContent>
                     <Timeline leadId={lead.id} maxHeight="400px" />
@@ -419,7 +419,7 @@ export default function LeadDetail() {
             {/* Lead Score */}
             <Card>
               <CardHeader>
-                <CardTitle>Lead Score</CardTitle>
+                <CardTitle>Pontuação do Lead</CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="flex items-center gap-4">
@@ -451,10 +451,10 @@ export default function LeadDetail() {
                   <div>
                     <p className="text-sm text-muted-foreground">
                       {lead.score >= 80
-                        ? 'Hot Lead'
+                        ? 'Lead Quente'
                         : lead.score >= 50
-                        ? 'Warm Lead'
-                        : 'Cold Lead'}
+                        ? 'Lead Morno'
+                        : 'Lead Frio'}
                     </p>
                   </div>
                 </div>
@@ -464,27 +464,27 @@ export default function LeadDetail() {
             {/* Quick Info */}
             <Card>
               <CardHeader>
-                <CardTitle>Quick Info</CardTitle>
+                <CardTitle>Informações Rápidas</CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="flex justify-between text-sm">
-                  <span className="text-muted-foreground">Source</span>
-                  <span>{lead.source || 'Unknown'}</span>
+                  <span className="text-muted-foreground">Fonte</span>
+                  <span>{lead.source || 'Desconhecida'}</span>
                 </div>
                 <Separator />
                 <div className="flex justify-between text-sm">
-                  <span className="text-muted-foreground">Rating</span>
-                  <span>{lead.rating || 'Not rated'}</span>
+                  <span className="text-muted-foreground">Classificação</span>
+                  <span>{lead.rating || 'Não classificado'}</span>
                 </div>
                 <Separator />
                 <div className="flex justify-between text-sm">
-                  <span className="text-muted-foreground">Created</span>
-                  <span>{new Date(lead.created_at).toLocaleDateString()}</span>
+                  <span className="text-muted-foreground">Criado em</span>
+                  <span>{new Date(lead.created_at).toLocaleDateString('pt-BR')}</span>
                 </div>
                 <Separator />
                 <div className="flex justify-between text-sm">
-                  <span className="text-muted-foreground">Last Modified</span>
-                  <span>{new Date(lead.updated_at).toLocaleDateString()}</span>
+                  <span className="text-muted-foreground">Última Modificação</span>
+                  <span>{new Date(lead.updated_at).toLocaleDateString('pt-BR')}</span>
                 </div>
               </CardContent>
             </Card>
@@ -492,24 +492,24 @@ export default function LeadDetail() {
             {/* Quick Actions */}
             <Card>
               <CardHeader>
-                <CardTitle>Quick Actions</CardTitle>
+                <CardTitle>Ações Rápidas</CardTitle>
               </CardHeader>
               <CardContent className="space-y-2">
                 <Button variant="outline" className="w-full justify-start">
                   <Phone className="mr-2 h-4 w-4" />
-                  Log a Call
+                  Registrar Ligação
                 </Button>
                 <Button variant="outline" className="w-full justify-start">
                   <Mail className="mr-2 h-4 w-4" />
-                  Send Email
+                  Enviar Email
                 </Button>
                 <Button variant="outline" className="w-full justify-start">
                   <Calendar className="mr-2 h-4 w-4" />
-                  Schedule Meeting
+                  Agendar Reunião
                 </Button>
                 <Button variant="outline" className="w-full justify-start">
                   <User className="mr-2 h-4 w-4" />
-                  Assign Owner
+                  Atribuir Proprietário
                 </Button>
               </CardContent>
             </Card>
@@ -526,8 +526,8 @@ export default function LeadDetail() {
           onConverted={() => {
             fetchLead();
             toast({
-              title: 'Lead Converted',
-              description: 'The lead has been successfully converted.',
+              title: 'Lead Convertido',
+              description: 'O lead foi convertido com sucesso.',
             });
           }}
         />

@@ -59,9 +59,9 @@ interface CadenceEnrollment {
 
 const stepTypeConfig: Record<CadenceStepType, { icon: any; label: string; color: string }> = {
   email: { icon: Mail, label: 'Email', color: 'bg-blue-100 text-blue-800' },
-  call: { icon: Phone, label: 'Call', color: 'bg-green-100 text-green-800' },
+  call: { icon: Phone, label: 'Ligação', color: 'bg-green-100 text-green-800' },
   linkedin: { icon: Linkedin, label: 'LinkedIn', color: 'bg-sky-100 text-sky-800' },
-  task: { icon: CheckSquare, label: 'Task', color: 'bg-purple-100 text-purple-800' }
+  task: { icon: CheckSquare, label: 'Tarefa', color: 'bg-purple-100 text-purple-800' }
 };
 
 export default function Cadences() {
@@ -234,13 +234,13 @@ export default function Cadences() {
       setEditingCadence(null);
       setCadenceForm({ name: '', description: '' });
       toast({
-        title: editingCadence ? 'Cadence updated' : 'Cadence created',
-        description: 'Changes saved successfully.'
+        title: editingCadence ? 'Cadência atualizada' : 'Cadência criada',
+        description: 'Alterações salvas com sucesso.'
       });
     },
     onError: (error: any) => {
       toast({
-        title: 'Error',
+        title: 'Erro',
         description: error.message,
         variant: 'destructive'
       });
@@ -274,8 +274,8 @@ export default function Cadences() {
       queryClient.invalidateQueries({ queryKey: ['cadences'] });
       if (selectedCadence) setSelectedCadence(null);
       toast({
-        title: 'Cadence deleted',
-        description: 'Cadence has been removed.'
+        title: 'Cadência excluída',
+        description: 'A cadência foi removida.'
       });
     }
   });
@@ -318,13 +318,13 @@ export default function Cadences() {
       setEditingStep(null);
       setStepForm({ type: 'email', subject: '', body: '', delay_days: 0 });
       toast({
-        title: editingStep ? 'Step updated' : 'Step added',
-        description: 'Changes saved successfully.'
+        title: editingStep ? 'Etapa atualizada' : 'Etapa adicionada',
+        description: 'Alterações salvas com sucesso.'
       });
     },
     onError: (error: any) => {
       toast({
-        title: 'Error',
+        title: 'Erro',
         description: error.message,
         variant: 'destructive'
       });
@@ -361,8 +361,8 @@ export default function Cadences() {
       queryClient.invalidateQueries({ queryKey: ['cadence-steps', selectedCadence?.id] });
       queryClient.invalidateQueries({ queryKey: ['cadences'] });
       toast({
-        title: 'Step deleted',
-        description: 'Step has been removed.'
+        title: 'Etapa excluída',
+        description: 'A etapa foi removida.'
       });
     }
   });
@@ -443,8 +443,8 @@ export default function Cadences() {
         {/* Header */}
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-2xl font-bold">Cadences</h1>
-            <p className="text-muted-foreground">Automated sales outreach sequences</p>
+            <h1 className="text-2xl font-bold">Cadências</h1>
+            <p className="text-muted-foreground">Sequências de prospecção automatizadas</p>
           </div>
           <Dialog open={isCadenceFormOpen} onOpenChange={(open) => {
             setIsCadenceFormOpen(open);
@@ -456,43 +456,43 @@ export default function Cadences() {
             <DialogTrigger asChild>
               <Button>
                 <Plus className="h-4 w-4 mr-2" />
-                New Cadence
+                Nova Cadência
               </Button>
             </DialogTrigger>
             <DialogContent>
               <DialogHeader>
-                <DialogTitle>{editingCadence ? 'Edit Cadence' : 'Create Cadence'}</DialogTitle>
+                <DialogTitle>{editingCadence ? 'Editar Cadência' : 'Criar Cadência'}</DialogTitle>
               </DialogHeader>
               <div className="space-y-4 py-4">
                 <div className="space-y-2">
-                  <Label htmlFor="name">Name *</Label>
+                  <Label htmlFor="name">Nome *</Label>
                   <Input
                     id="name"
                     value={cadenceForm.name}
                     onChange={(e) => setCadenceForm({ ...cadenceForm, name: e.target.value })}
-                    placeholder="e.g., Outbound Prospecting"
+                    placeholder="ex: Prospecção Outbound"
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="description">Description</Label>
+                  <Label htmlFor="description">Descrição</Label>
                   <Textarea
                     id="description"
                     value={cadenceForm.description}
                     onChange={(e) => setCadenceForm({ ...cadenceForm, description: e.target.value })}
-                    placeholder="Describe this cadence..."
+                    placeholder="Descreva esta cadência..."
                     rows={3}
                   />
                 </div>
               </div>
               <DialogFooter>
                 <Button variant="outline" onClick={() => setIsCadenceFormOpen(false)}>
-                  Cancel
+                  Cancelar
                 </Button>
                 <Button 
                   onClick={() => saveCadenceMutation.mutate({ ...cadenceForm, id: editingCadence?.id })}
                   disabled={!cadenceForm.name || saveCadenceMutation.isPending}
                 >
-                  {saveCadenceMutation.isPending ? 'Saving...' : editingCadence ? 'Update' : 'Create'}
+                  {saveCadenceMutation.isPending ? 'Salvando...' : editingCadence ? 'Atualizar' : 'Criar'}
                 </Button>
               </DialogFooter>
             </DialogContent>
