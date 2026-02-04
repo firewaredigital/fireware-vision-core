@@ -93,8 +93,8 @@ export default function ProductDetail() {
       console.error('Error fetching product:', error);
       toast({
         variant: 'destructive',
-        title: 'Error',
-        description: 'Failed to load product details',
+        title: 'Erro',
+        description: 'Falha ao carregar detalhes do produto',
       });
       navigate('/products');
     } else {
@@ -140,13 +140,13 @@ export default function ProductDetail() {
     if (error) {
       toast({
         variant: 'destructive',
-        title: 'Error',
-        description: 'Failed to delete product. It may be used in quotes.',
+        title: 'Erro',
+        description: 'Falha ao excluir produto. Ele pode estar sendo usado em propostas.',
       });
     } else {
       toast({
-        title: 'Product deleted',
-        description: 'The product has been successfully deleted.',
+        title: 'Produto excluído',
+        description: 'O produto foi excluído com sucesso.',
       });
       navigate('/products');
     }
@@ -163,13 +163,13 @@ export default function ProductDetail() {
     if (error) {
       toast({
         variant: 'destructive',
-        title: 'Error',
-        description: 'Failed to update product status',
+        title: 'Erro',
+        description: 'Falha ao atualizar status do produto',
       });
     } else {
       toast({
-        title: 'Product updated',
-        description: `Product ${!product.is_active ? 'activated' : 'deactivated'} successfully.`,
+        title: 'Produto atualizado',
+        description: `Produto ${!product.is_active ? 'ativado' : 'desativado'} com sucesso.`,
       });
       fetchProduct();
     }
@@ -197,8 +197,8 @@ export default function ProductDetail() {
       <AppLayout>
         <div className="flex flex-col items-center justify-center h-64 gap-4">
           <Package className="h-12 w-12 text-muted-foreground" />
-          <p className="text-muted-foreground">Product not found</p>
-          <Button onClick={() => navigate('/products')}>Back to Products</Button>
+          <p className="text-muted-foreground">Produto não encontrado</p>
+          <Button onClick={() => navigate('/products')}>Voltar para Produtos</Button>
         </div>
       </AppLayout>
     );
@@ -234,7 +234,7 @@ export default function ProductDetail() {
                     : 'bg-muted text-muted-foreground'
                   }
                 >
-                  {product.is_active ? 'Active' : 'Inactive'}
+                  {product.is_active ? 'Ativo' : 'Inativo'}
                 </Badge>
               </div>
               {product.sku && (
@@ -249,37 +249,37 @@ export default function ProductDetail() {
               {product.is_active ? (
                 <>
                   <XCircle className="mr-2 h-4 w-4" />
-                  Deactivate
+                  Desativar
                 </>
               ) : (
                 <>
                   <CheckCircle className="mr-2 h-4 w-4" />
-                  Activate
+                  Ativar
                 </>
               )}
             </Button>
             <Button variant="outline" onClick={() => navigate(`/products/${id}/edit`)}>
               <Edit className="mr-2 h-4 w-4" />
-              Edit
+              Editar
             </Button>
             <AlertDialog>
               <AlertDialogTrigger asChild>
                 <Button variant="destructive">
                   <Trash2 className="mr-2 h-4 w-4" />
-                  Delete
+                  Excluir
                 </Button>
               </AlertDialogTrigger>
               <AlertDialogContent>
                 <AlertDialogHeader>
-                  <AlertDialogTitle>Delete Product</AlertDialogTitle>
+                  <AlertDialogTitle>Excluir Produto</AlertDialogTitle>
                   <AlertDialogDescription>
-                    Are you sure you want to delete this product? This action cannot be undone.
-                    Products used in quotes cannot be deleted.
+                    Tem certeza que deseja excluir este produto? Esta ação não pode ser desfeita.
+                    Produtos utilizados em propostas não podem ser excluídos.
                   </AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter>
-                  <AlertDialogCancel>Cancel</AlertDialogCancel>
-                  <AlertDialogAction onClick={deleteProduct}>Delete</AlertDialogAction>
+                  <AlertDialogCancel>Cancelar</AlertDialogCancel>
+                  <AlertDialogAction onClick={deleteProduct}>Excluir</AlertDialogAction>
                 </AlertDialogFooter>
               </AlertDialogContent>
             </AlertDialog>
@@ -295,14 +295,14 @@ export default function ProductDetail() {
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <Package className="h-5 w-5" />
-                  Product Information
+                  Informações do Produto
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-6">
                 {product.description && (
                   <div>
                     <h4 className="text-sm font-medium text-muted-foreground mb-2">
-                      Description
+                      Descrição
                     </h4>
                     <p className="text-sm whitespace-pre-wrap">{product.description}</p>
                   </div>
@@ -314,14 +314,14 @@ export default function ProductDetail() {
                   <div className="flex items-center gap-3">
                     <Tag className="h-4 w-4 text-muted-foreground" />
                     <div>
-                      <p className="text-sm text-muted-foreground">Category</p>
-                      <p className="font-medium">{product.category || 'Uncategorized'}</p>
+                      <p className="text-sm text-muted-foreground">Categoria</p>
+                      <p className="font-medium">{product.category || 'Sem categoria'}</p>
                     </div>
                   </div>
                   <div className="flex items-center gap-3">
                     <Calendar className="h-4 w-4 text-muted-foreground" />
                     <div>
-                      <p className="text-sm text-muted-foreground">Created</p>
+                      <p className="text-sm text-muted-foreground">Criado em</p>
                       <p className="font-medium">
                         {new Date(product.created_at).toLocaleDateString('pt-BR')}
                       </p>
@@ -336,17 +336,17 @@ export default function ProductDetail() {
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <FileText className="h-5 w-5" />
-                  Quote Usage
+                  Uso em Propostas
                 </CardTitle>
                 <CardDescription>
-                  Quotes containing this product
+                  Propostas que contêm este produto
                 </CardDescription>
               </CardHeader>
               <CardContent>
                 {quoteUsage.length === 0 ? (
                   <div className="flex flex-col items-center justify-center h-24 text-muted-foreground">
                     <FileText className="h-8 w-8 mb-2" />
-                    <p>Not used in any quotes yet</p>
+                    <p>Ainda não utilizado em nenhuma proposta</p>
                   </div>
                 ) : (
                   <div className="space-y-3">
@@ -359,7 +359,7 @@ export default function ProductDetail() {
                         <div>
                           <p className="font-medium">{usage.quote_name}</p>
                           <p className="text-sm text-muted-foreground">
-                            Qty: {usage.quantity}
+                            Qtd: {usage.quantity}
                           </p>
                         </div>
                         <p className="font-medium">{formatCurrency(usage.total)}</p>
@@ -367,7 +367,7 @@ export default function ProductDetail() {
                     ))}
                     {quoteUsage.length > 5 && (
                       <p className="text-sm text-muted-foreground text-center">
-                        And {quoteUsage.length - 5} more quotes...
+                        E mais {quoteUsage.length - 5} propostas...
                       </p>
                     )}
                   </div>
@@ -383,25 +383,25 @@ export default function ProductDetail() {
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <DollarSign className="h-5 w-5" />
-                  Pricing
+                  Precificação
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="flex justify-between items-center">
-                  <span className="text-muted-foreground">Unit Price</span>
+                  <span className="text-muted-foreground">Preço Unitário</span>
                   <span className="text-2xl font-bold">
                     {formatCurrency(product.unit_price)}
                   </span>
                 </div>
                 <Separator />
                 <div className="flex justify-between items-center">
-                  <span className="text-muted-foreground">Cost</span>
+                  <span className="text-muted-foreground">Custo</span>
                   <span className="font-medium">
                     {product.cost ? formatCurrency(product.cost) : '-'}
                   </span>
                 </div>
                 <div className="flex justify-between items-center">
-                  <span className="text-muted-foreground">Margin</span>
+                  <span className="text-muted-foreground">Margem</span>
                   {margin ? (
                     <span className={`font-medium ${Number(margin) >= 0 ? 'text-success' : 'text-destructive'}`}>
                       {margin}%
@@ -418,22 +418,22 @@ export default function ProductDetail() {
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <TrendingUp className="h-5 w-5" />
-                  Usage Statistics
+                  Estatísticas de Uso
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="flex justify-between items-center">
-                  <span className="text-muted-foreground">Total Quotes</span>
+                  <span className="text-muted-foreground">Total de Propostas</span>
                   <span className="font-bold">{stats.totalQuotes}</span>
                 </div>
                 <Separator />
                 <div className="flex justify-between items-center">
-                  <span className="text-muted-foreground">Total Quantity</span>
+                  <span className="text-muted-foreground">Quantidade Total</span>
                   <span className="font-bold">{stats.totalQuantity}</span>
                 </div>
                 <Separator />
                 <div className="flex justify-between items-center">
-                  <span className="text-muted-foreground">Total Revenue</span>
+                  <span className="text-muted-foreground">Receita Total</span>
                   <span className="font-bold text-success">
                     {formatCurrency(stats.totalRevenue)}
                   </span>
@@ -444,11 +444,11 @@ export default function ProductDetail() {
             {/* Quick Info */}
             <Card>
               <CardHeader>
-                <CardTitle>Quick Info</CardTitle>
+                <CardTitle>Informações Rápidas</CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="flex justify-between text-sm">
-                  <span className="text-muted-foreground">Last Updated</span>
+                  <span className="text-muted-foreground">Última Atualização</span>
                   <span>{new Date(product.updated_at).toLocaleDateString('pt-BR')}</span>
                 </div>
               </CardContent>
