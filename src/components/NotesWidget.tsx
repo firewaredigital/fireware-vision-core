@@ -107,7 +107,7 @@ export function NotesWidget({
       .single();
 
     if (!profile?.organization_id) {
-      toast({ variant: 'destructive', title: 'Error', description: 'Organization not found' });
+      toast({ variant: 'destructive', title: 'Erro', description: 'Organização não encontrada' });
       setSaving(false);
       return;
     }
@@ -120,9 +120,9 @@ export function NotesWidget({
         .eq('id', editingNote.id);
 
       if (error) {
-        toast({ variant: 'destructive', title: 'Error', description: 'Failed to update note' });
+        toast({ variant: 'destructive', title: 'Erro', description: 'Falha ao atualizar nota' });
       } else {
-        toast({ title: 'Note updated' });
+        toast({ title: 'Nota atualizada' });
         setShowAddDialog(false);
         setEditingNote(null);
         setNoteContent('');
@@ -142,9 +142,9 @@ export function NotesWidget({
       });
 
       if (error) {
-        toast({ variant: 'destructive', title: 'Error', description: 'Failed to create note' });
+        toast({ variant: 'destructive', title: 'Erro', description: 'Falha ao criar nota' });
       } else {
-        toast({ title: 'Note added' });
+        toast({ title: 'Nota adicionada' });
         setShowAddDialog(false);
         setNoteContent('');
         fetchNotes();
@@ -161,7 +161,7 @@ export function NotesWidget({
       .eq('id', note.id);
 
     if (error) {
-      toast({ variant: 'destructive', title: 'Error', description: 'Failed to update note' });
+      toast({ variant: 'destructive', title: 'Erro', description: 'Falha ao atualizar nota' });
     } else {
       fetchNotes();
     }
@@ -171,9 +171,9 @@ export function NotesWidget({
     const { error } = await supabase.from('notes').delete().eq('id', noteId);
 
     if (error) {
-      toast({ variant: 'destructive', title: 'Error', description: 'Failed to delete note' });
+      toast({ variant: 'destructive', title: 'Erro', description: 'Falha ao excluir nota' });
     } else {
-      toast({ title: 'Note deleted' });
+      toast({ title: 'Nota excluída' });
       fetchNotes();
     }
   };
@@ -204,16 +204,16 @@ export function NotesWidget({
     return (
       <div className={className}>
         <div className="flex items-center justify-between mb-3">
-          <h4 className="text-sm font-medium">Notes ({notes.length})</h4>
+          <h4 className="text-sm font-medium">Notas ({notes.length})</h4>
           <Button size="sm" variant="ghost" onClick={() => setShowAddDialog(true)}>
             <Plus className="h-4 w-4" />
           </Button>
         </div>
         
         {loading ? (
-          <p className="text-sm text-muted-foreground">Loading...</p>
+          <p className="text-sm text-muted-foreground">Carregando...</p>
         ) : notes.length === 0 ? (
-          <p className="text-sm text-muted-foreground">No notes yet</p>
+          <p className="text-sm text-muted-foreground">Nenhuma nota ainda</p>
         ) : (
           <div className="space-y-2 max-h-40 overflow-y-auto">
             {notes.slice(0, 3).map((note) => (
@@ -233,21 +233,21 @@ export function NotesWidget({
         <Dialog open={showAddDialog} onOpenChange={setShowAddDialog}>
           <DialogContent>
             <DialogHeader>
-              <DialogTitle>{editingNote ? 'Edit Note' : 'Add Note'}</DialogTitle>
+              <DialogTitle>{editingNote ? 'Editar Nota' : 'Adicionar Nota'}</DialogTitle>
               <DialogDescription>
-                {editingNote ? 'Update your note below.' : 'Write a note about this record.'}
+                {editingNote ? 'Atualize sua nota abaixo.' : 'Escreva uma nota sobre este registro.'}
               </DialogDescription>
             </DialogHeader>
             <Textarea
-              placeholder="Type your note here..."
+              placeholder="Digite sua nota aqui..."
               value={noteContent}
               onChange={(e) => setNoteContent(e.target.value)}
               rows={4}
             />
             <DialogFooter>
-              <Button variant="outline" onClick={closeDialog}>Cancel</Button>
+              <Button variant="outline" onClick={closeDialog}>Cancelar</Button>
               <Button onClick={handleSave} disabled={saving || !noteContent.trim()}>
-                {saving ? 'Saving...' : editingNote ? 'Update' : 'Save'}
+                {saving ? 'Salvando...' : editingNote ? 'Atualizar' : 'Salvar'}
               </Button>
             </DialogFooter>
           </DialogContent>
@@ -260,23 +260,23 @@ export function NotesWidget({
     <Card className={className}>
       <CardHeader className="flex flex-row items-center justify-between">
         <div>
-          <CardTitle>Notes</CardTitle>
-          <CardDescription>Internal notes and comments</CardDescription>
+          <CardTitle>Notas</CardTitle>
+          <CardDescription>Notas e comentários internos</CardDescription>
         </div>
         <Button size="sm" onClick={() => setShowAddDialog(true)}>
           <Plus className="mr-2 h-4 w-4" />
-          Add Note
+          Adicionar Nota
         </Button>
       </CardHeader>
       <CardContent>
         {loading ? (
           <div className="flex items-center justify-center h-32 text-muted-foreground">
-            <p>Loading notes...</p>
+            <p>Carregando notas...</p>
           </div>
         ) : notes.length === 0 ? (
           <div className="flex flex-col items-center justify-center h-32 text-muted-foreground">
             <FileText className="h-8 w-8 mb-2" />
-            <p>No notes yet</p>
+            <p>Nenhuma nota ainda</p>
           </div>
         ) : (
           <div className="space-y-4">
@@ -293,7 +293,7 @@ export function NotesWidget({
                       {note.is_pinned && (
                         <Badge variant="secondary" className="text-xs">
                           <Pin className="h-3 w-3 mr-1" />
-                          Pinned
+                          Fixado
                         </Badge>
                       )}
                       <span className="text-xs text-muted-foreground">
@@ -303,7 +303,7 @@ export function NotesWidget({
                     <p className="text-sm whitespace-pre-wrap">{note.content}</p>
                     {note.updated_at !== note.created_at && (
                       <p className="text-xs text-muted-foreground mt-2">
-                        Edited {format(new Date(note.updated_at), 'MMM d, yyyy h:mm a')}
+                        Editado em {format(new Date(note.updated_at), 'dd/MM/yyyy HH:mm')}
                       </p>
                     )}
                   </div>
@@ -319,18 +319,18 @@ export function NotesWidget({
                           {note.is_pinned ? (
                             <>
                               <PinOff className="mr-2 h-4 w-4" />
-                              Unpin
+                              Desafixar
                             </>
                           ) : (
                             <>
                               <Pin className="mr-2 h-4 w-4" />
-                              Pin
+                              Fixar
                             </>
                           )}
                         </DropdownMenuItem>
                         <DropdownMenuItem onClick={() => openEditDialog(note)}>
                           <Edit className="mr-2 h-4 w-4" />
-                          Edit
+                          Editar
                         </DropdownMenuItem>
                         <DropdownMenuSeparator />
                         <DropdownMenuItem
@@ -338,7 +338,7 @@ export function NotesWidget({
                           onClick={() => deleteNote(note.id)}
                         >
                           <Trash2 className="mr-2 h-4 w-4" />
-                          Delete
+                          Excluir
                         </DropdownMenuItem>
                       </DropdownMenuContent>
                     </DropdownMenu>
@@ -352,21 +352,21 @@ export function NotesWidget({
         <Dialog open={showAddDialog} onOpenChange={setShowAddDialog}>
           <DialogContent>
             <DialogHeader>
-              <DialogTitle>{editingNote ? 'Edit Note' : 'Add Note'}</DialogTitle>
+              <DialogTitle>{editingNote ? 'Editar Nota' : 'Adicionar Nota'}</DialogTitle>
               <DialogDescription>
-                {editingNote ? 'Update your note below.' : 'Write a note about this record.'}
+                {editingNote ? 'Atualize sua nota abaixo.' : 'Escreva uma nota sobre este registro.'}
               </DialogDescription>
             </DialogHeader>
             <Textarea
-              placeholder="Type your note here..."
+              placeholder="Digite sua nota aqui..."
               value={noteContent}
               onChange={(e) => setNoteContent(e.target.value)}
               rows={4}
             />
             <DialogFooter>
-              <Button variant="outline" onClick={closeDialog}>Cancel</Button>
+              <Button variant="outline" onClick={closeDialog}>Cancelar</Button>
               <Button onClick={handleSave} disabled={saving || !noteContent.trim()}>
-                {saving ? 'Saving...' : editingNote ? 'Update' : 'Save'}
+                {saving ? 'Salvando...' : editingNote ? 'Atualizar' : 'Salvar'}
               </Button>
             </DialogFooter>
           </DialogContent>

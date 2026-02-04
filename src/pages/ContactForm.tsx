@@ -32,9 +32,9 @@ import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
 
 const contactSchema = z.object({
-  first_name: z.string().min(1, 'First name is required').max(100),
-  last_name: z.string().min(1, 'Last name is required').max(100),
-  email: z.string().email('Must be a valid email').optional().or(z.literal('')),
+  first_name: z.string().min(1, 'Nome é obrigatório').max(100),
+  last_name: z.string().min(1, 'Sobrenome é obrigatório').max(100),
+  email: z.string().email('Deve ser um e-mail válido').optional().or(z.literal('')),
   phone: z.string().optional(),
   mobile: z.string().optional(),
   job_title: z.string().optional(),
@@ -67,27 +67,27 @@ interface User {
 }
 
 const roles = [
-  { value: 'decision_maker', label: 'Decision Maker' },
-  { value: 'technical', label: 'Technical' },
-  { value: 'financial', label: 'Financial' },
-  { value: 'influencer', label: 'Influencer' },
-  { value: 'end_user', label: 'End User' },
-  { value: 'other', label: 'Other' },
+  { value: 'decision_maker', label: 'Decisor' },
+  { value: 'technical', label: 'Técnico' },
+  { value: 'financial', label: 'Financeiro' },
+  { value: 'influencer', label: 'Influenciador' },
+  { value: 'end_user', label: 'Usuário Final' },
+  { value: 'other', label: 'Outro' },
 ];
 
 const departments = [
-  'Executive',
-  'Sales',
+  'Diretoria',
+  'Vendas',
   'Marketing',
-  'Engineering',
-  'Product',
-  'Finance',
-  'Operations',
-  'Human Resources',
-  'Legal',
-  'Customer Success',
-  'IT',
-  'Other',
+  'Engenharia',
+  'Produto',
+  'Financeiro',
+  'Operações',
+  'Recursos Humanos',
+  'Jurídico',
+  'Sucesso do Cliente',
+  'TI',
+  'Outro',
 ];
 
 export default function ContactForm() {
@@ -173,8 +173,8 @@ export default function ContactForm() {
     if (error) {
       toast({
         variant: 'destructive',
-        title: 'Error',
-        description: 'Failed to load contact',
+        title: 'Erro',
+        description: 'Falha ao carregar contato',
       });
       navigate('/contacts');
     } else if (data) {
@@ -214,7 +214,7 @@ export default function ContactForm() {
       .single();
 
     if (!profile?.organization_id) {
-      toast({ variant: 'destructive', title: 'Error', description: 'Organization not found' });
+      toast({ variant: 'destructive', title: 'Erro', description: 'Organização não encontrada' });
       setSaving(false);
       return;
     }
@@ -253,9 +253,9 @@ export default function ContactForm() {
         .eq('id', id);
 
       if (error) {
-        toast({ variant: 'destructive', title: 'Error', description: 'Failed to update contact' });
+        toast({ variant: 'destructive', title: 'Erro', description: 'Falha ao atualizar contato' });
       } else {
-        toast({ title: 'Contact updated' });
+        toast({ title: 'Contato atualizado' });
         navigate(`/contacts/${id}`);
       }
     } else {
@@ -266,9 +266,9 @@ export default function ContactForm() {
         .single();
 
       if (error) {
-        toast({ variant: 'destructive', title: 'Error', description: 'Failed to create contact' });
+        toast({ variant: 'destructive', title: 'Erro', description: 'Falha ao criar contato' });
       } else {
-        toast({ title: 'Contact created' });
+        toast({ title: 'Contato criado' });
         navigate(`/contacts/${newContact.id}`);
       }
     }
@@ -322,21 +322,21 @@ export default function ContactForm() {
           </Button>
           <div>
             <h1 className="text-2xl font-bold tracking-tight">
-              {isEditing ? 'Edit Contact' : 'New Contact'}
+              {isEditing ? 'Editar Contato' : 'Novo Contato'}
             </h1>
             <p className="text-muted-foreground">
-              {isEditing ? 'Update contact information' : 'Add a new contact to your CRM'}
+              {isEditing ? 'Atualizar informações do contato' : 'Adicionar um novo contato ao CRM'}
             </p>
           </div>
         </div>
 
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-            {/* Basic Information */}
+            {/* Informações Básicas */}
             <Card>
               <CardHeader>
-                <CardTitle>Basic Information</CardTitle>
-                <CardDescription>Name and contact details</CardDescription>
+                <CardTitle>Informações Básicas</CardTitle>
+                <CardDescription>Nome e dados de contato</CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="grid gap-4 sm:grid-cols-2">
@@ -345,9 +345,9 @@ export default function ContactForm() {
                     name="first_name"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>First Name *</FormLabel>
+                        <FormLabel>Nome *</FormLabel>
                         <FormControl>
-                          <Input placeholder="John" {...field} />
+                          <Input placeholder="João" {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -358,9 +358,9 @@ export default function ContactForm() {
                     name="last_name"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Last Name *</FormLabel>
+                        <FormLabel>Sobrenome *</FormLabel>
                         <FormControl>
-                          <Input placeholder="Doe" {...field} />
+                          <Input placeholder="Silva" {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -384,9 +384,9 @@ export default function ContactForm() {
                     name="phone"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Phone</FormLabel>
+                        <FormLabel>Telefone</FormLabel>
                         <FormControl>
-                          <Input placeholder="+1 (555) 000-0000" {...field} />
+                          <Input placeholder="(11) 3000-0000" {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -397,9 +397,9 @@ export default function ContactForm() {
                     name="mobile"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Mobile</FormLabel>
+                        <FormLabel>Celular</FormLabel>
                         <FormControl>
-                          <Input placeholder="+1 (555) 000-0001" {...field} />
+                          <Input placeholder="(11) 99000-0000" {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -409,11 +409,11 @@ export default function ContactForm() {
               </CardContent>
             </Card>
 
-            {/* Professional Information */}
+            {/* Informações Profissionais */}
             <Card>
               <CardHeader>
-                <CardTitle>Professional Information</CardTitle>
-                <CardDescription>Job title, department, and role</CardDescription>
+                <CardTitle>Informações Profissionais</CardTitle>
+                <CardDescription>Cargo, departamento e função</CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="grid gap-4 sm:grid-cols-2">
@@ -422,15 +422,15 @@ export default function ContactForm() {
                     name="account_id"
                     render={({ field }) => (
                       <FormItem className="sm:col-span-2">
-                        <FormLabel>Account</FormLabel>
+                        <FormLabel>Conta</FormLabel>
                         <Select onValueChange={field.onChange} value={field.value}>
                           <FormControl>
                             <SelectTrigger>
-                              <SelectValue placeholder="Select account" />
+                              <SelectValue placeholder="Selecione a conta" />
                             </SelectTrigger>
                           </FormControl>
                           <SelectContent>
-                            <SelectItem value="">None</SelectItem>
+                            <SelectItem value="">Nenhuma</SelectItem>
                             {accounts.map((a) => (
                               <SelectItem key={a.id} value={a.id}>
                                 {a.name}
@@ -438,7 +438,7 @@ export default function ContactForm() {
                             ))}
                           </SelectContent>
                         </Select>
-                        <FormDescription>Link this contact to a company</FormDescription>
+                        <FormDescription>Vincular este contato a uma empresa</FormDescription>
                         <FormMessage />
                       </FormItem>
                     )}
@@ -448,9 +448,9 @@ export default function ContactForm() {
                     name="job_title"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Job Title</FormLabel>
+                        <FormLabel>Cargo</FormLabel>
                         <FormControl>
-                          <Input placeholder="VP of Sales" {...field} />
+                          <Input placeholder="Diretor de Vendas" {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -461,11 +461,11 @@ export default function ContactForm() {
                     name="department"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Department</FormLabel>
+                        <FormLabel>Departamento</FormLabel>
                         <Select onValueChange={field.onChange} value={field.value}>
                           <FormControl>
                             <SelectTrigger>
-                              <SelectValue placeholder="Select department" />
+                              <SelectValue placeholder="Selecione o departamento" />
                             </SelectTrigger>
                           </FormControl>
                           <SelectContent>
@@ -485,11 +485,11 @@ export default function ContactForm() {
                     name="role"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Role in Buying Process</FormLabel>
+                        <FormLabel>Papel no Processo de Compra</FormLabel>
                         <Select onValueChange={field.onChange} value={field.value}>
                           <FormControl>
                             <SelectTrigger>
-                              <SelectValue placeholder="Select role" />
+                              <SelectValue placeholder="Selecione o papel" />
                             </SelectTrigger>
                           </FormControl>
                           <SelectContent>

@@ -31,11 +31,11 @@ import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
 
 const accountSchema = z.object({
-  name: z.string().min(1, 'Company name is required').max(255),
+  name: z.string().min(1, 'Nome da empresa é obrigatório').max(255),
   industry: z.string().optional(),
-  website: z.string().url('Must be a valid URL').optional().or(z.literal('')),
+  website: z.string().url('Deve ser uma URL válida').optional().or(z.literal('')),
   phone: z.string().optional(),
-  email: z.string().email('Must be a valid email').optional().or(z.literal('')),
+  email: z.string().email('Deve ser um e-mail válido').optional().or(z.literal('')),
   address_street: z.string().optional(),
   address_city: z.string().optional(),
   address_state: z.string().optional(),
@@ -70,32 +70,32 @@ interface User {
 }
 
 const industries = [
-  'Technology',
-  'Healthcare',
-  'Finance',
-  'Manufacturing',
-  'Retail',
-  'Education',
-  'Real Estate',
-  'Consulting',
-  'Media',
-  'Transportation',
-  'Energy',
-  'Agriculture',
-  'Construction',
-  'Hospitality',
-  'Other',
+  'Tecnologia',
+  'Saúde',
+  'Finanças',
+  'Manufatura',
+  'Varejo',
+  'Educação',
+  'Imobiliário',
+  'Consultoria',
+  'Mídia',
+  'Transporte',
+  'Energia',
+  'Agronegócio',
+  'Construção',
+  'Hotelaria',
+  'Outro',
 ];
 
 const sources = [
   'Website',
-  'Referral',
-  'Trade Show',
-  'Cold Call',
-  'Social Media',
-  'Advertisement',
-  'Partner',
-  'Other',
+  'Indicação',
+  'Feira/Evento',
+  'Ligação Fria',
+  'Redes Sociais',
+  'Publicidade',
+  'Parceiro',
+  'Outro',
 ];
 
 export default function AccountForm() {
@@ -188,8 +188,8 @@ export default function AccountForm() {
     if (error) {
       toast({
         variant: 'destructive',
-        title: 'Error',
-        description: 'Failed to load account',
+        title: 'Erro',
+        description: 'Falha ao carregar conta',
       });
       navigate('/accounts');
     } else if (data) {
@@ -228,7 +228,7 @@ export default function AccountForm() {
       .single();
 
     if (!profile?.organization_id) {
-      toast({ variant: 'destructive', title: 'Error', description: 'Organization not found' });
+      toast({ variant: 'destructive', title: 'Erro', description: 'Organização não encontrada' });
       setSaving(false);
       return;
     }
@@ -262,9 +262,9 @@ export default function AccountForm() {
         .eq('id', id);
 
       if (error) {
-        toast({ variant: 'destructive', title: 'Error', description: 'Failed to update account' });
+        toast({ variant: 'destructive', title: 'Erro', description: 'Falha ao atualizar conta' });
       } else {
-        toast({ title: 'Account updated' });
+        toast({ title: 'Conta atualizada' });
         navigate(`/accounts/${id}`);
       }
     } else {
@@ -275,9 +275,9 @@ export default function AccountForm() {
         .single();
 
       if (error) {
-        toast({ variant: 'destructive', title: 'Error', description: 'Failed to create account' });
+        toast({ variant: 'destructive', title: 'Erro', description: 'Falha ao criar conta' });
       } else {
-        toast({ title: 'Account created' });
+        toast({ title: 'Conta criada' });
         navigate(`/accounts/${newAccount.id}`);
       }
     }
@@ -331,21 +331,21 @@ export default function AccountForm() {
           </Button>
           <div>
             <h1 className="text-2xl font-bold tracking-tight">
-              {isEditing ? 'Edit Account' : 'New Account'}
+              {isEditing ? 'Editar Conta' : 'Nova Conta'}
             </h1>
             <p className="text-muted-foreground">
-              {isEditing ? 'Update account information' : 'Create a new customer account'}
+              {isEditing ? 'Atualizar informações da conta' : 'Criar uma nova conta de cliente'}
             </p>
           </div>
         </div>
 
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-            {/* Basic Information */}
+            {/* Informações Básicas */}
             <Card>
               <CardHeader>
-                <CardTitle>Basic Information</CardTitle>
-                <CardDescription>Company name and industry</CardDescription>
+                <CardTitle>Informações Básicas</CardTitle>
+                <CardDescription>Nome da empresa e setor</CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="grid gap-4 sm:grid-cols-2">
@@ -354,9 +354,9 @@ export default function AccountForm() {
                     name="name"
                     render={({ field }) => (
                       <FormItem className="sm:col-span-2">
-                        <FormLabel>Company Name *</FormLabel>
+                        <FormLabel>Nome da Empresa *</FormLabel>
                         <FormControl>
-                          <Input placeholder="Acme Corporation" {...field} />
+                          <Input placeholder="Empresa Exemplo Ltda" {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -367,11 +367,11 @@ export default function AccountForm() {
                     name="industry"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Industry</FormLabel>
+                        <FormLabel>Setor</FormLabel>
                         <Select onValueChange={field.onChange} value={field.value}>
                           <FormControl>
                             <SelectTrigger>
-                              <SelectValue placeholder="Select industry" />
+                              <SelectValue placeholder="Selecione o setor" />
                             </SelectTrigger>
                           </FormControl>
                           <SelectContent>
@@ -391,11 +391,11 @@ export default function AccountForm() {
                     name="source"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Source</FormLabel>
+                        <FormLabel>Origem</FormLabel>
                         <Select onValueChange={field.onChange} value={field.value}>
                           <FormControl>
                             <SelectTrigger>
-                              <SelectValue placeholder="Select source" />
+                              <SelectValue placeholder="Selecione a origem" />
                             </SelectTrigger>
                           </FormControl>
                           <SelectContent>
@@ -414,11 +414,11 @@ export default function AccountForm() {
               </CardContent>
             </Card>
 
-            {/* Contact Information */}
+            {/* Informações de Contato */}
             <Card>
               <CardHeader>
-                <CardTitle>Contact Information</CardTitle>
-                <CardDescription>Website, phone, and email</CardDescription>
+                <CardTitle>Informações de Contato</CardTitle>
+                <CardDescription>Website, telefone e e-mail</CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="grid gap-4 sm:grid-cols-2">
@@ -465,24 +465,24 @@ export default function AccountForm() {
               </CardContent>
             </Card>
 
-            {/* Address */}
+            {/* Endereço */}
             <Card>
               <CardHeader>
-                <CardTitle>Address</CardTitle>
-                <CardDescription>Company location</CardDescription>
+                <CardTitle>Endereço</CardTitle>
+                <CardDescription>Localização da empresa</CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
                 <FormField
                   control={form.control}
                   name="address_street"
                   render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Street Address</FormLabel>
-                      <FormControl>
-                        <Input placeholder="123 Main Street" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
+                      <FormItem>
+                        <FormLabel>Logradouro</FormLabel>
+                        <FormControl>
+                          <Input placeholder="Rua Exemplo, 123" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
                   )}
                 />
                 <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
@@ -491,9 +491,9 @@ export default function AccountForm() {
                     name="address_city"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>City</FormLabel>
+                        <FormLabel>Cidade</FormLabel>
                         <FormControl>
-                          <Input placeholder="San Francisco" {...field} />
+                          <Input placeholder="São Paulo" {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
