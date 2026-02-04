@@ -386,8 +386,8 @@ export function LeadConversionWizard({
           <p className="font-medium">{lead.first_name} {lead.last_name}</p>
           <p className="text-sm text-muted-foreground">
             {lead.job_title && lead.company 
-              ? `${lead.job_title} at ${lead.company}`
-              : lead.company || lead.job_title || 'No company'}
+              ? `${lead.job_title} na ${lead.company}`
+              : lead.company || lead.job_title || 'Sem empresa'}
           </p>
         </div>
       </div>
@@ -500,7 +500,7 @@ export function LeadConversionWizard({
       <div className="space-y-4">
         <div className="flex items-center gap-2">
           <User className="h-5 w-5 text-muted-foreground" />
-          <h3 className="font-medium">Contact</h3>
+          <h3 className="font-medium">Contato</h3>
         </div>
 
         <div className="grid gap-4 md:grid-cols-2">
@@ -509,7 +509,7 @@ export function LeadConversionWizard({
             name="contactFirstName"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>First Name *</FormLabel>
+                <FormLabel>Nome *</FormLabel>
                 <FormControl>
                   <Input {...field} />
                 </FormControl>
@@ -522,7 +522,7 @@ export function LeadConversionWizard({
             name="contactLastName"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Last Name *</FormLabel>
+                <FormLabel>Sobrenome *</FormLabel>
                 <FormControl>
                   <Input {...field} />
                 </FormControl>
@@ -551,7 +551,7 @@ export function LeadConversionWizard({
             name="contactPhone"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Phone</FormLabel>
+                <FormLabel>Telefone</FormLabel>
                 <FormControl>
                   <Input {...field} />
                 </FormControl>
@@ -566,7 +566,7 @@ export function LeadConversionWizard({
           name="contactJobTitle"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Job Title</FormLabel>
+              <FormLabel>Cargo</FormLabel>
               <FormControl>
                 <Input {...field} />
               </FormControl>
@@ -586,10 +586,10 @@ export function LeadConversionWizard({
           <CardHeader className="pb-3">
             <CardTitle className="flex items-center gap-2 text-warning">
               <AlertTriangle className="h-5 w-5" />
-              Potential Duplicates Found
+              Possíveis Duplicatas Encontradas
             </CardTitle>
             <CardDescription>
-              We found {duplicateAccounts.length} account(s) that might be duplicates.
+              Encontramos {duplicateAccounts.length} conta(s) que podem ser duplicadas.
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-2">
@@ -611,7 +611,7 @@ export function LeadConversionWizard({
                     setStep(1);
                   }}
                 >
-                  Use this account
+                  Usar esta conta
                 </Button>
               </div>
             ))}
@@ -623,7 +623,7 @@ export function LeadConversionWizard({
       <div className="space-y-4">
         <div className="flex items-center gap-2">
           <Target className="h-5 w-5 text-muted-foreground" />
-          <h3 className="font-medium">Opportunity</h3>
+          <h3 className="font-medium">Oportunidade</h3>
         </div>
 
         <FormField
@@ -638,7 +638,7 @@ export function LeadConversionWizard({
                 />
               </FormControl>
               <FormLabel className="font-normal">
-                Create an opportunity for this conversion
+                Criar uma oportunidade para esta conversão
               </FormLabel>
             </FormItem>
           )}
@@ -651,7 +651,7 @@ export function LeadConversionWizard({
               name="opportunityName"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Opportunity Name *</FormLabel>
+                  <FormLabel>Nome da Oportunidade *</FormLabel>
                   <FormControl>
                     <Input {...field} />
                   </FormControl>
@@ -665,7 +665,7 @@ export function LeadConversionWizard({
               name="opportunityAmount"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Amount</FormLabel>
+                  <FormLabel>Valor</FormLabel>
                   <FormControl>
                     <div className="relative">
                       <span className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground">
@@ -691,12 +691,12 @@ export function LeadConversionWizard({
               name="opportunityDescription"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Description</FormLabel>
+                  <FormLabel>Descrição</FormLabel>
                   <FormControl>
                     <Textarea 
                       {...field} 
                       className="min-h-[80px]"
-                      placeholder="Additional details about this opportunity..."
+                      placeholder="Detalhes adicionais sobre esta oportunidade..."
                     />
                   </FormControl>
                   <FormMessage />
@@ -710,28 +710,28 @@ export function LeadConversionWizard({
       {/* Summary */}
       <Card>
         <CardHeader>
-          <CardTitle className="text-base">Conversion Summary</CardTitle>
+          <CardTitle className="text-base">Resumo da Conversão</CardTitle>
         </CardHeader>
         <CardContent className="space-y-2">
           <div className="flex items-center gap-2">
             <CheckCircle className="h-4 w-4 text-success" />
             <span className="text-sm">
-              {useExistingAccount ? 'Link to existing account' : 'Create new account'}
+              {useExistingAccount ? 'Vincular a conta existente' : 'Criar nova conta'}
             </span>
           </div>
           <div className="flex items-center gap-2">
             <CheckCircle className="h-4 w-4 text-success" />
-            <span className="text-sm">Create new contact</span>
+            <span className="text-sm">Criar novo contato</span>
           </div>
           {createOpportunity && (
             <div className="flex items-center gap-2">
               <CheckCircle className="h-4 w-4 text-success" />
-              <span className="text-sm">Create new opportunity</span>
+              <span className="text-sm">Criar nova oportunidade</span>
             </div>
           )}
           <div className="flex items-center gap-2">
             <CheckCircle className="h-4 w-4 text-success" />
-            <span className="text-sm">Mark lead as converted</span>
+            <span className="text-sm">Marcar lead como convertido</span>
           </div>
         </CardContent>
       </Card>
@@ -747,9 +747,9 @@ export function LeadConversionWizard({
       </div>
 
       <div>
-        <h3 className="text-xl font-semibold">Conversion Complete!</h3>
+        <h3 className="text-xl font-semibold">Conversão Concluída!</h3>
         <p className="text-muted-foreground mt-2">
-          The lead has been successfully converted.
+          O lead foi convertido com sucesso.
         </p>
       </div>
 
@@ -761,7 +761,7 @@ export function LeadConversionWizard({
             onClick={() => navigate(`/accounts/${conversionResult.accountId}`)}
           >
             <Building2 className="mr-2 h-4 w-4" />
-            View Account
+            Ver Conta
           </Button>
           <Button
             variant="outline"
@@ -769,7 +769,7 @@ export function LeadConversionWizard({
             onClick={() => navigate(`/contacts/${conversionResult.contactId}`)}
           >
             <User className="mr-2 h-4 w-4" />
-            View Contact
+            Ver Contato
           </Button>
           {conversionResult.opportunityId && (
             <Button
@@ -778,14 +778,14 @@ export function LeadConversionWizard({
               onClick={() => navigate(`/opportunities/${conversionResult.opportunityId}`)}
             >
               <Target className="mr-2 h-4 w-4" />
-              View Opportunity
+              Ver Oportunidade
             </Button>
           )}
         </div>
       )}
 
       <Button onClick={() => onOpenChange(false)} className="w-full">
-        Close
+        Fechar
       </Button>
     </div>
   );
@@ -794,19 +794,19 @@ export function LeadConversionWizard({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
         <DialogHeader>
-          <DialogTitle>Convert Lead</DialogTitle>
+          <DialogTitle>Converter Lead</DialogTitle>
           <DialogDescription>
-            Convert this lead into an Account, Contact, and optionally an Opportunity.
+            Converta este lead em Conta, Contato e, opcionalmente, uma Oportunidade.
           </DialogDescription>
         </DialogHeader>
 
         {/* Progress Steps */}
         <div className="flex items-center justify-center gap-2 py-4">
-          <Badge variant={step >= 1 ? 'default' : 'outline'}>1. Details</Badge>
+          <Badge variant={step >= 1 ? 'default' : 'outline'}>1. Detalhes</Badge>
           <ArrowRight className="h-4 w-4 text-muted-foreground" />
-          <Badge variant={step >= 2 ? 'default' : 'outline'}>2. Review</Badge>
+          <Badge variant={step >= 2 ? 'default' : 'outline'}>2. Revisão</Badge>
           <ArrowRight className="h-4 w-4 text-muted-foreground" />
-          <Badge variant={step >= 3 ? 'default' : 'outline'}>3. Complete</Badge>
+          <Badge variant={step >= 3 ? 'default' : 'outline'}>3. Concluído</Badge>
         </div>
 
         <Form {...form}>
@@ -822,12 +822,12 @@ export function LeadConversionWizard({
                   variant="outline"
                   onClick={step === 1 ? () => onOpenChange(false) : handleBack}
                 >
-                  {step === 1 ? 'Cancel' : 'Back'}
+                  {step === 1 ? 'Cancelar' : 'Voltar'}
                 </Button>
                 
                 {step === 1 ? (
                   <Button type="button" onClick={handleNext}>
-                    Next
+                    Próximo
                     <ArrowRight className="ml-2 h-4 w-4" />
                   </Button>
                 ) : (
@@ -835,12 +835,12 @@ export function LeadConversionWizard({
                     {loading ? (
                       <>
                         <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                        Converting...
+                        Convertendo...
                       </>
                     ) : (
                       <>
                         <CheckCircle className="mr-2 h-4 w-4" />
-                        Convert Lead
+                        Converter Lead
                       </>
                     )}
                   </Button>

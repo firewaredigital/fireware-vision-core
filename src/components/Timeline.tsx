@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { format } from 'date-fns';
+import { ptBR } from 'date-fns/locale';
 import { 
   UserPlus, TrendingUp, FileText, Phone, Mail, Calendar, 
   CheckCircle, AlertCircle, MessageSquare, Building, Target
@@ -43,6 +44,21 @@ const eventIcons: Record<TimelineEventType, React.ElementType> = {
   note_added: MessageSquare,
   contact_added: UserPlus,
   account_created: Building,
+};
+
+const eventLabels: Record<TimelineEventType, string> = {
+  lead_created: 'Lead criado',
+  lead_converted: 'Lead convertido',
+  opportunity_created: 'Oportunidade criada',
+  opportunity_stage_changed: 'Etapa alterada',
+  opportunity_won: 'Oportunidade ganha',
+  opportunity_lost: 'Oportunidade perdida',
+  quote_created: 'Proposta criada',
+  quote_sent: 'Proposta enviada',
+  activity_completed: 'Atividade concluída',
+  note_added: 'Nota adicionada',
+  contact_added: 'Contato adicionado',
+  account_created: 'Conta criada',
 };
 
 const eventColors: Record<TimelineEventType, string> = {
@@ -113,7 +129,7 @@ export function Timeline({ accountId, contactId, opportunityId, leadId, quoteId,
     return (
       <div className="text-center py-8 text-muted-foreground">
         <Calendar className="h-8 w-8 mx-auto mb-2 opacity-50" />
-        <p>Nenhum evento na timeline ainda</p>
+        <p>Nenhum evento na linha do tempo ainda</p>
       </div>
     );
   }
@@ -126,6 +142,7 @@ export function Timeline({ accountId, contactId, opportunityId, leadId, quoteId,
         {events.map((event) => {
           const Icon = eventIcons[event.event_type] || Calendar;
           const colorClass = eventColors[event.event_type] || 'bg-gray-100 text-gray-700';
+          const label = eventLabels[event.event_type] || event.event_type.replace(/_/g, ' ');
           
           return (
             <div key={event.id} className="relative flex gap-3">
@@ -136,14 +153,14 @@ export function Timeline({ accountId, contactId, opportunityId, leadId, quoteId,
                 <div className="flex items-center gap-2 flex-wrap">
                   <span className="font-medium text-sm">{event.title}</span>
                   <Badge variant="outline" className="text-xs">
-                    {event.event_type.replace(/_/g, ' ')}
+                    {label}
                   </Badge>
                 </div>
                 {event.description && (
                   <p className="text-sm text-muted-foreground mt-1">{event.description}</p>
                 )}
                 <p className="text-xs text-muted-foreground mt-1">
-                  {format(new Date(event.created_at), 'MMM d, yyyy h:mm a')}
+                  {format(new Date(event.created_at), "d 'de' MMM yyyy 'às' HH:mm", { locale: ptBR })}
                 </p>
               </div>
             </div>

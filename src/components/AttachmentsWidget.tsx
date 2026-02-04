@@ -42,6 +42,7 @@ import { useAuth } from '@/hooks/useAuth';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
 import { format } from 'date-fns';
+import { ptBR } from 'date-fns/locale';
 
 interface Attachment {
   id: string;
@@ -215,15 +216,15 @@ export function AttachmentsWidget({
 
     if (successCount > 0) {
       toast({
-        title: 'Files uploaded',
-        description: `Successfully uploaded ${successCount} file(s).`,
+        title: 'Arquivos enviados',
+        description: `${successCount} arquivo(s) enviado(s) com sucesso.`,
       });
       fetchAttachments();
     } else {
       toast({
         variant: 'destructive',
-        title: 'Upload failed',
-        description: 'Failed to upload files. Please try again.',
+        title: 'Falha no envio',
+        description: 'Não foi possível enviar os arquivos. Tente novamente.',
       });
     }
   };
@@ -241,13 +242,13 @@ export function AttachmentsWidget({
     if (error) {
       toast({
         variant: 'destructive',
-        title: 'Error',
-        description: 'Failed to delete attachment',
+        title: 'Erro',
+        description: 'Falha ao excluir anexo',
       });
     } else {
       toast({
-        title: 'Attachment deleted',
-        description: 'The file has been successfully deleted.',
+        title: 'Anexo excluído',
+        description: 'O arquivo foi excluído com sucesso.',
       });
       fetchAttachments();
     }
@@ -262,8 +263,8 @@ export function AttachmentsWidget({
     if (error) {
       toast({
         variant: 'destructive',
-        title: 'Error',
-        description: 'Failed to download file',
+        title: 'Erro',
+        description: 'Falha ao baixar arquivo',
       });
       return;
     }
@@ -287,8 +288,8 @@ export function AttachmentsWidget({
     if (error || !data) {
       toast({
         variant: 'destructive',
-        title: 'Error',
-        description: 'Failed to preview file',
+        title: 'Erro',
+        description: 'Falha ao visualizar arquivo',
       });
       return;
     }
@@ -310,10 +311,10 @@ export function AttachmentsWidget({
             <div>
               <CardTitle className="flex items-center gap-2">
                 <Paperclip className="h-5 w-5" />
-                Attachments
+                Anexos
               </CardTitle>
               <CardDescription>
-                {attachments.length} file{attachments.length !== 1 ? 's' : ''} attached
+                {attachments.length} arquivo{attachments.length !== 1 ? 's' : ''} anexado{attachments.length !== 1 ? 's' : ''}
               </CardDescription>
             </div>
             <Button
@@ -327,7 +328,7 @@ export function AttachmentsWidget({
               ) : (
                 <Upload className="mr-2 h-4 w-4" />
               )}
-              Upload
+              Enviar
             </Button>
           </div>
         </CardHeader>
@@ -354,17 +355,17 @@ export function AttachmentsWidget({
             <div className="flex flex-col items-center justify-center text-center">
               <Upload className="h-8 w-8 text-muted-foreground mb-2" />
               <p className="text-sm text-muted-foreground">
-                Drag and drop files here, or{' '}
+                Arraste e solte arquivos aqui, ou{' '}
                 <button
                   type="button"
                   className="text-primary hover:underline"
                   onClick={() => fileInputRef.current?.click()}
                 >
-                  browse
+                  procure
                 </button>
               </p>
               <p className="text-xs text-muted-foreground mt-1">
-                PDF, Word, Excel, Images (max 50MB)
+                PDF, Word, Excel, Imagens (máx. 50MB)
               </p>
             </div>
           </div>
@@ -377,7 +378,7 @@ export function AttachmentsWidget({
           ) : attachments.length === 0 ? (
             <div className="text-center py-8 text-muted-foreground">
               <Paperclip className="h-8 w-8 mx-auto mb-2 opacity-50" />
-              <p>No attachments yet</p>
+              <p>Nenhum anexo ainda</p>
             </div>
           ) : (
             <div className="space-y-2">
@@ -394,7 +395,7 @@ export function AttachmentsWidget({
                     <div className="flex items-center gap-2 text-xs text-muted-foreground">
                       <span>{formatFileSize(attachment.file_size)}</span>
                       <span>•</span>
-                      <span>{format(new Date(attachment.created_at), 'MMM d, yyyy')}</span>
+                      <span>{format(new Date(attachment.created_at), "d 'de' MMM yyyy", { locale: ptBR })}</span>
                       {attachment.uploader && (
                         <>
                           <span>•</span>
@@ -415,19 +416,19 @@ export function AttachmentsWidget({
                       {isPreviewable(attachment.mime_type) && (
                         <DropdownMenuItem onClick={() => previewAttachmentFile(attachment)}>
                           <Eye className="mr-2 h-4 w-4" />
-                          Preview
+                          Visualizar
                         </DropdownMenuItem>
                       )}
                       <DropdownMenuItem onClick={() => downloadAttachment(attachment)}>
                         <Download className="mr-2 h-4 w-4" />
-                        Download
+                        Baixar
                       </DropdownMenuItem>
                       <DropdownMenuItem
                         className="text-destructive focus:text-destructive"
                         onClick={() => setDeleteAttachmentId(attachment.id)}
                       >
                         <Trash2 className="mr-2 h-4 w-4" />
-                        Delete
+                        Excluir
                       </DropdownMenuItem>
                     </DropdownMenuContent>
                   </DropdownMenu>
@@ -469,17 +470,17 @@ export function AttachmentsWidget({
       <AlertDialog open={!!deleteAttachmentId} onOpenChange={() => setDeleteAttachmentId(null)}>
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>Delete Attachment</AlertDialogTitle>
+            <AlertDialogTitle>Excluir Anexo</AlertDialogTitle>
             <AlertDialogDescription>
-              Are you sure you want to delete this attachment? This action cannot be undone.
+              Tem certeza de que deseja excluir este anexo? Esta ação não pode ser desfeita.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogCancel>Cancelar</AlertDialogCancel>
             <AlertDialogAction
               onClick={() => deleteAttachmentId && deleteAttachment(deleteAttachmentId)}
             >
-              Delete
+              Excluir
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>

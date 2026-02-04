@@ -155,7 +155,7 @@ export default function PortalLogin() {
           </Link>
           <span>•</span>
           <Link to="/portal/contact" className="hover:text-foreground hover:underline">
-            Contato
+            Fale Conosco
           </Link>
         </div>
       </div>
