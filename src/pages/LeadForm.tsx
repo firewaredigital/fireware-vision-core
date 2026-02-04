@@ -30,15 +30,15 @@ import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
 
 const leadSchema = z.object({
-  first_name: z.string().min(1, 'First name is required').max(100),
-  last_name: z.string().min(1, 'Last name is required').max(100),
-  email: z.string().email('Invalid email').optional().or(z.literal('')),
+  first_name: z.string().min(1, 'Nome é obrigatório').max(100),
+  last_name: z.string().min(1, 'Sobrenome é obrigatório').max(100),
+  email: z.string().email('Email inválido').optional().or(z.literal('')),
   phone: z.string().max(50).optional().or(z.literal('')),
   mobile: z.string().max(50).optional().or(z.literal('')),
   company: z.string().max(255).optional().or(z.literal('')),
   job_title: z.string().max(255).optional().or(z.literal('')),
   industry: z.string().max(100).optional().or(z.literal('')),
-  website: z.string().url('Invalid URL').optional().or(z.literal('')),
+  website: z.string().url('URL inválida').optional().or(z.literal('')),
   address_street: z.string().max(255).optional().or(z.literal('')),
   address_city: z.string().max(100).optional().or(z.literal('')),
   address_state: z.string().max(100).optional().or(z.literal('')),
@@ -103,8 +103,8 @@ export default function LeadForm() {
     if (error) {
       toast({
         variant: 'destructive',
-        title: 'Error',
-        description: 'Failed to load lead',
+        title: 'Erro',
+        description: 'Falha ao carregar lead',
       });
       navigate('/leads');
     } else {
@@ -135,8 +135,8 @@ export default function LeadForm() {
     if (!profile?.organization_id) {
       toast({
         variant: 'destructive',
-        title: 'Error',
-        description: 'You must be part of an organization to create leads.',
+        title: 'Erro',
+        description: 'Você deve fazer parte de uma organização para criar leads.',
       });
       return;
     }
@@ -172,13 +172,13 @@ export default function LeadForm() {
       if (error) {
         toast({
           variant: 'destructive',
-          title: 'Error',
-          description: 'Failed to update lead',
+          title: 'Erro',
+          description: 'Falha ao atualizar lead',
         });
       } else {
         toast({
-          title: 'Lead updated',
-          description: 'The lead has been successfully updated.',
+          title: 'Lead atualizado',
+          description: 'O lead foi atualizado com sucesso.',
         });
         navigate(`/leads/${id}`);
       }
@@ -188,13 +188,13 @@ export default function LeadForm() {
       if (error) {
         toast({
           variant: 'destructive',
-          title: 'Error',
-          description: error.message || 'Failed to create lead',
+          title: 'Erro',
+          description: error.message || 'Falha ao criar lead',
         });
       } else {
         toast({
-          title: 'Lead created',
-          description: 'The lead has been successfully created.',
+          title: 'Lead criado',
+          description: 'O lead foi criado com sucesso.',
         });
         navigate(`/leads/${newLead.id}`);
       }
@@ -221,10 +221,10 @@ export default function LeadForm() {
           </Button>
           <div>
             <h1 className="text-2xl font-bold tracking-tight">
-              {isEditing ? 'Edit Lead' : 'New Lead'}
+              {isEditing ? 'Editar Lead' : 'Novo Lead'}
             </h1>
             <p className="text-muted-foreground">
-              {isEditing ? 'Update lead information' : 'Create a new sales lead'}
+              {isEditing ? 'Atualizar informações do lead' : 'Criar um novo lead de vendas'}
             </p>
           </div>
         </div>
@@ -234,8 +234,8 @@ export default function LeadForm() {
             {/* Basic Information */}
             <Card>
               <CardHeader>
-                <CardTitle>Basic Information</CardTitle>
-                <CardDescription>Lead contact details</CardDescription>
+                <CardTitle>Informações Básicas</CardTitle>
+                <CardDescription>Dados de contato do lead</CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="grid gap-4 sm:grid-cols-2">
@@ -244,7 +244,7 @@ export default function LeadForm() {
                     name="first_name"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>First Name *</FormLabel>
+                        <FormLabel>Nome *</FormLabel>
                         <FormControl>
                           <Input placeholder="John" {...field} />
                         </FormControl>
@@ -257,7 +257,7 @@ export default function LeadForm() {
                     name="last_name"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Last Name *</FormLabel>
+                        <FormLabel>Sobrenome *</FormLabel>
                         <FormControl>
                           <Input placeholder="Doe" {...field} />
                         </FormControl>
@@ -286,7 +286,7 @@ export default function LeadForm() {
                     name="phone"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Phone</FormLabel>
+                        <FormLabel>Telefone</FormLabel>
                         <FormControl>
                           <Input placeholder="+1 (555) 000-0000" {...field} />
                         </FormControl>
@@ -301,7 +301,7 @@ export default function LeadForm() {
                   name="mobile"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Mobile</FormLabel>
+                      <FormLabel>Celular</FormLabel>
                       <FormControl>
                         <Input placeholder="+1 (555) 000-0000" {...field} />
                       </FormControl>
@@ -315,8 +315,8 @@ export default function LeadForm() {
             {/* Company Information */}
             <Card>
               <CardHeader>
-                <CardTitle>Company Information</CardTitle>
-                <CardDescription>Lead's company details</CardDescription>
+                <CardTitle>Informações da Empresa</CardTitle>
+                <CardDescription>Dados da empresa do lead</CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="grid gap-4 sm:grid-cols-2">
@@ -325,7 +325,7 @@ export default function LeadForm() {
                     name="company"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Company</FormLabel>
+                        <FormLabel>Empresa</FormLabel>
                         <FormControl>
                           <Input placeholder="Acme Inc" {...field} />
                         </FormControl>
@@ -338,7 +338,7 @@ export default function LeadForm() {
                     name="job_title"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Job Title</FormLabel>
+                        <FormLabel>Cargo</FormLabel>
                         <FormControl>
                           <Input placeholder="Sales Manager" {...field} />
                         </FormControl>
@@ -354,7 +354,7 @@ export default function LeadForm() {
                     name="industry"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Industry</FormLabel>
+                        <FormLabel>Indústria</FormLabel>
                         <FormControl>
                           <Input placeholder="Technology" {...field} />
                         </FormControl>
@@ -382,8 +382,8 @@ export default function LeadForm() {
             {/* Lead Status */}
             <Card>
               <CardHeader>
-                <CardTitle>Lead Status</CardTitle>
-                <CardDescription>Qualification and tracking</CardDescription>
+                <CardTitle>Status do Lead</CardTitle>
+                <CardDescription>Qualificação e acompanhamento</CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="grid gap-4 sm:grid-cols-3">
@@ -396,15 +396,15 @@ export default function LeadForm() {
                         <Select onValueChange={field.onChange} defaultValue={field.value}>
                           <FormControl>
                             <SelectTrigger>
-                              <SelectValue placeholder="Select status" />
+                              <SelectValue placeholder="Selecione o status" />
                             </SelectTrigger>
                           </FormControl>
                           <SelectContent>
-                            <SelectItem value="new">New</SelectItem>
-                            <SelectItem value="contacted">Contacted</SelectItem>
-                            <SelectItem value="qualified">Qualified</SelectItem>
-                            <SelectItem value="unqualified">Unqualified</SelectItem>
-                            <SelectItem value="converted">Converted</SelectItem>
+                            <SelectItem value="new">Novo</SelectItem>
+                            <SelectItem value="contacted">Contatado</SelectItem>
+                            <SelectItem value="qualified">Qualificado</SelectItem>
+                            <SelectItem value="unqualified">Desqualificado</SelectItem>
+                            <SelectItem value="converted">Convertido</SelectItem>
                           </SelectContent>
                         </Select>
                         <FormMessage />
@@ -416,9 +416,9 @@ export default function LeadForm() {
                     name="source"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Lead Source</FormLabel>
+                        <FormLabel>Fonte do Lead</FormLabel>
                         <FormControl>
-                          <Input placeholder="Website, Referral, etc." {...field} />
+                          <Input placeholder="Website, Indicação, etc." {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -429,17 +429,17 @@ export default function LeadForm() {
                     name="rating"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Rating</FormLabel>
+                        <FormLabel>Classificação</FormLabel>
                         <Select onValueChange={field.onChange} defaultValue={field.value}>
                           <FormControl>
                             <SelectTrigger>
-                              <SelectValue placeholder="Select rating" />
+                              <SelectValue placeholder="Selecione classificação" />
                             </SelectTrigger>
                           </FormControl>
                           <SelectContent>
-                            <SelectItem value="hot">Hot</SelectItem>
-                            <SelectItem value="warm">Warm</SelectItem>
-                            <SelectItem value="cold">Cold</SelectItem>
+                            <SelectItem value="hot">Quente</SelectItem>
+                            <SelectItem value="warm">Morno</SelectItem>
+                            <SelectItem value="cold">Frio</SelectItem>
                           </SelectContent>
                         </Select>
                         <FormMessage />
@@ -452,12 +452,12 @@ export default function LeadForm() {
                   control={form.control}
                   name="description"
                   render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Description</FormLabel>
-                      <FormControl>
-                        <Textarea
-                          placeholder="Additional notes about the lead..."
-                          rows={4}
+                      <FormItem>
+                        <FormLabel>Descrição</FormLabel>
+                        <FormControl>
+                          <Textarea
+                            placeholder="Notas adicionais sobre o lead..."
+                            rows={4}
                           {...field}
                         />
                       </FormControl>
@@ -471,18 +471,18 @@ export default function LeadForm() {
             {/* Address */}
             <Card>
               <CardHeader>
-                <CardTitle>Address</CardTitle>
-                <CardDescription>Lead location information</CardDescription>
+                <CardTitle>Endereço</CardTitle>
+                <CardDescription>Localização do lead</CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
                 <FormField
                   control={form.control}
                   name="address_street"
                   render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Street Address</FormLabel>
-                      <FormControl>
-                        <Input placeholder="123 Main Street" {...field} />
+                      <FormItem>
+                        <FormLabel>Logradouro</FormLabel>
+                        <FormControl>
+                          <Input placeholder="Rua Principal, 123" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -495,9 +495,9 @@ export default function LeadForm() {
                     name="address_city"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>City</FormLabel>
+                        <FormLabel>Cidade</FormLabel>
                         <FormControl>
-                          <Input placeholder="San Francisco" {...field} />
+                          <Input placeholder="São Paulo" {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -508,9 +508,9 @@ export default function LeadForm() {
                     name="address_state"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>State/Province</FormLabel>
+                        <FormLabel>Estado</FormLabel>
                         <FormControl>
-                          <Input placeholder="California" {...field} />
+                          <Input placeholder="SP" {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -521,9 +521,9 @@ export default function LeadForm() {
                     name="address_postal_code"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Postal Code</FormLabel>
+                        <FormLabel>CEP</FormLabel>
                         <FormControl>
-                          <Input placeholder="94102" {...field} />
+                          <Input placeholder="01310-100" {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -534,9 +534,9 @@ export default function LeadForm() {
                     name="address_country"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Country</FormLabel>
+                        <FormLabel>País</FormLabel>
                         <FormControl>
-                          <Input placeholder="United States" {...field} />
+                          <Input placeholder="Brasil" {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -553,11 +553,11 @@ export default function LeadForm() {
                 variant="outline"
                 onClick={() => navigate(isEditing ? `/leads/${id}` : '/leads')}
               >
-                Cancel
+                Cancelar
               </Button>
               <Button type="submit" disabled={isLoading}>
                 {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                {isEditing ? 'Save Changes' : 'Create Lead'}
+                {isEditing ? 'Salvar Alterações' : 'Criar Lead'}
               </Button>
             </div>
           </form>

@@ -84,7 +84,7 @@ interface DuplicateAccount {
 const conversionSchema = z.object({
   // Account
   createAccount: z.boolean().default(true),
-  accountName: z.string().min(1, 'Account name is required'),
+  accountName: z.string().min(1, 'Nome da conta é obrigatório'),
   accountIndustry: z.string().optional(),
   accountWebsite: z.string().optional(),
   useExistingAccount: z.boolean().default(false),
@@ -92,15 +92,15 @@ const conversionSchema = z.object({
   
   // Contact
   createContact: z.boolean().default(true),
-  contactFirstName: z.string().min(1, 'First name is required'),
-  contactLastName: z.string().min(1, 'Last name is required'),
+  contactFirstName: z.string().min(1, 'Nome é obrigatório'),
+  contactLastName: z.string().min(1, 'Sobrenome é obrigatório'),
   contactEmail: z.string().optional(),
   contactPhone: z.string().optional(),
   contactJobTitle: z.string().optional(),
   
   // Opportunity
   createOpportunity: z.boolean().default(true),
-  opportunityName: z.string().min(1, 'Opportunity name is required'),
+  opportunityName: z.string().min(1, 'Nome da oportunidade é obrigatório'),
   opportunityAmount: z.coerce.number().min(0).optional(),
   opportunityDescription: z.string().optional(),
 });
@@ -144,7 +144,7 @@ export function LeadConversionWizard({
       contactJobTitle: lead.job_title || '',
       
       createOpportunity: true,
-      opportunityName: `${lead.company || lead.first_name} - New Opportunity`,
+      opportunityName: `${lead.company || lead.first_name} - Nova Oportunidade`,
       opportunityAmount: 0,
       opportunityDescription: lead.description || '',
     },
@@ -209,8 +209,8 @@ export function LeadConversionWizard({
     if (!profile?.organization_id) {
       toast({
         variant: 'destructive',
-        title: 'Error',
-        description: 'You must be part of an organization to convert leads.',
+        title: 'Erro',
+        description: 'Você deve fazer parte de uma organização para converter leads.',
       });
       return;
     }
@@ -357,8 +357,8 @@ export function LeadConversionWizard({
       });
 
       toast({
-        title: 'Lead converted successfully!',
-        description: `Created Account, Contact${opportunityId ? ', and Opportunity' : ''}.`,
+        title: 'Lead convertido com sucesso!',
+        description: `Conta${opportunityId ? ', Contato e Oportunidade criados' : ' e Contato criados'}.`,
       });
 
       setStep(3);
@@ -368,8 +368,8 @@ export function LeadConversionWizard({
       console.error('Error converting lead:', error);
       toast({
         variant: 'destructive',
-        title: 'Conversion failed',
-        description: error.message || 'Failed to convert lead. Please try again.',
+        title: 'Falha na conversão',
+        description: error.message || 'Falha ao converter lead. Tente novamente.',
       });
     } finally {
       setLoading(false);
@@ -398,7 +398,7 @@ export function LeadConversionWizard({
       <div className="space-y-4">
         <div className="flex items-center gap-2">
           <Building2 className="h-5 w-5 text-muted-foreground" />
-          <h3 className="font-medium">Account</h3>
+          <h3 className="font-medium">Conta</h3>
         </div>
 
         <FormField
@@ -413,7 +413,7 @@ export function LeadConversionWizard({
                 />
               </FormControl>
               <FormLabel className="font-normal">
-                Link to existing account
+                Vincular a conta existente
               </FormLabel>
             </FormItem>
           )}
@@ -425,14 +425,14 @@ export function LeadConversionWizard({
             name="existingAccountId"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Select Account</FormLabel>
+                <FormLabel>Selecionar Conta</FormLabel>
                 <Select
                   value={field.value}
                   onValueChange={field.onChange}
                 >
                   <FormControl>
                     <SelectTrigger>
-                      <SelectValue placeholder="Search and select account..." />
+                      <SelectValue placeholder="Buscar e selecionar conta..." />
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
@@ -454,7 +454,7 @@ export function LeadConversionWizard({
               name="accountName"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Account Name *</FormLabel>
+                  <FormLabel>Nome da Conta *</FormLabel>
                   <FormControl>
                     <Input {...field} />
                   </FormControl>
@@ -468,7 +468,7 @@ export function LeadConversionWizard({
                 name="accountIndustry"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Industry</FormLabel>
+                    <FormLabel>Indústria</FormLabel>
                     <FormControl>
                       <Input {...field} />
                     </FormControl>
