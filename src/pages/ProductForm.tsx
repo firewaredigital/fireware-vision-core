@@ -32,12 +32,12 @@ import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
 
 const productSchema = z.object({
-  name: z.string().min(1, 'Product name is required').max(255),
-  sku: z.string().max(100).optional().or(z.literal('')),
-  description: z.string().max(2000).optional().or(z.literal('')),
-  category: z.string().max(100).optional().or(z.literal('')),
-  unit_price: z.coerce.number().min(0, 'Price must be positive'),
-  cost: z.coerce.number().min(0, 'Cost must be positive').optional().or(z.literal('')),
+  name: z.string().min(1, 'O nome do produto é obrigatório').max(255, 'O nome deve ter no máximo 255 caracteres'),
+  sku: z.string().max(100, 'O SKU deve ter no máximo 100 caracteres').optional().or(z.literal('')),
+  description: z.string().max(2000, 'A descrição deve ter no máximo 2000 caracteres').optional().or(z.literal('')),
+  category: z.string().max(100, 'A categoria deve ter no máximo 100 caracteres').optional().or(z.literal('')),
+  unit_price: z.coerce.number().min(0, 'O preço deve ser positivo'),
+  cost: z.coerce.number().min(0, 'O custo deve ser positivo').optional().or(z.literal('')),
   is_active: z.boolean().default(true),
 });
 
@@ -46,14 +46,14 @@ type ProductFormData = z.infer<typeof productSchema>;
 const PRESET_CATEGORIES = [
   'Software',
   'Hardware',
-  'Services',
-  'Consulting',
-  'Support',
-  'Training',
-  'License',
-  'Subscription',
-  'Implementation',
-  'Other',
+  'Serviços',
+  'Consultoria',
+  'Suporte',
+  'Treinamento',
+  'Licença',
+  'Assinatura',
+  'Implementação',
+  'Outros',
 ];
 
 export default function ProductForm() {
@@ -121,8 +121,8 @@ export default function ProductForm() {
       console.error('Error fetching product:', error);
       toast({
         variant: 'destructive',
-        title: 'Error',
-        description: 'Failed to load product',
+        title: 'Erro',
+        description: 'Falha ao carregar produto',
       });
       navigate('/products');
     } else if (data) {
@@ -149,8 +149,8 @@ export default function ProductForm() {
     if (!profile?.organization_id) {
       toast({
         variant: 'destructive',
-        title: 'Error',
-        description: 'You must be part of an organization to manage products.',
+        title: 'Erro',
+        description: 'Você precisa fazer parte de uma organização para gerenciar produtos.',
       });
       return;
     }
@@ -178,8 +178,8 @@ export default function ProductForm() {
         if (error) throw error;
 
         toast({
-          title: 'Product updated',
-          description: 'The product has been successfully updated.',
+          title: 'Produto atualizado',
+          description: 'O produto foi atualizado com sucesso.',
         });
       } else {
         const { error } = await supabase.from('products').insert([productData]);
@@ -187,8 +187,8 @@ export default function ProductForm() {
         if (error) throw error;
 
         toast({
-          title: 'Product created',
-          description: 'The product has been successfully created.',
+          title: 'Produto criado',
+          description: 'O produto foi criado com sucesso.',
         });
       }
 
@@ -197,8 +197,8 @@ export default function ProductForm() {
       console.error('Error saving product:', error);
       toast({
         variant: 'destructive',
-        title: 'Error',
-        description: error.message || 'Failed to save product',
+        title: 'Erro',
+        description: error.message || 'Falha ao salvar produto',
       });
     } finally {
       setLoading(false);
@@ -238,10 +238,10 @@ export default function ProductForm() {
           </Button>
           <div>
             <h1 className="text-2xl font-bold tracking-tight">
-              {isEditing ? 'Edit Product' : 'New Product'}
+              {isEditing ? 'Editar Produto' : 'Novo Produto'}
             </h1>
             <p className="text-muted-foreground">
-              {isEditing ? 'Update product information' : 'Add a new product to your catalog'}
+              {isEditing ? 'Atualizar informações do produto' : 'Adicionar um novo produto ao catálogo'}
             </p>
           </div>
         </div>
@@ -253,10 +253,10 @@ export default function ProductForm() {
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <Package className="h-5 w-5" />
-                  Basic Information
+                  Informações Básicas
                 </CardTitle>
                 <CardDescription>
-                  Product name, SKU, and description
+                  Nome do produto, SKU e descrição
                 </CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
@@ -266,9 +266,9 @@ export default function ProductForm() {
                     name="name"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Product Name *</FormLabel>
+                        <FormLabel>Nome do Produto *</FormLabel>
                         <FormControl>
-                          <Input placeholder="Enterprise Software License" {...field} />
+                          <Input placeholder="Licença de Software Empresarial" {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -283,7 +283,7 @@ export default function ProductForm() {
                         <FormControl>
                           <Input placeholder="PROD-001" className="font-mono" {...field} />
                         </FormControl>
-                        <FormDescription>Stock Keeping Unit</FormDescription>
+                        <FormDescription>Código de identificação do produto</FormDescription>
                         <FormMessage />
                       </FormItem>
                     )}
@@ -295,10 +295,10 @@ export default function ProductForm() {
                   name="description"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Description</FormLabel>
+                      <FormLabel>Descrição</FormLabel>
                       <FormControl>
                         <Textarea 
-                          placeholder="Detailed product description..."
+                          placeholder="Descrição detalhada do produto..."
                           className="min-h-[100px] resize-y"
                           {...field} 
                         />
@@ -313,11 +313,11 @@ export default function ProductForm() {
                   name="category"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Category</FormLabel>
+                      <FormLabel>Categoria</FormLabel>
                       {customCategory ? (
                         <div className="flex gap-2">
                           <FormControl>
-                            <Input placeholder="Custom category" {...field} />
+                            <Input placeholder="Categoria personalizada" {...field} />
                           </FormControl>
                           <Button 
                             type="button" 
@@ -327,7 +327,7 @@ export default function ProductForm() {
                               field.onChange('');
                             }}
                           >
-                            Select
+                            Selecionar
                           </Button>
                         </div>
                       ) : (
@@ -338,7 +338,7 @@ export default function ProductForm() {
                           >
                             <FormControl>
                               <SelectTrigger>
-                                <SelectValue placeholder="Select a category" />
+                                <SelectValue placeholder="Selecione uma categoria" />
                               </SelectTrigger>
                             </FormControl>
                             <SelectContent>
@@ -352,7 +352,7 @@ export default function ProductForm() {
                             variant="outline"
                             onClick={() => setCustomCategory(true)}
                           >
-                            Custom
+                            Personalizada
                           </Button>
                         </div>
                       )}
@@ -366,9 +366,9 @@ export default function ProductForm() {
             {/* Pricing */}
             <Card>
               <CardHeader>
-                <CardTitle>Pricing</CardTitle>
+                <CardTitle>Precificação</CardTitle>
                 <CardDescription>
-                  Set the product price and cost
+                  Defina o preço e o custo do produto
                 </CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
@@ -378,7 +378,7 @@ export default function ProductForm() {
                     name="unit_price"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Unit Price *</FormLabel>
+                        <FormLabel>Preço Unitário *</FormLabel>
                         <FormControl>
                           <div className="relative">
                             <span className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground">
@@ -393,7 +393,7 @@ export default function ProductForm() {
                             />
                           </div>
                         </FormControl>
-                        <FormDescription>Sale price to customers</FormDescription>
+                        <FormDescription>Preço de venda para clientes</FormDescription>
                         <FormMessage />
                       </FormItem>
                     )}
@@ -403,7 +403,7 @@ export default function ProductForm() {
                     name="cost"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Cost</FormLabel>
+                        <FormLabel>Custo</FormLabel>
                         <FormControl>
                           <div className="relative">
                             <span className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground">
@@ -419,13 +419,13 @@ export default function ProductForm() {
                             />
                           </div>
                         </FormControl>
-                        <FormDescription>Your cost (optional)</FormDescription>
+                        <FormDescription>Seu custo (opcional)</FormDescription>
                         <FormMessage />
                       </FormItem>
                     )}
                   />
                   <div>
-                    <FormLabel>Margin</FormLabel>
+                    <FormLabel>Margem</FormLabel>
                     <div className="h-10 flex items-center">
                       {margin ? (
                         <span className={`text-lg font-semibold ${Number(margin) >= 0 ? 'text-success' : 'text-destructive'}`}>
@@ -435,7 +435,7 @@ export default function ProductForm() {
                         <span className="text-muted-foreground">-</span>
                       )}
                     </div>
-                    <p className="text-xs text-muted-foreground">Calculated automatically</p>
+                    <p className="text-xs text-muted-foreground">Calculado automaticamente</p>
                   </div>
                 </div>
               </CardContent>
@@ -446,7 +446,7 @@ export default function ProductForm() {
               <CardHeader>
                 <CardTitle>Status</CardTitle>
                 <CardDescription>
-                  Control product availability
+                  Controle a disponibilidade do produto
                 </CardDescription>
               </CardHeader>
               <CardContent>
@@ -456,9 +456,9 @@ export default function ProductForm() {
                   render={({ field }) => (
                     <FormItem className="flex items-center justify-between rounded-lg border p-4">
                       <div className="space-y-0.5">
-                        <FormLabel className="text-base">Active</FormLabel>
+                        <FormLabel className="text-base">Ativo</FormLabel>
                         <FormDescription>
-                          Active products can be added to quotes and orders
+                          Produtos ativos podem ser adicionados a propostas e pedidos
                         </FormDescription>
                       </div>
                       <FormControl>
@@ -480,18 +480,18 @@ export default function ProductForm() {
                 variant="outline"
                 onClick={() => navigate('/products')}
               >
-                Cancel
+                Cancelar
               </Button>
               <Button type="submit" disabled={loading}>
                 {loading ? (
                   <>
                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                    Saving...
+                    Salvando...
                   </>
                 ) : (
                   <>
                     <Save className="mr-2 h-4 w-4" />
-                    {isEditing ? 'Update Product' : 'Create Product'}
+                    {isEditing ? 'Atualizar Produto' : 'Criar Produto'}
                   </>
                 )}
               </Button>

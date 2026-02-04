@@ -170,8 +170,8 @@ export default function ContractForm() {
     if (error) {
       toast({
         variant: 'destructive',
-        title: 'Error',
-        description: 'Failed to load contract',
+        title: 'Erro',
+        description: 'Falha ao carregar contrato',
       });
       navigate('/contracts');
     } else if (data) {
@@ -229,8 +229,8 @@ export default function ContractForm() {
     if (!form.name || !form.account_id) {
       toast({
         variant: 'destructive',
-        title: 'Validation Error',
-        description: 'Please fill in all required fields',
+        title: 'Erro de Validação',
+        description: 'Por favor, preencha todos os campos obrigatórios',
       });
       return;
     }
@@ -268,13 +268,13 @@ export default function ContractForm() {
       if (error) {
         toast({
           variant: 'destructive',
-          title: 'Error',
-          description: 'Failed to update contract',
+          title: 'Erro',
+          description: 'Falha ao atualizar contrato',
         });
       } else {
         toast({
-          title: 'Contract updated',
-          description: 'The contract has been successfully updated.',
+          title: 'Contrato atualizado',
+          description: 'O contrato foi atualizado com sucesso.',
         });
         navigate(`/contracts/${id}`);
       }
@@ -291,24 +291,24 @@ export default function ContractForm() {
       if (error) {
         toast({
           variant: 'destructive',
-          title: 'Error',
-          description: 'Failed to create contract',
+          title: 'Erro',
+          description: 'Falha ao criar contrato',
         });
       } else {
         // Create timeline event
         await supabase.from('timeline_events').insert([{
           organization_id: profile.organization_id,
           event_type: 'note_added',
-          title: 'Contract Created',
-          description: `Contract "${form.name}" was created.`,
+          title: 'Contrato Criado',
+          description: `Contrato "${form.name}" foi criado.`,
           account_id: form.account_id,
           opportunity_id: form.opportunity_id || null,
           created_by: profile.id,
         }]);
 
         toast({
-          title: 'Contract created',
-          description: 'The contract has been successfully created.',
+          title: 'Contrato criado',
+          description: 'O contrato foi criado com sucesso.',
         });
         navigate(`/contracts/${data.id}`);
       }
@@ -354,10 +354,10 @@ export default function ContractForm() {
           </Button>
           <div className="flex-1">
             <h1 className="text-2xl font-bold tracking-tight">
-              {isEditing ? 'Edit Contract' : 'New Contract'}
+              {isEditing ? 'Editar Contrato' : 'Novo Contrato'}
             </h1>
             <p className="text-muted-foreground">
-              {isEditing ? 'Update contract details' : 'Create a new customer contract'}
+              {isEditing ? 'Atualizar detalhes do contrato' : 'Criar um novo contrato de cliente'}
             </p>
           </div>
           <Button type="submit" disabled={saving}>
@@ -366,7 +366,7 @@ export default function ContractForm() {
             ) : (
               <Save className="mr-2 h-4 w-4" />
             )}
-            {isEditing ? 'Update Contract' : 'Create Contract'}
+            {isEditing ? 'Atualizar Contrato' : 'Criar Contrato'}
           </Button>
         </div>
 
@@ -376,27 +376,27 @@ export default function ContractForm() {
             {/* Basic Info */}
             <Card>
               <CardHeader>
-                <CardTitle>Basic Information</CardTitle>
-                <CardDescription>Contract name and description</CardDescription>
+                <CardTitle>Informações Básicas</CardTitle>
+                <CardDescription>Nome e descrição do contrato</CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="space-y-2">
-                  <Label htmlFor="name">Contract Name *</Label>
+                  <Label htmlFor="name">Nome do Contrato *</Label>
                   <Input
                     id="name"
                     value={form.name}
                     onChange={(e) => setForm({ ...form, name: e.target.value })}
-                    placeholder="Enterprise License Agreement"
+                    placeholder="Acordo de Licenciamento Empresarial"
                     required
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="description">Description</Label>
+                  <Label htmlFor="description">Descrição</Label>
                   <Textarea
                     id="description"
                     value={form.description}
                     onChange={(e) => setForm({ ...form, description: e.target.value })}
-                    placeholder="Brief description of the contract..."
+                    placeholder="Breve descrição do contrato..."
                     rows={3}
                   />
                 </div>
@@ -406,19 +406,19 @@ export default function ContractForm() {
             {/* Relationships */}
             <Card>
               <CardHeader>
-                <CardTitle>Relationships</CardTitle>
-                <CardDescription>Link to account, contact, opportunity, and quote</CardDescription>
+                <CardTitle>Relacionamentos</CardTitle>
+                <CardDescription>Vincule a conta, contato, oportunidade e proposta</CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="grid gap-4 md:grid-cols-2">
                   <div className="space-y-2">
-                    <Label htmlFor="account">Account *</Label>
+                    <Label htmlFor="account">Conta *</Label>
                     <Select
                       value={form.account_id}
                       onValueChange={(value) => setForm({ ...form, account_id: value })}
                     >
                       <SelectTrigger>
-                        <SelectValue placeholder="Select account" />
+                        <SelectValue placeholder="Selecione uma conta" />
                       </SelectTrigger>
                       <SelectContent>
                         {accounts.map((account) => (
@@ -430,14 +430,14 @@ export default function ContractForm() {
                     </Select>
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="contact">Contact</Label>
+                    <Label htmlFor="contact">Contato</Label>
                     <Select
                       value={form.contact_id}
                       onValueChange={(value) => setForm({ ...form, contact_id: value })}
                       disabled={!form.account_id}
                     >
                       <SelectTrigger>
-                        <SelectValue placeholder="Select contact" />
+                        <SelectValue placeholder="Selecione um contato" />
                       </SelectTrigger>
                       <SelectContent>
                         {filteredContacts.map((contact) => (
@@ -449,13 +449,13 @@ export default function ContractForm() {
                     </Select>
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="opportunity">Opportunity</Label>
+                    <Label htmlFor="opportunity">Oportunidade</Label>
                     <Select
                       value={form.opportunity_id}
                       onValueChange={handleOpportunitySelect}
                     >
                       <SelectTrigger>
-                        <SelectValue placeholder="Select opportunity" />
+                        <SelectValue placeholder="Selecione uma oportunidade" />
                       </SelectTrigger>
                       <SelectContent>
                         {filteredOpportunities.map((opp) => (
@@ -467,13 +467,13 @@ export default function ContractForm() {
                     </Select>
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="quote">Quote (Accepted)</Label>
+                    <Label htmlFor="quote">Proposta (Aceita)</Label>
                     <Select
                       value={form.quote_id}
                       onValueChange={handleQuoteSelect}
                     >
                       <SelectTrigger>
-                        <SelectValue placeholder="Select quote" />
+                        <SelectValue placeholder="Selecione uma proposta" />
                       </SelectTrigger>
                       <SelectContent>
                         {filteredQuotes.map((quote) => (
@@ -491,13 +491,13 @@ export default function ContractForm() {
             {/* Financial */}
             <Card>
               <CardHeader>
-                <CardTitle>Financial Details</CardTitle>
-                <CardDescription>Contract value and billing information</CardDescription>
+                <CardTitle>Detalhes Financeiros</CardTitle>
+                <CardDescription>Valor do contrato e informações de cobrança</CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="grid gap-4 md:grid-cols-2">
                   <div className="space-y-2">
-                    <Label htmlFor="total_value">Total Value (R$)</Label>
+                    <Label htmlFor="total_value">Valor Total (R$)</Label>
                     <Input
                       id="total_value"
                       type="number"
@@ -508,7 +508,7 @@ export default function ContractForm() {
                     />
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="recurring_value">Recurring Value (R$)</Label>
+                    <Label htmlFor="recurring_value">Valor Recorrente (R$)</Label>
                     <Input
                       id="recurring_value"
                       type="number"
@@ -519,7 +519,7 @@ export default function ContractForm() {
                     />
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="billing_frequency">Billing Frequency</Label>
+                    <Label htmlFor="billing_frequency">Frequência de Cobrança</Label>
                     <Select
                       value={form.billing_frequency}
                       onValueChange={(value) => setForm({ ...form, billing_frequency: value })}
@@ -528,16 +528,16 @@ export default function ContractForm() {
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="monthly">Monthly</SelectItem>
-                        <SelectItem value="quarterly">Quarterly</SelectItem>
-                        <SelectItem value="semi-annual">Semi-Annual</SelectItem>
-                        <SelectItem value="annual">Annual</SelectItem>
-                        <SelectItem value="one-time">One-Time</SelectItem>
+                        <SelectItem value="monthly">Mensal</SelectItem>
+                        <SelectItem value="quarterly">Trimestral</SelectItem>
+                        <SelectItem value="semi-annual">Semestral</SelectItem>
+                        <SelectItem value="annual">Anual</SelectItem>
+                        <SelectItem value="one-time">Única</SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="payment_terms">Payment Terms</Label>
+                    <Label htmlFor="payment_terms">Condições de Pagamento</Label>
                     <Select
                       value={form.payment_terms}
                       onValueChange={(value) => setForm({ ...form, payment_terms: value })}
@@ -546,11 +546,11 @@ export default function ContractForm() {
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="Net 15">Net 15</SelectItem>
-                        <SelectItem value="Net 30">Net 30</SelectItem>
-                        <SelectItem value="Net 45">Net 45</SelectItem>
-                        <SelectItem value="Net 60">Net 60</SelectItem>
-                        <SelectItem value="Due on Receipt">Due on Receipt</SelectItem>
+                        <SelectItem value="Net 15">15 dias</SelectItem>
+                        <SelectItem value="Net 30">30 dias</SelectItem>
+                        <SelectItem value="Net 45">45 dias</SelectItem>
+                        <SelectItem value="Net 60">60 dias</SelectItem>
+                        <SelectItem value="Due on Receipt">No Recebimento</SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
@@ -561,27 +561,27 @@ export default function ContractForm() {
             {/* Terms */}
             <Card>
               <CardHeader>
-                <CardTitle>Terms & Conditions</CardTitle>
-                <CardDescription>Standard and special contract terms</CardDescription>
+                <CardTitle>Termos e Condições</CardTitle>
+                <CardDescription>Termos padrão e condições especiais do contrato</CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="space-y-2">
-                  <Label htmlFor="terms">Standard Terms</Label>
+                  <Label htmlFor="terms">Termos Padrão</Label>
                   <Textarea
                     id="terms"
                     value={form.terms_and_conditions}
                     onChange={(e) => setForm({ ...form, terms_and_conditions: e.target.value })}
-                    placeholder="Enter standard terms and conditions..."
+                    placeholder="Digite os termos e condições padrão..."
                     rows={6}
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="special">Special Conditions</Label>
+                  <Label htmlFor="special">Condições Especiais</Label>
                   <Textarea
                     id="special"
                     value={form.special_conditions}
                     onChange={(e) => setForm({ ...form, special_conditions: e.target.value })}
-                    placeholder="Enter any special conditions or exceptions..."
+                    placeholder="Digite quaisquer condições ou exceções especiais..."
                     rows={4}
                   />
                 </div>
@@ -605,15 +605,15 @@ export default function ContractForm() {
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="draft">Draft</SelectItem>
-                    <SelectItem value="pending_approval">Pending Approval</SelectItem>
-                    <SelectItem value="sent">Sent</SelectItem>
-                    <SelectItem value="negotiating">Negotiating</SelectItem>
-                    <SelectItem value="signed">Signed</SelectItem>
-                    <SelectItem value="active">Active</SelectItem>
-                    <SelectItem value="expired">Expired</SelectItem>
-                    <SelectItem value="terminated">Terminated</SelectItem>
-                    <SelectItem value="renewed">Renewed</SelectItem>
+                    <SelectItem value="draft">Rascunho</SelectItem>
+                    <SelectItem value="pending_approval">Aguardando Aprovação</SelectItem>
+                    <SelectItem value="sent">Enviado</SelectItem>
+                    <SelectItem value="negotiating">Em Negociação</SelectItem>
+                    <SelectItem value="signed">Assinado</SelectItem>
+                    <SelectItem value="active">Ativo</SelectItem>
+                    <SelectItem value="expired">Expirado</SelectItem>
+                    <SelectItem value="terminated">Rescindido</SelectItem>
+                    <SelectItem value="renewed">Renovado</SelectItem>
                   </SelectContent>
                 </Select>
               </CardContent>
@@ -622,11 +622,11 @@ export default function ContractForm() {
             {/* Dates */}
             <Card>
               <CardHeader>
-                <CardTitle>Contract Period</CardTitle>
+                <CardTitle>Período do Contrato</CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="space-y-2">
-                  <Label htmlFor="start_date">Start Date</Label>
+                  <Label htmlFor="start_date">Data de Início</Label>
                   <Input
                     id="start_date"
                     type="date"
@@ -635,7 +635,7 @@ export default function ContractForm() {
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="end_date">End Date</Label>
+                  <Label htmlFor="end_date">Data de Término</Label>
                   <Input
                     id="end_date"
                     type="date"
@@ -649,11 +649,11 @@ export default function ContractForm() {
             {/* Renewal */}
             <Card>
               <CardHeader>
-                <CardTitle>Renewal Settings</CardTitle>
+                <CardTitle>Configurações de Renovação</CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="flex items-center justify-between">
-                  <Label htmlFor="auto_renewal">Auto Renewal</Label>
+                  <Label htmlFor="auto_renewal">Renovação Automática</Label>
                   <Switch
                     id="auto_renewal"
                     checked={form.auto_renewal}
@@ -661,7 +661,7 @@ export default function ContractForm() {
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="renewal_notice">Notice Period (days)</Label>
+                  <Label htmlFor="renewal_notice">Período de Aviso (dias)</Label>
                   <Input
                     id="renewal_notice"
                     type="number"
