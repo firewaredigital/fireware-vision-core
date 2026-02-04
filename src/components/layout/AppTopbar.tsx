@@ -35,26 +35,26 @@ export function AppTopbar() {
           <DropdownMenuTrigger asChild>
             <Button size="sm" className="gap-2">
               <Plus className="h-4 w-4" />
-              <span className="hidden sm:inline">Create</span>
+              <span className="hidden sm:inline">Criar</span>
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end" className="w-48">
-            <DropdownMenuLabel>Quick Create</DropdownMenuLabel>
+            <DropdownMenuLabel>Criar Rápido</DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuItem onClick={() => navigate('/leads/new')}>
-              New Lead
+              Novo Lead
             </DropdownMenuItem>
             <DropdownMenuItem onClick={() => navigate('/accounts/new')}>
-              New Account
+              Nova Conta
             </DropdownMenuItem>
             <DropdownMenuItem onClick={() => navigate('/contacts/new')}>
-              New Contact
+              Novo Contato
             </DropdownMenuItem>
             <DropdownMenuItem onClick={() => navigate('/opportunities/new')}>
-              New Opportunity
+              Nova Oportunidade
             </DropdownMenuItem>
             <DropdownMenuItem onClick={() => navigate('/quotes/new')}>
-              New Quote
+              Nova Proposta
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

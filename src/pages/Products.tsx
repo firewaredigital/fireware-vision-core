@@ -110,8 +110,8 @@ export default function Products() {
       console.error('Error fetching products:', error);
       toast({
         variant: 'destructive',
-        title: 'Error',
-        description: 'Failed to load products',
+        title: 'Erro',
+        description: 'Falha ao carregar produtos',
       });
     } else {
       setProducts(data || []);
@@ -128,13 +128,13 @@ export default function Products() {
     if (error) {
       toast({
         variant: 'destructive',
-        title: 'Error',
-        description: 'Failed to delete product. It may be used in quotes.',
+        title: 'Erro',
+        description: 'Falha ao excluir produto. Pode estar em uso em propostas.',
       });
     } else {
       toast({
-        title: 'Product deleted',
-        description: 'The product has been successfully deleted.',
+        title: 'Produto excluído',
+        description: 'O produto foi excluído com sucesso.',
       });
       fetchProducts();
     }
@@ -150,13 +150,13 @@ export default function Products() {
     if (error) {
       toast({
         variant: 'destructive',
-        title: 'Error',
-        description: 'Failed to update product status',
+        title: 'Erro',
+        description: 'Falha ao atualizar status do produto',
       });
     } else {
       toast({
-        title: 'Product updated',
-        description: `Product ${!currentStatus ? 'activated' : 'deactivated'} successfully.`,
+        title: 'Produto atualizado',
+        description: `Produto ${!currentStatus ? 'ativado' : 'desativado'} com sucesso.`,
       });
       fetchProducts();
     }
@@ -230,23 +230,23 @@ export default function Products() {
         {/* Header */}
         <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
           <div>
-            <h1 className="text-2xl font-bold tracking-tight">Products</h1>
+            <h1 className="text-2xl font-bold tracking-tight">Produtos</h1>
             <p className="text-muted-foreground">
-              Manage your product catalog for quotes and orders
+              Gerencie seu catálogo de produtos para propostas e pedidos
             </p>
           </div>
           <div className="flex gap-2">
             <Button variant="outline" size="sm">
               <Upload className="mr-2 h-4 w-4" />
-              Import
+              Importar
             </Button>
             <Button variant="outline" size="sm">
               <Download className="mr-2 h-4 w-4" />
-              Export
+              Exportar
             </Button>
             <Button size="sm" onClick={() => navigate('/products/new')}>
               <Plus className="mr-2 h-4 w-4" />
-              New Product
+              Novo Produto
             </Button>
           </div>
         </div>
@@ -260,7 +260,7 @@ export default function Products() {
                   <Package className="h-5 w-5 text-primary" />
                 </div>
                 <div>
-                  <p className="text-sm text-muted-foreground">Total Products</p>
+                  <p className="text-sm text-muted-foreground">Total de Produtos</p>
                   <p className="text-2xl font-bold">{totalProducts}</p>
                 </div>
               </div>
@@ -273,7 +273,7 @@ export default function Products() {
                   <CheckCircle className="h-5 w-5 text-success" />
                 </div>
                 <div>
-                  <p className="text-sm text-muted-foreground">Active Products</p>
+                  <p className="text-sm text-muted-foreground">Produtos Ativos</p>
                   <p className="text-2xl font-bold">{activeProducts}</p>
                 </div>
               </div>
@@ -286,7 +286,7 @@ export default function Products() {
                   <Tag className="h-5 w-5 text-info" />
                 </div>
                 <div>
-                  <p className="text-sm text-muted-foreground">Categories</p>
+                  <p className="text-sm text-muted-foreground">Categorias</p>
                   <p className="text-2xl font-bold">{categories.length}</p>
                 </div>
               </div>
@@ -299,7 +299,7 @@ export default function Products() {
                   <DollarSign className="h-5 w-5 text-warning" />
                 </div>
                 <div>
-                  <p className="text-sm text-muted-foreground">Avg Price</p>
+                  <p className="text-sm text-muted-foreground">Preço Médio</p>
                   <p className="text-2xl font-bold">{formatCurrency(avgPrice)}</p>
                 </div>
               </div>
@@ -312,7 +312,7 @@ export default function Products() {
           <div className="relative flex-1 max-w-sm">
             <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
             <Input
-              placeholder="Search products..."
+              placeholder="Buscar produtos..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="pl-9"
@@ -320,10 +320,10 @@ export default function Products() {
           </div>
           <Select value={categoryFilter} onValueChange={setCategoryFilter}>
             <SelectTrigger className="w-[180px]">
-              <SelectValue placeholder="Category" />
+              <SelectValue placeholder="Categoria" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="all">All Categories</SelectItem>
+              <SelectItem value="all">Todas as Categorias</SelectItem>
               {categories.map((cat) => (
                 <SelectItem key={cat} value={cat}>{cat}</SelectItem>
               ))}
@@ -334,9 +334,9 @@ export default function Products() {
               <SelectValue placeholder="Status" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="all">All Status</SelectItem>
-              <SelectItem value="active">Active</SelectItem>
-              <SelectItem value="inactive">Inactive</SelectItem>
+              <SelectItem value="all">Todos os Status</SelectItem>
+              <SelectItem value="active">Ativo</SelectItem>
+              <SelectItem value="inactive">Inativo</SelectItem>
             </SelectContent>
           </Select>
         </div>
@@ -352,24 +352,24 @@ export default function Products() {
                     className="p-0 hover:bg-transparent"
                     onClick={() => handleSort('name')}
                   >
-                    Product
+                    Produto
                     <ArrowUpDown className="ml-2 h-4 w-4" />
                   </Button>
                 </TableHead>
                 <TableHead>SKU</TableHead>
-                <TableHead>Category</TableHead>
+                <TableHead>Categoria</TableHead>
                 <TableHead>
                   <Button 
                     variant="ghost" 
                     className="p-0 hover:bg-transparent"
                     onClick={() => handleSort('unit_price')}
                   >
-                    Price
+                    Preço
                     <ArrowUpDown className="ml-2 h-4 w-4" />
                   </Button>
                 </TableHead>
-                <TableHead>Cost</TableHead>
-                <TableHead>Margin</TableHead>
+                <TableHead>Custo</TableHead>
+                <TableHead>Margem</TableHead>
                 <TableHead>Status</TableHead>
                 <TableHead className="w-[50px]"></TableHead>
               </TableRow>
@@ -380,7 +380,7 @@ export default function Products() {
                   <TableCell colSpan={8} className="h-24 text-center">
                     <div className="flex items-center justify-center gap-2">
                       <RefreshCw className="h-4 w-4 animate-spin" />
-                      Loading products...
+                      Carregando produtos...
                     </div>
                   </TableCell>
                 </TableRow>
@@ -389,10 +389,10 @@ export default function Products() {
                   <TableCell colSpan={8} className="h-24 text-center">
                     <div className="flex flex-col items-center gap-2">
                       <Package className="h-8 w-8 text-muted-foreground" />
-                      <p className="text-muted-foreground">No products found</p>
+                      <p className="text-muted-foreground">Nenhum produto encontrado</p>
                       <Button variant="outline" size="sm" onClick={() => navigate('/products/new')}>
                         <Plus className="mr-2 h-4 w-4" />
-                        Create your first product
+                        Crie seu primeiro produto
                       </Button>
                     </div>
                   </TableCell>
@@ -444,7 +444,7 @@ export default function Products() {
                             : 'bg-muted text-muted-foreground'
                           }
                         >
-                          {product.is_active ? 'Active' : 'Inactive'}
+                          {product.is_active ? 'Ativo' : 'Inativo'}
                         </Badge>
                       </TableCell>
                       <TableCell>
@@ -457,11 +457,11 @@ export default function Products() {
                           <DropdownMenuContent align="end">
                             <DropdownMenuItem onClick={() => navigate(`/products/${product.id}`)}>
                               <Eye className="mr-2 h-4 w-4" />
-                              View
+                              Visualizar
                             </DropdownMenuItem>
                             <DropdownMenuItem onClick={() => navigate(`/products/${product.id}/edit`)}>
                               <Edit className="mr-2 h-4 w-4" />
-                              Edit
+                              Editar
                             </DropdownMenuItem>
                             <DropdownMenuItem 
                               onClick={() => toggleProductStatus(product.id, product.is_active)}
@@ -469,12 +469,12 @@ export default function Products() {
                               {product.is_active ? (
                                 <>
                                   <XCircle className="mr-2 h-4 w-4" />
-                                  Deactivate
+                                  Desativar
                                 </>
                               ) : (
                                 <>
                                   <CheckCircle className="mr-2 h-4 w-4" />
-                                  Activate
+                                  Ativar
                                 </>
                               )}
                             </DropdownMenuItem>
@@ -484,7 +484,7 @@ export default function Products() {
                               onClick={() => setDeleteProductId(product.id)}
                             >
                               <Trash2 className="mr-2 h-4 w-4" />
-                              Delete
+                              Excluir
                             </DropdownMenuItem>
                           </DropdownMenuContent>
                         </DropdownMenu>

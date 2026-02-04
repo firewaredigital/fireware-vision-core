@@ -27,12 +27,12 @@ interface Opportunity {
 }
 
 const STAGES: { key: OpportunityStage; label: string; color: string }[] = [
-  { key: 'prospecting', label: 'Prospecting', color: 'bg-slate-500' },
-  { key: 'qualification', label: 'Qualification', color: 'bg-blue-500' },
-  { key: 'proposal', label: 'Proposal', color: 'bg-purple-500' },
-  { key: 'negotiation', label: 'Negotiation', color: 'bg-orange-500' },
-  { key: 'closed_won', label: 'Closed Won', color: 'bg-green-500' },
-  { key: 'closed_lost', label: 'Closed Lost', color: 'bg-red-500' },
+  { key: 'prospecting', label: 'Prospecção', color: 'bg-slate-500' },
+  { key: 'qualification', label: 'Qualificação', color: 'bg-blue-500' },
+  { key: 'proposal', label: 'Proposta', color: 'bg-purple-500' },
+  { key: 'negotiation', label: 'Negociação', color: 'bg-orange-500' },
+  { key: 'closed_won', label: 'Ganho', color: 'bg-green-500' },
+  { key: 'closed_lost', label: 'Perdido', color: 'bg-red-500' },
 ];
 
 export default function Opportunities() {
@@ -62,7 +62,7 @@ export default function Opportunities() {
       .order('created_at', { ascending: false });
 
     if (error) {
-      toast({ title: 'Error loading opportunities', description: error.message, variant: 'destructive' });
+      toast({ title: 'Erro ao carregar oportunidades', description: error.message, variant: 'destructive' });
     } else {
       setOpportunities(data as Opportunity[]);
     }
@@ -90,10 +90,11 @@ export default function Opportunities() {
       .eq('id', draggableId);
 
     if (error) {
-      toast({ title: 'Error updating stage', description: error.message, variant: 'destructive' });
+      toast({ title: 'Erro ao atualizar estágio', description: error.message, variant: 'destructive' });
       fetchOpportunities(); // Revert on error
     } else {
-      toast({ title: 'Stage updated', description: `Opportunity moved to ${newStage.replace('_', ' ')}` });
+      const stageLabel = STAGES.find(s => s.key === newStage)?.label || newStage;
+      toast({ title: 'Estágio atualizado', description: `Oportunidade movida para ${stageLabel}` });
     }
   };
 
@@ -104,7 +105,7 @@ export default function Opportunities() {
     getOpportunitiesByStage(stage).reduce((sum, o) => sum + (o.amount || 0), 0);
 
   const formatCurrency = (amount: number) => 
-    new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 }).format(amount);
+    new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL', maximumFractionDigits: 0 }).format(amount);
 
   if (authLoading || !user) return null;
 
@@ -113,18 +114,18 @@ export default function Opportunities() {
       <div className="space-y-6">
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-2xl font-bold">Opportunities</h1>
-            <p className="text-muted-foreground">Manage your sales pipeline</p>
+            <h1 className="text-2xl font-bold">Oportunidades</h1>
+            <p className="text-muted-foreground">Gerencie seu pipeline de vendas</p>
           </div>
           <div className="flex items-center gap-3">
             <Tabs value={view} onValueChange={(v) => setView(v as 'kanban' | 'list')}>
               <TabsList>
                 <TabsTrigger value="kanban"><LayoutGrid className="h-4 w-4 mr-1" />Kanban</TabsTrigger>
-                <TabsTrigger value="list"><List className="h-4 w-4 mr-1" />List</TabsTrigger>
+                <TabsTrigger value="list"><List className="h-4 w-4 mr-1" />Lista</TabsTrigger>
               </TabsList>
             </Tabs>
             <Button onClick={() => navigate('/opportunities/new')}>
-              <Plus className="mr-2 h-4 w-4" />New Opportunity
+              <Plus className="mr-2 h-4 w-4" />Nova Oportunidade
             </Button>
           </div>
         </div>
@@ -217,14 +218,14 @@ export default function Opportunities() {
         ) : (
           <Card>
             <CardHeader>
-              <CardTitle>All Opportunities</CardTitle>
+              <CardTitle>Todas as Oportunidades</CardTitle>
             </CardHeader>
             <CardContent>
               {loading ? (
-                <p className="text-muted-foreground">Loading...</p>
+                <p className="text-muted-foreground">Carregando...</p>
               ) : opportunities.length === 0 ? (
                 <div className="text-center py-8 text-muted-foreground">
-                  <p>No opportunities yet. Create your first deal!</p>
+                  <p>Nenhuma oportunidade ainda. Crie seu primeiro negócio!</p>
                 </div>
               ) : (
                 <div className="space-y-2">

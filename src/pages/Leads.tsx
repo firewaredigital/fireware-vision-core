@@ -97,8 +97,8 @@ export default function Leads() {
       console.error('Error fetching leads:', error);
       toast({
         variant: 'destructive',
-        title: 'Error',
-        description: 'Failed to load leads',
+        title: 'Erro',
+        description: 'Falha ao carregar leads',
       });
     } else {
       setLeads(data || []);
@@ -112,13 +112,13 @@ export default function Leads() {
     if (error) {
       toast({
         variant: 'destructive',
-        title: 'Error',
-        description: 'Failed to delete lead',
+        title: 'Erro',
+        description: 'Falha ao excluir lead',
       });
     } else {
       toast({
-        title: 'Lead deleted',
-        description: 'The lead has been successfully deleted.',
+        title: 'Lead excluído',
+        description: 'O lead foi excluído com sucesso.',
       });
       fetchLeads();
     }
@@ -148,21 +148,21 @@ export default function Leads() {
           <div>
             <h1 className="text-2xl font-bold tracking-tight">Leads</h1>
             <p className="text-muted-foreground">
-              Manage and track your sales leads
+              Gerencie e acompanhe seus leads de vendas
             </p>
           </div>
           <div className="flex gap-2">
             <Button variant="outline" size="sm">
               <Upload className="mr-2 h-4 w-4" />
-              Import
+              Importar
             </Button>
             <Button variant="outline" size="sm">
               <Download className="mr-2 h-4 w-4" />
-              Export
+              Exportar
             </Button>
             <Button size="sm" onClick={() => navigate('/leads/new')}>
               <Plus className="mr-2 h-4 w-4" />
-              New Lead
+              Novo Lead
             </Button>
           </div>
         </div>
@@ -172,7 +172,7 @@ export default function Leads() {
           <div className="relative flex-1 max-w-sm">
             <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
             <Input
-              placeholder="Search leads..."
+              placeholder="Buscar leads..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="pl-9"
@@ -180,15 +180,15 @@ export default function Leads() {
           </div>
           <Select value={statusFilter} onValueChange={setStatusFilter}>
             <SelectTrigger className="w-[180px]">
-              <SelectValue placeholder="Filter by status" />
+              <SelectValue placeholder="Filtrar por status" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="all">All Statuses</SelectItem>
-              <SelectItem value="new">New</SelectItem>
-              <SelectItem value="contacted">Contacted</SelectItem>
-              <SelectItem value="qualified">Qualified</SelectItem>
-              <SelectItem value="unqualified">Unqualified</SelectItem>
-              <SelectItem value="converted">Converted</SelectItem>
+              <SelectItem value="all">Todos os Status</SelectItem>
+              <SelectItem value="new">Novo</SelectItem>
+              <SelectItem value="contacted">Contatado</SelectItem>
+              <SelectItem value="qualified">Qualificado</SelectItem>
+              <SelectItem value="unqualified">Desqualificado</SelectItem>
+              <SelectItem value="converted">Convertido</SelectItem>
             </SelectContent>
           </Select>
         </div>
@@ -200,16 +200,16 @@ export default function Leads() {
               <TableRow>
                 <TableHead className="w-[250px]">
                   <Button variant="ghost" className="p-0 hover:bg-transparent">
-                    Name
+                    Nome
                     <ArrowUpDown className="ml-2 h-4 w-4" />
                   </Button>
                 </TableHead>
-                <TableHead>Company</TableHead>
+                <TableHead>Empresa</TableHead>
                 <TableHead>Email</TableHead>
                 <TableHead>Status</TableHead>
-                <TableHead>Score</TableHead>
-                <TableHead>Source</TableHead>
-                <TableHead>Created</TableHead>
+                <TableHead>Pontuação</TableHead>
+                <TableHead>Origem</TableHead>
+                <TableHead>Criado em</TableHead>
                 <TableHead className="w-[50px]"></TableHead>
               </TableRow>
             </TableHeader>
@@ -217,17 +217,17 @@ export default function Leads() {
               {loading ? (
                 <TableRow>
                   <TableCell colSpan={8} className="h-24 text-center">
-                    Loading leads...
+                    Carregando leads...
                   </TableCell>
                 </TableRow>
               ) : filteredLeads.length === 0 ? (
                 <TableRow>
                   <TableCell colSpan={8} className="h-24 text-center">
                     <div className="flex flex-col items-center gap-2">
-                      <p className="text-muted-foreground">No leads found</p>
+                      <p className="text-muted-foreground">Nenhum lead encontrado</p>
                       <Button variant="outline" size="sm" onClick={() => navigate('/leads/new')}>
                         <Plus className="mr-2 h-4 w-4" />
-                        Create your first lead
+                        Crie seu primeiro lead
                       </Button>
                     </div>
                   </TableCell>
@@ -275,11 +275,11 @@ export default function Leads() {
                         <DropdownMenuContent align="end">
                           <DropdownMenuItem onClick={() => navigate(`/leads/${lead.id}`)}>
                             <Eye className="mr-2 h-4 w-4" />
-                            View
+                            Visualizar
                           </DropdownMenuItem>
                           <DropdownMenuItem onClick={() => navigate(`/leads/${lead.id}/edit`)}>
                             <Edit className="mr-2 h-4 w-4" />
-                            Edit
+                            Editar
                           </DropdownMenuItem>
                           <DropdownMenuSeparator />
                           <DropdownMenuItem
@@ -287,7 +287,7 @@ export default function Leads() {
                             onClick={() => deleteLead(lead.id)}
                           >
                             <Trash2 className="mr-2 h-4 w-4" />
-                            Delete
+                            Excluir
                           </DropdownMenuItem>
                         </DropdownMenuContent>
                       </DropdownMenu>
@@ -303,7 +303,7 @@ export default function Leads() {
         {filteredLeads.length > 0 && (
           <div className="flex items-center justify-between">
             <p className="text-sm text-muted-foreground">
-              Showing {filteredLeads.length} of {leads.length} leads
+              Exibindo {filteredLeads.length} de {leads.length} leads
             </p>
           </div>
         )}

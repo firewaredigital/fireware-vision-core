@@ -16,10 +16,10 @@ interface SearchResult {
 
 const typeConfig = {
   lead: { icon: User, label: 'Lead', color: 'bg-blue-100 text-blue-800', path: '/leads' },
-  account: { icon: Building2, label: 'Account', color: 'bg-green-100 text-green-800', path: '/accounts' },
-  contact: { icon: Users, label: 'Contact', color: 'bg-purple-100 text-purple-800', path: '/contacts' },
-  opportunity: { icon: Target, label: 'Opportunity', color: 'bg-orange-100 text-orange-800', path: '/opportunities' },
-  quote: { icon: FileText, label: 'Quote', color: 'bg-pink-100 text-pink-800', path: '/quotes' }
+  account: { icon: Building2, label: 'Conta', color: 'bg-green-100 text-green-800', path: '/accounts' },
+  contact: { icon: Users, label: 'Contato', color: 'bg-purple-100 text-purple-800', path: '/contacts' },
+  opportunity: { icon: Target, label: 'Oportunidade', color: 'bg-orange-100 text-orange-800', path: '/opportunities' },
+  quote: { icon: FileText, label: 'Proposta', color: 'bg-pink-100 text-pink-800', path: '/quotes' }
 };
 
 export function GlobalSearch() {
@@ -210,7 +210,7 @@ export function GlobalSearch() {
       <Input
         ref={inputRef}
         type="search"
-        placeholder="Search leads, accounts, contacts... (⌘K)"
+        placeholder="Buscar leads, contas, contatos... (⌘K)"
         className="pl-9 pr-9 bg-secondary/50 border-0 focus-visible:ring-1"
         value={query}
         onChange={(e) => {
@@ -235,11 +235,11 @@ export function GlobalSearch() {
           {isLoading ? (
             <div className="flex items-center justify-center p-4 text-muted-foreground">
               <Loader2 className="h-4 w-4 mr-2 animate-spin" />
-              Searching...
+              Buscando...
             </div>
           ) : results.length === 0 ? (
             <div className="p-4 text-center text-muted-foreground">
-              {query.length >= 2 ? 'No results found' : 'Type at least 2 characters'}
+              {query.length >= 2 ? 'Nenhum resultado encontrado' : 'Digite pelo menos 2 caracteres'}
             </div>
           ) : (
             <div className="max-h-80 overflow-y-auto">

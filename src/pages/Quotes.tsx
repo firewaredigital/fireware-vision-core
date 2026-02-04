@@ -90,27 +90,27 @@ interface Quote {
 
 const statusConfig: Record<QuoteStatus, { label: string; className: string; icon: React.ReactNode }> = {
   draft: { 
-    label: 'Draft', 
+    label: 'Rascunho', 
     className: 'bg-muted text-muted-foreground',
     icon: <FileText className="h-3 w-3" />
   },
   sent: { 
-    label: 'Sent', 
+    label: 'Enviada', 
     className: 'bg-info/10 text-info border-info/20',
     icon: <Send className="h-3 w-3" />
   },
   accepted: { 
-    label: 'Accepted', 
+    label: 'Aceita', 
     className: 'bg-success/10 text-success border-success/20',
     icon: <CheckCircle className="h-3 w-3" />
   },
   rejected: { 
-    label: 'Rejected', 
+    label: 'Rejeitada', 
     className: 'bg-destructive/10 text-destructive border-destructive/20',
     icon: <XCircle className="h-3 w-3" />
   },
   expired: { 
-    label: 'Expired', 
+    label: 'Expirada', 
     className: 'bg-warning/10 text-warning border-warning/20',
     icon: <Clock className="h-3 w-3" />
   },
@@ -162,8 +162,8 @@ export default function Quotes() {
       console.error('Error fetching quotes:', error);
       toast({
         variant: 'destructive',
-        title: 'Error',
-        description: 'Failed to load quotes',
+        title: 'Erro',
+        description: 'Falha ao carregar propostas',
       });
     } else {
       setQuotes(data || []);
@@ -181,13 +181,13 @@ export default function Quotes() {
     if (error) {
       toast({
         variant: 'destructive',
-        title: 'Error',
-        description: 'Failed to delete quote',
+        title: 'Erro',
+        description: 'Falha ao excluir proposta',
       });
     } else {
       toast({
-        title: 'Quote deleted',
-        description: 'The quote has been successfully deleted.',
+        title: 'Proposta excluída',
+        description: 'A proposta foi excluída com sucesso.',
       });
       fetchQuotes();
     }
@@ -203,13 +203,13 @@ export default function Quotes() {
     if (error) {
       toast({
         variant: 'destructive',
-        title: 'Error',
-        description: 'Failed to update quote status',
+        title: 'Erro',
+        description: 'Falha ao atualizar status da proposta',
       });
     } else {
       toast({
-        title: 'Quote updated',
-        description: `Quote status changed to ${statusConfig[newStatus].label}.`,
+        title: 'Proposta atualizada',
+        description: `Status da proposta alterado para ${statusConfig[newStatus].label}.`,
       });
       fetchQuotes();
     }
@@ -245,8 +245,8 @@ export default function Quotes() {
     if (quoteError || !newQuote) {
       toast({
         variant: 'destructive',
-        title: 'Error',
-        description: 'Failed to duplicate quote',
+        title: 'Erro',
+        description: 'Falha ao duplicar proposta',
       });
       return;
     }
@@ -270,8 +270,8 @@ export default function Quotes() {
     }
 
     toast({
-      title: 'Quote duplicated',
-      description: 'A copy of the quote has been created.',
+      title: 'Proposta duplicada',
+      description: 'Uma cópia da proposta foi criada.',
     });
 
     navigate(`/quotes/${newQuote.id}/edit`);
@@ -325,19 +325,19 @@ export default function Quotes() {
         {/* Header */}
         <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
           <div>
-            <h1 className="text-2xl font-bold tracking-tight">Quotes</h1>
+            <h1 className="text-2xl font-bold tracking-tight">Propostas</h1>
             <p className="text-muted-foreground">
-              Create and manage proposals for your customers
+              Crie e gerencie propostas para seus clientes
             </p>
           </div>
           <div className="flex gap-2">
             <Button variant="outline" size="sm">
               <Download className="mr-2 h-4 w-4" />
-              Export
+              Exportar
             </Button>
             <Button size="sm" onClick={() => navigate('/quotes/new')}>
               <Plus className="mr-2 h-4 w-4" />
-              New Quote
+              Nova Proposta
             </Button>
           </div>
         </div>
@@ -351,7 +351,7 @@ export default function Quotes() {
                   <FileText className="h-5 w-5 text-primary" />
                 </div>
                 <div>
-                  <p className="text-sm text-muted-foreground">Total Quotes</p>
+                  <p className="text-sm text-muted-foreground">Total de Propostas</p>
                   <p className="text-2xl font-bold">{totalQuotes}</p>
                 </div>
               </div>
@@ -364,7 +364,7 @@ export default function Quotes() {
                   <FileText className="h-5 w-5 text-muted-foreground" />
                 </div>
                 <div>
-                  <p className="text-sm text-muted-foreground">Drafts</p>
+                  <p className="text-sm text-muted-foreground">Rascunhos</p>
                   <p className="text-2xl font-bold">{draftQuotes}</p>
                 </div>
               </div>
@@ -377,7 +377,7 @@ export default function Quotes() {
                   <Send className="h-5 w-5 text-info" />
                 </div>
                 <div>
-                  <p className="text-sm text-muted-foreground">Sent</p>
+                  <p className="text-sm text-muted-foreground">Enviadas</p>
                   <p className="text-2xl font-bold">{sentQuotes}</p>
                 </div>
               </div>
@@ -390,7 +390,7 @@ export default function Quotes() {
                   <DollarSign className="h-5 w-5 text-success" />
                 </div>
                 <div>
-                  <p className="text-sm text-muted-foreground">Total Value</p>
+                  <p className="text-sm text-muted-foreground">Valor Total</p>
                   <p className="text-2xl font-bold">{formatCurrency(totalValue)}</p>
                 </div>
               </div>
@@ -403,7 +403,7 @@ export default function Quotes() {
           <div className="relative flex-1 max-w-sm">
             <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
             <Input
-              placeholder="Search quotes..."
+              placeholder="Buscar propostas..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="pl-9"
@@ -411,15 +411,15 @@ export default function Quotes() {
           </div>
           <Select value={statusFilter} onValueChange={setStatusFilter}>
             <SelectTrigger className="w-[180px]">
-              <SelectValue placeholder="Filter by status" />
+              <SelectValue placeholder="Filtrar por status" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="all">All Statuses</SelectItem>
-              <SelectItem value="draft">Draft</SelectItem>
-              <SelectItem value="sent">Sent</SelectItem>
-              <SelectItem value="accepted">Accepted</SelectItem>
-              <SelectItem value="rejected">Rejected</SelectItem>
-              <SelectItem value="expired">Expired</SelectItem>
+              <SelectItem value="all">Todos os Status</SelectItem>
+              <SelectItem value="draft">Rascunho</SelectItem>
+              <SelectItem value="sent">Enviada</SelectItem>
+              <SelectItem value="accepted">Aceita</SelectItem>
+              <SelectItem value="rejected">Rejeitada</SelectItem>
+              <SelectItem value="expired">Expirada</SelectItem>
             </SelectContent>
           </Select>
         </div>
@@ -429,18 +429,18 @@ export default function Quotes() {
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead className="w-[100px]">Number</TableHead>
+                <TableHead className="w-[100px]">Número</TableHead>
                 <TableHead className="w-[250px]">
                   <Button variant="ghost" className="p-0 hover:bg-transparent">
-                    Name
+                    Nome
                     <ArrowUpDown className="ml-2 h-4 w-4" />
                   </Button>
                 </TableHead>
-                <TableHead>Account</TableHead>
+                <TableHead>Conta</TableHead>
                 <TableHead>Status</TableHead>
                 <TableHead>Total</TableHead>
-                <TableHead>Valid Until</TableHead>
-                <TableHead>Created</TableHead>
+                <TableHead>Válida Até</TableHead>
+                <TableHead>Criada em</TableHead>
                 <TableHead className="w-[50px]"></TableHead>
               </TableRow>
             </TableHeader>
@@ -450,7 +450,7 @@ export default function Quotes() {
                   <TableCell colSpan={8} className="h-24 text-center">
                     <div className="flex items-center justify-center gap-2">
                       <RefreshCw className="h-4 w-4 animate-spin" />
-                      Loading quotes...
+                      Carregando propostas...
                     </div>
                   </TableCell>
                 </TableRow>
@@ -459,10 +459,10 @@ export default function Quotes() {
                   <TableCell colSpan={8} className="h-24 text-center">
                     <div className="flex flex-col items-center gap-2">
                       <FileText className="h-8 w-8 text-muted-foreground" />
-                      <p className="text-muted-foreground">No quotes found</p>
+                      <p className="text-muted-foreground">Nenhuma proposta encontrada</p>
                       <Button variant="outline" size="sm" onClick={() => navigate('/quotes/new')}>
                         <Plus className="mr-2 h-4 w-4" />
-                        Create your first quote
+                        Crie sua primeira proposta
                       </Button>
                     </div>
                   </TableCell>

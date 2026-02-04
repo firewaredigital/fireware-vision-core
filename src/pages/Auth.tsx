@@ -13,18 +13,18 @@ import { useToast } from '@/hooks/use-toast';
 import { useAuth } from '@/hooks/useAuth';
 
 const loginSchema = z.object({
-  email: z.string().email('Please enter a valid email'),
-  password: z.string().min(6, 'Password must be at least 6 characters'),
+  email: z.string().email('Por favor, insira um email válido'),
+  password: z.string().min(6, 'A senha deve ter pelo menos 6 caracteres'),
 });
 
 const signupSchema = z.object({
-  firstName: z.string().min(1, 'First name is required'),
-  lastName: z.string().min(1, 'Last name is required'),
-  email: z.string().email('Please enter a valid email'),
-  password: z.string().min(6, 'Password must be at least 6 characters'),
+  firstName: z.string().min(1, 'Nome é obrigatório'),
+  lastName: z.string().min(1, 'Sobrenome é obrigatório'),
+  email: z.string().email('Por favor, insira um email válido'),
+  password: z.string().min(6, 'A senha deve ter pelo menos 6 caracteres'),
   confirmPassword: z.string(),
 }).refine((data) => data.password === data.confirmPassword, {
-  message: "Passwords don't match",
+  message: "As senhas não correspondem",
   path: ["confirmPassword"],
 });
 
@@ -63,15 +63,15 @@ export default function Auth() {
     if (error) {
       toast({
         variant: 'destructive',
-        title: 'Login failed',
+        title: 'Falha no login',
         description: error.message === 'Invalid login credentials' 
-          ? 'Invalid email or password. Please try again.'
+          ? 'Email ou senha inválidos. Tente novamente.'
           : error.message,
       });
     } else {
       toast({
-        title: 'Welcome back!',
-        description: 'You have successfully logged in.',
+        title: 'Bem-vindo de volta!',
+        description: 'Login realizado com sucesso.',
       });
       navigate('/dashboard');
     }
@@ -85,17 +85,17 @@ export default function Auth() {
     if (error) {
       let message = error.message;
       if (error.message.includes('already registered')) {
-        message = 'This email is already registered. Please login instead.';
+        message = 'Este email já está registrado. Faça login.';
       }
       toast({
         variant: 'destructive',
-        title: 'Signup failed',
+        title: 'Falha no cadastro',
         description: message,
       });
     } else {
       toast({
-        title: 'Account created!',
-        description: 'Welcome to Fireware CRM.',
+        title: 'Conta criada!',
+        description: 'Bem-vindo ao Fireware CRM.',
       });
       navigate('/dashboard');
     }
@@ -119,8 +119,8 @@ export default function Auth() {
           </div>
           <h1 className="mb-4 text-4xl font-bold text-background">Fireware CRM</h1>
           <p className="text-lg text-background/80">
-            The complete B2B sales platform designed for enterprise teams. 
-            Manage leads, close deals, and grow revenue.
+            A plataforma completa de vendas B2B projetada para equipes empresariais. 
+            Gerencie leads, feche negócios e aumente a receita.
           </p>
         </div>
       </div>
@@ -132,16 +132,16 @@ export default function Auth() {
             <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-primary lg:hidden">
               <Flame className="h-7 w-7 text-primary-foreground" />
             </div>
-            <CardTitle className="text-2xl">Welcome to Fireware</CardTitle>
+            <CardTitle className="text-2xl">Bem-vindo ao Fireware</CardTitle>
             <CardDescription>
-              Sign in to your account or create a new one
+              Entre na sua conta ou crie uma nova
             </CardDescription>
           </CardHeader>
           <CardContent>
             <Tabs value={activeTab} onValueChange={setActiveTab}>
               <TabsList className="grid w-full grid-cols-2 mb-6">
-                <TabsTrigger value="login">Login</TabsTrigger>
-                <TabsTrigger value="signup">Sign Up</TabsTrigger>
+                <TabsTrigger value="login">Entrar</TabsTrigger>
+                <TabsTrigger value="signup">Cadastrar</TabsTrigger>
               </TabsList>
 
               <TabsContent value="login">
@@ -156,7 +156,7 @@ export default function Auth() {
                           <FormControl>
                             <Input 
                               type="email" 
-                              placeholder="you@company.com" 
+                              placeholder="voce@empresa.com" 
                               {...field} 
                             />
                           </FormControl>
@@ -169,7 +169,7 @@ export default function Auth() {
                       name="password"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Password</FormLabel>
+                          <FormLabel>Senha</FormLabel>
                           <FormControl>
                             <Input 
                               type="password" 
@@ -183,7 +183,7 @@ export default function Auth() {
                     />
                     <Button type="submit" className="w-full" disabled={isLoading}>
                       {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                      Sign In
+                      Entrar
                     </Button>
                   </form>
                 </Form>
@@ -198,9 +198,9 @@ export default function Auth() {
                         name="firstName"
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel>First Name</FormLabel>
+                            <FormLabel>Nome</FormLabel>
                             <FormControl>
-                              <Input placeholder="John" {...field} />
+                              <Input placeholder="João" {...field} />
                             </FormControl>
                             <FormMessage />
                           </FormItem>
@@ -211,9 +211,9 @@ export default function Auth() {
                         name="lastName"
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel>Last Name</FormLabel>
+                            <FormLabel>Sobrenome</FormLabel>
                             <FormControl>
-                              <Input placeholder="Doe" {...field} />
+                              <Input placeholder="Silva" {...field} />
                             </FormControl>
                             <FormMessage />
                           </FormItem>
@@ -229,7 +229,7 @@ export default function Auth() {
                           <FormControl>
                             <Input 
                               type="email" 
-                              placeholder="you@company.com" 
+                              placeholder="voce@empresa.com" 
                               {...field} 
                             />
                           </FormControl>
@@ -242,7 +242,7 @@ export default function Auth() {
                       name="password"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Password</FormLabel>
+                          <FormLabel>Senha</FormLabel>
                           <FormControl>
                             <Input 
                               type="password" 
@@ -259,7 +259,7 @@ export default function Auth() {
                       name="confirmPassword"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Confirm Password</FormLabel>
+                          <FormLabel>Confirmar Senha</FormLabel>
                           <FormControl>
                             <Input 
                               type="password" 
@@ -273,7 +273,7 @@ export default function Auth() {
                     />
                     <Button type="submit" className="w-full" disabled={isLoading}>
                       {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                      Create Account
+                      Criar Conta
                     </Button>
                   </form>
                 </Form>
