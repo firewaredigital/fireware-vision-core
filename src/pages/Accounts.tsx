@@ -46,7 +46,7 @@ export default function Accounts() {
     setLoading(true);
     const { data, error } = await supabase.from('accounts').select('*').order('name');
     if (error) {
-      toast({ variant: 'destructive', title: 'Error', description: 'Failed to load accounts' });
+      toast({ variant: 'destructive', title: 'Erro', description: 'Falha ao carregar contas' });
     } else {
       setAccounts(data || []);
     }
@@ -56,9 +56,9 @@ export default function Accounts() {
   const deleteAccount = async (id: string) => {
     const { error } = await supabase.from('accounts').delete().eq('id', id);
     if (error) {
-      toast({ variant: 'destructive', title: 'Error', description: 'Failed to delete account' });
+      toast({ variant: 'destructive', title: 'Erro', description: 'Falha ao excluir conta' });
     } else {
-      toast({ title: 'Account deleted' });
+      toast({ title: 'Conta excluída' });
       fetchAccounts();
     }
   };
@@ -68,7 +68,7 @@ export default function Accounts() {
   );
 
   const formatCurrency = (value: number | null) =>
-    value ? new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 }).format(value) : '-';
+    value ? new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL', maximumFractionDigits: 0 }).format(value) : '-';
 
   if (authLoading || !user) return null;
 
@@ -77,42 +77,42 @@ export default function Accounts() {
       <div className="space-y-6">
         <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
           <div>
-            <h1 className="text-2xl font-bold tracking-tight">Accounts</h1>
-            <p className="text-muted-foreground">Manage your customer accounts</p>
+            <h1 className="text-2xl font-bold tracking-tight">Contas</h1>
+            <p className="text-muted-foreground">Gerencie suas contas de clientes</p>
           </div>
           <Button size="sm" onClick={() => navigate('/accounts/new')}>
-            <Plus className="mr-2 h-4 w-4" /> New Account
+            <Plus className="mr-2 h-4 w-4" /> Nova Conta
           </Button>
         </div>
 
         <div className="relative max-w-sm">
           <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-          <Input placeholder="Search accounts..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className="pl-9" />
+          <Input placeholder="Buscar contas..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className="pl-9" />
         </div>
 
         <div className="rounded-lg border bg-card">
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead>Name</TableHead>
-                <TableHead>Industry</TableHead>
-                <TableHead>Phone</TableHead>
-                <TableHead>Revenue</TableHead>
-                <TableHead>Employees</TableHead>
-                <TableHead>Created</TableHead>
+                <TableHead>Nome</TableHead>
+                <TableHead>Indústria</TableHead>
+                <TableHead>Telefone</TableHead>
+                <TableHead>Receita</TableHead>
+                <TableHead>Funcionários</TableHead>
+                <TableHead>Criado em</TableHead>
                 <TableHead className="w-[50px]"></TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {loading ? (
-                <TableRow><TableCell colSpan={7} className="h-24 text-center">Loading...</TableCell></TableRow>
+                <TableRow><TableCell colSpan={7} className="h-24 text-center">Carregando...</TableCell></TableRow>
               ) : filteredAccounts.length === 0 ? (
                 <TableRow>
                   <TableCell colSpan={7} className="h-24 text-center">
                     <div className="flex flex-col items-center gap-2">
                       <Building2 className="h-8 w-8 text-muted-foreground" />
-                      <p className="text-muted-foreground">No accounts found</p>
-                      <Button variant="outline" size="sm" onClick={() => navigate('/accounts/new')}>Create Account</Button>
+                      <p className="text-muted-foreground">Nenhuma conta encontrada</p>
+                      <Button variant="outline" size="sm" onClick={() => navigate('/accounts/new')}>Criar Conta</Button>
                     </div>
                   </TableCell>
                 </TableRow>
@@ -124,15 +124,15 @@ export default function Accounts() {
                     <TableCell>{account.phone || '-'}</TableCell>
                     <TableCell>{formatCurrency(account.annual_revenue)}</TableCell>
                     <TableCell>{account.employee_count || '-'}</TableCell>
-                    <TableCell className="text-muted-foreground">{new Date(account.created_at).toLocaleDateString()}</TableCell>
+                    <TableCell className="text-muted-foreground">{new Date(account.created_at).toLocaleDateString('pt-BR')}</TableCell>
                     <TableCell>
                       <DropdownMenu>
                         <DropdownMenuTrigger asChild><Button variant="ghost" size="icon" className="h-8 w-8"><MoreHorizontal className="h-4 w-4" /></Button></DropdownMenuTrigger>
                         <DropdownMenuContent align="end">
-                          <DropdownMenuItem onClick={() => navigate(`/accounts/${account.id}`)}><Eye className="mr-2 h-4 w-4" />View</DropdownMenuItem>
-                          <DropdownMenuItem onClick={() => navigate(`/accounts/${account.id}/edit`)}><Edit className="mr-2 h-4 w-4" />Edit</DropdownMenuItem>
+                          <DropdownMenuItem onClick={() => navigate(`/accounts/${account.id}`)}><Eye className="mr-2 h-4 w-4" />Visualizar</DropdownMenuItem>
+                          <DropdownMenuItem onClick={() => navigate(`/accounts/${account.id}/edit`)}><Edit className="mr-2 h-4 w-4" />Editar</DropdownMenuItem>
                           <DropdownMenuSeparator />
-                          <DropdownMenuItem className="text-destructive" onClick={() => deleteAccount(account.id)}><Trash2 className="mr-2 h-4 w-4" />Delete</DropdownMenuItem>
+                          <DropdownMenuItem className="text-destructive" onClick={() => deleteAccount(account.id)}><Trash2 className="mr-2 h-4 w-4" />Excluir</DropdownMenuItem>
                         </DropdownMenuContent>
                       </DropdownMenu>
                     </TableCell>

@@ -92,47 +92,47 @@ interface Contract {
 
 const statusConfig: Record<ContractStatus, { label: string; className: string; icon: React.ReactNode }> = {
   draft: { 
-    label: 'Draft', 
+    label: 'Rascunho', 
     className: 'bg-muted text-muted-foreground',
     icon: <FileText className="h-3 w-3" />
   },
   pending_approval: { 
-    label: 'Pending Approval', 
+    label: 'Aguard. Aprovação', 
     className: 'bg-warning/10 text-warning border-warning/20',
     icon: <Clock className="h-3 w-3" />
   },
   sent: { 
-    label: 'Sent', 
+    label: 'Enviado', 
     className: 'bg-info/10 text-info border-info/20',
     icon: <Send className="h-3 w-3" />
   },
   negotiating: { 
-    label: 'Negotiating', 
+    label: 'Negociando', 
     className: 'bg-purple-500/10 text-purple-500 border-purple-500/20',
     icon: <RefreshCw className="h-3 w-3" />
   },
   signed: { 
-    label: 'Signed', 
+    label: 'Assinado', 
     className: 'bg-success/10 text-success border-success/20',
     icon: <CheckCircle className="h-3 w-3" />
   },
   active: { 
-    label: 'Active', 
+    label: 'Ativo', 
     className: 'bg-emerald-500/10 text-emerald-500 border-emerald-500/20',
     icon: <CheckCircle className="h-3 w-3" />
   },
   expired: { 
-    label: 'Expired', 
+    label: 'Expirado', 
     className: 'bg-destructive/10 text-destructive border-destructive/20',
     icon: <AlertTriangle className="h-3 w-3" />
   },
   terminated: { 
-    label: 'Terminated', 
+    label: 'Rescindido', 
     className: 'bg-destructive/10 text-destructive border-destructive/20',
     icon: <AlertTriangle className="h-3 w-3" />
   },
   renewed: { 
-    label: 'Renewed', 
+    label: 'Renovado', 
     className: 'bg-blue-500/10 text-blue-500 border-blue-500/20',
     icon: <RefreshCw className="h-3 w-3" />
   },
@@ -186,8 +186,8 @@ export default function Contracts() {
       console.error('Error fetching contracts:', error);
       toast({
         variant: 'destructive',
-        title: 'Error',
-        description: 'Failed to load contracts',
+        title: 'Erro',
+        description: 'Falha ao carregar contratos',
       });
     } else {
       setContracts((data || []) as Contract[]);
@@ -201,13 +201,13 @@ export default function Contracts() {
     if (error) {
       toast({
         variant: 'destructive',
-        title: 'Error',
-        description: 'Failed to delete contract',
+        title: 'Erro',
+        description: 'Falha ao excluir contrato',
       });
     } else {
       toast({
-        title: 'Contract deleted',
-        description: 'The contract has been successfully deleted.',
+        title: 'Contrato excluído',
+        description: 'O contrato foi excluído com sucesso.',
       });
       fetchContracts();
     }
@@ -246,8 +246,8 @@ export default function Contracts() {
   const getExpiryWarning = (endDate: string | null, status: ContractStatus) => {
     if (!endDate || status !== 'active') return null;
     const daysUntilExpiry = differenceInDays(new Date(endDate), new Date());
-    if (daysUntilExpiry <= 0) return { label: 'Expired', className: 'text-destructive' };
-    if (daysUntilExpiry <= 30) return { label: `${daysUntilExpiry} days`, className: 'text-warning' };
+    if (daysUntilExpiry <= 0) return { label: 'Expirado', className: 'text-destructive' };
+    if (daysUntilExpiry <= 30) return { label: `${daysUntilExpiry} dias`, className: 'text-warning' };
     return null;
   };
 
@@ -261,19 +261,19 @@ export default function Contracts() {
         {/* Header */}
         <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
           <div>
-            <h1 className="text-2xl font-bold tracking-tight">Contracts</h1>
+            <h1 className="text-2xl font-bold tracking-tight">Contratos</h1>
             <p className="text-muted-foreground">
-              Manage customer contracts and track renewals
+              Gerencie contratos de clientes e acompanhe renovações
             </p>
           </div>
           <div className="flex gap-2">
             <Button variant="outline" size="sm">
               <Download className="mr-2 h-4 w-4" />
-              Export
+              Exportar
             </Button>
             <Button size="sm" onClick={() => navigate('/contracts/new')}>
               <Plus className="mr-2 h-4 w-4" />
-              New Contract
+              Novo Contrato
             </Button>
           </div>
         </div>
@@ -287,7 +287,7 @@ export default function Contracts() {
                   <FileText className="h-5 w-5 text-primary" />
                 </div>
                 <div>
-                  <p className="text-sm text-muted-foreground">Total Contracts</p>
+                  <p className="text-sm text-muted-foreground">Total de Contratos</p>
                   <p className="text-2xl font-bold">{totalContracts}</p>
                 </div>
               </div>
@@ -300,7 +300,7 @@ export default function Contracts() {
                   <CheckCircle className="h-5 w-5 text-success" />
                 </div>
                 <div>
-                  <p className="text-sm text-muted-foreground">Active</p>
+                  <p className="text-sm text-muted-foreground">Ativos</p>
                   <p className="text-2xl font-bold">{activeContracts}</p>
                 </div>
               </div>
@@ -313,7 +313,7 @@ export default function Contracts() {
                   <AlertTriangle className="h-5 w-5 text-warning" />
                 </div>
                 <div>
-                  <p className="text-sm text-muted-foreground">Expiring Soon</p>
+                  <p className="text-sm text-muted-foreground">Expirando em Breve</p>
                   <p className="text-2xl font-bold">{expiringContracts}</p>
                 </div>
               </div>
@@ -326,7 +326,7 @@ export default function Contracts() {
                   <Building2 className="h-5 w-5 text-info" />
                 </div>
                 <div>
-                  <p className="text-sm text-muted-foreground">Total Value</p>
+                  <p className="text-sm text-muted-foreground">Valor Total</p>
                   <p className="text-2xl font-bold">{formatCurrency(totalValue)}</p>
                 </div>
               </div>
@@ -339,7 +339,7 @@ export default function Contracts() {
           <div className="relative flex-1 max-w-sm">
             <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
             <Input
-              placeholder="Search contracts..."
+              placeholder="Buscar contratos..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="pl-9"
@@ -347,19 +347,19 @@ export default function Contracts() {
           </div>
           <Select value={statusFilter} onValueChange={setStatusFilter}>
             <SelectTrigger className="w-[180px]">
-              <SelectValue placeholder="Filter by status" />
+              <SelectValue placeholder="Filtrar por status" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="all">All Statuses</SelectItem>
-              <SelectItem value="draft">Draft</SelectItem>
-              <SelectItem value="pending_approval">Pending Approval</SelectItem>
-              <SelectItem value="sent">Sent</SelectItem>
-              <SelectItem value="negotiating">Negotiating</SelectItem>
-              <SelectItem value="signed">Signed</SelectItem>
-              <SelectItem value="active">Active</SelectItem>
-              <SelectItem value="expired">Expired</SelectItem>
-              <SelectItem value="terminated">Terminated</SelectItem>
-              <SelectItem value="renewed">Renewed</SelectItem>
+              <SelectItem value="all">Todos os Status</SelectItem>
+              <SelectItem value="draft">Rascunho</SelectItem>
+              <SelectItem value="pending_approval">Aguard. Aprovação</SelectItem>
+              <SelectItem value="sent">Enviado</SelectItem>
+              <SelectItem value="negotiating">Negociando</SelectItem>
+              <SelectItem value="signed">Assinado</SelectItem>
+              <SelectItem value="active">Ativo</SelectItem>
+              <SelectItem value="expired">Expirado</SelectItem>
+              <SelectItem value="terminated">Rescindido</SelectItem>
+              <SelectItem value="renewed">Renovado</SelectItem>
             </SelectContent>
           </Select>
         </div>
@@ -369,13 +369,13 @@ export default function Contracts() {
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead className="w-[120px]">Number</TableHead>
-                <TableHead className="w-[250px]">Name</TableHead>
-                <TableHead>Account</TableHead>
+                <TableHead className="w-[120px]">Número</TableHead>
+                <TableHead className="w-[250px]">Nome</TableHead>
+                <TableHead>Conta</TableHead>
                 <TableHead>Status</TableHead>
-                <TableHead>Value</TableHead>
-                <TableHead>End Date</TableHead>
-                <TableHead>Auto Renewal</TableHead>
+                <TableHead>Valor</TableHead>
+                <TableHead>Data Final</TableHead>
+                <TableHead>Renovação Auto</TableHead>
                 <TableHead className="w-[50px]"></TableHead>
               </TableRow>
             </TableHeader>
@@ -385,7 +385,7 @@ export default function Contracts() {
                   <TableCell colSpan={8} className="h-24 text-center">
                     <div className="flex items-center justify-center gap-2">
                       <RefreshCw className="h-4 w-4 animate-spin" />
-                      Loading contracts...
+                      Carregando contratos...
                     </div>
                   </TableCell>
                 </TableRow>
@@ -394,10 +394,10 @@ export default function Contracts() {
                   <TableCell colSpan={8} className="h-24 text-center">
                     <div className="flex flex-col items-center gap-2">
                       <FileText className="h-8 w-8 text-muted-foreground" />
-                      <p className="text-muted-foreground">No contracts found</p>
+                      <p className="text-muted-foreground">Nenhum contrato encontrado</p>
                       <Button variant="outline" size="sm" onClick={() => navigate('/contracts/new')}>
                         <Plus className="mr-2 h-4 w-4" />
-                        Create your first contract
+                        Crie seu primeiro contrato
                       </Button>
                     </div>
                   </TableCell>
@@ -472,11 +472,11 @@ export default function Contracts() {
                           <DropdownMenuContent align="end">
                             <DropdownMenuItem onClick={() => navigate(`/contracts/${contract.id}`)}>
                               <Eye className="mr-2 h-4 w-4" />
-                              View Details
+                              Ver Detalhes
                             </DropdownMenuItem>
                             <DropdownMenuItem onClick={() => navigate(`/contracts/${contract.id}/edit`)}>
                               <Edit className="mr-2 h-4 w-4" />
-                              Edit
+                              Editar
                             </DropdownMenuItem>
                             <DropdownMenuSeparator />
                             <DropdownMenuItem

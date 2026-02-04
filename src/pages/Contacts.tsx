@@ -40,7 +40,7 @@ export default function Contacts() {
     setLoading(true);
     const { data, error } = await supabase.from('contacts').select('*').order('last_name');
     if (error) {
-      toast({ variant: 'destructive', title: 'Error', description: 'Failed to load contacts' });
+      toast({ variant: 'destructive', title: 'Erro', description: 'Falha ao carregar contatos' });
     } else {
       setContacts(data || []);
     }
@@ -58,38 +58,38 @@ export default function Contacts() {
       <div className="space-y-6">
         <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
           <div>
-            <h1 className="text-2xl font-bold tracking-tight">Contacts</h1>
-            <p className="text-muted-foreground">Manage your contact relationships</p>
+            <h1 className="text-2xl font-bold tracking-tight">Contatos</h1>
+            <p className="text-muted-foreground">Gerencie seus relacionamentos de contato</p>
           </div>
-          <Button size="sm" onClick={() => navigate('/contacts/new')}><Plus className="mr-2 h-4 w-4" /> New Contact</Button>
+          <Button size="sm" onClick={() => navigate('/contacts/new')}><Plus className="mr-2 h-4 w-4" /> Novo Contato</Button>
         </div>
 
         <div className="relative max-w-sm">
           <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-          <Input placeholder="Search contacts..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className="pl-9" />
+          <Input placeholder="Buscar contatos..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className="pl-9" />
         </div>
 
         <div className="rounded-lg border bg-card">
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead>Name</TableHead>
+                <TableHead>Nome</TableHead>
                 <TableHead>Email</TableHead>
-                <TableHead>Phone</TableHead>
-                <TableHead>Title</TableHead>
-                <TableHead>Created</TableHead>
+                <TableHead>Telefone</TableHead>
+                <TableHead>Cargo</TableHead>
+                <TableHead>Criado em</TableHead>
                 <TableHead className="w-[50px]"></TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {loading ? (
-                <TableRow><TableCell colSpan={6} className="h-24 text-center">Loading...</TableCell></TableRow>
+                <TableRow><TableCell colSpan={6} className="h-24 text-center">Carregando...</TableCell></TableRow>
               ) : filteredContacts.length === 0 ? (
                 <TableRow>
                   <TableCell colSpan={6} className="h-24 text-center">
                     <div className="flex flex-col items-center gap-2">
                       <Users className="h-8 w-8 text-muted-foreground" />
-                      <p className="text-muted-foreground">No contacts found</p>
+                      <p className="text-muted-foreground">Nenhum contato encontrado</p>
                     </div>
                   </TableCell>
                 </TableRow>
@@ -100,13 +100,13 @@ export default function Contacts() {
                     <TableCell>{contact.email || '-'}</TableCell>
                     <TableCell>{contact.phone || '-'}</TableCell>
                     <TableCell>{contact.job_title || '-'}</TableCell>
-                    <TableCell className="text-muted-foreground">{new Date(contact.created_at).toLocaleDateString()}</TableCell>
+                    <TableCell className="text-muted-foreground">{new Date(contact.created_at).toLocaleDateString('pt-BR')}</TableCell>
                     <TableCell>
                       <DropdownMenu>
                         <DropdownMenuTrigger asChild><Button variant="ghost" size="icon" className="h-8 w-8"><MoreHorizontal className="h-4 w-4" /></Button></DropdownMenuTrigger>
                         <DropdownMenuContent align="end">
-                          <DropdownMenuItem onClick={() => navigate(`/contacts/${contact.id}`)}><Eye className="mr-2 h-4 w-4" />View</DropdownMenuItem>
-                          <DropdownMenuItem onClick={() => navigate(`/contacts/${contact.id}/edit`)}><Edit className="mr-2 h-4 w-4" />Edit</DropdownMenuItem>
+                          <DropdownMenuItem onClick={() => navigate(`/contacts/${contact.id}`)}><Eye className="mr-2 h-4 w-4" />Visualizar</DropdownMenuItem>
+                          <DropdownMenuItem onClick={() => navigate(`/contacts/${contact.id}/edit`)}><Edit className="mr-2 h-4 w-4" />Editar</DropdownMenuItem>
                         </DropdownMenuContent>
                       </DropdownMenu>
                     </TableCell>
