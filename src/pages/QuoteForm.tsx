@@ -101,8 +101,8 @@ interface Opportunity {
 }
 
 const quoteSchema = z.object({
-  name: z.string().min(1, 'Quote name is required').max(255),
-  account_id: z.string().min(1, 'Account is required'),
+  name: z.string().min(1, 'Nome da proposta é obrigatório').max(255),
+  account_id: z.string().min(1, 'Conta é obrigatória'),
   opportunity_id: z.string().optional(),
   contact_id: z.string().optional(),
   valid_until: z.date().optional(),
@@ -225,8 +225,8 @@ export default function QuoteForm() {
       console.error('Error fetching quote:', quoteError);
       toast({
         variant: 'destructive',
-        title: 'Error',
-        description: 'Failed to load quote',
+        title: 'Erro',
+        description: 'Falha ao carregar proposta',
       });
       navigate('/quotes');
       return;
@@ -367,8 +367,8 @@ export default function QuoteForm() {
     if (!profile?.organization_id) {
       toast({
         variant: 'destructive',
-        title: 'Error',
-        description: 'You must be part of an organization to manage quotes.',
+        title: 'Erro',
+        description: 'Você precisa fazer parte de uma organização para gerenciar propostas.',
       });
       return;
     }
@@ -376,8 +376,8 @@ export default function QuoteForm() {
     if (items.length === 0) {
       toast({
         variant: 'destructive',
-        title: 'Error',
-        description: 'Please add at least one item to the quote.',
+        title: 'Erro',
+        description: 'Adicione pelo menos um item à proposta.',
       });
       return;
     }
@@ -453,8 +453,8 @@ export default function QuoteForm() {
       await supabase.from('timeline_events').insert([{
         organization_id: profile.organization_id,
         event_type: 'quote_created',
-        title: isEditing ? 'Quote updated' : 'Quote created',
-        description: `Quote "${data.name}" was ${isEditing ? 'updated' : 'created'} with total ${formatCurrency(total)}.`,
+        title: isEditing ? 'Proposta atualizada' : 'Proposta criada',
+        description: `Proposta "${data.name}" foi ${isEditing ? 'atualizada' : 'criada'} com total ${formatCurrency(total)}.`,
         account_id: data.account_id,
         opportunity_id: data.opportunity_id || null,
         quote_id: quoteId,
@@ -467,8 +467,8 @@ export default function QuoteForm() {
       }]);
 
       toast({
-        title: isEditing ? 'Quote updated' : 'Quote created',
-        description: `Quote ${quoteNumber} has been saved successfully.`,
+        title: isEditing ? 'Proposta atualizada' : 'Proposta criada',
+        description: `A proposta ${quoteNumber} foi salva com sucesso.`,
       });
 
       navigate(`/quotes/${quoteId}`);
@@ -476,8 +476,8 @@ export default function QuoteForm() {
       console.error('Error saving quote:', error);
       toast({
         variant: 'destructive',
-        title: 'Error',
-        description: error.message || 'Failed to save quote',
+        title: 'Erro',
+        description: error.message || 'Falha ao salvar proposta',
       });
     } finally {
       setLoading(false);
@@ -515,26 +515,26 @@ export default function QuoteForm() {
           <div className="flex-1">
             <div className="flex items-center gap-3">
               <h1 className="text-2xl font-bold tracking-tight">
-                {isEditing ? 'Edit Quote' : 'New Quote'}
+                {isEditing ? 'Editar Proposta' : 'Nova Proposta'}
               </h1>
               <Badge variant="outline" className="font-mono">
                 {quoteNumber}
               </Badge>
             </div>
             <p className="text-muted-foreground">
-              {isEditing ? 'Update quote details and line items' : 'Create a new proposal for your customer'}
+              {isEditing ? 'Atualize os detalhes e itens da proposta' : 'Crie uma nova proposta comercial para seu cliente'}
             </p>
           </div>
           <Button onClick={form.handleSubmit(onSubmit)} disabled={loading}>
             {loading ? (
               <>
                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                Saving...
+                Salvando...
               </>
             ) : (
               <>
                 <Save className="mr-2 h-4 w-4" />
-                Save Quote
+                Salvar Proposta
               </>
             )}
           </Button>
@@ -550,7 +550,7 @@ export default function QuoteForm() {
                   <CardHeader>
                     <CardTitle className="flex items-center gap-2">
                       <FileText className="h-5 w-5" />
-                      Quote Details
+                      Detalhes da Proposta
                     </CardTitle>
                   </CardHeader>
                   <CardContent className="space-y-4">
@@ -559,9 +559,9 @@ export default function QuoteForm() {
                       name="name"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Quote Name *</FormLabel>
+                          <FormLabel>Nome da Proposta *</FormLabel>
                           <FormControl>
-                            <Input placeholder="Enterprise Software Package" {...field} />
+                            <Input placeholder="Pacote de Software Empresarial" {...field} />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
@@ -574,14 +574,14 @@ export default function QuoteForm() {
                         name="account_id"
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel>Account *</FormLabel>
+                            <FormLabel>Conta *</FormLabel>
                             <Select
                               value={field.value}
                               onValueChange={field.onChange}
                             >
                               <FormControl>
                                 <SelectTrigger>
-                                  <SelectValue placeholder="Select account">
+                                  <SelectValue placeholder="Selecione a conta">
                                     {field.value && (
                                       <div className="flex items-center gap-2">
                                         <Building2 className="h-4 w-4" />
@@ -609,7 +609,7 @@ export default function QuoteForm() {
                         name="opportunity_id"
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel>Opportunity</FormLabel>
+                            <FormLabel>Oportunidade</FormLabel>
                             <Select
                               value={field.value}
                               onValueChange={field.onChange}
@@ -617,7 +617,7 @@ export default function QuoteForm() {
                             >
                               <FormControl>
                                 <SelectTrigger>
-                                  <SelectValue placeholder={selectedAccountId ? "Select opportunity" : "Select account first"}>
+                                  <SelectValue placeholder={selectedAccountId ? "Selecione a oportunidade" : "Selecione a conta primeiro"}>
                                     {field.value && (
                                       <div className="flex items-center gap-2">
                                         <Target className="h-4 w-4" />
@@ -628,7 +628,7 @@ export default function QuoteForm() {
                                 </SelectTrigger>
                               </FormControl>
                               <SelectContent>
-                                <SelectItem value="">None</SelectItem>
+                                <SelectItem value="">Nenhuma</SelectItem>
                                 {opportunities.map((opp) => (
                                   <SelectItem key={opp.id} value={opp.id}>
                                     {opp.name}
@@ -647,7 +647,7 @@ export default function QuoteForm() {
                       name="valid_until"
                       render={({ field }) => (
                         <FormItem className="flex flex-col">
-                          <FormLabel>Valid Until</FormLabel>
+                          <FormLabel>Válida até</FormLabel>
                           <Popover>
                             <PopoverTrigger asChild>
                               <FormControl>
@@ -659,9 +659,9 @@ export default function QuoteForm() {
                                   )}
                                 >
                                   {field.value ? (
-                                    format(field.value, "PPP")
+                                    format(field.value, "dd/MM/yyyy")
                                   ) : (
-                                    <span>Pick a date</span>
+                                    <span>Selecione uma data</span>
                                   )}
                                   <Calendar className="ml-auto h-4 w-4 opacity-50" />
                                 </Button>
@@ -679,7 +679,7 @@ export default function QuoteForm() {
                             </PopoverContent>
                           </Popover>
                           <FormDescription>
-                            Quote expiration date
+                            Data de expiração da proposta
                           </FormDescription>
                           <FormMessage />
                         </FormItem>
@@ -694,10 +694,10 @@ export default function QuoteForm() {
                     <div>
                       <CardTitle className="flex items-center gap-2">
                         <Package className="h-5 w-5" />
-                        Line Items
+                        Itens da Proposta
                       </CardTitle>
                       <CardDescription>
-                        Products and services included in this quote
+                        Produtos e serviços incluídos nesta proposta
                       </CardDescription>
                     </div>
                     <div className="flex gap-2">
@@ -708,7 +708,7 @@ export default function QuoteForm() {
                         onClick={addCustomItem}
                       >
                         <Plus className="mr-2 h-4 w-4" />
-                        Custom Item
+                        Item Personalizado
                       </Button>
                       <Button
                         type="button"
@@ -716,7 +716,7 @@ export default function QuoteForm() {
                         onClick={() => setProductDialogOpen(true)}
                       >
                         <Plus className="mr-2 h-4 w-4" />
-                        Add Product
+                        Adicionar Produto
                       </Button>
                     </div>
                   </CardHeader>
@@ -724,8 +724,8 @@ export default function QuoteForm() {
                     {items.length === 0 ? (
                       <div className="flex flex-col items-center justify-center h-32 text-muted-foreground border-2 border-dashed rounded-lg">
                         <Package className="h-8 w-8 mb-2" />
-                        <p>No items added yet</p>
-                        <p className="text-sm">Click "Add Product" to start</p>
+                        <p>Nenhum item adicionado ainda</p>
+                        <p className="text-sm">Clique em "Adicionar Produto" para começar</p>
                       </div>
                     ) : (
                       <DragDropContext onDragEnd={handleDragEnd}>
@@ -740,9 +740,9 @@ export default function QuoteForm() {
                               <div className="grid grid-cols-12 gap-2 px-2 text-sm font-medium text-muted-foreground">
                                 <div className="col-span-1"></div>
                                 <div className="col-span-4">Item</div>
-                                <div className="col-span-1 text-center">Qty</div>
-                                <div className="col-span-2 text-right">Unit Price</div>
-                                <div className="col-span-1 text-center">Disc %</div>
+                                <div className="col-span-1 text-center">Qtd</div>
+                                <div className="col-span-2 text-right">Preço Unit.</div>
+                                <div className="col-span-1 text-center">Desc %</div>
                                 <div className="col-span-2 text-right">Total</div>
                                 <div className="col-span-1"></div>
                               </div>
@@ -777,7 +777,7 @@ export default function QuoteForm() {
                                         />
                                         {item.product_id && (
                                           <p className="text-xs text-muted-foreground mt-1">
-                                            From catalog
+                                            Do catálogo
                                           </p>
                                         )}
                                       </div>
@@ -845,7 +845,7 @@ export default function QuoteForm() {
                 {/* Terms & Notes */}
                 <Card>
                   <CardHeader>
-                    <CardTitle>Terms & Notes</CardTitle>
+                    <CardTitle>Termos e Observações</CardTitle>
                   </CardHeader>
                   <CardContent className="space-y-4">
                     <FormField
@@ -853,10 +853,10 @@ export default function QuoteForm() {
                       name="terms"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Terms & Conditions</FormLabel>
+                          <FormLabel>Termos e Condições</FormLabel>
                           <FormControl>
                             <Textarea 
-                              placeholder="Payment terms, delivery conditions, warranties..."
+                              placeholder="Condições de pagamento, entrega, garantias..."
                               className="min-h-[100px]"
                               {...field} 
                             />

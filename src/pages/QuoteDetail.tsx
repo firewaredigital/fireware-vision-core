@@ -108,27 +108,27 @@ interface QuoteItem {
 
 const statusConfig: Record<QuoteStatus, { label: string; className: string; icon: React.ReactNode }> = {
   draft: { 
-    label: 'Draft', 
+    label: 'Rascunho', 
     className: 'bg-muted text-muted-foreground',
     icon: <FileText className="h-4 w-4" />
   },
   sent: { 
-    label: 'Sent', 
+    label: 'Enviada', 
     className: 'bg-info/10 text-info border-info/20',
     icon: <Send className="h-4 w-4" />
   },
   accepted: { 
-    label: 'Accepted', 
+    label: 'Aceita', 
     className: 'bg-success/10 text-success border-success/20',
     icon: <CheckCircle className="h-4 w-4" />
   },
   rejected: { 
-    label: 'Rejected', 
+    label: 'Rejeitada', 
     className: 'bg-destructive/10 text-destructive border-destructive/20',
     icon: <XCircle className="h-4 w-4" />
   },
   expired: { 
-    label: 'Expired', 
+    label: 'Expirada', 
     className: 'bg-warning/10 text-warning border-warning/20',
     icon: <Clock className="h-4 w-4" />
   },
@@ -174,8 +174,8 @@ export default function QuoteDetail() {
       console.error('Error fetching quote:', error);
       toast({
         variant: 'destructive',
-        title: 'Error',
-        description: 'Failed to load quote details',
+        title: 'Erro',
+        description: 'Falha ao carregar detalhes da proposta',
       });
       navigate('/quotes');
     } else {
@@ -206,13 +206,13 @@ export default function QuoteDetail() {
     if (error) {
       toast({
         variant: 'destructive',
-        title: 'Error',
-        description: 'Failed to delete quote',
+        title: 'Erro',
+        description: 'Falha ao excluir proposta',
       });
     } else {
       toast({
-        title: 'Quote deleted',
-        description: 'The quote has been successfully deleted.',
+        title: 'Proposta excluída',
+        description: 'A proposta foi excluída com sucesso.',
       });
       navigate('/quotes');
     }
@@ -227,16 +227,16 @@ export default function QuoteDetail() {
     if (error) {
       toast({
         variant: 'destructive',
-        title: 'Error',
-        description: 'Failed to update quote status',
+        title: 'Erro',
+        description: 'Falha ao atualizar status da proposta',
       });
     } else {
       // Create timeline event
       await supabase.from('timeline_events').insert([{
         organization_id: profile?.organization_id,
         event_type: 'quote_sent',
-        title: `Quote ${newStatus}`,
-        description: `Quote "${quote?.name}" was marked as ${newStatus}.`,
+        title: `Proposta ${newStatus}`,
+        description: `Proposta "${quote?.name}" foi marcada como ${statusConfig[newStatus].label}.`,
         account_id: quote?.account?.id,
         opportunity_id: quote?.opportunity?.id,
         quote_id: id,
@@ -244,8 +244,8 @@ export default function QuoteDetail() {
       }]);
 
       toast({
-        title: 'Quote updated',
-        description: `Quote status changed to ${statusConfig[newStatus].label}.`,
+        title: 'Proposta atualizada',
+        description: `Status alterado para ${statusConfig[newStatus].label}.`,
       });
       fetchQuote();
     }
@@ -282,8 +282,8 @@ export default function QuoteDetail() {
     if (error || !newQuote) {
       toast({
         variant: 'destructive',
-        title: 'Error',
-        description: 'Failed to duplicate quote',
+        title: 'Erro',
+        description: 'Falha ao duplicar proposta',
       });
       return;
     }
@@ -306,8 +306,8 @@ export default function QuoteDetail() {
     }
 
     toast({
-      title: 'Quote duplicated',
-      description: 'A copy of the quote has been created.',
+      title: 'Proposta duplicada',
+      description: 'Uma cópia da proposta foi criada.',
     });
 
     navigate(`/quotes/${newQuote.id}/edit`);
@@ -340,8 +340,8 @@ export default function QuoteDetail() {
       <AppLayout>
         <div className="flex flex-col items-center justify-center h-64 gap-4">
           <FileText className="h-12 w-12 text-muted-foreground" />
-          <p className="text-muted-foreground">Quote not found</p>
-          <Button onClick={() => navigate('/quotes')}>Back to Quotes</Button>
+          <p className="text-muted-foreground">Proposta não encontrada</p>
+          <Button onClick={() => navigate('/quotes')}>Voltar para Propostas</Button>
         </div>
       </AppLayout>
     );
@@ -382,7 +382,7 @@ export default function QuoteDetail() {
             {quote.status === 'draft' && (
               <Button variant="outline" onClick={() => updateStatus('sent')}>
                 <Send className="mr-2 h-4 w-4" />
-                Mark as Sent
+                Marcar como Enviada
               </Button>
             )}
             {quote.status === 'sent' && (
@@ -393,7 +393,7 @@ export default function QuoteDetail() {
                   onClick={() => updateStatus('accepted')}
                 >
                   <CheckCircle className="mr-2 h-4 w-4" />
-                  Accept
+                  Aceitar
                 </Button>
                 <Button 
                   variant="outline"
@@ -401,35 +401,35 @@ export default function QuoteDetail() {
                   onClick={() => updateStatus('rejected')}
                 >
                   <XCircle className="mr-2 h-4 w-4" />
-                  Reject
+                  Rejeitar
                 </Button>
               </>
             )}
             <Button variant="outline" onClick={duplicateQuote}>
               <Copy className="mr-2 h-4 w-4" />
-              Duplicate
+              Duplicar
             </Button>
             <Button variant="outline" onClick={() => navigate(`/quotes/${id}/edit`)}>
               <Edit className="mr-2 h-4 w-4" />
-              Edit
+              Editar
             </Button>
             <AlertDialog>
               <AlertDialogTrigger asChild>
                 <Button variant="destructive">
                   <Trash2 className="mr-2 h-4 w-4" />
-                  Delete
+                  Excluir
                 </Button>
               </AlertDialogTrigger>
               <AlertDialogContent>
                 <AlertDialogHeader>
-                  <AlertDialogTitle>Delete Quote</AlertDialogTitle>
+                  <AlertDialogTitle>Excluir Proposta</AlertDialogTitle>
                   <AlertDialogDescription>
-                    Are you sure you want to delete this quote? This action cannot be undone.
+                    Tem certeza que deseja excluir esta proposta? Esta ação não pode ser desfeita.
                   </AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter>
-                  <AlertDialogCancel>Cancel</AlertDialogCancel>
-                  <AlertDialogAction onClick={deleteQuote}>Delete</AlertDialogAction>
+                  <AlertDialogCancel>Cancelar</AlertDialogCancel>
+                  <AlertDialogAction onClick={deleteQuote}>Excluir</AlertDialogAction>
                 </AlertDialogFooter>
               </AlertDialogContent>
             </AlertDialog>
@@ -442,17 +442,17 @@ export default function QuoteDetail() {
           <div className="lg:col-span-2 space-y-6">
             <Tabs defaultValue="items" className="w-full">
               <TabsList>
-                <TabsTrigger value="items">Line Items</TabsTrigger>
-                <TabsTrigger value="details">Details</TabsTrigger>
-                <TabsTrigger value="timeline">Timeline</TabsTrigger>
+                <TabsTrigger value="items">Itens</TabsTrigger>
+                <TabsTrigger value="details">Detalhes</TabsTrigger>
+                <TabsTrigger value="timeline">Linha do Tempo</TabsTrigger>
               </TabsList>
 
               <TabsContent value="items" className="mt-6">
                 <Card>
                   <CardHeader>
-                    <CardTitle>Line Items</CardTitle>
+                    <CardTitle>Itens da Proposta</CardTitle>
                     <CardDescription>
-                      {items.length} item{items.length !== 1 ? 's' : ''} in this quote
+                      {items.length} {items.length !== 1 ? 'itens' : 'item'} nesta proposta
                     </CardDescription>
                   </CardHeader>
                   <CardContent>
@@ -460,9 +460,9 @@ export default function QuoteDetail() {
                       <TableHeader>
                         <TableRow>
                           <TableHead className="w-[300px]">Item</TableHead>
-                          <TableHead className="text-center">Qty</TableHead>
-                          <TableHead className="text-right">Unit Price</TableHead>
-                          <TableHead className="text-center">Disc %</TableHead>
+                          <TableHead className="text-center">Qtd</TableHead>
+                          <TableHead className="text-right">Preço Unit.</TableHead>
+                          <TableHead className="text-center">Desc %</TableHead>
                           <TableHead className="text-right">Total</TableHead>
                         </TableRow>
                       </TableHeader>
@@ -507,7 +507,7 @@ export default function QuoteDetail() {
                         {quote.discount_percent && quote.discount_percent > 0 && (
                           <TableRow>
                             <TableCell colSpan={4} className="text-right text-destructive">
-                              Discount ({quote.discount_percent}%)
+                              Desconto ({quote.discount_percent}%)
                             </TableCell>
                             <TableCell className="text-right text-destructive">
                               -{formatCurrency(quote.discount_amount)}
@@ -517,7 +517,7 @@ export default function QuoteDetail() {
                         {quote.tax_percent && quote.tax_percent > 0 && (
                           <TableRow>
                             <TableCell colSpan={4} className="text-right">
-                              Tax ({quote.tax_percent}%)
+                              Impostos ({quote.tax_percent}%)
                             </TableCell>
                             <TableCell className="text-right">
                               +{formatCurrency(quote.tax_amount)}
@@ -542,7 +542,7 @@ export default function QuoteDetail() {
                 {quote.terms && (
                   <Card>
                     <CardHeader>
-                      <CardTitle>Terms & Conditions</CardTitle>
+                      <CardTitle>Termos e Condições</CardTitle>
                     </CardHeader>
                     <CardContent>
                       <p className="text-sm whitespace-pre-wrap">{quote.terms}</p>
@@ -553,8 +553,8 @@ export default function QuoteDetail() {
                 {quote.notes && (
                   <Card>
                     <CardHeader>
-                      <CardTitle>Internal Notes</CardTitle>
-                      <CardDescription>Visible only to your team</CardDescription>
+                      <CardTitle>Observações Internas</CardTitle>
+                      <CardDescription>Visível apenas para sua equipe</CardDescription>
                     </CardHeader>
                     <CardContent>
                       <p className="text-sm whitespace-pre-wrap">{quote.notes}</p>
@@ -566,7 +566,7 @@ export default function QuoteDetail() {
                   <Card>
                     <CardContent className="flex flex-col items-center justify-center h-32 text-muted-foreground">
                       <FileText className="h-8 w-8 mb-2" />
-                      <p>No additional details</p>
+                      <p>Sem detalhes adicionais</p>
                     </CardContent>
                   </Card>
                 )}
@@ -575,8 +575,8 @@ export default function QuoteDetail() {
               <TabsContent value="timeline" className="mt-6">
                 <Card>
                   <CardHeader>
-                    <CardTitle>Timeline</CardTitle>
-                    <CardDescription>History of this quote</CardDescription>
+                    <CardTitle>Linha do Tempo</CardTitle>
+                    <CardDescription>Histórico desta proposta</CardDescription>
                   </CardHeader>
                   <CardContent>
                     <Timeline quoteId={id} />
@@ -593,7 +593,7 @@ export default function QuoteDetail() {
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <DollarSign className="h-5 w-5" />
-                  Quote Total
+                  Total da Proposta
                 </CardTitle>
               </CardHeader>
               <CardContent>
@@ -604,16 +604,16 @@ export default function QuoteDetail() {
                   <div className="mt-4 flex items-center gap-2 text-sm">
                     <Calendar className="h-4 w-4 text-muted-foreground" />
                     <span className={isExpired ? 'text-destructive' : isExpiringSoon ? 'text-warning' : ''}>
-                      Valid until {new Date(quote.valid_until).toLocaleDateString('pt-BR')}
+                      Válida até {new Date(quote.valid_until).toLocaleDateString('pt-BR')}
                     </span>
                     {isExpired && (
                       <Badge variant="outline" className="bg-destructive/10 text-destructive text-xs">
-                        Expired
+                        Expirada
                       </Badge>
                     )}
                     {isExpiringSoon && !isExpired && (
                       <Badge variant="outline" className="bg-warning/10 text-warning text-xs">
-                        Soon
+                        Em breve
                       </Badge>
                     )}
                   </div>
@@ -624,7 +624,7 @@ export default function QuoteDetail() {
             {/* Related Records */}
             <Card>
               <CardHeader>
-                <CardTitle>Related Records</CardTitle>
+                <CardTitle>Registros Relacionados</CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
                 {quote.account && (
@@ -634,7 +634,7 @@ export default function QuoteDetail() {
                   >
                     <Building2 className="h-5 w-5 text-muted-foreground" />
                     <div>
-                      <p className="text-sm text-muted-foreground">Account</p>
+                      <p className="text-sm text-muted-foreground">Conta</p>
                       <p className="font-medium">{quote.account.name}</p>
                     </div>
                   </div>
@@ -647,7 +647,7 @@ export default function QuoteDetail() {
                   >
                     <Target className="h-5 w-5 text-muted-foreground" />
                     <div>
-                      <p className="text-sm text-muted-foreground">Opportunity</p>
+                      <p className="text-sm text-muted-foreground">Oportunidade</p>
                       <p className="font-medium">{quote.opportunity.name}</p>
                     </div>
                   </div>
@@ -660,7 +660,7 @@ export default function QuoteDetail() {
                   >
                     <User className="h-5 w-5 text-muted-foreground" />
                     <div>
-                      <p className="text-sm text-muted-foreground">Contact</p>
+                      <p className="text-sm text-muted-foreground">Contato</p>
                       <p className="font-medium">
                         {quote.contact.first_name} {quote.contact.last_name}
                       </p>
@@ -673,23 +673,23 @@ export default function QuoteDetail() {
             {/* Quick Info */}
             <Card>
               <CardHeader>
-                <CardTitle>Quick Info</CardTitle>
+                <CardTitle>Informações Rápidas</CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="flex justify-between text-sm">
-                  <span className="text-muted-foreground">Owner</span>
+                  <span className="text-muted-foreground">Responsável</span>
                   <span>
                     {quote.owner?.first_name} {quote.owner?.last_name}
                   </span>
                 </div>
                 <Separator />
                 <div className="flex justify-between text-sm">
-                  <span className="text-muted-foreground">Created</span>
+                  <span className="text-muted-foreground">Criada em</span>
                   <span>{new Date(quote.created_at).toLocaleDateString('pt-BR')}</span>
                 </div>
                 <Separator />
                 <div className="flex justify-between text-sm">
-                  <span className="text-muted-foreground">Last Updated</span>
+                  <span className="text-muted-foreground">Atualizada em</span>
                   <span>{new Date(quote.updated_at).toLocaleDateString('pt-BR')}</span>
                 </div>
               </CardContent>
