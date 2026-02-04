@@ -218,9 +218,9 @@ export default function Settings() {
       setStageFormOpen(false);
       setEditingStage(null);
       setStageForm({ name: '', probability: 0, is_closed: false, is_won: false });
-      toast({ title: 'Stage saved' });
+      toast({ title: 'Estágio salvo' });
     },
-    onError: (error: any) => toast({ title: 'Error', description: error.message, variant: 'destructive' })
+    onError: (error: any) => toast({ title: 'Erro', description: error.message, variant: 'destructive' })
   });
 
   const deleteStage = useMutation({
@@ -230,7 +230,7 @@ export default function Settings() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['opportunity-stages'] });
-      toast({ title: 'Stage deleted' });
+      toast({ title: 'Estágio excluído' });
     }
   });
 
@@ -261,9 +261,9 @@ export default function Settings() {
       setReasonFormOpen(false);
       setEditingReason(null);
       setReasonForm({ name: '', type: 'win' });
-      toast({ title: 'Reason saved' });
+      toast({ title: 'Motivo salvo' });
     },
-    onError: (error: any) => toast({ title: 'Error', description: error.message, variant: 'destructive' })
+    onError: (error: any) => toast({ title: 'Erro', description: error.message, variant: 'destructive' })
   });
 
   const toggleReason = useMutation({
@@ -292,9 +292,9 @@ export default function Settings() {
       setSourceFormOpen(false);
       setEditingSource(null);
       setSourceForm({ name: '' });
-      toast({ title: 'Source saved' });
+      toast({ title: 'Fonte salva' });
     },
-    onError: (error: any) => toast({ title: 'Error', description: error.message, variant: 'destructive' })
+    onError: (error: any) => toast({ title: 'Erro', description: error.message, variant: 'destructive' })
   });
 
   const toggleSource = useMutation({
@@ -323,9 +323,9 @@ export default function Settings() {
       setTeamFormOpen(false);
       setEditingTeam(null);
       setTeamForm({ name: '', description: '' });
-      toast({ title: 'Team saved' });
+      toast({ title: 'Equipe salva' });
     },
-    onError: (error: any) => toast({ title: 'Error', description: error.message, variant: 'destructive' })
+    onError: (error: any) => toast({ title: 'Erro', description: error.message, variant: 'destructive' })
   });
 
   // Member mutations
@@ -336,9 +336,9 @@ export default function Settings() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['team-members-settings'] });
-      toast({ title: 'Member updated' });
+      toast({ title: 'Membro atualizado' });
     },
-    onError: (error: any) => toast({ title: 'Error', description: error.message, variant: 'destructive' })
+    onError: (error: any) => toast({ title: 'Erro', description: error.message, variant: 'destructive' })
   });
 
   const handleDragEndStages = (result: any) => {
@@ -381,16 +381,16 @@ export default function Settings() {
     <AppLayout>
       <div className="space-y-6">
         <div>
-          <h1 className="text-2xl font-bold">Settings</h1>
-          <p className="text-muted-foreground">Configure your CRM</p>
+          <h1 className="text-2xl font-bold">Configurações</h1>
+          <p className="text-muted-foreground">Configure seu CRM</p>
         </div>
 
         <Tabs value={activeTab} onValueChange={setActiveTab}>
           <TabsList className="grid w-full grid-cols-4">
-            <TabsTrigger value="pipeline">Pipeline Stages</TabsTrigger>
-            <TabsTrigger value="reasons">Win/Loss Reasons</TabsTrigger>
-            <TabsTrigger value="sources">Lead Sources</TabsTrigger>
-            <TabsTrigger value="team">Team Management</TabsTrigger>
+            <TabsTrigger value="pipeline">Estágios do Pipeline</TabsTrigger>
+            <TabsTrigger value="reasons">Motivos de Ganho/Perda</TabsTrigger>
+            <TabsTrigger value="sources">Fontes de Lead</TabsTrigger>
+            <TabsTrigger value="team">Gestão de Equipe</TabsTrigger>
           </TabsList>
 
           {/* Pipeline Stages */}
@@ -398,8 +398,8 @@ export default function Settings() {
             <Card>
               <CardHeader className="flex flex-row items-center justify-between">
                 <div>
-                  <CardTitle>Opportunity Pipeline Stages</CardTitle>
-                  <CardDescription>Drag to reorder stages. Set probability for each stage.</CardDescription>
+                  <CardTitle>Estágios do Pipeline de Oportunidades</CardTitle>
+                  <CardDescription>Arraste para reordenar. Defina a probabilidade para cada estágio.</CardDescription>
                 </div>
                 <Dialog open={stageFormOpen} onOpenChange={(open) => {
                   setStageFormOpen(open);
@@ -407,37 +407,37 @@ export default function Settings() {
                 }}>
                   <DialogTrigger asChild>
                     <Button size="sm" disabled={!isAdmin}>
-                      <Plus className="h-4 w-4 mr-1" /> Add Stage
+                      <Plus className="h-4 w-4 mr-1" /> Adicionar Estágio
                     </Button>
                   </DialogTrigger>
                   <DialogContent>
                     <DialogHeader>
-                      <DialogTitle>{editingStage ? 'Edit Stage' : 'Add Stage'}</DialogTitle>
+                      <DialogTitle>{editingStage ? 'Editar Estágio' : 'Adicionar Estágio'}</DialogTitle>
                     </DialogHeader>
                     <div className="space-y-4 py-4">
                       <div className="space-y-2">
-                        <Label>Stage Name *</Label>
-                        <Input value={stageForm.name} onChange={(e) => setStageForm({ ...stageForm, name: e.target.value })} placeholder="e.g., Discovery" />
+                        <Label>Nome do Estágio *</Label>
+                        <Input value={stageForm.name} onChange={(e) => setStageForm({ ...stageForm, name: e.target.value })} placeholder="ex: Descoberta" />
                       </div>
                       <div className="space-y-2">
-                        <Label>Win Probability (%)</Label>
+                        <Label>Probabilidade de Ganho (%)</Label>
                         <Input type="number" min="0" max="100" value={stageForm.probability} onChange={(e) => setStageForm({ ...stageForm, probability: parseInt(e.target.value) || 0 })} />
                       </div>
                       <div className="flex items-center gap-6">
                         <div className="flex items-center gap-2">
                           <Switch checked={stageForm.is_closed} onCheckedChange={(checked) => setStageForm({ ...stageForm, is_closed: checked })} />
-                          <Label>Closed Stage</Label>
+                          <Label>Estágio Fechado</Label>
                         </div>
                         <div className="flex items-center gap-2">
                           <Switch checked={stageForm.is_won} onCheckedChange={(checked) => setStageForm({ ...stageForm, is_won: checked, is_closed: checked ? true : stageForm.is_closed })} />
-                          <Label>Won Stage</Label>
+                          <Label>Estágio Ganho</Label>
                         </div>
                       </div>
                     </div>
                     <DialogFooter>
-                      <Button variant="outline" onClick={() => setStageFormOpen(false)}>Cancel</Button>
+                      <Button variant="outline" onClick={() => setStageFormOpen(false)}>Cancelar</Button>
                       <Button onClick={() => saveStage.mutate({ ...stageForm, id: editingStage?.id, display_order: editingStage?.display_order ?? stages.length })} disabled={!stageForm.name}>
-                        {editingStage ? 'Update' : 'Create'}
+                        {editingStage ? 'Atualizar' : 'Criar'}
                       </Button>
                     </DialogFooter>
                   </DialogContent>
@@ -445,11 +445,11 @@ export default function Settings() {
               </CardHeader>
               <CardContent>
                 {stagesLoading ? (
-                  <div className="text-center py-8 text-muted-foreground">Loading...</div>
+                  <div className="text-center py-8 text-muted-foreground">Carregando...</div>
                 ) : stages.length === 0 ? (
                   <div className="text-center py-8 text-muted-foreground">
                     <Target className="h-8 w-8 mx-auto mb-2" />
-                    <p>No stages defined</p>
+                    <p>Nenhum estágio definido</p>
                   </div>
                 ) : (
                   <DragDropContext onDragEnd={handleDragEndStages}>
