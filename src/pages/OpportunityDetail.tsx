@@ -82,7 +82,7 @@ export default function OpportunityDetail() {
         .maybeSingle();
 
       if (oppError || !oppData) {
-        toast({ title: 'Error loading opportunity', description: oppError?.message, variant: 'destructive' });
+        toast({ title: 'Erro ao carregar oportunidade', description: oppError?.message, variant: 'destructive' });
         navigate('/opportunities');
         return;
       }
@@ -119,15 +119,15 @@ export default function OpportunityDetail() {
     const { error } = await supabase.from('opportunities').delete().eq('id', id);
     
     if (error) {
-      toast({ title: 'Error deleting opportunity', description: error.message, variant: 'destructive' });
+      toast({ title: 'Erro ao excluir oportunidade', description: error.message, variant: 'destructive' });
     } else {
-      toast({ title: 'Opportunity deleted' });
+      toast({ title: 'Oportunidade excluída' });
       navigate('/opportunities');
     }
   };
 
   const formatCurrency = (amount: number) => 
-    new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 }).format(amount);
+    new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL', maximumFractionDigits: 0 }).format(amount);
 
   if (authLoading || !user) return null;
 
@@ -174,7 +174,7 @@ export default function OpportunityDetail() {
           </div>
           <div className="flex gap-2">
             <Button variant="outline" onClick={() => navigate(`/opportunities/${id}/edit`)}>
-              <Pencil className="h-4 w-4 mr-2" />Edit
+              <Pencil className="h-4 w-4 mr-2" />Editar
             </Button>
             <AlertDialog>
               <AlertDialogTrigger asChild>
@@ -184,15 +184,15 @@ export default function OpportunityDetail() {
               </AlertDialogTrigger>
               <AlertDialogContent>
                 <AlertDialogHeader>
-                  <AlertDialogTitle>Delete Opportunity?</AlertDialogTitle>
+                  <AlertDialogTitle>Excluir Oportunidade?</AlertDialogTitle>
                   <AlertDialogDescription>
-                    This action cannot be undone. This will permanently delete this opportunity and all related data.
+                    Esta ação não pode ser desfeita. Isso excluirá permanentemente esta oportunidade e todos os dados relacionados.
                   </AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter>
-                  <AlertDialogCancel>Cancel</AlertDialogCancel>
+                  <AlertDialogCancel>Cancelar</AlertDialogCancel>
                   <AlertDialogAction onClick={handleDelete} className="bg-destructive text-destructive-foreground">
-                    Delete
+                    Excluir
                   </AlertDialogAction>
                 </AlertDialogFooter>
               </AlertDialogContent>
@@ -204,7 +204,7 @@ export default function OpportunityDetail() {
           <div className="md:col-span-2 space-y-6">
             <Card>
               <CardHeader>
-                <CardTitle>Deal Overview</CardTitle>
+                <CardTitle>Resumo do Negócio</CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="grid gap-4 sm:grid-cols-2">
@@ -213,9 +213,9 @@ export default function OpportunityDetail() {
                       <DollarSign className="h-5 w-5 text-primary" />
                     </div>
                     <div>
-                      <p className="text-sm text-muted-foreground">Amount</p>
+                      <p className="text-sm text-muted-foreground">Valor</p>
                       <p className="font-semibold">
-                        {opportunity.amount ? formatCurrency(opportunity.amount) : 'Not set'}
+                        {opportunity.amount ? formatCurrency(opportunity.amount) : 'Não definido'}
                       </p>
                     </div>
                   </div>
@@ -225,7 +225,7 @@ export default function OpportunityDetail() {
                       <Percent className="h-5 w-5 text-primary" />
                     </div>
                     <div>
-                      <p className="text-sm text-muted-foreground">Probability</p>
+                      <p className="text-sm text-muted-foreground">Probabilidade</p>
                       <p className="font-semibold">{opportunity.probability || 0}%</p>
                     </div>
                   </div>
@@ -235,11 +235,11 @@ export default function OpportunityDetail() {
                       <Calendar className="h-5 w-5 text-primary" />
                     </div>
                     <div>
-                      <p className="text-sm text-muted-foreground">Close Date</p>
+                      <p className="text-sm text-muted-foreground">Data de Fechamento</p>
                       <p className="font-semibold">
                         {opportunity.close_date 
-                          ? format(new Date(opportunity.close_date), 'MMM d, yyyy')
-                          : 'Not set'}
+                          ? format(new Date(opportunity.close_date), 'dd/MM/yyyy')
+                          : 'Não definido'}
                       </p>
                     </div>
                   </div>
@@ -249,11 +249,11 @@ export default function OpportunityDetail() {
                       <User className="h-5 w-5 text-primary" />
                     </div>
                     <div>
-                      <p className="text-sm text-muted-foreground">Owner</p>
+                      <p className="text-sm text-muted-foreground">Proprietário</p>
                       <p className="font-semibold">
                         {opportunity.owner 
                           ? `${opportunity.owner.first_name || ''} ${opportunity.owner.last_name || ''}`.trim() || opportunity.owner.email
-                          : 'Unassigned'}
+                          : 'Não atribuído'}
                       </p>
                     </div>
                   </div>
@@ -265,7 +265,7 @@ export default function OpportunityDetail() {
                     <div className="flex items-start gap-3">
                       <Target className="h-5 w-5 text-muted-foreground mt-0.5" />
                       <div>
-                        <p className="text-sm text-muted-foreground">Next Step</p>
+                        <p className="text-sm text-muted-foreground">Próximo Passo</p>
                         <p className="font-medium">{opportunity.next_step}</p>
                       </div>
                     </div>
@@ -276,7 +276,7 @@ export default function OpportunityDetail() {
                   <>
                     <Separator className="my-4" />
                     <div>
-                      <p className="text-sm text-muted-foreground mb-2">Description</p>
+                      <p className="text-sm text-muted-foreground mb-2">Descrição</p>
                       <p className="text-sm whitespace-pre-wrap">{opportunity.description}</p>
                     </div>
                   </>
@@ -286,14 +286,14 @@ export default function OpportunityDetail() {
 
             <Tabs defaultValue="timeline">
               <TabsList>
-                <TabsTrigger value="timeline">Timeline</TabsTrigger>
+                <TabsTrigger value="timeline">Linha do Tempo</TabsTrigger>
                 <TabsTrigger value="contacts">Stakeholders ({contacts.length})</TabsTrigger>
               </TabsList>
               
               <TabsContent value="timeline" className="mt-4">
                 <Card>
                   <CardHeader>
-                    <CardTitle>Activity Timeline</CardTitle>
+                    <CardTitle>Linha do Tempo de Atividades</CardTitle>
                   </CardHeader>
                   <CardContent>
                     <Timeline opportunityId={id} maxHeight="400px" />
@@ -309,7 +309,7 @@ export default function OpportunityDetail() {
                   <CardContent>
                     {contacts.length === 0 ? (
                       <p className="text-muted-foreground text-center py-4">
-                        No stakeholders linked to this opportunity
+                        Nenhum stakeholder vinculado a esta oportunidade
                       </p>
                     ) : (
                       <div className="space-y-3">
@@ -348,7 +348,7 @@ export default function OpportunityDetail() {
           <div className="space-y-6">
             <Card>
               <CardHeader>
-                <CardTitle className="text-base">Account</CardTitle>
+                <CardTitle className="text-base">Conta</CardTitle>
               </CardHeader>
               <CardContent>
                 {opportunity.account ? (
@@ -360,36 +360,36 @@ export default function OpportunityDetail() {
                     <span className="font-medium">{opportunity.account.name}</span>
                   </div>
                 ) : (
-                  <p className="text-muted-foreground">No account linked</p>
+                  <p className="text-muted-foreground">Nenhuma conta vinculada</p>
                 )}
               </CardContent>
             </Card>
 
             <Card>
               <CardHeader>
-                <CardTitle className="text-base">Details</CardTitle>
+                <CardTitle className="text-base">Detalhes</CardTitle>
               </CardHeader>
               <CardContent className="space-y-3 text-sm">
                 {opportunity.source && (
                   <div className="flex justify-between">
-                    <span className="text-muted-foreground">Source</span>
+                    <span className="text-muted-foreground">Origem</span>
                     <span>{opportunity.source}</span>
                   </div>
                 )}
                 {opportunity.competitor && (
                   <div className="flex justify-between">
-                    <span className="text-muted-foreground">Competitor</span>
+                    <span className="text-muted-foreground">Concorrente</span>
                     <span>{opportunity.competitor}</span>
                   </div>
                 )}
                 <Separator />
                 <div className="flex justify-between">
-                  <span className="text-muted-foreground">Created</span>
-                  <span>{format(new Date(opportunity.created_at), 'MMM d, yyyy')}</span>
+                  <span className="text-muted-foreground">Criado em</span>
+                  <span>{format(new Date(opportunity.created_at), 'dd/MM/yyyy')}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-muted-foreground">Last Updated</span>
-                  <span>{format(new Date(opportunity.updated_at), 'MMM d, yyyy')}</span>
+                  <span className="text-muted-foreground">Última Atualização</span>
+                  <span>{format(new Date(opportunity.updated_at), 'dd/MM/yyyy')}</span>
                 </div>
               </CardContent>
             </Card>

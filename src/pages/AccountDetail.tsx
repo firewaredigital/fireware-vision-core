@@ -180,8 +180,8 @@ export default function AccountDetail() {
       console.error('Error fetching account:', accountError);
       toast({
         variant: 'destructive',
-        title: 'Error',
-        description: 'Failed to load account details',
+        title: 'Erro',
+        description: 'Falha ao carregar detalhes da conta',
       });
       navigate('/accounts');
       return;
@@ -238,13 +238,13 @@ export default function AccountDetail() {
     if (error) {
       toast({
         variant: 'destructive',
-        title: 'Error',
-        description: 'Failed to delete account',
+        title: 'Erro',
+        description: 'Falha ao excluir conta',
       });
     } else {
       toast({
-        title: 'Account deleted',
-        description: 'The account has been successfully deleted.',
+        title: 'Conta excluída',
+        description: 'A conta foi excluída com sucesso.',
       });
       navigate('/accounts');
     }
@@ -252,9 +252,9 @@ export default function AccountDetail() {
 
   const formatCurrency = (value: number | null) =>
     value
-      ? new Intl.NumberFormat('en-US', {
+      ? new Intl.NumberFormat('pt-BR', {
           style: 'currency',
-          currency: 'USD',
+          currency: 'BRL',
           maximumFractionDigits: 0,
         }).format(value)
       : '-';
@@ -278,7 +278,7 @@ export default function AccountDetail() {
       }
       return account.owner.email;
     }
-    return 'Unassigned';
+    return 'Não atribuído';
   };
 
   // Calculate metrics
@@ -308,8 +308,8 @@ export default function AccountDetail() {
     return (
       <AppLayout>
         <div className="flex flex-col items-center justify-center h-64 gap-4">
-          <p className="text-muted-foreground">Account not found</p>
-          <Button onClick={() => navigate('/accounts')}>Back to Accounts</Button>
+          <p className="text-muted-foreground">Conta não encontrada</p>
+          <Button onClick={() => navigate('/accounts')}>Voltar para Contas</Button>
         </div>
       </AppLayout>
     );
@@ -345,26 +345,26 @@ export default function AccountDetail() {
           <div className="flex gap-2">
             <Button variant="outline" onClick={() => navigate(`/accounts/${id}/edit`)}>
               <Edit className="mr-2 h-4 w-4" />
-              Edit
+              Editar
             </Button>
             <AlertDialog>
               <AlertDialogTrigger asChild>
                 <Button variant="destructive">
                   <Trash2 className="mr-2 h-4 w-4" />
-                  Delete
+                  Excluir
                 </Button>
               </AlertDialogTrigger>
               <AlertDialogContent>
                 <AlertDialogHeader>
-                  <AlertDialogTitle>Delete Account</AlertDialogTitle>
+                  <AlertDialogTitle>Excluir Conta</AlertDialogTitle>
                   <AlertDialogDescription>
-                    Are you sure you want to delete this account? This will also affect related
-                    contacts, opportunities, and quotes. This action cannot be undone.
+                    Tem certeza que deseja excluir esta conta? Isso também afetará contatos,
+                    oportunidades e propostas relacionados. Esta ação não pode ser desfeita.
                   </AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter>
-                  <AlertDialogCancel>Cancel</AlertDialogCancel>
-                  <AlertDialogAction onClick={deleteAccount}>Delete</AlertDialogAction>
+                  <AlertDialogCancel>Cancelar</AlertDialogCancel>
+                  <AlertDialogAction onClick={deleteAccount}>Excluir</AlertDialogAction>
                 </AlertDialogFooter>
               </AlertDialogContent>
             </AlertDialog>
@@ -380,7 +380,7 @@ export default function AccountDetail() {
                   <Users className="h-5 w-5 text-primary" />
                 </div>
                 <div>
-                  <p className="text-sm text-muted-foreground">Contacts</p>
+                <p className="text-sm text-muted-foreground">Contatos</p>
                   <p className="text-2xl font-bold">{contacts.length}</p>
                 </div>
               </div>
@@ -393,7 +393,7 @@ export default function AccountDetail() {
                   <Target className="h-5 w-5 text-info" />
                 </div>
                 <div>
-                  <p className="text-sm text-muted-foreground">Open Deals</p>
+                  <p className="text-sm text-muted-foreground">Negócios Abertos</p>
                   <p className="text-2xl font-bold">{openOpportunities}</p>
                 </div>
               </div>
@@ -406,7 +406,7 @@ export default function AccountDetail() {
                   <TrendingUp className="h-5 w-5 text-warning" />
                 </div>
                 <div>
-                  <p className="text-sm text-muted-foreground">Pipeline Value</p>
+                  <p className="text-sm text-muted-foreground">Valor no Pipeline</p>
                   <p className="text-2xl font-bold">{formatCurrency(totalPipelineValue)}</p>
                 </div>
               </div>
@@ -419,7 +419,7 @@ export default function AccountDetail() {
                   <DollarSign className="h-5 w-5 text-success" />
                 </div>
                 <div>
-                  <p className="text-sm text-muted-foreground">Lifetime Value</p>
+                  <p className="text-sm text-muted-foreground">Valor Vitalício</p>
                   <p className="text-2xl font-bold">{formatCurrency(totalWonValue)}</p>
                 </div>
               </div>
@@ -427,31 +427,31 @@ export default function AccountDetail() {
           </Card>
         </div>
 
-        {/* Content */}
+        {/* Conteúdo */}
         <div className="grid gap-6 lg:grid-cols-3">
           {/* Main Content */}
           <div className="lg:col-span-2 space-y-6">
             <Tabs defaultValue="overview" className="w-full">
               <TabsList>
-                <TabsTrigger value="overview">Overview</TabsTrigger>
-                <TabsTrigger value="contacts">Contacts ({contacts.length})</TabsTrigger>
-                <TabsTrigger value="opportunities">Opportunities ({opportunities.length})</TabsTrigger>
-                <TabsTrigger value="quotes">Quotes ({quotes.length})</TabsTrigger>
-                <TabsTrigger value="activities">Activities</TabsTrigger>
-                <TabsTrigger value="timeline">Timeline</TabsTrigger>
+                <TabsTrigger value="overview">Visão Geral</TabsTrigger>
+                <TabsTrigger value="contacts">Contatos ({contacts.length})</TabsTrigger>
+                <TabsTrigger value="opportunities">Oportunidades ({opportunities.length})</TabsTrigger>
+                <TabsTrigger value="quotes">Propostas ({quotes.length})</TabsTrigger>
+                <TabsTrigger value="activities">Atividades</TabsTrigger>
+                <TabsTrigger value="timeline">Linha do Tempo</TabsTrigger>
               </TabsList>
 
               <TabsContent value="overview" className="mt-6">
                 <Card>
                   <CardHeader>
-                    <CardTitle>Account Information</CardTitle>
-                    <CardDescription>Company details and contact information</CardDescription>
+                    <CardTitle>Informações da Conta</CardTitle>
+                    <CardDescription>Detalhes da empresa e informações de contato</CardDescription>
                   </CardHeader>
                   <CardContent className="space-y-6">
-                    {/* Company Info */}
+                    {/* Informações da Empresa */}
                     <div>
                       <h4 className="text-sm font-medium text-muted-foreground mb-3">
-                        Company Details
+                        Detalhes da Empresa
                       </h4>
                       <div className="grid gap-4 sm:grid-cols-2">
                         {account.website && (
@@ -486,13 +486,13 @@ export default function AccountDetail() {
                         {account.employee_count && (
                           <div className="flex items-center gap-3">
                             <Users className="h-4 w-4 text-muted-foreground" />
-                            <span className="text-sm">{account.employee_count.toLocaleString()} employees</span>
+                            <span className="text-sm">{account.employee_count.toLocaleString('pt-BR')} funcionários</span>
                           </div>
                         )}
                         {account.annual_revenue && (
                           <div className="flex items-center gap-3">
                             <DollarSign className="h-4 w-4 text-muted-foreground" />
-                            <span className="text-sm">{formatCurrency(account.annual_revenue)} annual revenue</span>
+                            <span className="text-sm">{formatCurrency(account.annual_revenue)} receita anual</span>
                           </div>
                         )}
                         {formatAddress() && (

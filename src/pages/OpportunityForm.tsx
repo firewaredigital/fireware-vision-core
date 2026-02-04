@@ -19,8 +19,8 @@ import { Database } from '@/integrations/supabase/types';
 type OpportunityStage = Database['public']['Enums']['opportunity_stage'];
 
 const opportunitySchema = z.object({
-  name: z.string().min(1, 'Name is required').max(200),
-  account_id: z.string().min(1, 'Account is required'),
+  name: z.string().min(1, 'Nome é obrigatório').max(200),
+  account_id: z.string().min(1, 'Conta é obrigatória'),
   stage: z.enum(['prospecting', 'qualification', 'proposal', 'negotiation', 'closed_won', 'closed_lost'] as const),
   amount: z.coerce.number().min(0).optional(),
   probability: z.coerce.number().min(0).max(100).optional(),
@@ -93,7 +93,7 @@ export default function OpportunityForm() {
         .maybeSingle();
 
       if (error) {
-        toast({ title: 'Error loading opportunity', description: error.message, variant: 'destructive' });
+        toast({ title: 'Erro ao carregar oportunidade', description: error.message, variant: 'destructive' });
         navigate('/opportunities');
       } else if (data) {
         form.reset({
@@ -116,7 +116,7 @@ export default function OpportunityForm() {
 
   const onSubmit = async (data: OpportunityFormData) => {
     if (!profile?.organization_id) {
-      toast({ title: 'Error', description: 'No organization found', variant: 'destructive' });
+      toast({ title: 'Erro', description: 'Organização não encontrada', variant: 'destructive' });
       return;
     }
 
@@ -161,9 +161,9 @@ export default function OpportunityForm() {
     }
 
     if (error) {
-      toast({ title: 'Error saving opportunity', description: error.message, variant: 'destructive' });
+      toast({ title: 'Erro ao salvar oportunidade', description: error.message, variant: 'destructive' });
     } else {
-      toast({ title: id ? 'Opportunity updated' : 'Opportunity created' });
+      toast({ title: id ? 'Oportunidade atualizada' : 'Oportunidade criada' });
       navigate('/opportunities');
     }
     setLoading(false);
@@ -178,12 +178,12 @@ export default function OpportunityForm() {
           <Button variant="ghost" size="icon" onClick={() => navigate('/opportunities')}>
             <ArrowLeft className="h-4 w-4" />
           </Button>
-          <h1 className="text-2xl font-bold">{id && id !== 'new' ? 'Edit Opportunity' : 'New Opportunity'}</h1>
+          <h1 className="text-2xl font-bold">{id && id !== 'new' ? 'Editar Oportunidade' : 'Nova Oportunidade'}</h1>
         </div>
 
         <Card>
           <CardHeader>
-            <CardTitle>Opportunity Details</CardTitle>
+            <CardTitle>Detalhes da Oportunidade</CardTitle>
           </CardHeader>
           <CardContent>
             <Form {...form}>
@@ -194,9 +194,9 @@ export default function OpportunityForm() {
                     name="name"
                     render={({ field }) => (
                       <FormItem className="md:col-span-2">
-                        <FormLabel>Opportunity Name *</FormLabel>
+                        <FormLabel>Nome da Oportunidade *</FormLabel>
                         <FormControl>
-                          <Input placeholder="e.g., Enterprise License Deal" {...field} />
+                          <Input placeholder="Ex: Licença Corporativa" {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -208,11 +208,11 @@ export default function OpportunityForm() {
                     name="account_id"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Account *</FormLabel>
+                        <FormLabel>Conta *</FormLabel>
                         <Select onValueChange={field.onChange} value={field.value}>
                           <FormControl>
                             <SelectTrigger>
-                              <SelectValue placeholder="Select account" />
+                              <SelectValue placeholder="Selecione a conta" />
                             </SelectTrigger>
                           </FormControl>
                           <SelectContent>
@@ -233,20 +233,20 @@ export default function OpportunityForm() {
                     name="stage"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Stage *</FormLabel>
+                        <FormLabel>Estágio *</FormLabel>
                         <Select onValueChange={field.onChange} value={field.value}>
                           <FormControl>
                             <SelectTrigger>
-                              <SelectValue placeholder="Select stage" />
+                              <SelectValue placeholder="Selecione o estágio" />
                             </SelectTrigger>
                           </FormControl>
                           <SelectContent>
-                            <SelectItem value="prospecting">Prospecting</SelectItem>
-                            <SelectItem value="qualification">Qualification</SelectItem>
-                            <SelectItem value="proposal">Proposal</SelectItem>
-                            <SelectItem value="negotiation">Negotiation</SelectItem>
-                            <SelectItem value="closed_won">Closed Won</SelectItem>
-                            <SelectItem value="closed_lost">Closed Lost</SelectItem>
+                            <SelectItem value="prospecting">Prospecção</SelectItem>
+                            <SelectItem value="qualification">Qualificação</SelectItem>
+                            <SelectItem value="proposal">Proposta</SelectItem>
+                            <SelectItem value="negotiation">Negociação</SelectItem>
+                            <SelectItem value="closed_won">Ganho</SelectItem>
+                            <SelectItem value="closed_lost">Perdido</SelectItem>
                           </SelectContent>
                         </Select>
                         <FormMessage />
@@ -259,7 +259,7 @@ export default function OpportunityForm() {
                     name="amount"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Amount ($)</FormLabel>
+                        <FormLabel>Valor (R$)</FormLabel>
                         <FormControl>
                           <Input type="number" placeholder="0" {...field} />
                         </FormControl>
@@ -273,7 +273,7 @@ export default function OpportunityForm() {
                     name="probability"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Probability (%)</FormLabel>
+                        <FormLabel>Probabilidade (%)</FormLabel>
                         <FormControl>
                           <Input type="number" min="0" max="100" placeholder="50" {...field} />
                         </FormControl>
@@ -287,7 +287,7 @@ export default function OpportunityForm() {
                     name="close_date"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Expected Close Date</FormLabel>
+                        <FormLabel>Data Prevista de Fechamento</FormLabel>
                         <FormControl>
                           <Input type="date" {...field} />
                         </FormControl>
@@ -301,9 +301,9 @@ export default function OpportunityForm() {
                     name="source"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Lead Source</FormLabel>
+                        <FormLabel>Origem do Lead</FormLabel>
                         <FormControl>
-                          <Input placeholder="e.g., Website, Referral" {...field} />
+                          <Input placeholder="Ex: Website, Indicação" {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -315,9 +315,9 @@ export default function OpportunityForm() {
                     name="competitor"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Main Competitor</FormLabel>
+                        <FormLabel>Principal Concorrente</FormLabel>
                         <FormControl>
-                          <Input placeholder="e.g., Competitor Inc." {...field} />
+                          <Input placeholder="Ex: Empresa Concorrente" {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -329,9 +329,9 @@ export default function OpportunityForm() {
                     name="next_step"
                     render={({ field }) => (
                       <FormItem className="md:col-span-2">
-                        <FormLabel>Next Step</FormLabel>
+                        <FormLabel>Próximo Passo</FormLabel>
                         <FormControl>
-                          <Input placeholder="e.g., Schedule demo call" {...field} />
+                          <Input placeholder="Ex: Agendar reunião de demonstração" {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -343,9 +343,9 @@ export default function OpportunityForm() {
                     name="description"
                     render={({ field }) => (
                       <FormItem className="md:col-span-2">
-                        <FormLabel>Description</FormLabel>
+                        <FormLabel>Descrição</FormLabel>
                         <FormControl>
-                          <Textarea placeholder="Add notes about this opportunity..." rows={4} {...field} />
+                          <Textarea placeholder="Adicione notas sobre esta oportunidade..." rows={4} {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -356,10 +356,10 @@ export default function OpportunityForm() {
                 <div className="flex gap-3 pt-4">
                   <Button type="submit" disabled={loading}>
                     {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                    {id && id !== 'new' ? 'Update Opportunity' : 'Create Opportunity'}
+                    {id && id !== 'new' ? 'Atualizar Oportunidade' : 'Criar Oportunidade'}
                   </Button>
                   <Button type="button" variant="outline" onClick={() => navigate('/opportunities')}>
-                    Cancel
+                    Cancelar
                   </Button>
                 </div>
               </form>
