@@ -121,13 +121,13 @@ interface TrendData {
 const COLORS = ['hsl(var(--chart-1))', 'hsl(var(--chart-2))', 'hsl(var(--chart-3))', 'hsl(var(--chart-4))', 'hsl(var(--chart-5))'];
 
 const dateRanges = [
-  { value: 'this_month', label: 'This Month' },
-  { value: 'last_month', label: 'Last Month' },
-  { value: 'this_quarter', label: 'This Quarter' },
-  { value: 'last_quarter', label: 'Last Quarter' },
-  { value: 'last_30', label: 'Last 30 Days' },
-  { value: 'last_90', label: 'Last 90 Days' },
-  { value: 'custom', label: 'Custom Range' },
+  { value: 'this_month', label: 'Este Mês' },
+  { value: 'last_month', label: 'Mês Passado' },
+  { value: 'this_quarter', label: 'Este Trimestre' },
+  { value: 'last_quarter', label: 'Trimestre Passado' },
+  { value: 'last_30', label: 'Últimos 30 Dias' },
+  { value: 'last_90', label: 'Últimos 90 Dias' },
+  { value: 'custom', label: 'Período Personalizado' },
 ];
 
 export default function Reports() {
@@ -401,8 +401,8 @@ export default function Reports() {
       console.error('Error fetching report data:', error);
       toast({
         variant: 'destructive',
-        title: 'Error',
-        description: 'Failed to load report data',
+        title: 'Erro',
+        description: 'Falha ao carregar dados do relatório',
       });
     }
     
@@ -434,9 +434,9 @@ export default function Reports() {
   }
 
   const formatCurrency = (value: number) => {
-    return new Intl.NumberFormat('en-US', {
+    return new Intl.NumberFormat('pt-BR', {
       style: 'currency',
-      currency: 'USD',
+      currency: 'BRL',
       minimumFractionDigits: 0,
       maximumFractionDigits: 0,
     }).format(value);
@@ -448,9 +448,9 @@ export default function Reports() {
         {/* Header */}
         <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
           <div>
-            <h1 className="text-2xl font-bold tracking-tight">Reports & Analytics</h1>
+            <h1 className="text-2xl font-bold tracking-tight">Relatórios & Análises</h1>
             <p className="text-muted-foreground">
-              Comprehensive insights into your sales performance
+              Insights completos sobre seu desempenho de vendas
             </p>
           </div>
           <div className="flex items-center gap-2">
@@ -473,7 +473,7 @@ export default function Reports() {
                   <PopoverTrigger asChild>
                     <Button variant="outline" size="sm">
                       <Calendar className="mr-2 h-4 w-4" />
-                      {customDateFrom ? format(customDateFrom, 'PP') : 'From'}
+                      {customDateFrom ? format(customDateFrom, 'PP') : 'De'}
                     </Button>
                   </PopoverTrigger>
                   <PopoverContent className="w-auto p-0">
@@ -489,7 +489,7 @@ export default function Reports() {
                   <PopoverTrigger asChild>
                     <Button variant="outline" size="sm">
                       <Calendar className="mr-2 h-4 w-4" />
-                      {customDateTo ? format(customDateTo, 'PP') : 'To'}
+                      {customDateTo ? format(customDateTo, 'PP') : 'Até'}
                     </Button>
                   </PopoverTrigger>
                   <PopoverContent className="w-auto p-0">

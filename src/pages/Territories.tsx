@@ -199,13 +199,13 @@ export default function Territories() {
       setEditingTerritory(null);
       resetForm();
       toast({
-        title: editingTerritory ? 'Territory updated' : 'Territory created',
-        description: 'Changes saved successfully.'
+        title: editingTerritory ? 'Território atualizado' : 'Território criado',
+        description: 'Alterações salvas com sucesso.'
       });
     },
     onError: (error: any) => {
       toast({
-        title: 'Error',
+        title: 'Erro',
         description: error.message,
         variant: 'destructive'
       });
@@ -224,13 +224,13 @@ export default function Territories() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['territories'] });
       toast({
-        title: 'Territory deleted',
-        description: 'Territory has been removed.'
+        title: 'Território excluído',
+        description: 'Território foi removido.'
       });
     },
     onError: (error: any) => {
       toast({
-        title: 'Error',
+        title: 'Erro',
         description: error.message,
         variant: 'destructive'
       });
@@ -385,8 +385,8 @@ export default function Territories() {
         {/* Header */}
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-2xl font-bold">Territories</h1>
-            <p className="text-muted-foreground">Manage sales territories and assignments</p>
+            <h1 className="text-2xl font-bold">Territórios</h1>
+            <p className="text-muted-foreground">Gerencie territórios de vendas e atribuições</p>
           </div>
           <Dialog open={isFormOpen} onOpenChange={(open) => {
             setIsFormOpen(open);
@@ -398,56 +398,56 @@ export default function Territories() {
             <DialogTrigger asChild>
               <Button>
                 <Plus className="h-4 w-4 mr-2" />
-                Add Territory
+                Adicionar Território
               </Button>
             </DialogTrigger>
             <DialogContent className="max-w-lg">
               <DialogHeader>
-                <DialogTitle>{editingTerritory ? 'Edit Territory' : 'Create Territory'}</DialogTitle>
+                <DialogTitle>{editingTerritory ? 'Editar Território' : 'Criar Território'}</DialogTitle>
               </DialogHeader>
               <div className="space-y-4 py-4">
                 <div className="space-y-2">
-                  <Label htmlFor="name">Name *</Label>
+                  <Label htmlFor="name">Nome *</Label>
                   <Input
                     id="name"
                     value={formData.name}
                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                    placeholder="e.g., North America"
+                    placeholder="ex: América do Norte"
                   />
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="region">Region</Label>
+                  <Label htmlFor="region">Região</Label>
                   <Input
                     id="region"
                     value={formData.region}
                     onChange={(e) => setFormData({ ...formData, region: e.target.value })}
-                    placeholder="e.g., NA, EMEA, APAC"
+                    placeholder="ex: SUL, SUDESTE, NORDESTE"
                   />
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="description">Description</Label>
+                  <Label htmlFor="description">Descrição</Label>
                   <Textarea
                     id="description"
                     value={formData.description}
                     onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                    placeholder="Territory coverage details..."
+                    placeholder="Detalhes de cobertura do território..."
                     rows={3}
                   />
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="parent">Parent Territory</Label>
+                  <Label htmlFor="parent">Território Pai</Label>
                   <Select
                     value={formData.parent_territory_id}
                     onValueChange={(value) => setFormData({ ...formData, parent_territory_id: value })}
                   >
                     <SelectTrigger>
-                      <SelectValue placeholder="Select parent (optional)" />
+                      <SelectValue placeholder="Selecione pai (opcional)" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="">No parent</SelectItem>
+                      <SelectItem value="">Sem pai</SelectItem>
                       {territories
                         .filter(t => t.id !== editingTerritory?.id)
                         .map(t => (
@@ -458,16 +458,16 @@ export default function Territories() {
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="owner">Territory Owner</Label>
+                  <Label htmlFor="owner">Proprietário do Território</Label>
                   <Select
                     value={formData.owner_id}
                     onValueChange={(value) => setFormData({ ...formData, owner_id: value })}
                   >
                     <SelectTrigger>
-                      <SelectValue placeholder="Assign owner" />
+                      <SelectValue placeholder="Atribuir proprietário" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="">Unassigned</SelectItem>
+                      <SelectItem value="">Não atribuído</SelectItem>
                       {teamMembers.map(m => (
                         <SelectItem key={m.id} value={m.id}>
                           {m.first_name || m.email} {m.last_name || ''}
@@ -479,13 +479,13 @@ export default function Territories() {
               </div>
               <DialogFooter>
                 <Button variant="outline" onClick={() => setIsFormOpen(false)}>
-                  Cancel
+                  Cancelar
                 </Button>
                 <Button 
                   onClick={() => saveMutation.mutate({ ...formData, id: editingTerritory?.id })}
                   disabled={!formData.name || saveMutation.isPending}
                 >
-                  {saveMutation.isPending ? 'Saving...' : editingTerritory ? 'Update' : 'Create'}
+                  {saveMutation.isPending ? 'Salvando...' : editingTerritory ? 'Atualizar' : 'Criar'}
                 </Button>
               </DialogFooter>
             </DialogContent>
@@ -497,7 +497,7 @@ export default function Territories() {
           <Card>
             <CardContent className="p-4">
               <div className="text-2xl font-bold">{territories.length}</div>
-              <div className="text-sm text-muted-foreground">Total Territories</div>
+              <div className="text-sm text-muted-foreground">Total de Territórios</div>
             </CardContent>
           </Card>
           <Card>
