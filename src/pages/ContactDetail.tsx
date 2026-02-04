@@ -149,8 +149,8 @@ export default function ContactDetail() {
       console.error('Error fetching contact:', contactError);
       toast({
         variant: 'destructive',
-        title: 'Error',
-        description: 'Failed to load contact details',
+        title: 'Erro',
+        description: 'Falha ao carregar detalhes do contato',
       });
       navigate('/contacts');
       return;
@@ -182,13 +182,13 @@ export default function ContactDetail() {
     if (error) {
       toast({
         variant: 'destructive',
-        title: 'Error',
-        description: 'Failed to delete contact',
+        title: 'Erro',
+        description: 'Falha ao excluir contato',
       });
     } else {
       toast({
-        title: 'Contact deleted',
-        description: 'The contact has been successfully deleted.',
+        title: 'Contato excluído',
+        description: 'O contato foi excluído com sucesso.',
       });
       navigate('/contacts');
     }
@@ -196,9 +196,9 @@ export default function ContactDetail() {
 
   const formatCurrency = (value: number | null) =>
     value
-      ? new Intl.NumberFormat('en-US', {
+      ? new Intl.NumberFormat('pt-BR', {
           style: 'currency',
-          currency: 'USD',
+          currency: 'BRL',
           maximumFractionDigits: 0,
         }).format(value)
       : '-';
@@ -222,7 +222,7 @@ export default function ContactDetail() {
       }
       return contact.owner.email;
     }
-    return 'Unassigned';
+    return 'Não atribuído';
   };
 
   if (authLoading || loading) {
@@ -239,8 +239,8 @@ export default function ContactDetail() {
     return (
       <AppLayout>
         <div className="flex flex-col items-center justify-center h-64 gap-4">
-          <p className="text-muted-foreground">Contact not found</p>
-          <Button onClick={() => navigate('/contacts')}>Back to Contacts</Button>
+          <p className="text-muted-foreground">Contato não encontrado</p>
+          <Button onClick={() => navigate('/contacts')}>Voltar para Contatos</Button>
         </div>
       </AppLayout>
     );
@@ -272,7 +272,7 @@ export default function ContactDetail() {
                 )}
               </div>
               <p className="text-muted-foreground">
-                {contact.job_title || 'No title'}
+                {contact.job_title || 'Sem cargo'}
                 {contact.account && (
                   <>
                     {' at '}
@@ -287,25 +287,25 @@ export default function ContactDetail() {
           <div className="flex gap-2">
             <Button variant="outline" onClick={() => navigate(`/contacts/${id}/edit`)}>
               <Edit className="mr-2 h-4 w-4" />
-              Edit
+              Editar
             </Button>
             <AlertDialog>
               <AlertDialogTrigger asChild>
                 <Button variant="destructive">
                   <Trash2 className="mr-2 h-4 w-4" />
-                  Delete
+                  Excluir
                 </Button>
               </AlertDialogTrigger>
               <AlertDialogContent>
                 <AlertDialogHeader>
-                  <AlertDialogTitle>Delete Contact</AlertDialogTitle>
+                  <AlertDialogTitle>Excluir Contato</AlertDialogTitle>
                   <AlertDialogDescription>
-                    Are you sure you want to delete this contact? This action cannot be undone.
+                    Tem certeza que deseja excluir este contato? Esta ação não pode ser desfeita.
                   </AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter>
-                  <AlertDialogCancel>Cancel</AlertDialogCancel>
-                  <AlertDialogAction onClick={deleteContact}>Delete</AlertDialogAction>
+                  <AlertDialogCancel>Cancelar</AlertDialogCancel>
+                  <AlertDialogAction onClick={deleteContact}>Excluir</AlertDialogAction>
                 </AlertDialogFooter>
               </AlertDialogContent>
             </AlertDialog>
@@ -318,13 +318,13 @@ export default function ContactDetail() {
             {contact.do_not_call && (
               <div className="flex items-center gap-2 text-warning">
                 <PhoneOff className="h-4 w-4" />
-                <span className="text-sm font-medium">Do not call</span>
+                <span className="text-sm font-medium">Não ligar</span>
               </div>
             )}
             {contact.do_not_email && (
               <div className="flex items-center gap-2 text-warning">
                 <MailX className="h-4 w-4" />
-                <span className="text-sm font-medium">Do not email</span>
+                <span className="text-sm font-medium">Não enviar e-mail</span>
               </div>
             )}
           </div>
@@ -336,23 +336,23 @@ export default function ContactDetail() {
           <div className="lg:col-span-2 space-y-6">
             <Tabs defaultValue="details" className="w-full">
               <TabsList>
-                <TabsTrigger value="details">Details</TabsTrigger>
-                <TabsTrigger value="opportunities">Opportunities ({opportunities.length})</TabsTrigger>
-                <TabsTrigger value="activities">Activities</TabsTrigger>
-                <TabsTrigger value="timeline">Timeline</TabsTrigger>
+                <TabsTrigger value="details">Detalhes</TabsTrigger>
+                <TabsTrigger value="opportunities">Oportunidades ({opportunities.length})</TabsTrigger>
+                <TabsTrigger value="activities">Atividades</TabsTrigger>
+                <TabsTrigger value="timeline">Linha do Tempo</TabsTrigger>
               </TabsList>
 
               <TabsContent value="details" className="mt-6">
                 <Card>
                   <CardHeader>
-                    <CardTitle>Contact Information</CardTitle>
-                    <CardDescription>Personal and professional details</CardDescription>
+                    <CardTitle>Informações do Contato</CardTitle>
+                    <CardDescription>Detalhes pessoais e profissionais</CardDescription>
                   </CardHeader>
                   <CardContent className="space-y-6">
                     {/* Contact Info */}
                     <div>
                       <h4 className="text-sm font-medium text-muted-foreground mb-3">
-                        Contact Details
+                        Dados de Contato
                       </h4>
                       <div className="grid gap-4 sm:grid-cols-2">
                         {contact.email && (
@@ -375,7 +375,7 @@ export default function ContactDetail() {
                           <div className="flex items-center gap-3">
                             <Phone className="h-4 w-4 text-muted-foreground" />
                             <a href={`tel:${contact.mobile}`} className="text-sm hover:underline">
-                              {contact.mobile} (Mobile)
+                              {contact.mobile} (Celular)
                             </a>
                           </div>
                         )}
@@ -387,7 +387,7 @@ export default function ContactDetail() {
                     {/* Professional Info */}
                     <div>
                       <h4 className="text-sm font-medium text-muted-foreground mb-3">
-                        Professional Information
+                        Informações Profissionais
                       </h4>
                       <div className="grid gap-4 sm:grid-cols-2">
                         {contact.job_title && (
@@ -427,7 +427,7 @@ export default function ContactDetail() {
                         <Separator />
                         <div>
                           <h4 className="text-sm font-medium text-muted-foreground mb-3">
-                            Description
+                            Descrição
                           </h4>
                           <p className="text-sm whitespace-pre-wrap">{contact.description}</p>
                         </div>
@@ -456,23 +456,23 @@ export default function ContactDetail() {
               <TabsContent value="opportunities" className="mt-6">
                 <Card>
                   <CardHeader>
-                    <CardTitle>Related Opportunities</CardTitle>
-                    <CardDescription>Deals this contact is involved with</CardDescription>
+                    <CardTitle>Oportunidades Relacionadas</CardTitle>
+                    <CardDescription>Negócios em que este contato está envolvido</CardDescription>
                   </CardHeader>
                   <CardContent>
                     {opportunities.length === 0 ? (
                       <div className="flex flex-col items-center justify-center h-32 text-muted-foreground">
                         <User className="h-8 w-8 mb-2" />
-                        <p>Not involved in any opportunities</p>
+                        <p>Não está envolvido em nenhuma oportunidade</p>
                       </div>
                     ) : (
                       <Table>
                         <TableHeader>
                           <TableRow>
-                            <TableHead>Opportunity</TableHead>
-                            <TableHead>Role</TableHead>
-                            <TableHead>Stage</TableHead>
-                            <TableHead>Amount</TableHead>
+                            <TableHead>Oportunidade</TableHead>
+                            <TableHead>Papel</TableHead>
+                            <TableHead>Estágio</TableHead>
+                            <TableHead>Valor</TableHead>
                           </TableRow>
                         </TableHeader>
                         <TableBody>
@@ -520,8 +520,8 @@ export default function ContactDetail() {
               <TabsContent value="timeline" className="mt-6">
                 <Card>
                   <CardHeader>
-                    <CardTitle>Timeline</CardTitle>
-                    <CardDescription>Complete history of interactions</CardDescription>
+                    <CardTitle>Linha do Tempo</CardTitle>
+                    <CardDescription>Histórico completo de interações</CardDescription>
                   </CardHeader>
                   <CardContent>
                     <Timeline contactId={id} maxHeight="500px" />
@@ -536,43 +536,43 @@ export default function ContactDetail() {
             {/* Quick Info */}
             <Card>
               <CardHeader>
-                <CardTitle>Details</CardTitle>
+                <CardTitle>Detalhes</CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="flex justify-between text-sm">
-                  <span className="text-muted-foreground">Owner</span>
+                  <span className="text-muted-foreground">Responsável</span>
                   <span>{getOwnerName()}</span>
                 </div>
                 <Separator />
                 <div className="flex justify-between text-sm">
-                  <span className="text-muted-foreground">Account</span>
+                  <span className="text-muted-foreground">Conta</span>
                   {contact.account ? (
                     <Link to={`/accounts/${contact.account.id}`} className="hover:underline">
                       {contact.account.name}
                     </Link>
                   ) : (
-                    <span>None</span>
+                    <span>Nenhuma</span>
                   )}
                 </div>
                 <Separator />
                 <div className="flex justify-between text-sm">
-                  <span className="text-muted-foreground">Role</span>
-                  <span>{contact.role?.replace('_', ' ') || 'Not set'}</span>
+                  <span className="text-muted-foreground">Papel</span>
+                  <span>{contact.role?.replace('_', ' ') || 'Não definido'}</span>
                 </div>
                 <Separator />
                 <div className="flex justify-between text-sm">
-                  <span className="text-muted-foreground">Department</span>
-                  <span>{contact.department || 'Not set'}</span>
+                  <span className="text-muted-foreground">Departamento</span>
+                  <span>{contact.department || 'Não definido'}</span>
                 </div>
                 <Separator />
                 <div className="flex justify-between text-sm">
-                  <span className="text-muted-foreground">Created</span>
-                  <span>{format(new Date(contact.created_at), 'MMM d, yyyy')}</span>
+                  <span className="text-muted-foreground">Criado em</span>
+                  <span>{format(new Date(contact.created_at), 'dd/MM/yyyy')}</span>
                 </div>
                 <Separator />
                 <div className="flex justify-between text-sm">
-                  <span className="text-muted-foreground">Last Updated</span>
-                  <span>{format(new Date(contact.updated_at), 'MMM d, yyyy')}</span>
+                  <span className="text-muted-foreground">Atualizado em</span>
+                  <span>{format(new Date(contact.updated_at), 'dd/MM/yyyy')}</span>
                 </div>
               </CardContent>
             </Card>
