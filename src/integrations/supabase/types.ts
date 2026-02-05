@@ -7478,6 +7478,13 @@ export type Database = {
             referencedColumns: ["id"]
           },
           {
+            foreignKeyName: "portal_activity_log_portal_user_id_fkey"
+            columns: ["portal_user_id"]
+            isOneToOne: false
+            referencedRelation: "customer_portal_users_safe"
+            referencedColumns: ["id"]
+          },
+          {
             foreignKeyName: "portal_activity_log_session_id_fkey"
             columns: ["session_id"]
             isOneToOne: false
@@ -7609,6 +7616,13 @@ export type Database = {
             referencedRelation: "customer_portal_users"
             referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "portal_notifications_portal_user_id_fkey"
+            columns: ["portal_user_id"]
+            isOneToOne: false
+            referencedRelation: "customer_portal_users_safe"
+            referencedColumns: ["id"]
+          },
         ]
       }
       portal_sessions: {
@@ -7672,6 +7686,13 @@ export type Database = {
             columns: ["portal_user_id"]
             isOneToOne: false
             referencedRelation: "customer_portal_users"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "portal_sessions_portal_user_id_fkey"
+            columns: ["portal_user_id"]
+            isOneToOne: false
+            referencedRelation: "customer_portal_users_safe"
             referencedColumns: ["id"]
           },
         ]
@@ -10369,7 +10390,125 @@ export type Database = {
       }
     }
     Views: {
-      [_ in never]: never
+      customer_portal_users_safe: {
+        Row: {
+          account_id: string | null
+          avatar_url: string | null
+          can_create_tickets: boolean | null
+          can_view_contracts: boolean | null
+          can_view_invoices: boolean | null
+          can_view_knowledge_base: boolean | null
+          contact_id: string | null
+          created_at: string | null
+          created_by: string | null
+          email: string | null
+          email_verified: boolean | null
+          email_verified_at: string | null
+          first_name: string | null
+          id: string | null
+          language: string | null
+          last_login_at: string | null
+          last_name: string | null
+          login_count: number | null
+          notification_preferences: Json | null
+          organization_id: string | null
+          phone: string | null
+          status: Database["public"]["Enums"]["portal_user_status"] | null
+          ticket_visibility:
+            | Database["public"]["Enums"]["portal_ticket_visibility"]
+            | null
+          timezone: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          account_id?: string | null
+          avatar_url?: string | null
+          can_create_tickets?: boolean | null
+          can_view_contracts?: boolean | null
+          can_view_invoices?: boolean | null
+          can_view_knowledge_base?: boolean | null
+          contact_id?: string | null
+          created_at?: string | null
+          created_by?: string | null
+          email?: string | null
+          email_verified?: boolean | null
+          email_verified_at?: string | null
+          first_name?: string | null
+          id?: string | null
+          language?: string | null
+          last_login_at?: string | null
+          last_name?: string | null
+          login_count?: number | null
+          notification_preferences?: Json | null
+          organization_id?: string | null
+          phone?: string | null
+          status?: Database["public"]["Enums"]["portal_user_status"] | null
+          ticket_visibility?:
+            | Database["public"]["Enums"]["portal_ticket_visibility"]
+            | null
+          timezone?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          account_id?: string | null
+          avatar_url?: string | null
+          can_create_tickets?: boolean | null
+          can_view_contracts?: boolean | null
+          can_view_invoices?: boolean | null
+          can_view_knowledge_base?: boolean | null
+          contact_id?: string | null
+          created_at?: string | null
+          created_by?: string | null
+          email?: string | null
+          email_verified?: boolean | null
+          email_verified_at?: string | null
+          first_name?: string | null
+          id?: string | null
+          language?: string | null
+          last_login_at?: string | null
+          last_name?: string | null
+          login_count?: number | null
+          notification_preferences?: Json | null
+          organization_id?: string | null
+          phone?: string | null
+          status?: Database["public"]["Enums"]["portal_user_status"] | null
+          ticket_visibility?:
+            | Database["public"]["Enums"]["portal_ticket_visibility"]
+            | null
+          timezone?: string | null
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "customer_portal_users_account_id_fkey"
+            columns: ["account_id"]
+            isOneToOne: false
+            referencedRelation: "accounts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "customer_portal_users_contact_id_fkey"
+            columns: ["contact_id"]
+            isOneToOne: false
+            referencedRelation: "contacts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "customer_portal_users_created_by_fkey"
+            columns: ["created_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "customer_portal_users_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Functions: {
       authenticate_portal_user: {
@@ -10411,6 +10550,18 @@ export type Database = {
         }
         Returns: string
       }
+      create_portal_session: {
+        Args: {
+          p_ip_address?: string
+          p_user_agent?: string
+          p_user_id: string
+        }
+        Returns: {
+          expires_at: string
+          session_id: string
+          session_token: string
+        }[]
+      }
       create_portal_user_from_contact: {
         Args: {
           p_contact_id: string
@@ -10431,6 +10582,10 @@ export type Database = {
           match_reasons: Json
           similarity_score: number
         }[]
+      }
+      end_portal_session: {
+        Args: { p_session_token: string }
+        Returns: boolean
       }
       generate_asset_tag: { Args: { org_id: string }; Returns: string }
       generate_change_number: { Args: { org_id: string }; Returns: string }
@@ -10486,6 +10641,15 @@ export type Database = {
           _user_id: string
         }
         Returns: boolean
+      }
+      validate_portal_session: {
+        Args: { p_session_token: string }
+        Returns: {
+          is_valid: boolean
+          message: string
+          organization_id: string
+          user_id: string
+        }[]
       }
     }
     Enums: {
