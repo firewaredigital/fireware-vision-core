@@ -5913,6 +5913,147 @@ export type Database = {
           },
         ]
       }
+      custom_field_definitions: {
+        Row: {
+          created_at: string
+          created_by: string | null
+          default_value: string | null
+          description: string | null
+          display_order: number
+          entity_type: Database["public"]["Enums"]["custom_field_entity_type"]
+          field_label: string
+          field_name: string
+          field_type: Database["public"]["Enums"]["custom_field_type"]
+          id: string
+          is_active: boolean
+          is_required: boolean
+          lookup_entity: string | null
+          options: Json | null
+          organization_id: string
+          placeholder: string | null
+          section_name: string | null
+          updated_at: string
+          validation_rules: Json | null
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string | null
+          default_value?: string | null
+          description?: string | null
+          display_order?: number
+          entity_type: Database["public"]["Enums"]["custom_field_entity_type"]
+          field_label: string
+          field_name: string
+          field_type?: Database["public"]["Enums"]["custom_field_type"]
+          id?: string
+          is_active?: boolean
+          is_required?: boolean
+          lookup_entity?: string | null
+          options?: Json | null
+          organization_id: string
+          placeholder?: string | null
+          section_name?: string | null
+          updated_at?: string
+          validation_rules?: Json | null
+        }
+        Update: {
+          created_at?: string
+          created_by?: string | null
+          default_value?: string | null
+          description?: string | null
+          display_order?: number
+          entity_type?: Database["public"]["Enums"]["custom_field_entity_type"]
+          field_label?: string
+          field_name?: string
+          field_type?: Database["public"]["Enums"]["custom_field_type"]
+          id?: string
+          is_active?: boolean
+          is_required?: boolean
+          lookup_entity?: string | null
+          options?: Json | null
+          organization_id?: string
+          placeholder?: string | null
+          section_name?: string | null
+          updated_at?: string
+          validation_rules?: Json | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "custom_field_definitions_created_by_fkey"
+            columns: ["created_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "custom_field_definitions_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      custom_field_values: {
+        Row: {
+          created_at: string
+          entity_id: string
+          entity_type: Database["public"]["Enums"]["custom_field_entity_type"]
+          field_definition_id: string
+          id: string
+          organization_id: string
+          updated_at: string
+          value_boolean: boolean | null
+          value_date: string | null
+          value_json: Json | null
+          value_number: number | null
+          value_text: string | null
+        }
+        Insert: {
+          created_at?: string
+          entity_id: string
+          entity_type: Database["public"]["Enums"]["custom_field_entity_type"]
+          field_definition_id: string
+          id?: string
+          organization_id: string
+          updated_at?: string
+          value_boolean?: boolean | null
+          value_date?: string | null
+          value_json?: Json | null
+          value_number?: number | null
+          value_text?: string | null
+        }
+        Update: {
+          created_at?: string
+          entity_id?: string
+          entity_type?: Database["public"]["Enums"]["custom_field_entity_type"]
+          field_definition_id?: string
+          id?: string
+          organization_id?: string
+          updated_at?: string
+          value_boolean?: boolean | null
+          value_date?: string | null
+          value_json?: Json | null
+          value_number?: number | null
+          value_text?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "custom_field_values_field_definition_id_fkey"
+            columns: ["field_definition_id"]
+            isOneToOne: false
+            referencedRelation: "custom_field_definitions"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "custom_field_values_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       customer_health_scores: {
         Row: {
           account_id: string
@@ -7293,6 +7434,66 @@ export type Database = {
             columns: ["updated_by"]
             isOneToOne: false
             referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      entity_change_log: {
+        Row: {
+          action: Database["public"]["Enums"]["entity_change_action"]
+          changed_at: string
+          changed_by: string | null
+          changes: Json
+          entity_id: string
+          entity_name: string | null
+          entity_type: string
+          id: string
+          ip_address: string | null
+          metadata: Json | null
+          organization_id: string
+          user_agent: string | null
+        }
+        Insert: {
+          action: Database["public"]["Enums"]["entity_change_action"]
+          changed_at?: string
+          changed_by?: string | null
+          changes?: Json
+          entity_id: string
+          entity_name?: string | null
+          entity_type: string
+          id?: string
+          ip_address?: string | null
+          metadata?: Json | null
+          organization_id: string
+          user_agent?: string | null
+        }
+        Update: {
+          action?: Database["public"]["Enums"]["entity_change_action"]
+          changed_at?: string
+          changed_by?: string | null
+          changes?: Json
+          entity_id?: string
+          entity_name?: string | null
+          entity_type?: string
+          id?: string
+          ip_address?: string | null
+          metadata?: Json | null
+          organization_id?: string
+          user_agent?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "entity_change_log_changed_by_fkey"
+            columns: ["changed_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "entity_change_log_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
             referencedColumns: ["id"]
           },
         ]
@@ -20325,6 +20526,31 @@ export type Database = {
       }
       generate_ticket_number: { Args: { org_id: string }; Returns: string }
       get_ai_usage_metrics: { Args: { _org_id: string }; Returns: Json }
+      get_entity_change_history: {
+        Args: {
+          p_changed_by?: string
+          p_entity_id: string
+          p_entity_type: string
+          p_field_filter?: string
+          p_limit?: number
+          p_offset?: number
+        }
+        Returns: {
+          action: Database["public"]["Enums"]["entity_change_action"]
+          changed_at: string
+          changed_by: string
+          changed_by_avatar: string
+          changed_by_email: string
+          changed_by_name: string
+          changes: Json
+          entity_id: string
+          entity_name: string
+          entity_type: string
+          id: string
+          metadata: Json
+          total_count: number
+        }[]
+      }
       get_next_conversation: { Args: { p_agent_id: string }; Returns: string }
       get_notification_counts: { Args: { p_user_id: string }; Returns: Json }
       get_org_enabled_modules: { Args: { _org_id: string }; Returns: Json }
@@ -20755,6 +20981,27 @@ export type Database = {
         | "dependency"
         | "pricing"
         | "validation"
+      custom_field_entity_type:
+        | "lead"
+        | "contact"
+        | "account"
+        | "opportunity"
+        | "ticket"
+        | "order"
+      custom_field_type:
+        | "text"
+        | "number"
+        | "decimal"
+        | "date"
+        | "datetime"
+        | "boolean"
+        | "select"
+        | "multiselect"
+        | "url"
+        | "email"
+        | "phone"
+        | "textarea"
+        | "lookup"
       dashboard_module:
         | "sales"
         | "service"
@@ -20792,6 +21039,7 @@ export type Database = {
         | "merged"
         | "ignored"
       enrollment_status: "active" | "completed" | "exited" | "paused" | "failed"
+      entity_change_action: "create" | "update" | "delete"
       event_severity: "info" | "warning" | "error" | "critical"
       forecast_category: "commit" | "best_case" | "pipeline" | "omitted"
       golden_profile_type: "person" | "company"
@@ -21742,6 +21990,29 @@ export const Constants = {
         "pricing",
         "validation",
       ],
+      custom_field_entity_type: [
+        "lead",
+        "contact",
+        "account",
+        "opportunity",
+        "ticket",
+        "order",
+      ],
+      custom_field_type: [
+        "text",
+        "number",
+        "decimal",
+        "date",
+        "datetime",
+        "boolean",
+        "select",
+        "multiselect",
+        "url",
+        "email",
+        "phone",
+        "textarea",
+        "lookup",
+      ],
       dashboard_module: [
         "sales",
         "service",
@@ -21784,6 +22055,7 @@ export const Constants = {
         "ignored",
       ],
       enrollment_status: ["active", "completed", "exited", "paused", "failed"],
+      entity_change_action: ["create", "update", "delete"],
       event_severity: ["info", "warning", "error", "critical"],
       forecast_category: ["commit", "best_case", "pipeline", "omitted"],
       golden_profile_type: ["person", "company"],

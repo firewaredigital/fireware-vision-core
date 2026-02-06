@@ -275,6 +275,7 @@ const adminNavItems: NavItem[] = [
   { title: 'Módulos', url: '/admin/platform/modules', icon: Package },
   { title: 'Permissões', url: '/admin/platform/permissions', icon: Shield },
   { title: 'Segurança', url: '/admin/platform/security', icon: Lock },
+  { title: 'Campos Custom', url: '/admin/platform/custom-fields', icon: SlidersHorizontal },
   { title: 'Integrações', url: '/admin/platform/integrations', icon: Link },
   { title: 'IA', url: '/admin/platform/ai', icon: Bot },
   { title: 'Observabilidade', url: '/admin/platform/observability', icon: Eye },

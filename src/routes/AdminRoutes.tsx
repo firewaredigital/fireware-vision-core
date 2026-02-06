@@ -6,6 +6,7 @@ import PlatformObservability from "@/pages/admin/PlatformObservability";
 import PlatformSecurity from "@/pages/admin/PlatformSecurity";
 import PlatformIntegrations from "@/pages/admin/PlatformIntegrations";
 import PlatformAI from "@/pages/admin/PlatformAI";
+import CustomFieldsAdmin from "@/pages/admin/CustomFieldsAdmin";
 
 export function AdminRoutes() {
   return [
@@ -15,5 +16,6 @@ export function AdminRoutes() {
     <Route key="admin-security" path="/admin/platform/security" element={<ProtectedLayout><PlatformSecurity /></ProtectedLayout>} />,
     <Route key="admin-integrations" path="/admin/platform/integrations" element={<ProtectedLayout><PlatformIntegrations /></ProtectedLayout>} />,
     <Route key="admin-ai" path="/admin/platform/ai" element={<ProtectedLayout><PlatformAI /></ProtectedLayout>} />,
+    <Route key="admin-custom-fields" path="/admin/platform/custom-fields" element={<ProtectedLayout><CustomFieldsAdmin /></ProtectedLayout>} />,
   ];
 }
