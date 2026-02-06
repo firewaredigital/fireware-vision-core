@@ -3,7 +3,6 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/hooks/useAuth';
-import { AppLayout } from '@/components/layout/AppLayout';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -248,8 +247,7 @@ export default function CPQConfigurations() {
   };
 
   return (
-    <AppLayout>
-      <div className="space-y-6 p-6">
+    <div className="space-y-6">
         {/* Header */}
         <div className="flex items-center justify-between">
           <div>
@@ -705,7 +703,6 @@ export default function CPQConfigurations() {
             </DialogFooter>
           </DialogContent>
         </Dialog>
-      </div>
-    </AppLayout>
+    </div>
   );
 }
