@@ -24,6 +24,7 @@ import { GovernanceRoutes } from "./routes/GovernanceRoutes";
 import { ManagementRoutes } from "./routes/ManagementRoutes";
 import { PortalRoutes } from "./routes/PortalRoutes";
 import { AdminRoutes } from "./routes/AdminRoutes";
+import { AIRoutes } from "./routes/AIRoutes";
 
 const queryClient = new QueryClient();
 
@@ -48,6 +49,7 @@ const App = () => (
             {DataRoutes()}
             {AutomationRoutes()}
             {GovernanceRoutes()}
+            {AIRoutes()}
 
             {/* Management (always visible) */}
             {ManagementRoutes()}
