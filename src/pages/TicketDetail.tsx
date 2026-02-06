@@ -445,6 +445,10 @@ export default function TicketDetail() {
                   </CardContent>
                 </Card>
               </TabsContent>
+
+              <TabsContent value="history" className="mt-4">
+                <ChangeHistory entityType="ticket" entityId={id!} />
+              </TabsContent>
             </Tabs>
 
             {/* Reply Box */}

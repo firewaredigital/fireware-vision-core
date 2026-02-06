@@ -38,6 +38,7 @@ import {
 } from '@/components/ui/alert-dialog';
 import { LeadConversionWizard } from '@/components/LeadConversionWizard';
 import { Timeline } from '@/components/Timeline';
+import { ChangeHistory } from '@/components/ChangeHistory';
 
 interface Lead {
   id: string;
@@ -411,6 +412,10 @@ export default function LeadDetail() {
                     <Timeline leadId={lead.id} maxHeight="400px" />
                   </CardContent>
                 </Card>
+              </TabsContent>
+
+              <TabsContent value="history" className="mt-6">
+                <ChangeHistory entityType="lead" entityId={lead.id} />
               </TabsContent>
             </Tabs>
           </div>

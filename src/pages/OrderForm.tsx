@@ -27,6 +27,8 @@ import {
 } from '@/components/ui/table';
 import { ArrowLeft, Plus, Trash2, Package, Search } from 'lucide-react';
 import { toast } from 'sonner';
+import { CustomFieldsRenderer } from '@/components/CustomFieldsRenderer';
+import { useCustomFieldDefinitions, useCustomFieldValues, useSaveCustomFieldValues, getFieldValue } from '@/hooks/useCustomFields';
 
 interface OrderItem {
   id: string;
@@ -69,6 +71,24 @@ export default function OrderForm() {
 
   const [items, setItems] = useState<OrderItem[]>([]);
   const [productSearch, setProductSearch] = useState('');
+  const [customFieldValues, setCustomFieldValues] = useState<Record<string, any>>({});
+
+  // Custom Fields
+  const { data: customFieldDefs = [] } = useCustomFieldDefinitions('order');
+  const { data: existingCustomValues = [] } = useCustomFieldValues('order', isEditing ? id : undefined);
+  const saveCustomFields = useSaveCustomFieldValues();
+
+  // Initialize custom field values when editing
+  useEffect(() => {
+    if (isEditing && customFieldDefs.length > 0 && existingCustomValues.length > 0) {
+      const initial: Record<string, any> = {};
+      customFieldDefs.forEach((def) => {
+        const fieldValue = existingCustomValues.find((v) => v.field_definition_id === def.id);
+        initial[def.id] = getFieldValue(def, fieldValue);
+      });
+      setCustomFieldValues(initial);
+    }
+  }, [isEditing, customFieldDefs, existingCustomValues]);
 
   // Fetch accounts
   const { data: accounts } = useQuery({
@@ -295,6 +315,15 @@ export default function OrderForm() {
       return order;
     },
     onSuccess: (order) => {
+      // Save custom fields
+      if (customFieldDefs.length > 0 && Object.keys(customFieldValues).length > 0) {
+        saveCustomFields.mutate({
+          entityType: 'order',
+          entityId: order.id,
+          values: customFieldValues,
+          definitions: customFieldDefs,
+        });
+      }
       queryClient.invalidateQueries({ queryKey: ['orders'] });
       toast.success('Pedido criado com sucesso');
       navigate(`/orders/${order.id}`);
@@ -612,6 +641,20 @@ export default function OrderForm() {
                 </div>
               </CardContent>
             </Card>
+
+            {/* Custom Fields */}
+            {customFieldDefs.length > 0 && (
+              <Card>
+                <CardContent className="pt-6">
+                  <CustomFieldsRenderer
+                    entityType="order"
+                    definitions={customFieldDefs}
+                    values={customFieldValues}
+                    onChange={setCustomFieldValues}
+                  />
+                </CardContent>
+              </Card>
+            )}
           </div>
 
           {/* Sidebar - Summary */}

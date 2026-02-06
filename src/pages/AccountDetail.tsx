@@ -805,6 +805,10 @@ export default function AccountDetail() {
                   </CardContent>
                 </Card>
               </TabsContent>
+
+              <TabsContent value="history" className="mt-6">
+                <ChangeHistory entityType="account" entityId={id!} />
+              </TabsContent>
             </Tabs>
           </div>
 

@@ -403,6 +403,7 @@ export default function OrderDetail() {
                     <TabsTrigger value="payments">Pagamentos</TabsTrigger>
                     <TabsTrigger value="shipments">Envios</TabsTrigger>
                     <TabsTrigger value="history">Histórico</TabsTrigger>
+                    <TabsTrigger value="audit">Alterações</TabsTrigger>
                   </TabsList>
                 </CardHeader>
                 <CardContent>
@@ -483,6 +484,10 @@ export default function OrderDetail() {
                         ))}
                       </div>
                     )}
+                  </TabsContent>
+
+                  <TabsContent value="audit" className="mt-0">
+                    <ChangeHistory entityType="order" entityId={id!} />
                   </TabsContent>
                 </CardContent>
               </Tabs>

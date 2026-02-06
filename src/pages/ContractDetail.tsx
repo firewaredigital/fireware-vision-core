@@ -549,6 +549,10 @@ export default function ContractDetail() {
                   opportunityId={contract.opportunity?.id}
                 />
               </TabsContent>
+
+              <TabsContent value="history" className="mt-6">
+                <ChangeHistory entityType="contract" entityId={id!} />
+              </TabsContent>
             </Tabs>
 
             {/* Notes */}
