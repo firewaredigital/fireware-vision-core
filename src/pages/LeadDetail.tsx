@@ -243,6 +243,7 @@ export default function LeadDetail() {
                 <TabsTrigger value="activities">Atividades</TabsTrigger>
                 <TabsTrigger value="notes">Notas</TabsTrigger>
                 <TabsTrigger value="timeline">Timeline</TabsTrigger>
+                <TabsTrigger value="history">Histórico</TabsTrigger>
               </TabsList>
 
               <TabsContent value="details" className="mt-6">
