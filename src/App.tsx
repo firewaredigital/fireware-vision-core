@@ -84,6 +84,10 @@ import PortalTickets from "./pages/portal/PortalTickets";
 import PortalTicketDetail from "./pages/portal/PortalTicketDetail";
 import PortalNewTicket from "./pages/portal/PortalNewTicket";
 import PortalKnowledge from "./pages/portal/PortalKnowledge";
+// Admin Platform Module
+import PlatformModules from "./pages/admin/PlatformModules";
+import PlatformPermissions from "./pages/admin/PlatformPermissions";
+import PlatformObservability from "./pages/admin/PlatformObservability";
 
 const queryClient = new QueryClient();
 
@@ -227,6 +231,11 @@ const App = () => (
             <Route path="/audit-logs" element={<AuditLogs />} />
             <Route path="/settings" element={<Settings />} />
             <Route path="/settings/canned-responses" element={<CannedResponses />} />
+            
+            {/* Admin Platform */}
+            <Route path="/admin/platform/modules" element={<PlatformModules />} />
+            <Route path="/admin/platform/permissions" element={<PlatformPermissions />} />
+            <Route path="/admin/platform/observability" element={<PlatformObservability />} />
             
             {/* Portal (Public) */}
             <Route path="/portal/login" element={<PortalLogin />} />
