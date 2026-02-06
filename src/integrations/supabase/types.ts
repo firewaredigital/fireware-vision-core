@@ -2586,6 +2586,127 @@ export type Database = {
           },
         ]
       }
+      campaign_ab_variants: {
+        Row: {
+          bounce_count: number | null
+          campaign_id: string
+          click_count: number | null
+          click_rate: number | null
+          content: string | null
+          content_html: string | null
+          conversion_count: number | null
+          conversion_rate: number | null
+          created_at: string
+          delivered_count: number | null
+          from_email: string | null
+          from_name: string | null
+          id: string
+          is_control: boolean | null
+          is_winner: boolean | null
+          name: string
+          open_count: number | null
+          open_rate: number | null
+          organization_id: string
+          preview_text: string | null
+          sent_count: number | null
+          subject: string | null
+          template_id: string | null
+          traffic_percentage: number
+          unique_clicks: number | null
+          unique_opens: number | null
+          unsubscribe_count: number | null
+          updated_at: string
+          variant_key: string
+          won_at: string | null
+        }
+        Insert: {
+          bounce_count?: number | null
+          campaign_id: string
+          click_count?: number | null
+          click_rate?: number | null
+          content?: string | null
+          content_html?: string | null
+          conversion_count?: number | null
+          conversion_rate?: number | null
+          created_at?: string
+          delivered_count?: number | null
+          from_email?: string | null
+          from_name?: string | null
+          id?: string
+          is_control?: boolean | null
+          is_winner?: boolean | null
+          name: string
+          open_count?: number | null
+          open_rate?: number | null
+          organization_id: string
+          preview_text?: string | null
+          sent_count?: number | null
+          subject?: string | null
+          template_id?: string | null
+          traffic_percentage?: number
+          unique_clicks?: number | null
+          unique_opens?: number | null
+          unsubscribe_count?: number | null
+          updated_at?: string
+          variant_key?: string
+          won_at?: string | null
+        }
+        Update: {
+          bounce_count?: number | null
+          campaign_id?: string
+          click_count?: number | null
+          click_rate?: number | null
+          content?: string | null
+          content_html?: string | null
+          conversion_count?: number | null
+          conversion_rate?: number | null
+          created_at?: string
+          delivered_count?: number | null
+          from_email?: string | null
+          from_name?: string | null
+          id?: string
+          is_control?: boolean | null
+          is_winner?: boolean | null
+          name?: string
+          open_count?: number | null
+          open_rate?: number | null
+          organization_id?: string
+          preview_text?: string | null
+          sent_count?: number | null
+          subject?: string | null
+          template_id?: string | null
+          traffic_percentage?: number
+          unique_clicks?: number | null
+          unique_opens?: number | null
+          unsubscribe_count?: number | null
+          updated_at?: string
+          variant_key?: string
+          won_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "campaign_ab_variants_campaign_id_fkey"
+            columns: ["campaign_id"]
+            isOneToOne: false
+            referencedRelation: "campaigns"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "campaign_ab_variants_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "campaign_ab_variants_template_id_fkey"
+            columns: ["template_id"]
+            isOneToOne: false
+            referencedRelation: "email_templates"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       campaign_links: {
         Row: {
           campaign_id: string
@@ -6945,6 +7066,127 @@ export type Database = {
             columns: ["organization_id"]
             isOneToOne: false
             referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      email_template_sections: {
+        Row: {
+          conditions: Json | null
+          content: Json
+          created_at: string
+          display_order: number
+          id: string
+          is_locked: boolean | null
+          is_visible: boolean | null
+          organization_id: string
+          section_type: string
+          styles: Json
+          template_id: string
+          updated_at: string
+        }
+        Insert: {
+          conditions?: Json | null
+          content?: Json
+          created_at?: string
+          display_order?: number
+          id?: string
+          is_locked?: boolean | null
+          is_visible?: boolean | null
+          organization_id: string
+          section_type?: string
+          styles?: Json
+          template_id: string
+          updated_at?: string
+        }
+        Update: {
+          conditions?: Json | null
+          content?: Json
+          created_at?: string
+          display_order?: number
+          id?: string
+          is_locked?: boolean | null
+          is_visible?: boolean | null
+          organization_id?: string
+          section_type?: string
+          styles?: Json
+          template_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "email_template_sections_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "email_template_sections_template_id_fkey"
+            columns: ["template_id"]
+            isOneToOne: false
+            referencedRelation: "email_templates"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      email_template_versions: {
+        Row: {
+          body_html: string
+          body_json: Json | null
+          changelog: string | null
+          created_at: string
+          created_by: string | null
+          id: string
+          organization_id: string
+          sections: Json | null
+          template_id: string
+          version_number: number
+        }
+        Insert: {
+          body_html: string
+          body_json?: Json | null
+          changelog?: string | null
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          organization_id: string
+          sections?: Json | null
+          template_id: string
+          version_number: number
+        }
+        Update: {
+          body_html?: string
+          body_json?: Json | null
+          changelog?: string | null
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          organization_id?: string
+          sections?: Json | null
+          template_id?: string
+          version_number?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "email_template_versions_created_by_fkey"
+            columns: ["created_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "email_template_versions_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "email_template_versions_template_id_fkey"
+            columns: ["template_id"]
+            isOneToOne: false
+            referencedRelation: "email_templates"
             referencedColumns: ["id"]
           },
         ]
@@ -19931,6 +20173,10 @@ export type Database = {
         }
         Returns: string
       }
+      clone_email_template: {
+        Args: { p_new_name: string; p_template_id: string }
+        Returns: string
+      }
       complete_ai_run: {
         Args: {
           _completion_tokens?: number
@@ -20037,6 +20283,10 @@ export type Database = {
           p_password: string
         }
         Returns: string
+      }
+      declare_ab_winner: {
+        Args: { p_campaign_id: string; p_variant_id: string }
+        Returns: undefined
       }
       detect_duplicates: {
         Args: {
