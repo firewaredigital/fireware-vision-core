@@ -12,7 +12,9 @@ import Dashboard from "./pages/Dashboard";
 import Settings from "./pages/Settings";
 import AuditLogs from "./pages/AuditLogs";
 import Reports from "./pages/Reports";
-// Lazy route groups
+import CannedResponses from "./pages/CannedResponses";
+
+// Route groups
 import { SalesRoutes } from "./routes/SalesRoutes";
 import { ServiceRoutes } from "./routes/ServiceRoutes";
 import { MarketingRoutes } from "./routes/MarketingRoutes";
@@ -25,6 +27,8 @@ import { ManagementRoutes } from "./routes/ManagementRoutes";
 import { PortalRoutes } from "./routes/PortalRoutes";
 import { AdminRoutes } from "./routes/AdminRoutes";
 import { AIRoutes } from "./routes/AIRoutes";
+import { IntegrationRoutes } from "./routes/IntegrationRoutes";
+import { PartnerRoutes } from "./routes/PartnerRoutes";
 
 const queryClient = new QueryClient();
 
@@ -50,6 +54,7 @@ const App = () => (
             {AutomationRoutes()}
             {GovernanceRoutes()}
             {AIRoutes()}
+            {IntegrationRoutes()}
 
             {/* Management (always visible) */}
             {ManagementRoutes()}
@@ -57,8 +62,11 @@ const App = () => (
             {/* Admin Platform */}
             {AdminRoutes()}
 
-            {/* Portal (Public) */}
+            {/* Portal (Public - Customer) */}
             {PortalRoutes()}
+
+            {/* Portal (Public - Partner) */}
+            {PartnerRoutes()}
 
             {/* Settings */}
             <Route path="/reports" element={<Reports />} />
@@ -66,8 +74,7 @@ const App = () => (
             <Route path="/settings" element={<Settings />} />
             <Route path="/settings/canned-responses" element={
               <ModuleGuard moduleKey="service">
-                {/* Lazy import would go here; for now inline */}
-                <CannedResponsesLazy />
+                <CannedResponses />
               </ModuleGuard>
             } />
 
@@ -79,11 +86,5 @@ const App = () => (
     </AuthProvider>
   </QueryClientProvider>
 );
-
-// Inline lazy wrapper for canned responses
-import CannedResponses from "./pages/CannedResponses";
-function CannedResponsesLazy() {
-  return <CannedResponses />;
-}
 
 export default App;
