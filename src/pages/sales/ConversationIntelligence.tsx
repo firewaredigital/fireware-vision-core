@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/hooks/useAuth';
-import { AppLayout } from '@/components/layout/AppLayout';
+
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
@@ -141,7 +141,7 @@ export default function ConversationIntelligence() {
   };
 
   return (
-    <AppLayout>
+    <>
       <div className="space-y-6 p-6">
         <div>
           <h1 className="text-3xl font-bold tracking-tight">Conversation Intelligence</h1>
@@ -412,6 +412,6 @@ export default function ConversationIntelligence() {
           </TabsContent>
         </Tabs>
       </div>
-    </AppLayout>
+    </>
   );
 }

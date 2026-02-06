@@ -3,7 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/hooks/useAuth';
-import { AppLayout } from '@/components/layout/AppLayout';
+
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -318,7 +318,7 @@ export default function AIAgentPlayground() {
   };
 
   return (
-    <AppLayout>
+    <>
       <div className="flex flex-col h-[calc(100vh-4rem)]">
         {/* Header */}
         <div className="flex items-center justify-between pb-4">
@@ -469,6 +469,6 @@ export default function AIAgentPlayground() {
           </div>
         </Card>
       </div>
-    </AppLayout>
+    </>
   );
 }

@@ -1,4 +1,4 @@
-import { AppLayout } from '@/components/layout/AppLayout';
+
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -47,17 +47,17 @@ export default function GoldenRecordDetail() {
   });
 
   if (isLoading) {
-    return <AppLayout><div className="space-y-4"><Skeleton className="h-8 w-64" /><Skeleton className="h-64" /></div></AppLayout>;
+    return <div className="space-y-4"><Skeleton className="h-8 w-64" /><Skeleton className="h-64" /></div>;
   }
 
   if (!profile) {
-    return <AppLayout><div className="text-center py-12 text-muted-foreground">Perfil não encontrado.</div></AppLayout>;
+    return <div className="text-center py-12 text-muted-foreground">Perfil não encontrado.</div>;
   }
 
   const consolidated = profile.consolidated_data as Record<string, unknown> | null;
 
   return (
-    <AppLayout>
+    <>
       <div className="space-y-6">
         <div className="flex items-center gap-4">
           <Button variant="ghost" size="icon" onClick={() => navigate('/data-hub/golden-records')}><ArrowLeft className="h-4 w-4" /></Button>
@@ -177,6 +177,6 @@ export default function GoldenRecordDetail() {
           </TabsContent>
         </Tabs>
       </div>
-    </AppLayout>
+    </>
   );
 }
