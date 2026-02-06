@@ -26,7 +26,7 @@ import {
 } from '@/components/ui/select';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
-import { AppLayout } from '@/components/layout/AppLayout';
+
 import { useAuth } from '@/hooks/useAuth';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
@@ -81,11 +81,6 @@ export default function ProductForm() {
     },
   });
 
-  useEffect(() => {
-    if (!authLoading && !user) {
-      navigate('/auth');
-    }
-  }, [user, authLoading, navigate]);
 
   useEffect(() => {
     fetchCategories();
@@ -216,16 +211,14 @@ export default function ProductForm() {
 
   if (authLoading || fetchingProduct) {
     return (
-      <AppLayout>
         <div className="flex items-center justify-center h-64">
           <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
         </div>
-      </AppLayout>
     );
   }
 
   return (
-    <AppLayout>
+    
       <div className="space-y-6 max-w-3xl">
         {/* Header */}
         <div className="flex items-center gap-4">
@@ -499,6 +492,6 @@ export default function ProductForm() {
           </form>
         </Form>
       </div>
-    </AppLayout>
+    
   );
 }

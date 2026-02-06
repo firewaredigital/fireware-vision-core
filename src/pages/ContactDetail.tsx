@@ -39,7 +39,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
-import { AppLayout } from '@/components/layout/AppLayout';
+
 import { useAuth } from '@/hooks/useAuth';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
@@ -120,11 +120,6 @@ export default function ContactDetail() {
   const [opportunities, setOpportunities] = useState<OpportunityContact[]>([]);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    if (!authLoading && !user) {
-      navigate('/auth');
-    }
-  }, [user, authLoading, navigate]);
 
   useEffect(() => {
     if (id && user) {
@@ -228,27 +223,23 @@ export default function ContactDetail() {
 
   if (authLoading || loading) {
     return (
-      <AppLayout>
         <div className="flex items-center justify-center h-64">
           <RefreshCw className="h-8 w-8 animate-spin text-muted-foreground" />
         </div>
-      </AppLayout>
     );
   }
 
   if (!contact) {
     return (
-      <AppLayout>
         <div className="flex flex-col items-center justify-center h-64 gap-4">
           <p className="text-muted-foreground">Contato não encontrado</p>
           <Button onClick={() => navigate('/contacts')}>Voltar para Contatos</Button>
         </div>
-      </AppLayout>
     );
   }
 
   return (
-    <AppLayout>
+    
       <div className="space-y-6">
         {/* Header */}
         <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
@@ -588,6 +579,6 @@ export default function ContactDetail() {
           </div>
         </div>
       </div>
-    </AppLayout>
+    
   );
 }

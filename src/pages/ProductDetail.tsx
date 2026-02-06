@@ -18,7 +18,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
-import { AppLayout } from '@/components/layout/AppLayout';
+
 import { useAuth } from '@/hooks/useAuth';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
@@ -68,11 +68,6 @@ export default function ProductDetail() {
     totalRevenue: 0,
   });
 
-  useEffect(() => {
-    if (!authLoading && !user) {
-      navigate('/auth');
-    }
-  }, [user, authLoading, navigate]);
 
   useEffect(() => {
     if (id && user) {
@@ -184,23 +179,19 @@ export default function ProductDetail() {
 
   if (authLoading || loading) {
     return (
-      <AppLayout>
         <div className="flex items-center justify-center h-64">
           <RefreshCw className="h-8 w-8 animate-spin text-muted-foreground" />
         </div>
-      </AppLayout>
     );
   }
 
   if (!product) {
     return (
-      <AppLayout>
         <div className="flex flex-col items-center justify-center h-64 gap-4">
           <Package className="h-12 w-12 text-muted-foreground" />
           <p className="text-muted-foreground">Produto não encontrado</p>
           <Button onClick={() => navigate('/products')}>Voltar para Produtos</Button>
         </div>
-      </AppLayout>
     );
   }
 
@@ -209,7 +200,7 @@ export default function ProductDetail() {
     : null;
 
   return (
-    <AppLayout>
+    
       <div className="space-y-6">
         {/* Header */}
         <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
@@ -456,6 +447,6 @@ export default function ProductDetail() {
           </div>
         </div>
       </div>
-    </AppLayout>
+    
   );
 }

@@ -8,7 +8,7 @@ import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Separator } from '@/components/ui/separator';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
-import { AppLayout } from '@/components/layout/AppLayout';
+
 import { Timeline } from '@/components/Timeline';
 import { useAuth } from '@/hooks/useAuth';
 import { supabase } from '@/integrations/supabase/client';
@@ -61,9 +61,6 @@ export default function OpportunityDetail() {
   const [contacts, setContacts] = useState<Contact[]>([]);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    if (!authLoading && !user) navigate('/auth');
-  }, [user, authLoading, navigate]);
 
   useEffect(() => {
     async function fetchData() {
@@ -134,7 +131,6 @@ export default function OpportunityDetail() {
 
   if (loading) {
     return (
-      <AppLayout>
         <div className="space-y-6">
           <div className="flex items-center gap-4">
             <Skeleton className="h-10 w-10" />
@@ -145,14 +141,13 @@ export default function OpportunityDetail() {
             <Skeleton className="h-48" />
           </div>
         </div>
-      </AppLayout>
     );
   }
 
   if (!opportunity) return null;
 
   return (
-    <AppLayout>
+    
       <div className="space-y-6">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-4">
@@ -402,6 +397,6 @@ export default function OpportunityDetail() {
           </div>
         </div>
       </div>
-    </AppLayout>
+    
   );
 }
