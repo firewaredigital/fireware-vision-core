@@ -2,10 +2,15 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate, useLocation } from "react-router-dom";
 import { AuthProvider } from "@/hooks/useAuth";
 import { ModuleGuard } from "@/components/guards/ModuleGuard";
-import Index from "./pages/Index";
+import { ProtectedLayout } from "@/components/guards/ProtectedLayout";
+import { ErrorBoundary } from "@/components/ErrorBoundary";
+import { ThemeProvider } from "@/components/ThemeProvider";
+import { QUERY_DEFAULTS } from "@/lib/queryConfig";
+
+// Pages
 import NotFound from "./pages/NotFound";
 import Auth from "./pages/Auth";
 import Dashboard from "./pages/Dashboard";
@@ -31,61 +36,109 @@ import { AIRoutes } from "./routes/AIRoutes";
 import { IntegrationRoutes } from "./routes/IntegrationRoutes";
 import { PartnerRoutes } from "./routes/PartnerRoutes";
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: QUERY_DEFAULTS.queries.staleTime,
+      gcTime: QUERY_DEFAULTS.queries.gcTime,
+      retry: QUERY_DEFAULTS.queries.retry,
+      retryDelay: QUERY_DEFAULTS.queries.retryDelay,
+      refetchOnWindowFocus: QUERY_DEFAULTS.queries.refetchOnWindowFocus,
+      refetchOnReconnect: QUERY_DEFAULTS.queries.refetchOnReconnect,
+    },
+    mutations: {
+      retry: QUERY_DEFAULTS.mutations.retry,
+    },
+  },
+});
+
+/**
+ * ErrorBoundary wrapper that resets on route change.
+ * Must be inside BrowserRouter to access useLocation.
+ */
+function RouteAwareErrorBoundary({ children }: { children: React.ReactNode }) {
+  const location = useLocation();
+  return (
+    <ErrorBoundary resetKeys={[location.pathname]}>
+      {children}
+    </ErrorBoundary>
+  );
+}
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
-    <AuthProvider>
-      <TooltipProvider>
-        <Toaster />
-        <Sonner />
-        <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<Navigate to="/dashboard" replace />} />
-            <Route path="/auth" element={<Auth />} />
-            <Route path="/dashboard" element={<Dashboard />} />
+    <ThemeProvider defaultTheme="system" storageKey="fireware-theme">
+      <AuthProvider>
+        <TooltipProvider>
+          <Toaster />
+          <Sonner />
+          <BrowserRouter>
+            <RouteAwareErrorBoundary>
+              <Routes>
+                {/* Root redirect */}
+                <Route path="/" element={<Navigate to="/dashboard" replace />} />
+                
+                {/* Public routes — sem AuthGuard */}
+                <Route path="/auth" element={<Auth />} />
 
-            {/* Module-guarded route groups */}
-            {SalesRoutes()}
-            {ServiceRoutes()}
-            {MarketingRoutes()}
-            {CommerceRoutes()}
-            {ITRoutes()}
-            {DataRoutes()}
-            {AutomationRoutes()}
-            {GovernanceRoutes()}
-            {AIRoutes()}
-            {IntegrationRoutes()}
+                {/* Protected routes — todas dentro de ProtectedLayout */}
+                <Route path="/dashboard" element={
+                  <ProtectedLayout><Dashboard /></ProtectedLayout>
+                } />
 
-            {/* Management (always visible) */}
-            {ManagementRoutes()}
+                {/* Module-guarded route groups */}
+                {SalesRoutes()}
+                {ServiceRoutes()}
+                {MarketingRoutes()}
+                {CommerceRoutes()}
+                {ITRoutes()}
+                {DataRoutes()}
+                {AutomationRoutes()}
+                {GovernanceRoutes()}
+                {AIRoutes()}
+                {IntegrationRoutes()}
 
-            {/* Admin Platform */}
-            {AdminRoutes()}
+                {/* Management (always visible) */}
+                {ManagementRoutes()}
 
-            {/* Portal (Public - Customer) */}
-            {PortalRoutes()}
+                {/* Admin Platform */}
+                {AdminRoutes()}
 
-            {/* Portal (Public - Partner) */}
-            {PartnerRoutes()}
+                {/* Portal (Public - Customer) */}
+                {PortalRoutes()}
 
-            {/* Settings */}
-            <Route path="/reports" element={<Reports />} />
-            <Route path="/audit-logs" element={<AuditLogs />} />
-            <Route path="/notifications" element={<Notifications />} />
-            <Route path="/settings" element={<Settings />} />
-            <Route path="/settings/canned-responses" element={
-              <ModuleGuard moduleKey="service">
-                <CannedResponses />
-              </ModuleGuard>
-            } />
+                {/* Portal (Public - Partner) */}
+                {PartnerRoutes()}
 
-            {/* Catch-all */}
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </BrowserRouter>
-      </TooltipProvider>
-    </AuthProvider>
+                {/* Protected utility routes */}
+                <Route path="/reports" element={
+                  <ProtectedLayout><Reports /></ProtectedLayout>
+                } />
+                <Route path="/audit-logs" element={
+                  <ProtectedLayout><AuditLogs /></ProtectedLayout>
+                } />
+                <Route path="/notifications" element={
+                  <ProtectedLayout><Notifications /></ProtectedLayout>
+                } />
+                <Route path="/settings" element={
+                  <ProtectedLayout><Settings /></ProtectedLayout>
+                } />
+                <Route path="/settings/canned-responses" element={
+                  <ProtectedLayout>
+                    <ModuleGuard moduleKey="service">
+                      <CannedResponses />
+                    </ModuleGuard>
+                  </ProtectedLayout>
+                } />
+
+                {/* Catch-all */}
+                <Route path="*" element={<NotFound />} />
+              </Routes>
+            </RouteAwareErrorBoundary>
+          </BrowserRouter>
+        </TooltipProvider>
+      </AuthProvider>
+    </ThemeProvider>
   </QueryClientProvider>
 );
 

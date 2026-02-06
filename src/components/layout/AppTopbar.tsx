@@ -1,5 +1,4 @@
-import { useState } from 'react';
-import { Plus, Moon, Sun } from 'lucide-react';
+import { Plus, Moon, Sun, Monitor } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { SidebarTrigger } from '@/components/ui/sidebar';
 import {
@@ -13,15 +12,23 @@ import {
 import { useNavigate } from 'react-router-dom';
 import { GlobalSearch } from '@/components/GlobalSearch';
 import { NotificationCenter } from '@/components/NotificationCenter';
+import { useTheme } from 'next-themes';
 
 export function AppTopbar() {
   const navigate = useNavigate();
-  const [isDark, setIsDark] = useState(false);
+  const { theme, setTheme } = useTheme();
 
-  const toggleTheme = () => {
-    setIsDark(!isDark);
-    document.documentElement.classList.toggle('dark');
-  };
+  const themeIcon = theme === 'dark' 
+    ? <Sun className="h-4 w-4" /> 
+    : theme === 'light' 
+      ? <Moon className="h-4 w-4" /> 
+      : <Monitor className="h-4 w-4" />;
+
+  const themeLabel = theme === 'dark'
+    ? 'Escuro'
+    : theme === 'light'
+      ? 'Claro'
+      : 'Sistema';
 
   return (
     <header className="sticky top-0 z-40 flex h-14 items-center gap-4 border-b bg-background px-4">
@@ -63,10 +70,39 @@ export function AppTopbar() {
         {/* Notifications - Real-time NotificationCenter */}
         <NotificationCenter />
 
-        {/* Theme Toggle */}
-        <Button variant="ghost" size="icon" onClick={toggleTheme}>
-          {isDark ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
-        </Button>
+        {/* Theme Toggle with 3 options */}
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="ghost" size="icon" title={`Tema: ${themeLabel}`}>
+              {themeIcon}
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end" className="w-36">
+            <DropdownMenuLabel>Tema</DropdownMenuLabel>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem
+              onClick={() => setTheme('light')}
+              className={theme === 'light' ? 'bg-accent' : ''}
+            >
+              <Sun className="h-4 w-4 mr-2" />
+              Claro
+            </DropdownMenuItem>
+            <DropdownMenuItem
+              onClick={() => setTheme('dark')}
+              className={theme === 'dark' ? 'bg-accent' : ''}
+            >
+              <Moon className="h-4 w-4 mr-2" />
+              Escuro
+            </DropdownMenuItem>
+            <DropdownMenuItem
+              onClick={() => setTheme('system')}
+              className={theme === 'system' ? 'bg-accent' : ''}
+            >
+              <Monitor className="h-4 w-4 mr-2" />
+              Sistema
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
       </div>
     </header>
   );

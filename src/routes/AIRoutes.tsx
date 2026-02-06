@@ -1,5 +1,6 @@
 import { Route } from 'react-router-dom';
 import { ModuleGuard } from '@/components/guards/ModuleGuard';
+import { ProtectedLayout } from '@/components/guards/ProtectedLayout';
 import AIAgents from '@/pages/ai/AIAgents';
 import AIAgentForm from '@/pages/ai/AIAgentForm';
 import AIAgentDetail from '@/pages/ai/AIAgentDetail';
@@ -13,49 +14,31 @@ import AIAnalytics from '@/pages/ai/AIAnalytics';
 export function AIRoutes() {
   return [
     <Route key="ai-agents" path="/ai/agents" element={
-      <ModuleGuard moduleKey="ai_agents" redirectTo="/dashboard">
-        <AIAgents />
-      </ModuleGuard>
+      <ProtectedLayout><ModuleGuard moduleKey="ai_agents" redirectTo="/dashboard"><AIAgents /></ModuleGuard></ProtectedLayout>
     } />,
     <Route key="ai-agents-new" path="/ai/agents/new" element={
-      <ModuleGuard moduleKey="ai_agents" redirectTo="/dashboard">
-        <AIAgentForm />
-      </ModuleGuard>
+      <ProtectedLayout><ModuleGuard moduleKey="ai_agents" redirectTo="/dashboard"><AIAgentForm /></ModuleGuard></ProtectedLayout>
     } />,
     <Route key="ai-agents-id" path="/ai/agents/:id" element={
-      <ModuleGuard moduleKey="ai_agents" redirectTo="/dashboard">
-        <AIAgentDetail />
-      </ModuleGuard>
+      <ProtectedLayout><ModuleGuard moduleKey="ai_agents" redirectTo="/dashboard"><AIAgentDetail /></ModuleGuard></ProtectedLayout>
     } />,
     <Route key="ai-agents-test" path="/ai/agents/:id/test" element={
-      <ModuleGuard moduleKey="ai_agents" redirectTo="/dashboard">
-        <AIAgentPlayground />
-      </ModuleGuard>
+      <ProtectedLayout><ModuleGuard moduleKey="ai_agents" redirectTo="/dashboard"><AIAgentPlayground /></ModuleGuard></ProtectedLayout>
     } />,
     <Route key="ai-tools" path="/ai/tools" element={
-      <ModuleGuard moduleKey="ai_agents" redirectTo="/dashboard">
-        <AITools />
-      </ModuleGuard>
+      <ProtectedLayout><ModuleGuard moduleKey="ai_agents" redirectTo="/dashboard"><AITools /></ModuleGuard></ProtectedLayout>
     } />,
     <Route key="ai-policies" path="/ai/policies" element={
-      <ModuleGuard moduleKey="ai_agents" redirectTo="/dashboard">
-        <AIPolicies />
-      </ModuleGuard>
+      <ProtectedLayout><ModuleGuard moduleKey="ai_agents" redirectTo="/dashboard"><AIPolicies /></ModuleGuard></ProtectedLayout>
     } />,
     <Route key="ai-evals" path="/ai/evals" element={
-      <ModuleGuard moduleKey="ai_agents" redirectTo="/dashboard">
-        <AIEvals />
-      </ModuleGuard>
+      <ProtectedLayout><ModuleGuard moduleKey="ai_agents" redirectTo="/dashboard"><AIEvals /></ModuleGuard></ProtectedLayout>
     } />,
     <Route key="ai-runs" path="/ai/runs" element={
-      <ModuleGuard moduleKey="ai_agents" redirectTo="/dashboard">
-        <AIRuns />
-      </ModuleGuard>
+      <ProtectedLayout><ModuleGuard moduleKey="ai_agents" redirectTo="/dashboard"><AIRuns /></ModuleGuard></ProtectedLayout>
     } />,
     <Route key="ai-analytics" path="/ai/analytics" element={
-      <ModuleGuard moduleKey="ai_agents" redirectTo="/dashboard">
-        <AIAnalytics />
-      </ModuleGuard>
+      <ProtectedLayout><ModuleGuard moduleKey="ai_agents" redirectTo="/dashboard"><AIAnalytics /></ModuleGuard></ProtectedLayout>
     } />,
   ];
 }
