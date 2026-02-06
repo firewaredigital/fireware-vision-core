@@ -159,6 +159,7 @@ const NAV_SECTIONS: NavSection[] = [
       { title: 'Preferências', url: '/marketing/preference-center', icon: SlidersHorizontal },
       { title: 'Personalização', url: '/marketing/personalization', icon: Sparkles },
       { title: 'Intelligence', url: '/marketing/intelligence', icon: Brain },
+      { title: 'Templates de Email', url: '/marketing/email-templates', icon: Mail },
     ],
     defaultOpen: true,
   },
@@ -265,6 +266,7 @@ const managementNavItems: NavItem[] = [
   { title: 'Territórios', url: '/territories', icon: Map },
   { title: 'Cadências', url: '/cadences', icon: Zap },
   { title: 'Forecast', url: '/forecast', icon: BarChart3 },
+  { title: 'Dashboards', url: '/dashboards', icon: LayoutDashboard },
   { title: 'Relatórios', url: '/reports', icon: PieChart },
   { title: 'Auditoria', url: '/audit-logs', icon: ClipboardList },
 ];
