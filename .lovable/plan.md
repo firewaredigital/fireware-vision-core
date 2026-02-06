@@ -1,114 +1,233 @@
 
-# Plano de Correção: Fluxo de Ativação de Módulos
 
-## Diagnostico Completo da Cadeia de Falhas
+# Redesign Radical do Sistema Fireware CRM
 
-A analise revelou **4 problemas encadeados** que impedem o funcionamento da tela de Modulos:
+## Analise das Imagens de Referencia
 
-### Causa Raiz 1: Onboarding Incompleto
-O trigger `on_auth_user_created` (disparado ao criar usuario) apenas insere `id` e `email` na tabela `profiles`. Ele **NAO**:
-- Cria uma organizacao na tabela `organizations`
-- Associa o usuario a essa organizacao (`profiles.organization_id` fica `NULL`)
-- Atribui a role `admin` ao primeiro usuario
+As 4 imagens de referencia compartilham um padrao de design muito claro e consistente:
 
-### Causa Raiz 2: Role Insuficiente
-O usuario de teste possui `role: 'user'` tanto em `profiles` quanto em `user_roles`. As politicas RLS da tabela `org_modules` exigem explicitamente `user_has_role(auth.uid(), 'admin')` para INSERT, UPDATE e DELETE.
+1. **Sidebar escura** (quase preta, #212427) com icones e labels em branco, com secoes colapsaveis e indicador vermelho no item ativo
+2. **Topbar branca/clara** com busca central proeminente, notificacoes e avatar do usuario a direita
+3. **Area de conteudo** com fundo cinza claro (#f5f5f5) e cards brancos (#ffffff) com bordas suaves
+4. **Vermelho vivo (#FF0000)** usado pontualmente em: item ativo da sidebar, badges de alerta, botoes CTA primarios, indicadores de status
+5. **Tipografia limpa** com hierarquia clara, titulos bold e subtitulos em cinza suave
+6. **Cards com bordas arredondadas** sem sombras pesadas, apenas bordas sutis
+7. **Layout de detalhes** (imagens 7-8): painel lateral esquerdo com metadados + area principal de conteudo
 
-### Causa Raiz 3: Violacao de RLS
-A funcao `is_member_of_org(organization_id)` verifica se o `profiles.organization_id` do usuario corresponde ao parametro. Como o `organization_id` e `NULL`, a verificacao sempre falha, bloqueando qualquer operacao.
+---
 
-### Causa Raiz 4: organization_id NULL no INSERT
-O componente `PlatformModules.tsx` envia `organization_id: null` (obtido de `profile?.organization_id`) na operacao de INSERT na tabela `org_modules`, que possui constraint `NOT NULL` nessa coluna.
+## Paleta de Cores Definitiva
+
+| Token | Valor | Uso |
+|-------|-------|-----|
+| Vermelho vivo | #FF0000 | Acentos pontuais, item ativo, CTA primario |
+| Escuro | #212427 | Sidebar, textos primarios |
+| Cinza claro | #F5F5F5 | Background da area de conteudo |
+| Branco | #FFFFFF | Cards, topbar, superficies |
+
+---
+
+## Arquivos Impactados e Alteracoes
+
+### 1. `src/index.css` - Design Tokens (CSS Variables)
+
+Reescrever completamente as variaveis CSS para refletir a nova paleta:
+
+**Modo Claro (:root):**
+- `--background`: Cinza claro #F5F5F5 (0 0% 96%)
+- `--foreground`: Escuro #212427 (216 5% 14%)
+- `--card` / `--popover`: Branco #FFFFFF (0 0% 100%)
+- `--card-foreground` / `--popover-foreground`: #212427
+- `--primary`: Vermelho #FF0000 (0 100% 50%)
+- `--primary-foreground`: Branco #FFFFFF
+- `--secondary`: Cinza neutro suave (220 14% 96%)
+- `--muted`: Cinza de fundo suave (220 14% 96%)
+- `--muted-foreground`: Cinza medio para textos secundarios
+- `--accent`: Cinza suave para hovers
+- `--border`: Cinza claro para bordas (220 13% 90%)
+- `--input`: Cinza claro para bordas de inputs
+- `--ring`: Vermelho #FF0000 para focus rings
+- `--sidebar-background`: #212427 (216 5% 14%)
+- `--sidebar-foreground`: Branco #FAFAFA
+- `--sidebar-primary`: #FF0000
+- `--sidebar-accent`: Tom levemente mais claro que #212427
+- `--sidebar-border`: Tom sutil de divisao no sidebar
+
+**Modo Escuro (.dark):**
+- `--background`: #1a1a1a (quase preto)
+- `--foreground`: #fafafa
+- `--card`: #212427
+- `--primary`: #FF0000 (mantido)
+- `--sidebar-background`: #151618
+- Todos os outros tokens ajustados proporcionalmente
+
+**Adicoes de utilidades CSS:**
+- Classe `.glass-card` para efeito de vidro sutil
+- Remover sombras pesadas, usar bordas finas
+
+### 2. `src/components/layout/AppSidebar.tsx` - Sidebar Redesenhada
+
+Redesenho completo seguindo o padrao das imagens de referencia:
+
+- **Header**: Logo Fireware com icone Flame em fundo vermelho, nome "Fireware" em branco e subtitulo "CRM Enterprise" em cinza claro
+- **Navegacao por secoes com icones**: Cada secao ("Vendas", "Atendimento", etc.) exibida como grupo com label em UPPERCASE em cinza claro semi-transparente, e itens com icone + texto
+- **Item ativo**: Fundo levemente mais claro (#2d3035) com borda lateral esquerda em vermelho #FF0000 (3px) e texto em branco brilhante
+- **Hover**: Background sutil mais claro que o fundo do sidebar
+- **Footer**: Avatar do usuario com nome e role, botao de logout
+- **Collapsible groups**: Setas de expansao sutis, animacao suave
+- **Espacamento**: Padding mais generoso, itens com 40px de altura
+- **Tipografia dos labels de secao**: 10px, uppercase, letter-spacing 0.05em, cor semi-transparente
+
+### 3. `src/components/layout/AppTopbar.tsx` - Topbar Redesenhada
+
+Seguindo o padrao das imagens (especialmente imagem 5 e 6):
+
+- **Background**: Branco puro (#FFFFFF) com borda inferior cinza claro
+- **Layout**: Grid de 3 colunas - SidebarTrigger a esquerda, busca central expansiva, acoes a direita
+- **Busca**: Campo centralizado com fundo #F5F5F5, icone de lupa, bordas arredondadas maiores, placeholder "Buscar em todo o sistema..."
+- **Acoes a direita**: Botao "Criar" com fundo vermelho, icone de sino para notificacoes (badge vermelho), seletor de tema, avatar do usuario com nome e role visivel
+- **Altura**: 64px (aumentada de 56px) para mais presenca visual
+- **Sem sombra**: Apenas borda inferior fina
+
+### 4. `src/components/layout/AppLayout.tsx` - Layout Principal
+
+- **Area de conteudo**: Background #F5F5F5, padding ajustado
+- **Transicao suave**: Ao expandir/colapsar sidebar
+
+### 5. `src/components/ui/card.tsx` - Cards Redesenhados
+
+- **Background**: Branco puro #FFFFFF
+- **Borda**: 1px solid com cor cinza claro sutil
+- **Sombra**: Removida ou extremamente sutil (0 1px 3px rgba(0,0,0,0.04))
+- **Border-radius**: 12px (aumentado de 8px)
+- **Padding**: Generoso (24px)
+
+### 6. `src/components/ui/button.tsx` - Botoes Atualizados
+
+- **Variante default (Primary)**: Background vermelho #FF0000, hover vermelho escurecido, texto branco, border-radius 8px
+- **Variante secondary**: Background cinza claro #F5F5F5, texto #212427
+- **Variante ghost**: Sem background, hover cinza muito suave
+- **Variante outline**: Borda cinza, hover cinza suave
+- **Transicoes**: Mais suaves (200ms)
+
+### 7. `src/components/ui/badge.tsx` - Badges Atualizados
+
+- Estilos mais refinados com cores suaves
+- Badge vermelho para status criticos
+- Badge neutro com fundo cinza claro
+
+### 8. `src/components/ui/input.tsx` - Inputs Atualizados
+
+- **Background**: Branco ou #F5F5F5
+- **Borda**: Cinza claro, focus com ring vermelho sutil
+- **Border-radius**: 8px
+- **Altura**: 42px
+
+### 9. `src/components/ui/table.tsx` - Tabelas Atualizadas
+
+- **Header**: Background #F5F5F5, texto em cinza medio, uppercase 11px
+- **Rows**: Hover suave, bordas horizontais finas
+- **Spacing**: Cells com padding generoso
+
+### 10. `src/components/ui/tabs.tsx` - Tabs Atualizados
+
+- Estilo mais limpo, sem fundo no container
+- Tab ativa com borda inferior vermelha (#FF0000) em vez de fundo
+- Texto ativo em #212427, inativo em cinza medio
+
+### 11. `src/pages/Auth.tsx` - Tela de Login Redesenhada
+
+- **Lado esquerdo**: Background #212427 com logo Fireware grande, textos em branco
+- **Lado direito**: Branco com formulario limpo
+- **Botoes**: Vermelho primario
+
+### 12. `src/pages/Dashboard.tsx` - Dashboard Redesenhado
+
+- **KPI Cards**: Layout seguindo imagem 5 - cards brancos com icone colorido, titulo em cinza pequeno, valor grande em bold #212427, indicadores de variacao
+- **Graficos**: Estilizacao consistente com cores da paleta
+- **Background**: #F5F5F5 com cards brancos
+
+### 13. `tailwind.config.ts` - Configuracao Tailwind
+
+- `--radius`: Aumentado para 0.75rem (12px)
+- Cores mapeadas mantidas, valores alterados via CSS variables
+
+### 14. `src/App.css` - Limpeza
+
+- Remover estilos antigos/residuais do template Vite
+
+### 15. `src/components/GlobalSearch.tsx` - Busca Global
+
+- Estilizacao alinhada com o novo topbar
+- Campo de busca mais proeminente
+- Dropdown de resultados com fundo branco e bordas arredondadas
+
+### 16. Portal e Partner Layouts
+
+- `src/pages/portal/PortalLayout.tsx`: Ajustar para paleta consistente
+- `src/pages/partner/PartnerLayout.tsx`: Ajustar para paleta consistente
+
+### 17. Componentes UI Adicionais
+
+- `src/components/ui/dialog.tsx`: Bordas arredondadas maiores
+- `src/components/ui/select.tsx`: Estilo de input consistente
+- `src/components/ui/dropdown-menu.tsx`: Estilo mais limpo
+- `src/components/ui/popover.tsx`: Bordas arredondadas
+
+---
+
+## Detalhes Tecnicos da Implementacao
+
+### Mudancas nos CSS Variables (index.css)
+
+A alteracao central e nas variaveis CSS. Todos os componentes que ja usam `hsl(var(--variavel))` serao automaticamente atualizados. As mudancas principais:
 
 ```text
-Fluxo do Erro:
-Usuario clica "Ativar Modulo"
-    |
-    v
-PlatformModules envia INSERT com organization_id: null
-    |
-    v
-RLS Policy: is_member_of_org(null) => FALSE
-    |
-    v
-RLS Policy: user_has_role(uid, 'admin') => FALSE
-    |
-    v
-Erro 42501: "new row violates row-level security policy"
+:root
+  --background:      210 20% 96%    (era 0 0% 99%) --> #F5F5F5
+  --foreground:      216 5% 14%     (era 220 13% 13%) --> #212427
+  --card:            0 0% 100%      (mantido) --> #FFFFFF
+  --primary:         0 100% 50%     (mantido) --> #FF0000
+  --sidebar-background: 216 5% 14%  (era 220 13% 13%) --> #212427
+  --radius:          0.75rem        (era 0.5rem) --> 12px
 ```
 
----
+### Mudancas Estruturais na Sidebar (AppSidebar.tsx)
 
-## Plano de Implementacao
+- Adicionar borda esquerda vermelha no item ativo (3px solid)
+- Aumentar altura dos itens de menu para 40px
+- Labels de secao em uppercase com letter-spacing
+- Animacao suave de hover com transicao de 150ms
+- Separadores sutis entre secoes
 
-### Etapa 1: Migrar Trigger de Onboarding Automatico (SQL)
+### Mudancas Estruturais no Topbar (AppTopbar.tsx)
 
-Refatorar o trigger `handle_new_user` para:
-1. Detectar o dominio do email do novo usuario
-2. Buscar se ja existe uma organizacao com esse dominio
-3. Se existir: associar o usuario a ela com role `user`
-4. Se NAO existir: criar nova organizacao, associar o usuario como `admin`, e provisionar todos os 15 modulos com `enabled: true` e `plan_tier: 'free'`
-5. Inserir a role correspondente na tabela `user_roles`
+- Altura aumentada para 64px
+- Busca centralizada com largura maxima de 600px
+- Avatar com nome do usuario visivel no desktop
+- Background branco puro com borda inferior
 
-Essa logica garante que **todo novo usuario** tenha uma organizacao e uma role adequada desde o momento do cadastro.
+### Ordem de Execucao
 
-### Etapa 2: Corrigir Dados do Usuario Existente (SQL)
+1. `src/index.css` - Design tokens (base para tudo)
+2. `tailwind.config.ts` - Radius e ajustes de config
+3. `src/App.css` - Limpeza
+4. `src/components/ui/card.tsx` - Cards
+5. `src/components/ui/button.tsx` - Botoes
+6. `src/components/ui/badge.tsx` - Badges
+7. `src/components/ui/input.tsx` - Inputs
+8. `src/components/ui/table.tsx` - Tabelas
+9. `src/components/ui/tabs.tsx` - Tabs
+10. `src/components/layout/AppSidebar.tsx` - Sidebar
+11. `src/components/layout/AppTopbar.tsx` - Topbar
+12. `src/components/layout/AppLayout.tsx` - Layout
+13. `src/components/GlobalSearch.tsx` - Busca
+14. `src/pages/Auth.tsx` - Login
+15. `src/pages/Dashboard.tsx` - Dashboard
+16. `src/pages/portal/PortalLayout.tsx` - Portal
+17. `src/pages/partner/PartnerLayout.tsx` - Partner
 
-Para o usuario de teste (`teste@fireware.com`) que ja existe sem organizacao:
-1. Criar organizacao "Fireware" com dominio `fireware.com`
-2. Atualizar `profiles.organization_id` para apontar para essa organizacao
-3. Atualizar `profiles.role` para `admin`
-4. Atualizar `user_roles.role` para `admin`
+### Principio Fundamental
 
-### Etapa 3: Refatorar PlatformModules.tsx (Frontend)
+Todas as mudancas de cor fluem das CSS variables. Componentes que ja usam `bg-card`, `bg-background`, `text-foreground`, `bg-primary`, `bg-sidebar`, etc. serao atualizados automaticamente ao mudar as variaveis em `index.css`. As mudancas nos componentes `.tsx` sao focadas em **estrutura** (spacing, border-radius, layout) e **comportamento visual** (borda ativa vermelha na sidebar, tabs com underline).
 
-Melhorias no componente:
-1. Adicionar verificacao de `organization_id` antes de permitir operacoes
-2. Exibir mensagem orientativa caso o usuario nao tenha organizacao associada
-3. Adicionar tratamento de erro mais detalhado com mensagens contextuais (ex: diferenciar RLS error de validation error)
-4. Corrigir os warnings de `forwardRef` no componente e no Badge
-
-### Etapa 4: Proteção da Pagina Admin (Frontend)
-
-1. Adicionar verificacao de role `admin` na pagina de modulos
-2. Exibir mensagem de acesso negado para usuarios nao-admin
-3. Verificar se `organization_id` esta disponivel antes de habilitar controles
-
----
-
-## Detalhes Tecnicos
-
-### SQL Migration 1 - Trigger `handle_new_user` refatorado
-
-A nova funcao `handle_new_user()` implementara:
-- Declaracao de variaveis para `_org_id`, `_email_domain`, `_existing_org_id`, `_user_role`
-- Extracao do dominio do email com `split_part(NEW.email, '@', 2)`
-- SELECT para verificar organizacao existente pelo dominio
-- Logica condicional com IF/ELSE para criar ou reutilizar organizacao
-- INSERT na `profiles` com `organization_id`, `first_name`, `last_name`
-- INSERT na `user_roles` com a role apropriada
-- Loop INSERT nos `org_modules` com os 15 module_keys quando criar nova org
-
-### SQL Migration 2 - Correcao de dados existentes
-
-Script para:
-- Criar organizacao para o usuario atual
-- Vincular usuario a organizacao
-- Promover usuario a admin
-- Provisionar modulos iniciais
-
-### Frontend - PlatformModules.tsx
-
-Alteracoes:
-- Importar `useAuth` e verificar `profile.role` e `profile.organization_id`
-- Estado de "sem organizacao" com UI informativa
-- Mensagens de erro contextuais no `onError` da mutation
-- Desabilitar controles quando `organizationId` for null
-
-### Arquivos Impactados
-
-| Arquivo | Tipo de Alteracao |
-|---------|-------------------|
-| SQL Migration (trigger) | Refatorar `handle_new_user()` |
-| SQL Migration (dados) | Corrigir usuario existente |
-| `src/pages/admin/PlatformModules.tsx` | Validacoes e UX melhorada |
