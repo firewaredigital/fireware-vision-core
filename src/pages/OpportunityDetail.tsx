@@ -344,6 +344,10 @@ export default function OpportunityDetail() {
                   </CardContent>
                 </Card>
               </TabsContent>
+
+              <TabsContent value="history" className="mt-4">
+                <ChangeHistory entityType="opportunity" entityId={id!} />
+              </TabsContent>
             </Tabs>
           </div>
 

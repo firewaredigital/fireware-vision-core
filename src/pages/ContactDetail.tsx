@@ -530,6 +530,10 @@ export default function ContactDetail() {
                   </CardContent>
                 </Card>
               </TabsContent>
+
+              <TabsContent value="history" className="mt-6">
+                <ChangeHistory entityType="contact" entityId={id!} />
+              </TabsContent>
             </Tabs>
           </div>
 

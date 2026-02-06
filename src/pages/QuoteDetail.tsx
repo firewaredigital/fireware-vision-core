@@ -585,6 +585,10 @@ export default function QuoteDetail() {
                   </CardContent>
                 </Card>
               </TabsContent>
+
+              <TabsContent value="history" className="mt-6">
+                <ChangeHistory entityType="quote" entityId={id!} />
+              </TabsContent>
             </Tabs>
           </div>
 

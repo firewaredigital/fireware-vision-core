@@ -35,45 +35,92 @@ import {
   type CustomFieldEntityType,
 } from '@/hooks/useCustomFields';
 
-interface CustomFieldsRendererProps {
+// Autonomous mode: fetches its own data and manages save internally
+interface AutonomousProps {
   entityType: CustomFieldEntityType;
   entityId?: string;
   readOnly?: boolean;
   compact?: boolean;
   className?: string;
+  // Discriminator: controlled props absent
+  definitions?: undefined;
+  values?: undefined;
+  onChange?: undefined;
 }
 
-export function CustomFieldsRenderer({
-  entityType,
-  entityId,
-  readOnly = false,
-  compact = false,
-  className,
-}: CustomFieldsRendererProps) {
-  const { data: definitions = [], isLoading: defsLoading } = useCustomFieldDefinitions(entityType);
-  const { data: values = [], isLoading: valsLoading } = useCustomFieldValues(entityType, entityId);
+// Controlled mode: receives data from parent, parent handles save
+interface ControlledProps {
+  entityType: CustomFieldEntityType;
+  definitions: CustomFieldDefinition[];
+  values: Record<string, any>;
+  onChange: (values: Record<string, any>) => void;
+  readOnly?: boolean;
+  compact?: boolean;
+  className?: string;
+  // Not used in controlled mode
+  entityId?: undefined;
+}
+
+type CustomFieldsRendererProps = AutonomousProps | ControlledProps;
+
+function isControlledMode(props: CustomFieldsRendererProps): props is ControlledProps {
+  return props.definitions !== undefined && props.onChange !== undefined;
+}
+
+export function CustomFieldsRenderer(props: CustomFieldsRendererProps) {
+  const {
+    entityType,
+    readOnly = false,
+    compact = false,
+    className,
+  } = props;
+
+  const controlled = isControlledMode(props);
+
+  // --- Autonomous mode hooks (always called for hooks consistency) ---
+  const { data: autoDefs = [], isLoading: defsLoading } = useCustomFieldDefinitions(entityType);
+  const { data: autoValues = [], isLoading: valsLoading } = useCustomFieldValues(
+    entityType,
+    controlled ? undefined : props.entityId
+  );
   const saveMutation = useSaveCustomFieldValues();
+
+  // Resolve which definitions/values to use
+  const definitions: CustomFieldDefinition[] = controlled ? props.definitions : autoDefs;
+  const entityId = controlled ? undefined : props.entityId;
 
   const [fieldValues, setFieldValues] = useState<Record<string, any>>({});
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [isDirty, setIsDirty] = useState(false);
 
-  // Initialize values when data loads
+  // Initialize values for autonomous mode
   useEffect(() => {
-    if (definitions.length > 0) {
+    if (controlled) return;
+    if (autoDefs.length > 0) {
       const initial: Record<string, any> = {};
-      definitions.forEach((def) => {
-        const fieldValue = values.find((v) => v.field_definition_id === def.id);
+      autoDefs.forEach((def) => {
+        const fieldValue = autoValues.find((v) => v.field_definition_id === def.id);
         initial[def.id] = getFieldValue(def, fieldValue);
       });
       setFieldValues(initial);
       setIsDirty(false);
     }
-  }, [definitions, values]);
+  }, [controlled, autoDefs, autoValues]);
+
+  // Sync controlled values
+  useEffect(() => {
+    if (controlled) {
+      setFieldValues(props.values);
+    }
+  }, [controlled, controlled ? props.values : null]);
 
   const updateValue = (fieldId: string, value: any) => {
-    setFieldValues((prev) => ({ ...prev, [fieldId]: value }));
-    setIsDirty(true);
+    if (controlled) {
+      props.onChange({ ...props.values, [fieldId]: value });
+    } else {
+      setFieldValues((prev) => ({ ...prev, [fieldId]: value }));
+      setIsDirty(true);
+    }
 
     // Clear error on change
     setErrors((prev) => {
@@ -84,7 +131,7 @@ export function CustomFieldsRenderer({
   };
 
   const handleSave = () => {
-    if (!entityId) return;
+    if (controlled || !entityId) return;
 
     // Validate all fields
     const newErrors: Record<string, string> = {};
@@ -107,7 +154,8 @@ export function CustomFieldsRenderer({
     setIsDirty(false);
   };
 
-  if (defsLoading || (entityId && valsLoading)) {
+  // Loading only applies to autonomous mode
+  if (!controlled && (defsLoading || (entityId && valsLoading))) {
     return (
       <div className={cn('space-y-4', className)}>
         <Skeleton className="h-6 w-48" />
@@ -191,7 +239,7 @@ export function CustomFieldsRenderer({
         </Accordion>
       )}
 
-      {!readOnly && entityId && isDirty && (
+      {!readOnly && !controlled && entityId && isDirty && (
         <div className="flex justify-end pt-2">
           <Button
             size="sm"
