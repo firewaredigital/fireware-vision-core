@@ -11165,6 +11165,219 @@ export type Database = {
           },
         ]
       }
+      nps_responses: {
+        Row: {
+          account_id: string | null
+          category: string | null
+          channel: string | null
+          contact_id: string | null
+          created_at: string
+          entity_id: string | null
+          entity_type: string | null
+          feedback: string | null
+          follow_up_action: string | null
+          follow_up_agent_id: string | null
+          follow_up_completed_at: string | null
+          follow_up_notes: string | null
+          follow_up_response: string | null
+          id: string
+          metadata: Json | null
+          opened_at: string | null
+          organization_id: string
+          responded_at: string | null
+          score: number
+          sent_at: string | null
+          survey_id: string
+        }
+        Insert: {
+          account_id?: string | null
+          category?: string | null
+          channel?: string | null
+          contact_id?: string | null
+          created_at?: string
+          entity_id?: string | null
+          entity_type?: string | null
+          feedback?: string | null
+          follow_up_action?: string | null
+          follow_up_agent_id?: string | null
+          follow_up_completed_at?: string | null
+          follow_up_notes?: string | null
+          follow_up_response?: string | null
+          id?: string
+          metadata?: Json | null
+          opened_at?: string | null
+          organization_id: string
+          responded_at?: string | null
+          score: number
+          sent_at?: string | null
+          survey_id: string
+        }
+        Update: {
+          account_id?: string | null
+          category?: string | null
+          channel?: string | null
+          contact_id?: string | null
+          created_at?: string
+          entity_id?: string | null
+          entity_type?: string | null
+          feedback?: string | null
+          follow_up_action?: string | null
+          follow_up_agent_id?: string | null
+          follow_up_completed_at?: string | null
+          follow_up_notes?: string | null
+          follow_up_response?: string | null
+          id?: string
+          metadata?: Json | null
+          opened_at?: string | null
+          organization_id?: string
+          responded_at?: string | null
+          score?: number
+          sent_at?: string | null
+          survey_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "nps_responses_account_id_fkey"
+            columns: ["account_id"]
+            isOneToOne: false
+            referencedRelation: "accounts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "nps_responses_contact_id_fkey"
+            columns: ["contact_id"]
+            isOneToOne: false
+            referencedRelation: "contacts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "nps_responses_follow_up_agent_id_fkey"
+            columns: ["follow_up_agent_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "nps_responses_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "nps_responses_survey_id_fkey"
+            columns: ["survey_id"]
+            isOneToOne: false
+            referencedRelation: "nps_surveys"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      nps_surveys: {
+        Row: {
+          avg_score: number | null
+          cooldown_days: number | null
+          created_at: string
+          created_by: string | null
+          description: string | null
+          detractors_count: number
+          ends_at: string | null
+          follow_up_question: string | null
+          id: string
+          max_responses: number | null
+          name: string
+          nps_score: number | null
+          organization_id: string
+          passives_count: number
+          promoters_count: number
+          question_text: string
+          response_rate: number | null
+          starts_at: string | null
+          status: Database["public"]["Enums"]["nps_survey_status"]
+          target_channels: string[] | null
+          target_segment_id: string | null
+          thank_you_message: string | null
+          total_responses: number
+          total_sent: number
+          trigger_config: Json | null
+          trigger_type: Database["public"]["Enums"]["nps_trigger_type"]
+          updated_at: string
+        }
+        Insert: {
+          avg_score?: number | null
+          cooldown_days?: number | null
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          detractors_count?: number
+          ends_at?: string | null
+          follow_up_question?: string | null
+          id?: string
+          max_responses?: number | null
+          name: string
+          nps_score?: number | null
+          organization_id: string
+          passives_count?: number
+          promoters_count?: number
+          question_text?: string
+          response_rate?: number | null
+          starts_at?: string | null
+          status?: Database["public"]["Enums"]["nps_survey_status"]
+          target_channels?: string[] | null
+          target_segment_id?: string | null
+          thank_you_message?: string | null
+          total_responses?: number
+          total_sent?: number
+          trigger_config?: Json | null
+          trigger_type?: Database["public"]["Enums"]["nps_trigger_type"]
+          updated_at?: string
+        }
+        Update: {
+          avg_score?: number | null
+          cooldown_days?: number | null
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          detractors_count?: number
+          ends_at?: string | null
+          follow_up_question?: string | null
+          id?: string
+          max_responses?: number | null
+          name?: string
+          nps_score?: number | null
+          organization_id?: string
+          passives_count?: number
+          promoters_count?: number
+          question_text?: string
+          response_rate?: number | null
+          starts_at?: string | null
+          status?: Database["public"]["Enums"]["nps_survey_status"]
+          target_channels?: string[] | null
+          target_segment_id?: string | null
+          thank_you_message?: string | null
+          total_responses?: number
+          total_sent?: number
+          trigger_config?: Json | null
+          trigger_type?: Database["public"]["Enums"]["nps_trigger_type"]
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "nps_surveys_created_by_fkey"
+            columns: ["created_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "nps_surveys_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       opportunities: {
         Row: {
           account_id: string
@@ -13630,6 +13843,297 @@ export type Database = {
           },
         ]
       }
+      qa_review_criteria: {
+        Row: {
+          created_at: string
+          criterion_category: string | null
+          criterion_name: string
+          evidence_quotes: string[] | null
+          evidence_timestamps: string[] | null
+          id: string
+          is_critical_fail: boolean
+          max_score: number
+          notes: string | null
+          organization_id: string
+          rating: Database["public"]["Enums"]["qa_rating"] | null
+          review_id: string
+          score: number
+          weight: number
+          weighted_score: number | null
+        }
+        Insert: {
+          created_at?: string
+          criterion_category?: string | null
+          criterion_name: string
+          evidence_quotes?: string[] | null
+          evidence_timestamps?: string[] | null
+          id?: string
+          is_critical_fail?: boolean
+          max_score?: number
+          notes?: string | null
+          organization_id: string
+          rating?: Database["public"]["Enums"]["qa_rating"] | null
+          review_id: string
+          score?: number
+          weight?: number
+          weighted_score?: number | null
+        }
+        Update: {
+          created_at?: string
+          criterion_category?: string | null
+          criterion_name?: string
+          evidence_quotes?: string[] | null
+          evidence_timestamps?: string[] | null
+          id?: string
+          is_critical_fail?: boolean
+          max_score?: number
+          notes?: string | null
+          organization_id?: string
+          rating?: Database["public"]["Enums"]["qa_rating"] | null
+          review_id?: string
+          score?: number
+          weight?: number
+          weighted_score?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "qa_review_criteria_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "qa_review_criteria_review_id_fkey"
+            columns: ["review_id"]
+            isOneToOne: false
+            referencedRelation: "qa_reviews"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      qa_reviews: {
+        Row: {
+          agent_acknowledged_at: string | null
+          agent_comments: string | null
+          agent_disputed: boolean | null
+          agent_id: string
+          calibration_session_id: string | null
+          coaching_recommendations: string | null
+          created_at: string
+          dispute_reason: string | null
+          dispute_resolution: string | null
+          dispute_resolved_at: string | null
+          entity_id: string
+          entity_type: string
+          feedback: string | null
+          id: string
+          improvement_areas: string | null
+          is_calibration_review: boolean
+          max_possible_score: number | null
+          metadata: Json | null
+          organization_id: string
+          overall_rating: Database["public"]["Enums"]["qa_rating"] | null
+          percentage_score: number | null
+          review_completed_at: string | null
+          review_duration_seconds: number | null
+          review_started_at: string | null
+          reviewer_id: string | null
+          scorecard_id: string
+          status: Database["public"]["Enums"]["qa_review_status"]
+          strengths: string | null
+          tags: string[] | null
+          total_score: number | null
+          updated_at: string
+        }
+        Insert: {
+          agent_acknowledged_at?: string | null
+          agent_comments?: string | null
+          agent_disputed?: boolean | null
+          agent_id: string
+          calibration_session_id?: string | null
+          coaching_recommendations?: string | null
+          created_at?: string
+          dispute_reason?: string | null
+          dispute_resolution?: string | null
+          dispute_resolved_at?: string | null
+          entity_id: string
+          entity_type: string
+          feedback?: string | null
+          id?: string
+          improvement_areas?: string | null
+          is_calibration_review?: boolean
+          max_possible_score?: number | null
+          metadata?: Json | null
+          organization_id: string
+          overall_rating?: Database["public"]["Enums"]["qa_rating"] | null
+          percentage_score?: number | null
+          review_completed_at?: string | null
+          review_duration_seconds?: number | null
+          review_started_at?: string | null
+          reviewer_id?: string | null
+          scorecard_id: string
+          status?: Database["public"]["Enums"]["qa_review_status"]
+          strengths?: string | null
+          tags?: string[] | null
+          total_score?: number | null
+          updated_at?: string
+        }
+        Update: {
+          agent_acknowledged_at?: string | null
+          agent_comments?: string | null
+          agent_disputed?: boolean | null
+          agent_id?: string
+          calibration_session_id?: string | null
+          coaching_recommendations?: string | null
+          created_at?: string
+          dispute_reason?: string | null
+          dispute_resolution?: string | null
+          dispute_resolved_at?: string | null
+          entity_id?: string
+          entity_type?: string
+          feedback?: string | null
+          id?: string
+          improvement_areas?: string | null
+          is_calibration_review?: boolean
+          max_possible_score?: number | null
+          metadata?: Json | null
+          organization_id?: string
+          overall_rating?: Database["public"]["Enums"]["qa_rating"] | null
+          percentage_score?: number | null
+          review_completed_at?: string | null
+          review_duration_seconds?: number | null
+          review_started_at?: string | null
+          reviewer_id?: string | null
+          scorecard_id?: string
+          status?: Database["public"]["Enums"]["qa_review_status"]
+          strengths?: string | null
+          tags?: string[] | null
+          total_score?: number | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "qa_reviews_agent_id_fkey"
+            columns: ["agent_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "qa_reviews_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "qa_reviews_reviewer_id_fkey"
+            columns: ["reviewer_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "qa_reviews_scorecard_id_fkey"
+            columns: ["scorecard_id"]
+            isOneToOne: false
+            referencedRelation: "qa_scorecards"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      qa_scorecards: {
+        Row: {
+          applies_to_channels: string[] | null
+          applies_to_queues: string[] | null
+          auto_assign_enabled: boolean
+          auto_assign_percentage: number | null
+          auto_assign_reviewers: string[] | null
+          created_at: string
+          created_by: string | null
+          criteria_definitions: Json
+          description: string | null
+          id: string
+          is_default: boolean
+          name: string
+          organization_id: string
+          passing_score: number
+          status: Database["public"]["Enums"]["qa_scorecard_status"]
+          tags: string[] | null
+          total_max_score: number
+          updated_at: string
+          updated_by: string | null
+          version: number
+        }
+        Insert: {
+          applies_to_channels?: string[] | null
+          applies_to_queues?: string[] | null
+          auto_assign_enabled?: boolean
+          auto_assign_percentage?: number | null
+          auto_assign_reviewers?: string[] | null
+          created_at?: string
+          created_by?: string | null
+          criteria_definitions?: Json
+          description?: string | null
+          id?: string
+          is_default?: boolean
+          name: string
+          organization_id: string
+          passing_score?: number
+          status?: Database["public"]["Enums"]["qa_scorecard_status"]
+          tags?: string[] | null
+          total_max_score?: number
+          updated_at?: string
+          updated_by?: string | null
+          version?: number
+        }
+        Update: {
+          applies_to_channels?: string[] | null
+          applies_to_queues?: string[] | null
+          auto_assign_enabled?: boolean
+          auto_assign_percentage?: number | null
+          auto_assign_reviewers?: string[] | null
+          created_at?: string
+          created_by?: string | null
+          criteria_definitions?: Json
+          description?: string | null
+          id?: string
+          is_default?: boolean
+          name?: string
+          organization_id?: string
+          passing_score?: number
+          status?: Database["public"]["Enums"]["qa_scorecard_status"]
+          tags?: string[] | null
+          total_max_score?: number
+          updated_at?: string
+          updated_by?: string | null
+          version?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "qa_scorecards_created_by_fkey"
+            columns: ["created_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "qa_scorecards_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "qa_scorecards_updated_by_fkey"
+            columns: ["updated_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       queue_members: {
         Row: {
           created_at: string
@@ -15004,6 +15508,451 @@ export type Database = {
             columns: ["organization_id"]
             isOneToOne: false
             referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      social_accounts: {
+        Row: {
+          access_token_encrypted: string | null
+          account_handle: string | null
+          account_id_external: string | null
+          account_name: string
+          auto_create_conversations: boolean
+          auto_import_mentions: boolean
+          auto_import_messages: boolean
+          connected_by: string | null
+          created_at: string
+          default_queue_id: string | null
+          followers_count: number | null
+          following_count: number | null
+          id: string
+          last_error: string | null
+          last_sync_at: string | null
+          metadata: Json | null
+          organization_id: string
+          platform: Database["public"]["Enums"]["social_platform"]
+          profile_image_url: string | null
+          profile_url: string | null
+          refresh_token_encrypted: string | null
+          status: Database["public"]["Enums"]["social_account_status"]
+          token_expires_at: string | null
+          total_mentions_imported: number
+          total_messages_imported: number
+          updated_at: string
+        }
+        Insert: {
+          access_token_encrypted?: string | null
+          account_handle?: string | null
+          account_id_external?: string | null
+          account_name: string
+          auto_create_conversations?: boolean
+          auto_import_mentions?: boolean
+          auto_import_messages?: boolean
+          connected_by?: string | null
+          created_at?: string
+          default_queue_id?: string | null
+          followers_count?: number | null
+          following_count?: number | null
+          id?: string
+          last_error?: string | null
+          last_sync_at?: string | null
+          metadata?: Json | null
+          organization_id: string
+          platform: Database["public"]["Enums"]["social_platform"]
+          profile_image_url?: string | null
+          profile_url?: string | null
+          refresh_token_encrypted?: string | null
+          status?: Database["public"]["Enums"]["social_account_status"]
+          token_expires_at?: string | null
+          total_mentions_imported?: number
+          total_messages_imported?: number
+          updated_at?: string
+        }
+        Update: {
+          access_token_encrypted?: string | null
+          account_handle?: string | null
+          account_id_external?: string | null
+          account_name?: string
+          auto_create_conversations?: boolean
+          auto_import_mentions?: boolean
+          auto_import_messages?: boolean
+          connected_by?: string | null
+          created_at?: string
+          default_queue_id?: string | null
+          followers_count?: number | null
+          following_count?: number | null
+          id?: string
+          last_error?: string | null
+          last_sync_at?: string | null
+          metadata?: Json | null
+          organization_id?: string
+          platform?: Database["public"]["Enums"]["social_platform"]
+          profile_image_url?: string | null
+          profile_url?: string | null
+          refresh_token_encrypted?: string | null
+          status?: Database["public"]["Enums"]["social_account_status"]
+          token_expires_at?: string | null
+          total_mentions_imported?: number
+          total_messages_imported?: number
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "social_accounts_connected_by_fkey"
+            columns: ["connected_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "social_accounts_default_queue_id_fkey"
+            columns: ["default_queue_id"]
+            isOneToOne: false
+            referencedRelation: "routing_queues"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "social_accounts_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      social_mentions: {
+        Row: {
+          account_id: string | null
+          action_taken: string | null
+          author_avatar_url: string | null
+          author_followers_count: number | null
+          author_handle: string | null
+          author_name: string | null
+          author_platform_id: string | null
+          comments_count: number | null
+          contact_id: string | null
+          content: string | null
+          content_url: string | null
+          conversation_id: string | null
+          created_at: string
+          id: string
+          imported_at: string | null
+          is_reviewed: boolean
+          keywords: string[] | null
+          likes_count: number | null
+          media_urls: string[] | null
+          mention_type: string
+          organization_id: string
+          platform: Database["public"]["Enums"]["social_platform"]
+          platform_created_at: string | null
+          platform_mention_id: string | null
+          reach_estimate: number | null
+          reviewed_at: string | null
+          reviewed_by: string | null
+          sentiment:
+            | Database["public"]["Enums"]["social_mention_sentiment"]
+            | null
+          sentiment_score: number | null
+          shares_count: number | null
+          social_account_id: string
+          social_message_id: string | null
+          topics: string[] | null
+          updated_at: string
+        }
+        Insert: {
+          account_id?: string | null
+          action_taken?: string | null
+          author_avatar_url?: string | null
+          author_followers_count?: number | null
+          author_handle?: string | null
+          author_name?: string | null
+          author_platform_id?: string | null
+          comments_count?: number | null
+          contact_id?: string | null
+          content?: string | null
+          content_url?: string | null
+          conversation_id?: string | null
+          created_at?: string
+          id?: string
+          imported_at?: string | null
+          is_reviewed?: boolean
+          keywords?: string[] | null
+          likes_count?: number | null
+          media_urls?: string[] | null
+          mention_type?: string
+          organization_id: string
+          platform: Database["public"]["Enums"]["social_platform"]
+          platform_created_at?: string | null
+          platform_mention_id?: string | null
+          reach_estimate?: number | null
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          sentiment?:
+            | Database["public"]["Enums"]["social_mention_sentiment"]
+            | null
+          sentiment_score?: number | null
+          shares_count?: number | null
+          social_account_id: string
+          social_message_id?: string | null
+          topics?: string[] | null
+          updated_at?: string
+        }
+        Update: {
+          account_id?: string | null
+          action_taken?: string | null
+          author_avatar_url?: string | null
+          author_followers_count?: number | null
+          author_handle?: string | null
+          author_name?: string | null
+          author_platform_id?: string | null
+          comments_count?: number | null
+          contact_id?: string | null
+          content?: string | null
+          content_url?: string | null
+          conversation_id?: string | null
+          created_at?: string
+          id?: string
+          imported_at?: string | null
+          is_reviewed?: boolean
+          keywords?: string[] | null
+          likes_count?: number | null
+          media_urls?: string[] | null
+          mention_type?: string
+          organization_id?: string
+          platform?: Database["public"]["Enums"]["social_platform"]
+          platform_created_at?: string | null
+          platform_mention_id?: string | null
+          reach_estimate?: number | null
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          sentiment?:
+            | Database["public"]["Enums"]["social_mention_sentiment"]
+            | null
+          sentiment_score?: number | null
+          shares_count?: number | null
+          social_account_id?: string
+          social_message_id?: string | null
+          topics?: string[] | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "social_mentions_account_id_fkey"
+            columns: ["account_id"]
+            isOneToOne: false
+            referencedRelation: "accounts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "social_mentions_contact_id_fkey"
+            columns: ["contact_id"]
+            isOneToOne: false
+            referencedRelation: "contacts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "social_mentions_conversation_id_fkey"
+            columns: ["conversation_id"]
+            isOneToOne: false
+            referencedRelation: "conversations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "social_mentions_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "social_mentions_reviewed_by_fkey"
+            columns: ["reviewed_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "social_mentions_social_account_id_fkey"
+            columns: ["social_account_id"]
+            isOneToOne: false
+            referencedRelation: "social_accounts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "social_mentions_social_message_id_fkey"
+            columns: ["social_message_id"]
+            isOneToOne: false
+            referencedRelation: "social_messages"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      social_messages: {
+        Row: {
+          contact_id: string | null
+          content: string | null
+          content_html: string | null
+          conversation_id: string | null
+          created_at: string
+          direction: Database["public"]["Enums"]["social_message_direction"]
+          id: string
+          imported_at: string | null
+          is_hidden: boolean
+          is_read: boolean
+          is_replied: boolean
+          is_spam: boolean
+          likes_count: number | null
+          media_types: string[] | null
+          media_urls: string[] | null
+          message_type: Database["public"]["Enums"]["social_message_type"]
+          organization_id: string
+          original_post_id: string | null
+          original_post_url: string | null
+          parent_message_id: string | null
+          platform_created_at: string | null
+          platform_message_id: string | null
+          recipient_handle: string | null
+          recipient_name: string | null
+          recipient_platform_id: string | null
+          replied_at: string | null
+          replied_by: string | null
+          replies_count: number | null
+          sender_avatar_url: string | null
+          sender_handle: string | null
+          sender_name: string | null
+          sender_platform_id: string | null
+          sentiment:
+            | Database["public"]["Enums"]["social_mention_sentiment"]
+            | null
+          sentiment_score: number | null
+          shares_count: number | null
+          social_account_id: string
+          updated_at: string
+        }
+        Insert: {
+          contact_id?: string | null
+          content?: string | null
+          content_html?: string | null
+          conversation_id?: string | null
+          created_at?: string
+          direction?: Database["public"]["Enums"]["social_message_direction"]
+          id?: string
+          imported_at?: string | null
+          is_hidden?: boolean
+          is_read?: boolean
+          is_replied?: boolean
+          is_spam?: boolean
+          likes_count?: number | null
+          media_types?: string[] | null
+          media_urls?: string[] | null
+          message_type?: Database["public"]["Enums"]["social_message_type"]
+          organization_id: string
+          original_post_id?: string | null
+          original_post_url?: string | null
+          parent_message_id?: string | null
+          platform_created_at?: string | null
+          platform_message_id?: string | null
+          recipient_handle?: string | null
+          recipient_name?: string | null
+          recipient_platform_id?: string | null
+          replied_at?: string | null
+          replied_by?: string | null
+          replies_count?: number | null
+          sender_avatar_url?: string | null
+          sender_handle?: string | null
+          sender_name?: string | null
+          sender_platform_id?: string | null
+          sentiment?:
+            | Database["public"]["Enums"]["social_mention_sentiment"]
+            | null
+          sentiment_score?: number | null
+          shares_count?: number | null
+          social_account_id: string
+          updated_at?: string
+        }
+        Update: {
+          contact_id?: string | null
+          content?: string | null
+          content_html?: string | null
+          conversation_id?: string | null
+          created_at?: string
+          direction?: Database["public"]["Enums"]["social_message_direction"]
+          id?: string
+          imported_at?: string | null
+          is_hidden?: boolean
+          is_read?: boolean
+          is_replied?: boolean
+          is_spam?: boolean
+          likes_count?: number | null
+          media_types?: string[] | null
+          media_urls?: string[] | null
+          message_type?: Database["public"]["Enums"]["social_message_type"]
+          organization_id?: string
+          original_post_id?: string | null
+          original_post_url?: string | null
+          parent_message_id?: string | null
+          platform_created_at?: string | null
+          platform_message_id?: string | null
+          recipient_handle?: string | null
+          recipient_name?: string | null
+          recipient_platform_id?: string | null
+          replied_at?: string | null
+          replied_by?: string | null
+          replies_count?: number | null
+          sender_avatar_url?: string | null
+          sender_handle?: string | null
+          sender_name?: string | null
+          sender_platform_id?: string | null
+          sentiment?:
+            | Database["public"]["Enums"]["social_mention_sentiment"]
+            | null
+          sentiment_score?: number | null
+          shares_count?: number | null
+          social_account_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "social_messages_contact_id_fkey"
+            columns: ["contact_id"]
+            isOneToOne: false
+            referencedRelation: "contacts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "social_messages_conversation_id_fkey"
+            columns: ["conversation_id"]
+            isOneToOne: false
+            referencedRelation: "conversations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "social_messages_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "social_messages_parent_message_id_fkey"
+            columns: ["parent_message_id"]
+            isOneToOne: false
+            referencedRelation: "social_messages"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "social_messages_replied_by_fkey"
+            columns: ["replied_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "social_messages_social_account_id_fkey"
+            columns: ["social_account_id"]
+            isOneToOne: false
+            referencedRelation: "social_accounts"
             referencedColumns: ["id"]
           },
         ]
@@ -19069,6 +20018,19 @@ export type Database = {
         | "analytics"
         | "portals"
         | "governance"
+      nps_survey_status:
+        | "draft"
+        | "active"
+        | "paused"
+        | "completed"
+        | "archived"
+      nps_trigger_type:
+        | "ticket_resolved"
+        | "conversation_closed"
+        | "order_delivered"
+        | "manual"
+        | "scheduled"
+        | "milestone"
       opportunity_stage:
         | "prospecting"
         | "qualification"
@@ -19126,6 +20088,19 @@ export type Database = {
       portal_ticket_visibility: "all" | "own" | "company"
       portal_user_status: "pending" | "active" | "suspended" | "deactivated"
       promotion_type: "percentage" | "fixed" | "buy_x_get_y" | "free_shipping"
+      qa_rating:
+        | "excellent"
+        | "good"
+        | "satisfactory"
+        | "needs_improvement"
+        | "unsatisfactory"
+      qa_review_status:
+        | "pending"
+        | "in_progress"
+        | "completed"
+        | "disputed"
+        | "calibrated"
+      qa_scorecard_status: "draft" | "active" | "archived"
       quote_status: "draft" | "sent" | "accepted" | "rejected" | "expired"
       return_status:
         | "requested"
@@ -19156,6 +20131,23 @@ export type Database = {
         | "out_for_delivery"
         | "delivered"
         | "returned"
+      social_account_status: "connected" | "disconnected" | "expired" | "error"
+      social_mention_sentiment: "positive" | "negative" | "neutral" | "mixed"
+      social_message_direction: "inbound" | "outbound"
+      social_message_type:
+        | "direct_message"
+        | "comment"
+        | "mention"
+        | "reply"
+        | "story_reply"
+        | "post"
+      social_platform:
+        | "instagram"
+        | "facebook"
+        | "twitter"
+        | "linkedin"
+        | "tiktok"
+        | "youtube"
       step_execution_status:
         | "pending"
         | "running"
@@ -19982,6 +20974,15 @@ export const Constants = {
         "portals",
         "governance",
       ],
+      nps_survey_status: ["draft", "active", "paused", "completed", "archived"],
+      nps_trigger_type: [
+        "ticket_resolved",
+        "conversation_closed",
+        "order_delivered",
+        "manual",
+        "scheduled",
+        "milestone",
+      ],
       opportunity_stage: [
         "prospecting",
         "qualification",
@@ -20046,6 +21047,21 @@ export const Constants = {
       portal_ticket_visibility: ["all", "own", "company"],
       portal_user_status: ["pending", "active", "suspended", "deactivated"],
       promotion_type: ["percentage", "fixed", "buy_x_get_y", "free_shipping"],
+      qa_rating: [
+        "excellent",
+        "good",
+        "satisfactory",
+        "needs_improvement",
+        "unsatisfactory",
+      ],
+      qa_review_status: [
+        "pending",
+        "in_progress",
+        "completed",
+        "disputed",
+        "calibrated",
+      ],
+      qa_scorecard_status: ["draft", "active", "archived"],
       quote_status: ["draft", "sent", "accepted", "rejected", "expired"],
       return_status: [
         "requested",
@@ -20079,6 +21095,25 @@ export const Constants = {
         "out_for_delivery",
         "delivered",
         "returned",
+      ],
+      social_account_status: ["connected", "disconnected", "expired", "error"],
+      social_mention_sentiment: ["positive", "negative", "neutral", "mixed"],
+      social_message_direction: ["inbound", "outbound"],
+      social_message_type: [
+        "direct_message",
+        "comment",
+        "mention",
+        "reply",
+        "story_reply",
+        "post",
+      ],
+      social_platform: [
+        "instagram",
+        "facebook",
+        "twitter",
+        "linkedin",
+        "tiktok",
+        "youtube",
       ],
       step_execution_status: [
         "pending",

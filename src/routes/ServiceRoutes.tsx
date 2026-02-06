@@ -12,6 +12,9 @@ import OmnichannelInbox from "@/pages/OmnichannelInbox";
 import WhatsAppAdmin from "@/pages/service/WhatsAppAdmin";
 import ChatWidgetsAdmin from "@/pages/service/ChatWidgetsAdmin";
 import VoiceAdmin from "@/pages/service/VoiceAdmin";
+import QADashboard from "@/pages/service/QADashboard";
+import ServiceQueues from "@/pages/service/ServiceQueues";
+import SocialInbox from "@/pages/service/SocialInbox";
 
 export function ServiceRoutes() {
   return [
@@ -27,6 +30,9 @@ export function ServiceRoutes() {
 
     <Route key="service" path="/service" element={<ModuleGuard moduleKey="service"><ServiceDashboard /></ModuleGuard>} />,
     <Route key="service-inbox" path="/service/inbox" element={<ModuleGuard moduleKey="service"><OmnichannelInbox /></ModuleGuard>} />,
+    <Route key="service-queues" path="/service/queues" element={<ModuleGuard moduleKey="service"><ServiceQueues /></ModuleGuard>} />,
+    <Route key="service-qa" path="/service/qa" element={<ModuleGuard moduleKey="service"><QADashboard /></ModuleGuard>} />,
+    <Route key="service-social" path="/service/social" element={<ModuleGuard moduleKey="service"><SocialInbox /></ModuleGuard>} />,
     <Route key="service-wa" path="/service/whatsapp" element={<ModuleGuard moduleKey="service"><WhatsAppAdmin /></ModuleGuard>} />,
     <Route key="service-chat" path="/service/chat-widgets" element={<ModuleGuard moduleKey="service"><ChatWidgetsAdmin /></ModuleGuard>} />,
     <Route key="service-voice" path="/service/voice" element={<ModuleGuard moduleKey="service"><VoiceAdmin /></ModuleGuard>} />,
