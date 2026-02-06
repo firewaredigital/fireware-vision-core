@@ -30,6 +30,8 @@ import { AppLayout } from '@/components/layout/AppLayout';
 import { useAuth } from '@/hooks/useAuth';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
+import { CustomFieldsRenderer } from '@/components/CustomFieldsRenderer';
+import { useCustomFieldDefinitions, useCustomFieldValues, useSaveCustomFieldValues, getFieldValue } from '@/hooks/useCustomFields';
 
 const contactSchema = z.object({
   first_name: z.string().min(1, 'Nome é obrigatório').max(100),
@@ -102,6 +104,21 @@ export default function ContactForm() {
   const [users, setUsers] = useState<User[]>([]);
   const [tags, setTags] = useState<string[]>([]);
   const [tagInput, setTagInput] = useState('');
+  const { data: customFieldDefs = [] } = useCustomFieldDefinitions('contact');
+  const { data: customFieldValuesData = [] } = useCustomFieldValues('contact', id);
+  const saveCustomFields = useSaveCustomFieldValues();
+  const [customFieldValues, setCustomFieldValues] = useState<Record<string, any>>({});
+
+  useEffect(() => {
+    if (customFieldDefs.length > 0) {
+      const values: Record<string, any> = {};
+      customFieldDefs.forEach(def => {
+        const fieldValue = customFieldValuesData.find(v => v.field_definition_id === def.id);
+        values[def.id] = getFieldValue(def, fieldValue);
+      });
+      setCustomFieldValues(values);
+    }
+  }, [customFieldDefs, customFieldValuesData]);
 
   const isEditing = Boolean(id);
   const preselectedAccountId = searchParams.get('account');
@@ -256,6 +273,9 @@ export default function ContactForm() {
         toast({ variant: 'destructive', title: 'Erro', description: 'Falha ao atualizar contato' });
       } else {
         toast({ title: 'Contato atualizado' });
+        if (customFieldDefs.length > 0 && id) {
+          saveCustomFields.mutate({ entityType: 'contact', entityId: id, values: customFieldValues, definitions: customFieldDefs });
+        }
         navigate(`/contacts/${id}`);
       }
     } else {
@@ -269,6 +289,9 @@ export default function ContactForm() {
         toast({ variant: 'destructive', title: 'Erro', description: 'Falha ao criar contato' });
       } else {
         toast({ title: 'Contato criado' });
+        if (customFieldDefs.length > 0) {
+          saveCustomFields.mutate({ entityType: 'contact', entityId: newContact.id, values: customFieldValues, definitions: customFieldDefs });
+        }
         navigate(`/contacts/${newContact.id}`);
       }
     }
@@ -724,6 +747,16 @@ export default function ContactForm() {
                 </div>
               </CardContent>
             </Card>
+
+            {/* Custom Fields */}
+            {customFieldDefs.length > 0 && (
+              <CustomFieldsRenderer
+                entityType="contact"
+                definitions={customFieldDefs}
+                values={customFieldValues}
+                onChange={setCustomFieldValues}
+              />
+            )}
 
             {/* Actions */}
             <div className="flex justify-end gap-4">

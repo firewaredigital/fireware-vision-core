@@ -28,6 +28,8 @@ import { AppLayout } from '@/components/layout/AppLayout';
 import { useAuth } from '@/hooks/useAuth';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
+import { CustomFieldsRenderer } from '@/components/CustomFieldsRenderer';
+import { useCustomFieldDefinitions, useCustomFieldValues, useSaveCustomFieldValues, getFieldValue } from '@/hooks/useCustomFields';
 
 const leadSchema = z.object({
   first_name: z.string().min(1, 'Nome é obrigatório').max(100),
@@ -59,6 +61,21 @@ export default function LeadForm() {
   const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
+  const { data: customFieldDefs = [] } = useCustomFieldDefinitions('lead');
+  const { data: customFieldValuesData = [] } = useCustomFieldValues('lead', id);
+  const saveCustomFields = useSaveCustomFieldValues();
+  const [customFieldValues, setCustomFieldValues] = useState<Record<string, any>>({});
+
+  useEffect(() => {
+    if (customFieldDefs.length > 0) {
+      const values: Record<string, any> = {};
+      customFieldDefs.forEach(def => {
+        const fieldValue = customFieldValuesData.find(v => v.field_definition_id === def.id);
+        values[def.id] = getFieldValue(def, fieldValue);
+      });
+      setCustomFieldValues(values);
+    }
+  }, [customFieldDefs, customFieldValuesData]);
 
   const form = useForm<LeadFormData>({
     resolver: zodResolver(leadSchema),
@@ -176,10 +193,10 @@ export default function LeadForm() {
           description: 'Falha ao atualizar lead',
         });
       } else {
-        toast({
-          title: 'Lead atualizado',
-          description: 'O lead foi atualizado com sucesso.',
-        });
+        toast({ title: 'Lead atualizado', description: 'O lead foi atualizado com sucesso.' });
+        if (customFieldDefs.length > 0 && id) {
+          saveCustomFields.mutate({ entityType: 'lead', entityId: id, values: customFieldValues, definitions: customFieldDefs });
+        }
         navigate(`/leads/${id}`);
       }
     } else {
@@ -192,10 +209,10 @@ export default function LeadForm() {
           description: error.message || 'Falha ao criar lead',
         });
       } else {
-        toast({
-          title: 'Lead criado',
-          description: 'O lead foi criado com sucesso.',
-        });
+        toast({ title: 'Lead criado', description: 'O lead foi criado com sucesso.' });
+        if (customFieldDefs.length > 0) {
+          saveCustomFields.mutate({ entityType: 'lead', entityId: newLead.id, values: customFieldValues, definitions: customFieldDefs });
+        }
         navigate(`/leads/${newLead.id}`);
       }
     }
@@ -545,6 +562,16 @@ export default function LeadForm() {
                 </div>
               </CardContent>
             </Card>
+
+            {/* Custom Fields */}
+            {customFieldDefs.length > 0 && (
+              <CustomFieldsRenderer
+                entityType="lead"
+                definitions={customFieldDefs}
+                values={customFieldValues}
+                onChange={setCustomFieldValues}
+              />
+            )}
 
             {/* Actions */}
             <div className="flex justify-end gap-4">

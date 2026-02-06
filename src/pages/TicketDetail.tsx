@@ -53,6 +53,7 @@ import {
 import { formatDistanceToNow, format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 import { useToast } from '@/hooks/use-toast';
+import { ChangeHistory } from '@/components/ChangeHistory';
 import { TicketStatusBadge } from '@/components/service/TicketStatusBadge';
 import { TicketPriorityBadge } from '@/components/service/TicketPriorityBadge';
 import { SLACountdown } from '@/components/service/SLACountdown';
@@ -400,15 +401,14 @@ export default function TicketDetail() {
               <TabsList>
                 <TabsTrigger value="conversation">
                   <MessageSquare className="mr-2 h-4 w-4" />
-                  Conversação ({messages.filter(m => !m.is_internal).length})
-                </TabsTrigger>
-                <TabsTrigger value="internal">
-                  <EyeOff className="mr-2 h-4 w-4" />
-                  Notas Internas ({messages.filter(m => m.is_internal).length})
+                  Conversa
                 </TabsTrigger>
                 <TabsTrigger value="timeline">
                   <Clock className="mr-2 h-4 w-4" />
-                  Histórico
+                  Linha do Tempo
+                </TabsTrigger>
+                <TabsTrigger value="history">
+                  Histórico de Alterações
                 </TabsTrigger>
               </TabsList>
 

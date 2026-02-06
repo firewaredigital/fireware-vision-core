@@ -33,6 +33,7 @@ import { useAuth } from '@/hooks/useAuth';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
 import { format, differenceInDays } from 'date-fns';
+import { ChangeHistory } from '@/components/ChangeHistory';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -424,6 +425,7 @@ export default function ContractDetail() {
                 <TabsTrigger value="terms">Termos</TabsTrigger>
                 <TabsTrigger value="attachments">Anexos</TabsTrigger>
                 <TabsTrigger value="timeline">Linha do Tempo</TabsTrigger>
+                <TabsTrigger value="history">Histórico</TabsTrigger>
               </TabsList>
 
               <TabsContent value="details" className="mt-6">

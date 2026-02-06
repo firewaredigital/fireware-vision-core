@@ -15,6 +15,8 @@ import { useAuth } from '@/hooks/useAuth';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
 import { Database } from '@/integrations/supabase/types';
+import { CustomFieldsRenderer } from '@/components/CustomFieldsRenderer';
+import { useCustomFieldDefinitions, useCustomFieldValues, useSaveCustomFieldValues, getFieldValue } from '@/hooks/useCustomFields';
 
 type OpportunityStage = Database['public']['Enums']['opportunity_stage'];
 
@@ -45,6 +47,21 @@ export default function OpportunityForm() {
   const { toast } = useToast();
   const [loading, setLoading] = useState(false);
   const [accounts, setAccounts] = useState<Account[]>([]);
+  const { data: customFieldDefs = [] } = useCustomFieldDefinitions('opportunity');
+  const { data: customFieldValuesData = [] } = useCustomFieldValues('opportunity', id && id !== 'new' ? id : undefined);
+  const saveCustomFields = useSaveCustomFieldValues();
+  const [customFieldValues, setCustomFieldValues] = useState<Record<string, any>>({});
+
+  useEffect(() => {
+    if (customFieldDefs.length > 0) {
+      const values: Record<string, any> = {};
+      customFieldDefs.forEach(def => {
+        const fieldValue = customFieldValuesData.find(v => v.field_definition_id === def.id);
+        values[def.id] = getFieldValue(def, fieldValue);
+      });
+      setCustomFieldValues(values);
+    }
+  }, [customFieldDefs, customFieldValuesData]);
 
   const form = useForm<OpportunityFormData>({
     resolver: zodResolver(opportunitySchema),
@@ -164,6 +181,9 @@ export default function OpportunityForm() {
       toast({ title: 'Erro ao salvar oportunidade', description: error.message, variant: 'destructive' });
     } else {
       toast({ title: id ? 'Oportunidade atualizada' : 'Oportunidade criada' });
+      if (customFieldDefs.length > 0 && id && id !== 'new') {
+        saveCustomFields.mutate({ entityType: 'opportunity', entityId: id, values: customFieldValues, definitions: customFieldDefs });
+      }
       navigate('/opportunities');
     }
     setLoading(false);
@@ -352,6 +372,16 @@ export default function OpportunityForm() {
                     )}
                   />
                 </div>
+
+                {/* Custom Fields */}
+                {customFieldDefs.length > 0 && (
+                  <CustomFieldsRenderer
+                    entityType="opportunity"
+                    definitions={customFieldDefs}
+                    values={customFieldValues}
+                    onChange={setCustomFieldValues}
+                  />
+                )}
 
                 <div className="flex gap-3 pt-4">
                   <Button type="submit" disabled={loading}>

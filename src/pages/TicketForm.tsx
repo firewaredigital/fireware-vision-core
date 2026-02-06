@@ -30,6 +30,8 @@ import {
 import { Separator } from '@/components/ui/separator';
 import { ArrowLeft, Save, Loader2 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
+import { CustomFieldsRenderer } from '@/components/CustomFieldsRenderer';
+import { useCustomFieldDefinitions, useCustomFieldValues, useSaveCustomFieldValues, getFieldValue } from '@/hooks/useCustomFields';
 
 const ticketSchema = z.object({
   subject: z.string().min(5, 'O assunto deve ter pelo menos 5 caracteres').max(200),
@@ -77,6 +79,21 @@ export default function TicketForm() {
   const { toast } = useToast();
   const queryClient = useQueryClient();
   const isEditing = !!id;
+  const { data: customFieldDefs = [] } = useCustomFieldDefinitions('ticket');
+  const { data: customFieldValuesData = [] } = useCustomFieldValues('ticket', id);
+  const saveCustomFields = useSaveCustomFieldValues();
+  const [customFieldValues, setCustomFieldValues] = useState<Record<string, any>>({});
+
+  useEffect(() => {
+    if (customFieldDefs.length > 0) {
+      const values: Record<string, any> = {};
+      customFieldDefs.forEach(def => {
+        const fieldValue = customFieldValuesData.find(v => v.field_definition_id === def.id);
+        values[def.id] = getFieldValue(def, fieldValue);
+      });
+      setCustomFieldValues(values);
+    }
+  }, [customFieldDefs, customFieldValuesData]);
 
   const form = useForm<TicketFormData>({
     resolver: zodResolver(ticketSchema),
@@ -279,6 +296,9 @@ export default function TicketForm() {
     onSuccess: (ticketId) => {
       queryClient.invalidateQueries({ queryKey: ['tickets'] });
       queryClient.invalidateQueries({ queryKey: ['ticket', ticketId] });
+      if (customFieldDefs.length > 0 && ticketId) {
+        saveCustomFields.mutate({ entityType: 'ticket', entityId: ticketId, values: customFieldValues, definitions: customFieldDefs });
+      }
       toast({
         title: isEditing ? 'Ticket atualizado' : 'Ticket criado',
         description: isEditing 
@@ -621,6 +641,16 @@ export default function TicketForm() {
                 </div>
               </CardContent>
             </Card>
+
+            {/* Custom Fields */}
+            {customFieldDefs.length > 0 && (
+              <CustomFieldsRenderer
+                entityType="ticket"
+                definitions={customFieldDefs}
+                values={customFieldValues}
+                onChange={setCustomFieldValues}
+              />
+            )}
 
             {/* Actions */}
             <div className="flex justify-end gap-4">
