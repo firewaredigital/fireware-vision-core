@@ -4,94 +4,26 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { AuthProvider } from "@/hooks/useAuth";
+import { ModuleGuard } from "@/components/guards/ModuleGuard";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import Auth from "./pages/Auth";
 import Dashboard from "./pages/Dashboard";
-import Leads from "./pages/Leads";
-import LeadDetail from "./pages/LeadDetail";
-import LeadForm from "./pages/LeadForm";
-import Accounts from "./pages/Accounts";
-import AccountDetail from "./pages/AccountDetail";
-import AccountForm from "./pages/AccountForm";
-import Contacts from "./pages/Contacts";
-import ContactDetail from "./pages/ContactDetail";
-import ContactForm from "./pages/ContactForm";
-import Opportunities from "./pages/Opportunities";
-import OpportunityDetail from "./pages/OpportunityDetail";
-import OpportunityForm from "./pages/OpportunityForm";
-import Quotes from "./pages/Quotes";
-import QuoteDetail from "./pages/QuoteDetail";
-import QuoteForm from "./pages/QuoteForm";
-import Products from "./pages/Products";
-import ProductDetail from "./pages/ProductDetail";
-import ProductForm from "./pages/ProductForm";
-import Contracts from "./pages/Contracts";
-import ContractDetail from "./pages/ContractDetail";
-import ContractForm from "./pages/ContractForm";
-import Territories from "./pages/Territories";
-import Cadences from "./pages/Cadences";
-import Forecast from "./pages/Forecast";
 import Settings from "./pages/Settings";
 import AuditLogs from "./pages/AuditLogs";
 import Reports from "./pages/Reports";
-// Service Module
-import Tickets from "./pages/Tickets";
-import TicketDetail from "./pages/TicketDetail";
-import TicketForm from "./pages/TicketForm";
-import Knowledge from "./pages/Knowledge";
-import ArticleDetail from "./pages/ArticleDetail";
-import ArticleForm from "./pages/ArticleForm";
-import ServiceDashboard from "./pages/ServiceDashboard";
-import Governance from "./pages/Governance";
-import LGPDRequestForm from "./pages/LGPDRequestForm";
-import CustomerSuccess from "./pages/CustomerSuccess";
-// Automations Module
-import Automations from "./pages/Automations";
-import WorkflowBuilder from "./pages/WorkflowBuilder";
-// Marketing Module
-import Marketing from "./pages/Marketing";
-import CampaignForm from "./pages/CampaignForm";
-import SegmentForm from "./pages/SegmentForm";
-import JourneyBuilder from "./pages/JourneyBuilder";
-// Commerce Module
-import Orders from "./pages/Orders";
-import OrderDetail from "./pages/OrderDetail";
-import OrderForm from "./pages/OrderForm";
-import Returns from "./pages/Returns";
-import Promotions from "./pages/Promotions";
-import PromotionForm from "./pages/PromotionForm";
-// IT/ITSM Module
-import ITDashboard from "./pages/ITDashboard";
-import ITIncidents from "./pages/ITIncidents";
-import ITIncidentForm from "./pages/ITIncidentForm";
-import ITIncidentDetail from "./pages/ITIncidentDetail";
-import ITChanges from "./pages/ITChanges";
-import ITChangeForm from "./pages/ITChangeForm";
-import CMDB from "./pages/CMDB";
-import ITAssets from "./pages/ITAssets";
-// Data Module
-import Duplicates from "./pages/Duplicates";
-import MergeWizard from "./pages/MergeWizard";
-import FullFunnel from "./pages/FullFunnel";
-import AttributionDashboard from "./pages/AttributionDashboard";
-import Customer360 from "./pages/Customer360";
-// Service Extras
-import CannedResponses from "./pages/CannedResponses";
-import OmnichannelInbox from "./pages/OmnichannelInbox";
-import WhatsAppAdmin from "./pages/service/WhatsAppAdmin";
-import ChatWidgetsAdmin from "./pages/service/ChatWidgetsAdmin";
-import VoiceAdmin from "./pages/service/VoiceAdmin";
-// Portal Module
-import PortalLogin from "./pages/portal/PortalLogin";
-import PortalTickets from "./pages/portal/PortalTickets";
-import PortalTicketDetail from "./pages/portal/PortalTicketDetail";
-import PortalNewTicket from "./pages/portal/PortalNewTicket";
-import PortalKnowledge from "./pages/portal/PortalKnowledge";
-// Admin Platform Module
-import PlatformModules from "./pages/admin/PlatformModules";
-import PlatformPermissions from "./pages/admin/PlatformPermissions";
-import PlatformObservability from "./pages/admin/PlatformObservability";
+// Lazy route groups
+import { SalesRoutes } from "./routes/SalesRoutes";
+import { ServiceRoutes } from "./routes/ServiceRoutes";
+import { MarketingRoutes } from "./routes/MarketingRoutes";
+import { CommerceRoutes } from "./routes/CommerceRoutes";
+import { ITRoutes } from "./routes/ITRoutes";
+import { DataRoutes } from "./routes/DataRoutes";
+import { AutomationRoutes } from "./routes/AutomationRoutes";
+import { GovernanceRoutes } from "./routes/GovernanceRoutes";
+import { ManagementRoutes } from "./routes/ManagementRoutes";
+import { PortalRoutes } from "./routes/PortalRoutes";
+import { AdminRoutes } from "./routes/AdminRoutes";
 
 const queryClient = new QueryClient();
 
@@ -106,153 +38,37 @@ const App = () => (
             <Route path="/" element={<Navigate to="/dashboard" replace />} />
             <Route path="/auth" element={<Auth />} />
             <Route path="/dashboard" element={<Dashboard />} />
-            
-            {/* Leads */}
-            <Route path="/leads" element={<Leads />} />
-            <Route path="/leads/new" element={<LeadForm />} />
-            <Route path="/leads/:id" element={<LeadDetail />} />
-            <Route path="/leads/:id/edit" element={<LeadForm />} />
-            
-            {/* Accounts */}
-            <Route path="/accounts" element={<Accounts />} />
-            <Route path="/accounts/new" element={<AccountForm />} />
-            <Route path="/accounts/:id" element={<AccountDetail />} />
-            <Route path="/accounts/:id/edit" element={<AccountForm />} />
-            
-            {/* Contacts */}
-            <Route path="/contacts" element={<Contacts />} />
-            <Route path="/contacts/new" element={<ContactForm />} />
-            <Route path="/contacts/:id" element={<ContactDetail />} />
-            <Route path="/contacts/:id/edit" element={<ContactForm />} />
-            
-            {/* Opportunities */}
-            <Route path="/opportunities" element={<Opportunities />} />
-            <Route path="/opportunities/new" element={<OpportunityForm />} />
-            <Route path="/opportunities/:id" element={<OpportunityDetail />} />
-            <Route path="/opportunities/:id/edit" element={<OpportunityForm />} />
-            
-            {/* Quotes */}
-            <Route path="/quotes" element={<Quotes />} />
-            <Route path="/quotes/new" element={<QuoteForm />} />
-            <Route path="/quotes/:id" element={<QuoteDetail />} />
-            <Route path="/quotes/:id/edit" element={<QuoteForm />} />
-            
-            {/* Products */}
-            <Route path="/products" element={<Products />} />
-            <Route path="/products/new" element={<ProductForm />} />
-            <Route path="/products/:id" element={<ProductDetail />} />
-            <Route path="/products/:id/edit" element={<ProductForm />} />
-            
-            {/* Contracts */}
-            <Route path="/contracts" element={<Contracts />} />
-            <Route path="/contracts/new" element={<ContractForm />} />
-            <Route path="/contracts/:id" element={<ContractDetail />} />
-            <Route path="/contracts/:id/edit" element={<ContractForm />} />
-            
-            {/* Tickets (Service Module) */}
-            <Route path="/tickets" element={<Tickets />} />
-            <Route path="/tickets/new" element={<TicketForm />} />
-            <Route path="/tickets/:id" element={<TicketDetail />} />
-            <Route path="/tickets/:id/edit" element={<TicketForm />} />
-            
-            {/* Knowledge Base */}
-            <Route path="/knowledge" element={<Knowledge />} />
-            <Route path="/knowledge/new" element={<ArticleForm />} />
-            <Route path="/knowledge/:id" element={<ArticleDetail />} />
-            <Route path="/knowledge/:id/edit" element={<ArticleForm />} />
-            
-            {/* Service Dashboard */}
-            <Route path="/service" element={<ServiceDashboard />} />
-            <Route path="/service/inbox" element={<OmnichannelInbox />} />
-            <Route path="/service/whatsapp" element={<WhatsAppAdmin />} />
-            <Route path="/service/chat-widgets" element={<ChatWidgetsAdmin />} />
-            <Route path="/service/voice" element={<VoiceAdmin />} />
-            
-            {/* Governance */}
-            <Route path="/governance" element={<Governance />} />
-            <Route path="/governance/lgpd/new" element={<LGPDRequestForm />} />
-            <Route path="/governance/lgpd/:id" element={<LGPDRequestForm />} />
-            
-            {/* Customer Success */}
-            <Route path="/customer-success" element={<CustomerSuccess />} />
-            
-            {/* Automations */}
-            <Route path="/automations" element={<Automations />} />
-            <Route path="/automations/new" element={<WorkflowBuilder />} />
-            <Route path="/automations/:id" element={<WorkflowBuilder />} />
-            <Route path="/automations/:id/edit" element={<WorkflowBuilder />} />
-            
-            {/* Marketing */}
-            <Route path="/marketing" element={<Marketing />} />
-            <Route path="/marketing/campaigns" element={<Marketing />} />
-            <Route path="/marketing/campaigns/new" element={<CampaignForm />} />
-            <Route path="/marketing/campaigns/:id" element={<CampaignForm />} />
-            <Route path="/marketing/campaigns/:id/edit" element={<CampaignForm />} />
-            <Route path="/marketing/segments" element={<Marketing />} />
-            <Route path="/marketing/segments/new" element={<SegmentForm />} />
-            <Route path="/marketing/segments/:id" element={<SegmentForm />} />
-            <Route path="/marketing/segments/:id/edit" element={<SegmentForm />} />
-            <Route path="/marketing/journeys" element={<Marketing />} />
-            <Route path="/marketing/journeys/new" element={<JourneyBuilder />} />
-            <Route path="/marketing/journeys/:id" element={<JourneyBuilder />} />
-            <Route path="/marketing/journeys/:id/edit" element={<JourneyBuilder />} />
-            
-            {/* Commerce */}
-            <Route path="/orders" element={<Orders />} />
-            <Route path="/orders/new" element={<OrderForm />} />
-            <Route path="/orders/:id" element={<OrderDetail />} />
-            <Route path="/returns" element={<Returns />} />
-            <Route path="/promotions" element={<Promotions />} />
-            <Route path="/promotions/new" element={<PromotionForm />} />
-            <Route path="/promotions/:id" element={<PromotionForm />} />
-            
-            {/* IT/ITSM */}
-            <Route path="/it" element={<ITDashboard />} />
-            <Route path="/it/incidents" element={<ITIncidents />} />
-            <Route path="/it/incidents/new" element={<ITIncidentForm />} />
-            <Route path="/it/incidents/:id" element={<ITIncidentDetail />} />
-            <Route path="/it/incidents/:id/edit" element={<ITIncidentForm />} />
-            <Route path="/it/changes" element={<ITChanges />} />
-            <Route path="/it/changes/new" element={<ITChangeForm />} />
-            <Route path="/it/changes/:id" element={<ITChangeForm />} />
-            <Route path="/it/cmdb" element={<CMDB />} />
-            <Route path="/it/cmdb/new" element={<CMDB />} />
-            <Route path="/it/cmdb/:id" element={<CMDB />} />
-            <Route path="/it/assets" element={<ITAssets />} />
-            <Route path="/it/assets/new" element={<ITAssets />} />
-            <Route path="/it/assets/:id" element={<ITAssets />} />
-            
-            {/* Data Module */}
-            <Route path="/duplicates" element={<Duplicates />} />
-            <Route path="/merge-wizard" element={<MergeWizard />} />
-            <Route path="/merge-wizard/:id" element={<MergeWizard />} />
-            <Route path="/full-funnel" element={<FullFunnel />} />
-            <Route path="/attribution" element={<AttributionDashboard />} />
-            <Route path="/customer-360" element={<Customer360 />} />
-            <Route path="/customer-360/:type/:id" element={<Customer360 />} />
-            
-            {/* Management */}
-            <Route path="/territories" element={<Territories />} />
-            <Route path="/cadences" element={<Cadences />} />
-            <Route path="/forecast" element={<Forecast />} />
+
+            {/* Module-guarded route groups */}
+            {SalesRoutes()}
+            {ServiceRoutes()}
+            {MarketingRoutes()}
+            {CommerceRoutes()}
+            {ITRoutes()}
+            {DataRoutes()}
+            {AutomationRoutes()}
+            {GovernanceRoutes()}
+
+            {/* Management (always visible) */}
+            {ManagementRoutes()}
+
+            {/* Admin Platform */}
+            {AdminRoutes()}
+
+            {/* Portal (Public) */}
+            {PortalRoutes()}
+
+            {/* Settings */}
             <Route path="/reports" element={<Reports />} />
             <Route path="/audit-logs" element={<AuditLogs />} />
             <Route path="/settings" element={<Settings />} />
-            <Route path="/settings/canned-responses" element={<CannedResponses />} />
-            
-            {/* Admin Platform */}
-            <Route path="/admin/platform/modules" element={<PlatformModules />} />
-            <Route path="/admin/platform/permissions" element={<PlatformPermissions />} />
-            <Route path="/admin/platform/observability" element={<PlatformObservability />} />
-            
-            {/* Portal (Public) */}
-            <Route path="/portal/login" element={<PortalLogin />} />
-            <Route path="/portal/tickets" element={<PortalTickets />} />
-            <Route path="/portal/tickets/new" element={<PortalNewTicket />} />
-            <Route path="/portal/tickets/:id" element={<PortalTicketDetail />} />
-            <Route path="/portal/knowledge" element={<PortalKnowledge />} />
-            <Route path="/portal" element={<PortalTickets />} />
-            
+            <Route path="/settings/canned-responses" element={
+              <ModuleGuard moduleKey="service">
+                {/* Lazy import would go here; for now inline */}
+                <CannedResponsesLazy />
+              </ModuleGuard>
+            } />
+
             {/* Catch-all */}
             <Route path="*" element={<NotFound />} />
           </Routes>
@@ -261,5 +77,11 @@ const App = () => (
     </AuthProvider>
   </QueryClientProvider>
 );
+
+// Inline lazy wrapper for canned responses
+import CannedResponses from "./pages/CannedResponses";
+function CannedResponsesLazy() {
+  return <CannedResponses />;
+}
 
 export default App;

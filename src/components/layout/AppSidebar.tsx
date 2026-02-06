@@ -42,6 +42,12 @@ import {
   UserCircle,
   MessageSquare,
   Globe,
+  Bot,
+  Wrench,
+  Link,
+  Eye,
+  Lock,
+  Cpu,
 } from 'lucide-react';
 import { NavLink } from '@/components/NavLink';
 import {
@@ -65,74 +71,163 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { useAuth } from '@/hooks/useAuth';
+import { useModuleAccess, type ModuleKey } from '@/hooks/useModuleAccess';
 import { cn } from '@/lib/utils';
 
-const mainNavItems = [
+// --- Navigation item definitions ---
+
+interface NavItem {
+  title: string;
+  url: string;
+  icon: React.ElementType;
+}
+
+interface NavSection {
+  key: string;
+  label: string;
+  moduleKey?: ModuleKey; // If undefined, always shown
+  items: NavItem[];
+  defaultOpen?: boolean;
+}
+
+const mainNavItems: NavItem[] = [
   { title: 'Dashboard', url: '/dashboard', icon: LayoutDashboard },
 ];
 
-const salesNavItems = [
-  { title: 'Leads', url: '/leads', icon: Target },
-  { title: 'Contas', url: '/accounts', icon: Building2 },
-  { title: 'Contatos', url: '/contacts', icon: Users },
-  { title: 'Oportunidades', url: '/opportunities', icon: TrendingUp },
-  { title: 'Propostas', url: '/quotes', icon: FileText },
-  { title: 'Contratos', url: '/contracts', icon: FileSignature },
+const NAV_SECTIONS: NavSection[] = [
+  {
+    key: 'sales',
+    label: 'Vendas',
+    moduleKey: 'sales',
+    items: [
+      { title: 'Leads', url: '/leads', icon: Target },
+      { title: 'Contas', url: '/accounts', icon: Building2 },
+      { title: 'Contatos', url: '/contacts', icon: Users },
+      { title: 'Oportunidades', url: '/opportunities', icon: TrendingUp },
+      { title: 'Propostas', url: '/quotes', icon: FileText },
+      { title: 'Contratos', url: '/contracts', icon: FileSignature },
+    ],
+    defaultOpen: true,
+  },
+  {
+    key: 'service',
+    label: 'Atendimento',
+    moduleKey: 'service',
+    items: [
+      { title: 'Dashboard de Service', url: '/service', icon: Headphones },
+      { title: 'Inbox Omnichannel', url: '/service/inbox', icon: MessageSquare },
+      { title: 'WhatsApp', url: '/service/whatsapp', icon: MessageSquare },
+      { title: 'Chat Widgets', url: '/service/chat-widgets', icon: MessageSquare },
+      { title: 'Telefonia', url: '/service/voice', icon: Headphones },
+      { title: 'Tickets', url: '/tickets', icon: Ticket },
+      { title: 'Base de Conhecimento', url: '/knowledge', icon: BookOpen },
+      { title: 'Customer Success', url: '/customer-success', icon: Heart },
+    ],
+    defaultOpen: true,
+  },
+  {
+    key: 'marketing',
+    label: 'Marketing',
+    moduleKey: 'marketing',
+    items: [
+      { title: 'Dashboard Marketing', url: '/marketing', icon: Megaphone },
+      { title: 'Campanhas', url: '/marketing/campaigns', icon: Mail },
+      { title: 'Segmentos', url: '/marketing/segments', icon: Filter },
+      { title: 'Jornadas', url: '/marketing/journeys', icon: Route },
+    ],
+    defaultOpen: true,
+  },
+  {
+    key: 'commerce',
+    label: 'Commerce',
+    moduleKey: 'commerce',
+    items: [
+      { title: 'Pedidos', url: '/orders', icon: ShoppingCart },
+      { title: 'Devoluções', url: '/returns', icon: RotateCcw },
+      { title: 'Promoções', url: '/promotions', icon: Tag },
+    ],
+    defaultOpen: true,
+  },
+  {
+    key: 'automations',
+    label: 'Automações',
+    moduleKey: 'automations',
+    items: [
+      { title: 'Workflows', url: '/automations', icon: Workflow },
+    ],
+    defaultOpen: true,
+  },
+  {
+    key: 'governance',
+    label: 'Governança',
+    moduleKey: 'governance',
+    items: [
+      { title: 'Governança', url: '/governance', icon: Shield },
+    ],
+    defaultOpen: true,
+  },
+  {
+    key: 'itsm',
+    label: 'TI / ITSM',
+    moduleKey: 'itsm',
+    items: [
+      { title: 'Dashboard IT', url: '/it', icon: Server },
+      { title: 'Incidentes', url: '/it/incidents', icon: AlertTriangle },
+      { title: 'Mudanças', url: '/it/changes', icon: GitBranch },
+      { title: 'CMDB', url: '/it/cmdb', icon: Database },
+      { title: 'Ativos', url: '/it/assets', icon: Package },
+    ],
+    defaultOpen: true,
+  },
+  {
+    key: 'data_hub',
+    label: 'Dados & Analytics',
+    moduleKey: 'data_hub',
+    items: [
+      { title: 'Duplicatas', url: '/duplicates', icon: Copy },
+      { title: 'Merge Wizard', url: '/merge-wizard', icon: Merge },
+      { title: 'Funil Completo', url: '/full-funnel', icon: Layers },
+      { title: 'Atribuição', url: '/attribution', icon: Activity },
+      { title: 'Customer 360', url: '/customer-360', icon: UserCircle },
+    ],
+    defaultOpen: true,
+  },
+  {
+    key: 'ai_agents',
+    label: 'Inteligência / IA',
+    moduleKey: 'ai_agents',
+    items: [
+      { title: 'Agentes', url: '/ai/agents', icon: Bot },
+      { title: 'Ferramentas', url: '/ai/tools', icon: Wrench },
+      { title: 'Políticas', url: '/ai/policies', icon: Shield },
+      { title: 'Avaliações', url: '/ai/evals', icon: ClipboardList },
+      { title: 'Execuções', url: '/ai/runs', icon: Activity },
+    ],
+    defaultOpen: false,
+  },
+  {
+    key: 'integrations',
+    label: 'Integrações',
+    moduleKey: 'integrations',
+    items: [
+      { title: 'Catálogo', url: '/integrations/catalog', icon: Link },
+      { title: 'Instâncias', url: '/integrations/instances', icon: Cpu },
+      { title: 'Monitoramento', url: '/integrations/monitoring', icon: Activity },
+    ],
+    defaultOpen: false,
+  },
+  {
+    key: 'portals',
+    label: 'Portais',
+    moduleKey: 'portals',
+    items: [
+      { title: 'Portal do Cliente', url: '/portal', icon: Globe },
+    ],
+    defaultOpen: false,
+  },
 ];
 
-const serviceNavItems = [
-  { title: 'Dashboard de Service', url: '/service', icon: Headphones },
-  { title: 'Inbox Omnichannel', url: '/service/inbox', icon: MessageSquare },
-  { title: 'WhatsApp', url: '/service/whatsapp', icon: MessageSquare },
-  { title: 'Chat Widgets', url: '/service/chat-widgets', icon: MessageSquare },
-  { title: 'Telefonia', url: '/service/voice', icon: Headphones },
-  { title: 'Tickets', url: '/tickets', icon: Ticket },
-  { title: 'Base de Conhecimento', url: '/knowledge', icon: BookOpen },
-  { title: 'Customer Success', url: '/customer-success', icon: Heart },
-];
-
-const marketingNavItems = [
-  { title: 'Dashboard Marketing', url: '/marketing', icon: Megaphone },
-  { title: 'Campanhas', url: '/marketing/campaigns', icon: Mail },
-  { title: 'Segmentos', url: '/marketing/segments', icon: Filter },
-  { title: 'Jornadas', url: '/marketing/journeys', icon: Route },
-];
-
-const commerceNavItems = [
-  { title: 'Pedidos', url: '/orders', icon: ShoppingCart },
-  { title: 'Devoluções', url: '/returns', icon: RotateCcw },
-  { title: 'Promoções', url: '/promotions', icon: Tag },
-];
-
-const automationsNavItems = [
-  { title: 'Workflows', url: '/automations', icon: Workflow },
-];
-
-const governanceNavItems = [
-  { title: 'Governança', url: '/governance', icon: Shield },
-];
-
-const itNavItems = [
-  { title: 'Dashboard IT', url: '/it', icon: Server },
-  { title: 'Incidentes', url: '/it/incidents', icon: AlertTriangle },
-  { title: 'Mudanças', url: '/it/changes', icon: GitBranch },
-  { title: 'CMDB', url: '/it/cmdb', icon: Database },
-  { title: 'Ativos', url: '/it/assets', icon: Package },
-];
-
-const dataNavItems = [
-  { title: 'Duplicatas', url: '/duplicates', icon: Copy },
-  { title: 'Merge Wizard', url: '/merge-wizard', icon: Merge },
-  { title: 'Funil Completo', url: '/full-funnel', icon: Layers },
-  { title: 'Atribuição', url: '/attribution', icon: Activity },
-  { title: 'Customer 360', url: '/customer-360', icon: UserCircle },
-];
-
-const portalNavItems = [
-  { title: 'Portal do Cliente', url: '/portal', icon: Globe },
-];
-
-const managementNavItems = [
+const managementNavItems: NavItem[] = [
   { title: 'Produtos', url: '/products', icon: Package },
   { title: 'Territórios', url: '/territories', icon: Map },
   { title: 'Cadências', url: '/cadences', icon: Zap },
@@ -141,7 +236,16 @@ const managementNavItems = [
   { title: 'Auditoria', url: '/audit-logs', icon: ClipboardList },
 ];
 
-const settingsNavItems = [
+const adminNavItems: NavItem[] = [
+  { title: 'Módulos', url: '/admin/platform/modules', icon: Package },
+  { title: 'Permissões', url: '/admin/platform/permissions', icon: Shield },
+  { title: 'Segurança', url: '/admin/platform/security', icon: Lock },
+  { title: 'Integrações', url: '/admin/platform/integrations', icon: Link },
+  { title: 'IA', url: '/admin/platform/ai', icon: Bot },
+  { title: 'Observabilidade', url: '/admin/platform/observability', icon: Eye },
+];
+
+const settingsNavItems: NavItem[] = [
   { title: 'Configurações', url: '/settings', icon: Settings },
   { title: 'Respostas Rápidas', url: '/settings/canned-responses', icon: MessageSquare },
 ];
@@ -150,19 +254,26 @@ export function AppSidebar() {
   const { state } = useSidebar();
   const location = useLocation();
   const { profile, signOut } = useAuth();
+  const { isModuleEnabled, isLoading: modulesLoading } = useModuleAccess();
   const collapsed = state === 'collapsed';
 
-  const [salesOpen, setSalesOpen] = useState(true);
-  const [serviceOpen, setServiceOpen] = useState(true);
-  const [marketingOpen, setMarketingOpen] = useState(true);
-  const [commerceOpen, setCommerceOpen] = useState(true);
-  const [automationsOpen, setAutomationsOpen] = useState(true);
-  const [governanceOpen, setGovernanceOpen] = useState(true);
-  const [managementOpen, setManagementOpen] = useState(true);
-  const [itOpen, setItOpen] = useState(true);
-  const [dataOpen, setDataOpen] = useState(true);
+  // Track open/close state per section
+  const [openSections, setOpenSections] = useState<Record<string, boolean>>(() => {
+    const initial: Record<string, boolean> = {};
+    NAV_SECTIONS.forEach(s => {
+      initial[s.key] = s.defaultOpen ?? true;
+    });
+    initial['management'] = true;
+    initial['admin'] = false;
+    return initial;
+  });
 
-  const isActive = (path: string) => location.pathname === path || location.pathname.startsWith(path + '/');
+  const toggleSection = (key: string) => {
+    setOpenSections(prev => ({ ...prev, [key]: !prev[key] }));
+  };
+
+  const isActive = (path: string) =>
+    location.pathname === path || location.pathname.startsWith(path + '/');
 
   const getInitials = () => {
     if (profile?.first_name && profile?.last_name) {
@@ -171,7 +282,7 @@ export function AppSidebar() {
     return profile?.email?.[0]?.toUpperCase() || 'U';
   };
 
-  const renderNavItem = (item: { title: string; url: string; icon: any }) => (
+  const renderNavItem = (item: NavItem) => (
     <SidebarMenuItem key={item.title}>
       <SidebarMenuButton asChild>
         <NavLink
@@ -190,6 +301,50 @@ export function AppSidebar() {
     </SidebarMenuItem>
   );
 
+  const renderCollapsibleSection = (
+    sectionKey: string,
+    label: string,
+    items: NavItem[]
+  ) => (
+    <SidebarGroup key={sectionKey}>
+      <Collapsible
+        open={openSections[sectionKey] ?? true}
+        onOpenChange={() => toggleSection(sectionKey)}
+      >
+        <CollapsibleTrigger asChild>
+          <SidebarGroupLabel className="cursor-pointer hover:text-sidebar-foreground">
+            <span className={cn(!collapsed && 'flex-1')}>
+              {!collapsed && label}
+            </span>
+            {!collapsed && (
+              <ChevronDown
+                className={cn(
+                  'h-4 w-4 transition-transform',
+                  openSections[sectionKey] && 'rotate-180'
+                )}
+              />
+            )}
+          </SidebarGroupLabel>
+        </CollapsibleTrigger>
+        <CollapsibleContent>
+          <SidebarGroupContent>
+            <SidebarMenu>{items.map(renderNavItem)}</SidebarMenu>
+          </SidebarGroupContent>
+        </CollapsibleContent>
+      </Collapsible>
+    </SidebarGroup>
+  );
+
+  // Determine which sections to show based on module access
+  // While loading, show all sections to avoid flicker
+  const shouldShowSection = (section: NavSection): boolean => {
+    if (!section.moduleKey) return true;
+    if (modulesLoading) return true; // Show all while loading
+    return isModuleEnabled(section.moduleKey);
+  };
+
+  const visibleSections = NAV_SECTIONS.filter(shouldShowSection);
+
   return (
     <Sidebar className="border-r border-sidebar-border">
       <SidebarHeader className="border-b border-sidebar-border p-4">
@@ -207,245 +362,28 @@ export function AppSidebar() {
       </SidebarHeader>
 
       <SidebarContent className="scrollbar-thin">
-        {/* Main Navigation */}
+        {/* Main Navigation - always visible */}
         <SidebarGroup>
           <SidebarGroupContent>
-            <SidebarMenu>
-              {mainNavItems.map(renderNavItem)}
-            </SidebarMenu>
+            <SidebarMenu>{mainNavItems.map(renderNavItem)}</SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
 
-        {/* Sales */}
-        <SidebarGroup>
-          <Collapsible open={salesOpen} onOpenChange={setSalesOpen}>
-            <CollapsibleTrigger asChild>
-              <SidebarGroupLabel className="cursor-pointer hover:text-sidebar-foreground">
-                <span className={cn(!collapsed && 'flex-1')}>
-                  {!collapsed && 'Vendas'}
-                </span>
-                {!collapsed && (
-                  <ChevronDown
-                    className={cn(
-                      'h-4 w-4 transition-transform',
-                      salesOpen && 'rotate-180'
-                    )}
-                  />
-                )}
-              </SidebarGroupLabel>
-            </CollapsibleTrigger>
-            <CollapsibleContent>
-              <SidebarGroupContent>
-                <SidebarMenu>
-                  {salesNavItems.map(renderNavItem)}
-                </SidebarMenu>
-              </SidebarGroupContent>
-            </CollapsibleContent>
-          </Collapsible>
-        </SidebarGroup>
+        {/* Module-aware sections */}
+        {visibleSections.map((section) =>
+          renderCollapsibleSection(section.key, section.label, section.items)
+        )}
 
-        {/* Service */}
-        <SidebarGroup>
-          <Collapsible open={serviceOpen} onOpenChange={setServiceOpen}>
-            <CollapsibleTrigger asChild>
-              <SidebarGroupLabel className="cursor-pointer hover:text-sidebar-foreground">
-                <span className={cn(!collapsed && 'flex-1')}>
-                  {!collapsed && 'Atendimento'}
-                </span>
-                {!collapsed && (
-                  <ChevronDown
-                    className={cn(
-                      'h-4 w-4 transition-transform',
-                      serviceOpen && 'rotate-180'
-                    )}
-                  />
-                )}
-              </SidebarGroupLabel>
-            </CollapsibleTrigger>
-            <CollapsibleContent>
-              <SidebarGroupContent>
-                <SidebarMenu>
-                  {serviceNavItems.map(renderNavItem)}
-                </SidebarMenu>
-              </SidebarGroupContent>
-            </CollapsibleContent>
-          </Collapsible>
-        </SidebarGroup>
+        {/* Management - always visible */}
+        {renderCollapsibleSection('management', 'Gestão', managementNavItems)}
 
-        {/* Commerce */}
-        <SidebarGroup>
-          <Collapsible open={commerceOpen} onOpenChange={setCommerceOpen}>
-            <CollapsibleTrigger asChild>
-              <SidebarGroupLabel className="cursor-pointer hover:text-sidebar-foreground">
-                <span className={cn(!collapsed && 'flex-1')}>
-                  {!collapsed && 'Commerce'}
-                </span>
-                {!collapsed && (
-                  <ChevronDown
-                    className={cn(
-                      'h-4 w-4 transition-transform',
-                      commerceOpen && 'rotate-180'
-                    )}
-                  />
-                )}
-              </SidebarGroupLabel>
-            </CollapsibleTrigger>
-            <CollapsibleContent>
-              <SidebarGroupContent>
-                <SidebarMenu>
-                  {commerceNavItems.map(renderNavItem)}
-                </SidebarMenu>
-              </SidebarGroupContent>
-            </CollapsibleContent>
-          </Collapsible>
-        </SidebarGroup>
+        {/* Admin Platform */}
+        {renderCollapsibleSection('admin', 'Administração', adminNavItems)}
 
-        {/* Automations */}
-        <SidebarGroup>
-          <Collapsible open={automationsOpen} onOpenChange={setAutomationsOpen}>
-            <CollapsibleTrigger asChild>
-              <SidebarGroupLabel className="cursor-pointer hover:text-sidebar-foreground">
-                <span className={cn(!collapsed && 'flex-1')}>
-                  {!collapsed && 'Automações'}
-                </span>
-                {!collapsed && (
-                  <ChevronDown
-                    className={cn(
-                      'h-4 w-4 transition-transform',
-                      automationsOpen && 'rotate-180'
-                    )}
-                  />
-                )}
-              </SidebarGroupLabel>
-            </CollapsibleTrigger>
-            <CollapsibleContent>
-              <SidebarGroupContent>
-                <SidebarMenu>
-                  {automationsNavItems.map(renderNavItem)}
-                </SidebarMenu>
-              </SidebarGroupContent>
-            </CollapsibleContent>
-          </Collapsible>
-        </SidebarGroup>
-
-        {/* Governance */}
-        <SidebarGroup>
-          <Collapsible open={governanceOpen} onOpenChange={setGovernanceOpen}>
-            <CollapsibleTrigger asChild>
-              <SidebarGroupLabel className="cursor-pointer hover:text-sidebar-foreground">
-                <span className={cn(!collapsed && 'flex-1')}>
-                  {!collapsed && 'Governança'}
-                </span>
-                {!collapsed && (
-                  <ChevronDown
-                    className={cn(
-                      'h-4 w-4 transition-transform',
-                      governanceOpen && 'rotate-180'
-                    )}
-                  />
-                )}
-              </SidebarGroupLabel>
-            </CollapsibleTrigger>
-            <CollapsibleContent>
-              <SidebarGroupContent>
-                <SidebarMenu>
-                  {governanceNavItems.map(renderNavItem)}
-                </SidebarMenu>
-              </SidebarGroupContent>
-            </CollapsibleContent>
-          </Collapsible>
-        </SidebarGroup>
-
-        {/* IT/ITSM */}
-        <SidebarGroup>
-          <Collapsible open={itOpen} onOpenChange={setItOpen}>
-            <CollapsibleTrigger asChild>
-              <SidebarGroupLabel className="cursor-pointer hover:text-sidebar-foreground">
-                <span className={cn(!collapsed && 'flex-1')}>
-                  {!collapsed && 'TI / ITSM'}
-                </span>
-                {!collapsed && (
-                  <ChevronDown
-                    className={cn(
-                      'h-4 w-4 transition-transform',
-                      itOpen && 'rotate-180'
-                    )}
-                  />
-                )}
-              </SidebarGroupLabel>
-            </CollapsibleTrigger>
-            <CollapsibleContent>
-              <SidebarGroupContent>
-                <SidebarMenu>
-                  {itNavItems.map(renderNavItem)}
-                </SidebarMenu>
-              </SidebarGroupContent>
-            </CollapsibleContent>
-          </Collapsible>
-        </SidebarGroup>
-
-        {/* Data/Analytics */}
-        <SidebarGroup>
-          <Collapsible open={dataOpen} onOpenChange={setDataOpen}>
-            <CollapsibleTrigger asChild>
-              <SidebarGroupLabel className="cursor-pointer hover:text-sidebar-foreground">
-                <span className={cn(!collapsed && 'flex-1')}>
-                  {!collapsed && 'Dados & Analytics'}
-                </span>
-                {!collapsed && (
-                  <ChevronDown
-                    className={cn(
-                      'h-4 w-4 transition-transform',
-                      dataOpen && 'rotate-180'
-                    )}
-                  />
-                )}
-              </SidebarGroupLabel>
-            </CollapsibleTrigger>
-            <CollapsibleContent>
-              <SidebarGroupContent>
-                <SidebarMenu>
-                  {dataNavItems.map(renderNavItem)}
-                </SidebarMenu>
-              </SidebarGroupContent>
-            </CollapsibleContent>
-          </Collapsible>
-        </SidebarGroup>
-
-        {/* Management */}
-        <SidebarGroup>
-          <Collapsible open={managementOpen} onOpenChange={setManagementOpen}>
-            <CollapsibleTrigger asChild>
-              <SidebarGroupLabel className="cursor-pointer hover:text-sidebar-foreground">
-                <span className={cn(!collapsed && 'flex-1')}>
-                  {!collapsed && 'Gestão'}
-                </span>
-                {!collapsed && (
-                  <ChevronDown
-                    className={cn(
-                      'h-4 w-4 transition-transform',
-                      managementOpen && 'rotate-180'
-                    )}
-                  />
-                )}
-              </SidebarGroupLabel>
-            </CollapsibleTrigger>
-            <CollapsibleContent>
-              <SidebarGroupContent>
-                <SidebarMenu>
-                  {managementNavItems.map(renderNavItem)}
-                </SidebarMenu>
-              </SidebarGroupContent>
-            </CollapsibleContent>
-          </Collapsible>
-        </SidebarGroup>
-
-        {/* Settings */}
+        {/* Settings - always visible */}
         <SidebarGroup>
           <SidebarGroupContent>
-            <SidebarMenu>
-              {settingsNavItems.map(renderNavItem)}
-            </SidebarMenu>
+            <SidebarMenu>{settingsNavItems.map(renderNavItem)}</SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
