@@ -10,7 +10,7 @@ import {
 import {
   DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { AppLayout } from '@/components/layout/AppLayout';
+
 import { useAuth } from '@/hooks/useAuth';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
@@ -34,9 +34,6 @@ export default function Accounts() {
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
 
-  useEffect(() => {
-    if (!authLoading && !user) navigate('/auth');
-  }, [user, authLoading, navigate]);
 
   useEffect(() => {
     if (user) fetchAccounts();
@@ -73,7 +70,7 @@ export default function Accounts() {
   if (authLoading || !user) return null;
 
   return (
-    <AppLayout>
+    
       <div className="space-y-6">
         <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
           <div>
@@ -143,6 +140,6 @@ export default function Accounts() {
           </Table>
         </div>
       </div>
-    </AppLayout>
+    
   );
 }

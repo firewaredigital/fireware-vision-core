@@ -51,7 +51,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
-import { AppLayout } from '@/components/layout/AppLayout';
+
 import { useAuth } from '@/hooks/useAuth';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
@@ -151,11 +151,6 @@ export default function AccountDetail() {
   const [quotes, setQuotes] = useState<Quote[]>([]);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    if (!authLoading && !user) {
-      navigate('/auth');
-    }
-  }, [user, authLoading, navigate]);
 
   useEffect(() => {
     if (id && user) {
@@ -297,27 +292,23 @@ export default function AccountDetail() {
 
   if (authLoading || loading) {
     return (
-      <AppLayout>
         <div className="flex items-center justify-center h-64">
           <RefreshCw className="h-8 w-8 animate-spin text-muted-foreground" />
         </div>
-      </AppLayout>
     );
   }
 
   if (!account) {
     return (
-      <AppLayout>
         <div className="flex flex-col items-center justify-center h-64 gap-4">
           <p className="text-muted-foreground">Conta não encontrada</p>
           <Button onClick={() => navigate('/accounts')}>Voltar para Contas</Button>
         </div>
-      </AppLayout>
     );
   }
 
   return (
-    <AppLayout>
+    
       <div className="space-y-6">
         {/* Header */}
         <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
@@ -857,6 +848,6 @@ export default function AccountDetail() {
           </div>
         </div>
       </div>
-    </AppLayout>
+    
   );
 }

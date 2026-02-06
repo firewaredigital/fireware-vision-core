@@ -10,7 +10,7 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
-import { AppLayout } from '@/components/layout/AppLayout';
+
 import { useAuth } from '@/hooks/useAuth';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
@@ -79,9 +79,6 @@ export default function OpportunityForm() {
     },
   });
 
-  useEffect(() => {
-    if (!authLoading && !user) navigate('/auth');
-  }, [user, authLoading, navigate]);
 
   useEffect(() => {
     async function fetchAccounts() {
@@ -192,7 +189,7 @@ export default function OpportunityForm() {
   if (authLoading || !user) return null;
 
   return (
-    <AppLayout>
+    
       <div className="space-y-6 max-w-3xl">
         <div className="flex items-center gap-4">
           <Button variant="ghost" size="icon" onClick={() => navigate('/opportunities')}>
@@ -397,6 +394,6 @@ export default function OpportunityForm() {
           </CardContent>
         </Card>
       </div>
-    </AppLayout>
+    
   );
 }

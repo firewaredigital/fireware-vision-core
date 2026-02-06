@@ -24,7 +24,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { AppLayout } from '@/components/layout/AppLayout';
+
 import { useAuth } from '@/hooks/useAuth';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
@@ -101,11 +101,6 @@ export default function LeadForm() {
     },
   });
 
-  useEffect(() => {
-    if (!authLoading && !user) {
-      navigate('/auth');
-    }
-  }, [user, authLoading, navigate]);
 
   useEffect(() => {
     if (id && user) {
@@ -225,7 +220,7 @@ export default function LeadForm() {
   }
 
   return (
-    <AppLayout>
+    
       <div className="space-y-6 max-w-4xl">
         {/* Header */}
         <div className="flex items-center gap-4">
@@ -590,6 +585,6 @@ export default function LeadForm() {
           </form>
         </Form>
       </div>
-    </AppLayout>
+    
   );
 }
