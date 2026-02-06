@@ -16,7 +16,6 @@ import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
 import { Skeleton } from '@/components/ui/skeleton';
 import { TooltipProvider } from '@/components/ui/tooltip';
-import { AppLayout } from '@/components/layout/AppLayout';
 import { StaleDealAlerts } from '@/components/StaleDealAlerts';
 import { useAuth } from '@/hooks/useAuth';
 import { supabase } from '@/integrations/supabase/client';
@@ -190,11 +189,7 @@ export default function Dashboard() {
     setLoading(false);
   }, [profile?.organization_id]);
 
-  useEffect(() => {
-    if (!authLoading && !user) {
-      navigate('/auth');
-    }
-  }, [user, authLoading, navigate]);
+  // Auth redirect removido — agora gerenciado pelo ProtectedLayout/AuthGuard
 
   useEffect(() => {
     if (profile?.organization_id) {
@@ -211,14 +206,14 @@ export default function Dashboard() {
     }).format(value);
   };
 
-  if (authLoading || !user) {
+  if (authLoading) {
     return null;
   }
 
   const chartColors = ['#94a3b8', '#60a5fa', '#a855f7', '#f97316', '#22c55e'];
 
   return (
-    <AppLayout>
+    <>
       <div className="space-y-6">
         {/* Header */}
         <div>
@@ -522,6 +517,6 @@ export default function Dashboard() {
           />
         </div>
       </div>
-    </AppLayout>
+    </>
   );
 }

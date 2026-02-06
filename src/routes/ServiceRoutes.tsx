@@ -1,5 +1,6 @@
 import { Route } from "react-router-dom";
 import { ModuleGuard } from "@/components/guards/ModuleGuard";
+import { ProtectedLayout } from "@/components/guards/ProtectedLayout";
 import Tickets from "@/pages/Tickets";
 import TicketDetail from "@/pages/TicketDetail";
 import TicketForm from "@/pages/TicketForm";
@@ -19,26 +20,26 @@ import ServiceAnalytics from "@/pages/service/ServiceAnalytics";
 
 export function ServiceRoutes() {
   return [
-    <Route key="tickets" path="/tickets" element={<ModuleGuard moduleKey="service"><Tickets /></ModuleGuard>} />,
-    <Route key="tickets-new" path="/tickets/new" element={<ModuleGuard moduleKey="service"><TicketForm /></ModuleGuard>} />,
-    <Route key="tickets-id" path="/tickets/:id" element={<ModuleGuard moduleKey="service"><TicketDetail /></ModuleGuard>} />,
-    <Route key="tickets-edit" path="/tickets/:id/edit" element={<ModuleGuard moduleKey="service"><TicketForm /></ModuleGuard>} />,
+    <Route key="tickets" path="/tickets" element={<ProtectedLayout><ModuleGuard moduleKey="service"><Tickets /></ModuleGuard></ProtectedLayout>} />,
+    <Route key="tickets-new" path="/tickets/new" element={<ProtectedLayout><ModuleGuard moduleKey="service"><TicketForm /></ModuleGuard></ProtectedLayout>} />,
+    <Route key="tickets-id" path="/tickets/:id" element={<ProtectedLayout><ModuleGuard moduleKey="service"><TicketDetail /></ModuleGuard></ProtectedLayout>} />,
+    <Route key="tickets-edit" path="/tickets/:id/edit" element={<ProtectedLayout><ModuleGuard moduleKey="service"><TicketForm /></ModuleGuard></ProtectedLayout>} />,
 
-    <Route key="knowledge" path="/knowledge" element={<ModuleGuard moduleKey="service"><Knowledge /></ModuleGuard>} />,
-    <Route key="knowledge-new" path="/knowledge/new" element={<ModuleGuard moduleKey="service"><ArticleForm /></ModuleGuard>} />,
-    <Route key="knowledge-id" path="/knowledge/:id" element={<ModuleGuard moduleKey="service"><ArticleDetail /></ModuleGuard>} />,
-    <Route key="knowledge-edit" path="/knowledge/:id/edit" element={<ModuleGuard moduleKey="service"><ArticleForm /></ModuleGuard>} />,
+    <Route key="knowledge" path="/knowledge" element={<ProtectedLayout><ModuleGuard moduleKey="service"><Knowledge /></ModuleGuard></ProtectedLayout>} />,
+    <Route key="knowledge-new" path="/knowledge/new" element={<ProtectedLayout><ModuleGuard moduleKey="service"><ArticleForm /></ModuleGuard></ProtectedLayout>} />,
+    <Route key="knowledge-id" path="/knowledge/:id" element={<ProtectedLayout><ModuleGuard moduleKey="service"><ArticleDetail /></ModuleGuard></ProtectedLayout>} />,
+    <Route key="knowledge-edit" path="/knowledge/:id/edit" element={<ProtectedLayout><ModuleGuard moduleKey="service"><ArticleForm /></ModuleGuard></ProtectedLayout>} />,
 
-    <Route key="service" path="/service" element={<ModuleGuard moduleKey="service"><ServiceDashboard /></ModuleGuard>} />,
-    <Route key="service-inbox" path="/service/inbox" element={<ModuleGuard moduleKey="service"><OmnichannelInbox /></ModuleGuard>} />,
-    <Route key="service-queues" path="/service/queues" element={<ModuleGuard moduleKey="service"><ServiceQueues /></ModuleGuard>} />,
-    <Route key="service-qa" path="/service/qa" element={<ModuleGuard moduleKey="service"><QADashboard /></ModuleGuard>} />,
-    <Route key="service-social" path="/service/social" element={<ModuleGuard moduleKey="service"><SocialInbox /></ModuleGuard>} />,
-    <Route key="service-analytics" path="/service/analytics" element={<ModuleGuard moduleKey="service"><ServiceAnalytics /></ModuleGuard>} />,
-    <Route key="service-wa" path="/service/whatsapp" element={<ModuleGuard moduleKey="service"><WhatsAppAdmin /></ModuleGuard>} />,
-    <Route key="service-chat" path="/service/chat-widgets" element={<ModuleGuard moduleKey="service"><ChatWidgetsAdmin /></ModuleGuard>} />,
-    <Route key="service-voice" path="/service/voice" element={<ModuleGuard moduleKey="service"><VoiceAdmin /></ModuleGuard>} />,
+    <Route key="service" path="/service" element={<ProtectedLayout><ModuleGuard moduleKey="service"><ServiceDashboard /></ModuleGuard></ProtectedLayout>} />,
+    <Route key="service-inbox" path="/service/inbox" element={<ProtectedLayout><ModuleGuard moduleKey="service"><OmnichannelInbox /></ModuleGuard></ProtectedLayout>} />,
+    <Route key="service-queues" path="/service/queues" element={<ProtectedLayout><ModuleGuard moduleKey="service"><ServiceQueues /></ModuleGuard></ProtectedLayout>} />,
+    <Route key="service-qa" path="/service/qa" element={<ProtectedLayout><ModuleGuard moduleKey="service"><QADashboard /></ModuleGuard></ProtectedLayout>} />,
+    <Route key="service-social" path="/service/social" element={<ProtectedLayout><ModuleGuard moduleKey="service"><SocialInbox /></ModuleGuard></ProtectedLayout>} />,
+    <Route key="service-analytics" path="/service/analytics" element={<ProtectedLayout><ModuleGuard moduleKey="service"><ServiceAnalytics /></ModuleGuard></ProtectedLayout>} />,
+    <Route key="service-wa" path="/service/whatsapp" element={<ProtectedLayout><ModuleGuard moduleKey="service"><WhatsAppAdmin /></ModuleGuard></ProtectedLayout>} />,
+    <Route key="service-chat" path="/service/chat-widgets" element={<ProtectedLayout><ModuleGuard moduleKey="service"><ChatWidgetsAdmin /></ModuleGuard></ProtectedLayout>} />,
+    <Route key="service-voice" path="/service/voice" element={<ProtectedLayout><ModuleGuard moduleKey="service"><VoiceAdmin /></ModuleGuard></ProtectedLayout>} />,
 
-    <Route key="cs" path="/customer-success" element={<ModuleGuard moduleKey="service"><CustomerSuccess /></ModuleGuard>} />,
+    <Route key="cs" path="/customer-success" element={<ProtectedLayout><ModuleGuard moduleKey="service"><CustomerSuccess /></ModuleGuard></ProtectedLayout>} />,
   ];
 }
