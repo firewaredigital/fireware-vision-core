@@ -8,6 +8,9 @@ import MarketingProviders from "@/pages/marketing/MarketingProviders";
 import MarketingPreferenceCenter from "@/pages/marketing/MarketingPreferenceCenter";
 import MarketingPersonalization from "@/pages/marketing/MarketingPersonalization";
 import MarketingIntelligence from "@/pages/marketing/MarketingIntelligence";
+import EmailTemplates from "@/pages/marketing/EmailTemplates";
+import EmailTemplateBuilder from "@/pages/marketing/EmailTemplateBuilder";
+import CampaignABTest from "@/pages/marketing/CampaignABTest";
 
 export function MarketingRoutes() {
   return [
@@ -31,5 +34,11 @@ export function MarketingRoutes() {
     <Route key="mkt-preference" path="/marketing/preference-center" element={<ModuleGuard moduleKey="marketing"><MarketingPreferenceCenter /></ModuleGuard>} />,
     <Route key="mkt-personalization" path="/marketing/personalization" element={<ModuleGuard moduleKey="marketing"><MarketingPersonalization /></ModuleGuard>} />,
     <Route key="mkt-intelligence" path="/marketing/intelligence" element={<ModuleGuard moduleKey="marketing"><MarketingIntelligence /></ModuleGuard>} />,
+
+    // Block 7 — Email Template Builder & A/B Testing
+    <Route key="mkt-email-templates" path="/marketing/email-templates" element={<ModuleGuard moduleKey="marketing"><EmailTemplates /></ModuleGuard>} />,
+    <Route key="mkt-email-templates-new" path="/marketing/email-templates/new" element={<ModuleGuard moduleKey="marketing"><EmailTemplateBuilder /></ModuleGuard>} />,
+    <Route key="mkt-email-templates-edit" path="/marketing/email-templates/:id" element={<ModuleGuard moduleKey="marketing"><EmailTemplateBuilder /></ModuleGuard>} />,
+    <Route key="mkt-ab-test" path="/marketing/campaigns/:id/ab-test" element={<ModuleGuard moduleKey="marketing"><CampaignABTest /></ModuleGuard>} />,
   ];
 }
