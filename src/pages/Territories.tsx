@@ -9,7 +9,6 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, Dialog
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { AppLayout } from '@/components/layout/AppLayout';
 import { useAuth } from '@/hooks/useAuth';
 import { useToast } from '@/hooks/use-toast';
 import { supabase } from '@/integrations/supabase/client';
@@ -57,10 +56,6 @@ export default function Territories() {
     parent_territory_id: '',
     owner_id: ''
   });
-
-  useEffect(() => {
-    if (!loading && !user) navigate('/auth');
-  }, [user, loading, navigate]);
 
   // Fetch territories
   const { data: territories = [], isLoading: territoriesLoading } = useQuery({
@@ -377,10 +372,8 @@ export default function Territories() {
     );
   };
 
-  if (loading || !user) return null;
-
   return (
-    <AppLayout>
+    <>
       <div className="space-y-6">
         {/* Header */}
         <div className="flex items-center justify-between">
@@ -562,6 +555,6 @@ export default function Territories() {
           </CardContent>
         </Card>
       </div>
-    </AppLayout>
+    </>
   );
 }

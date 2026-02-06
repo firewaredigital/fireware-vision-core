@@ -55,7 +55,6 @@ import {
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog';
 import { Card, CardContent } from '@/components/ui/card';
-import { AppLayout } from '@/components/layout/AppLayout';
 import { useAuth } from '@/hooks/useAuth';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
@@ -147,12 +146,6 @@ export default function Contracts() {
   const [searchQuery, setSearchQuery] = useState('');
   const [statusFilter, setStatusFilter] = useState<string>('all');
   const [deleteContractId, setDeleteContractId] = useState<string | null>(null);
-
-  useEffect(() => {
-    if (!authLoading && !user) {
-      navigate('/auth');
-    }
-  }, [user, authLoading, navigate]);
 
   useEffect(() => {
     if (user) {
@@ -251,12 +244,8 @@ export default function Contracts() {
     return null;
   };
 
-  if (authLoading || !user) {
-    return null;
-  }
-
   return (
-    <AppLayout>
+    <>
       <div className="space-y-6">
         {/* Header */}
         <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
@@ -517,6 +506,6 @@ export default function Contracts() {
           </AlertDialogContent>
         </AlertDialog>
       </div>
-    </AppLayout>
+    </>
   );
 }

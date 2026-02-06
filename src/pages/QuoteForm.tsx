@@ -56,7 +56,6 @@ import { Calendar as CalendarComponent } from '@/components/ui/calendar';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
 import { Badge } from '@/components/ui/badge';
-import { AppLayout } from '@/components/layout/AppLayout';
 import { useAuth } from '@/hooks/useAuth';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
@@ -153,12 +152,6 @@ export default function QuoteForm() {
   const selectedAccountId = form.watch('account_id');
   const discountPercent = form.watch('discount_percent') || 0;
   const taxPercent = form.watch('tax_percent') || 0;
-
-  useEffect(() => {
-    if (!authLoading && !user) {
-      navigate('/auth');
-    }
-  }, [user, authLoading, navigate]);
 
   useEffect(() => {
     fetchAccounts();
@@ -492,16 +485,14 @@ export default function QuoteForm() {
 
   if (authLoading || fetchingQuote) {
     return (
-      <AppLayout>
-        <div className="flex items-center justify-center h-64">
-          <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
-        </div>
-      </AppLayout>
+      <div className="flex items-center justify-center h-64">
+        <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
+      </div>
     );
   }
 
   return (
-    <AppLayout>
+    <>
       <div className="space-y-6">
         {/* Header */}
         <div className="flex items-center gap-4">
@@ -1068,6 +1059,6 @@ export default function QuoteForm() {
           </DialogContent>
         </Dialog>
       </div>
-    </AppLayout>
+    </>
   );
 }

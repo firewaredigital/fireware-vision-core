@@ -2,7 +2,6 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/hooks/useAuth';
-import { AppLayout } from '@/components/layout/AppLayout';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -123,14 +122,14 @@ export default function BillingDetail() {
   });
 
   if (isLoading || !invoice) {
-    return <AppLayout><div className="flex items-center justify-center min-h-[400px] text-muted-foreground">Carregando fatura...</div></AppLayout>;
+    return <div className="flex items-center justify-center min-h-[400px] text-muted-foreground">Carregando fatura...</div>;
   }
 
   const st = invoiceStatusConfig[invoice.status] || invoiceStatusConfig.draft;
   const fmt = (v: number) => new Intl.NumberFormat('pt-BR', { style: 'currency', currency: invoice.currency || 'BRL' }).format(v);
 
   return (
-    <AppLayout>
+    <>
       <div className="space-y-6 p-6">
         {/* Header */}
         <div className="flex items-center justify-between">
@@ -317,6 +316,6 @@ export default function BillingDetail() {
           </div>
         </div>
       </div>
-    </AppLayout>
+    </>
   );
 }

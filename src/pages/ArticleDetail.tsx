@@ -173,29 +173,25 @@ export default function ArticleDetail() {
 
   if (isLoading) {
     return (
-      <AppLayout>
-        <div className="flex items-center justify-center py-12">
-          <RefreshCcw className="h-8 w-8 animate-spin text-muted-foreground" />
-        </div>
-      </AppLayout>
+      <div className="flex items-center justify-center py-12">
+        <RefreshCcw className="h-8 w-8 animate-spin text-muted-foreground" />
+      </div>
     );
   }
 
   if (!article) {
     return (
-      <AppLayout>
-        <div className="flex flex-col items-center justify-center py-12">
-          <h2 className="text-xl font-semibold">Artigo não encontrado</h2>
-          <Button className="mt-4" onClick={() => navigate('/knowledge')}>
-            Voltar para Base de Conhecimento
-          </Button>
-        </div>
-      </AppLayout>
+      <div className="flex flex-col items-center justify-center py-12">
+        <h2 className="text-xl font-semibold">Artigo não encontrado</h2>
+        <Button className="mt-4" onClick={() => navigate('/knowledge')}>
+          Voltar para Base de Conhecimento
+        </Button>
+      </div>
     );
   }
 
   return (
-    <AppLayout>
+    <>
       <div className="max-w-4xl mx-auto space-y-6">
         {/* Header */}
         <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
@@ -433,6 +429,6 @@ export default function ArticleDetail() {
           </div>
         </div>
       </div>
-    </AppLayout>
+    </>
   );
 }

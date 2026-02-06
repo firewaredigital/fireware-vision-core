@@ -33,7 +33,6 @@ import {
   TableRow,
   TableFooter,
 } from '@/components/ui/table';
-import { AppLayout } from '@/components/layout/AppLayout';
 import { Timeline } from '@/components/Timeline';
 import { useAuth } from '@/hooks/useAuth';
 import { ChangeHistory } from '@/components/ChangeHistory';
@@ -143,12 +142,6 @@ export default function QuoteDetail() {
   const [quote, setQuote] = useState<Quote | null>(null);
   const [items, setItems] = useState<QuoteItem[]>([]);
   const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    if (!authLoading && !user) {
-      navigate('/auth');
-    }
-  }, [user, authLoading, navigate]);
 
   useEffect(() => {
     if (id && user) {
@@ -328,30 +321,26 @@ export default function QuoteDetail() {
 
   if (authLoading || loading) {
     return (
-      <AppLayout>
-        <div className="flex items-center justify-center h-64">
-          <RefreshCw className="h-8 w-8 animate-spin text-muted-foreground" />
-        </div>
-      </AppLayout>
+      <div className="flex items-center justify-center h-64">
+        <RefreshCw className="h-8 w-8 animate-spin text-muted-foreground" />
+      </div>
     );
   }
 
   if (!quote) {
     return (
-      <AppLayout>
-        <div className="flex flex-col items-center justify-center h-64 gap-4">
-          <FileText className="h-12 w-12 text-muted-foreground" />
-          <p className="text-muted-foreground">Proposta não encontrada</p>
-          <Button onClick={() => navigate('/quotes')}>Voltar para Propostas</Button>
-        </div>
-      </AppLayout>
+      <div className="flex flex-col items-center justify-center h-64 gap-4">
+        <FileText className="h-12 w-12 text-muted-foreground" />
+        <p className="text-muted-foreground">Proposta não encontrada</p>
+        <Button onClick={() => navigate('/quotes')}>Voltar para Propostas</Button>
+      </div>
     );
   }
 
   const config = statusConfig[quote.status];
 
   return (
-    <AppLayout>
+    <>
       <div className="space-y-6">
         {/* Header */}
         <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
@@ -703,6 +692,6 @@ export default function QuoteDetail() {
           </div>
         </div>
       </div>
-    </AppLayout>
+    </>
   );
 }

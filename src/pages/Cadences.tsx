@@ -12,7 +12,6 @@ import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
-import { AppLayout } from '@/components/layout/AppLayout';
 import { useAuth } from '@/hooks/useAuth';
 import { useToast } from '@/hooks/use-toast';
 import { supabase } from '@/integrations/supabase/client';
@@ -91,10 +90,6 @@ export default function Cadences() {
     body: '',
     delay_days: 0
   });
-
-  useEffect(() => {
-    if (!loading && !user) navigate('/auth');
-  }, [user, loading, navigate]);
 
   // Fetch cadences
   const { data: cadences = [], isLoading: cadencesLoading } = useQuery({
@@ -435,10 +430,8 @@ export default function Cadences() {
     c.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  if (loading || !user) return null;
-
   return (
-    <AppLayout>
+    <>
       <div className="space-y-6">
         {/* Header */}
         <div className="flex items-center justify-between">
@@ -859,6 +852,6 @@ export default function Cadences() {
           </Card>
         </div>
       </div>
-    </AppLayout>
+    </>
   );
 }

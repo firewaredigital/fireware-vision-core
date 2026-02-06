@@ -25,7 +25,6 @@ import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { AppLayout } from '@/components/layout/AppLayout';
 import { Timeline } from '@/components/Timeline';
 import { AttachmentsWidget } from '@/components/AttachmentsWidget';
 import { NotesWidget } from '@/components/NotesWidget';
@@ -172,12 +171,6 @@ export default function ContractDetail() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (!authLoading && !user) {
-      navigate('/auth');
-    }
-  }, [user, authLoading, navigate]);
-
-  useEffect(() => {
     if (id && user) {
       fetchContract();
     }
@@ -295,23 +288,19 @@ export default function ContractDetail() {
 
   if (authLoading || loading) {
     return (
-      <AppLayout>
-        <div className="flex items-center justify-center h-64">
-          <RefreshCw className="h-8 w-8 animate-spin text-muted-foreground" />
-        </div>
-      </AppLayout>
+      <div className="flex items-center justify-center h-64">
+        <RefreshCw className="h-8 w-8 animate-spin text-muted-foreground" />
+      </div>
     );
   }
 
   if (!contract) {
     return (
-      <AppLayout>
-        <div className="flex flex-col items-center justify-center h-64 gap-4">
-          <FileText className="h-12 w-12 text-muted-foreground" />
-          <p className="text-muted-foreground">Contrato não encontrado</p>
-          <Button onClick={() => navigate('/contracts')}>Voltar para Contratos</Button>
-        </div>
-      </AppLayout>
+      <div className="flex flex-col items-center justify-center h-64 gap-4">
+        <FileText className="h-12 w-12 text-muted-foreground" />
+        <p className="text-muted-foreground">Contrato não encontrado</p>
+        <Button onClick={() => navigate('/contracts')}>Voltar para Contratos</Button>
+      </div>
     );
   }
 
@@ -319,7 +308,7 @@ export default function ContractDetail() {
   const availableTransitions = statusTransitions[contract.status] || [];
 
   return (
-    <AppLayout>
+    <>
       <div className="space-y-6">
         {/* Header */}
         <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
@@ -700,6 +689,6 @@ export default function ContractDetail() {
           </div>
         </div>
       </div>
-    </AppLayout>
+    </>
   );
 }

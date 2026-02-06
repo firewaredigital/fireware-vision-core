@@ -3,7 +3,6 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/hooks/useAuth';
-import { AppLayout } from '@/components/layout/AppLayout';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -133,7 +132,7 @@ export default function CPQConfigurationDetail() {
   });
 
   if (isLoading || !config) {
-    return <AppLayout><div className="flex items-center justify-center min-h-[400px] text-muted-foreground">Carregando configuração...</div></AppLayout>;
+    return <div className="flex items-center justify-center min-h-[400px] text-muted-foreground">Carregando configuração...</div>;
   }
 
   const st = statusConfig[config.status] || statusConfig.draft;
@@ -141,7 +140,7 @@ export default function CPQConfigurationDetail() {
   const fmt = (v: number) => new Intl.NumberFormat('pt-BR', { style: 'currency', currency: config.currency || 'BRL' }).format(v);
 
   return (
-    <AppLayout>
+    <>
       <div className="space-y-6 p-6">
         {/* Header */}
         <div className="flex items-center justify-between">
@@ -361,6 +360,6 @@ export default function CPQConfigurationDetail() {
           </TabsContent>
         </Tabs>
       </div>
-    </AppLayout>
+    </>
   );
 }
