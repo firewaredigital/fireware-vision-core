@@ -3727,6 +3727,84 @@ export type Database = {
           },
         ]
       }
+      integration_run_logs: {
+        Row: {
+          action_name: string | null
+          completed_at: string | null
+          connector_name: string
+          created_at: string
+          created_by: string | null
+          duration_ms: number | null
+          error_code: string | null
+          error_message: string | null
+          id: string
+          idempotency_key: string | null
+          instance_name: string | null
+          organization_id: string
+          request_payload: Json | null
+          response_payload: Json | null
+          retry_count: number | null
+          started_at: string
+          status: Database["public"]["Enums"]["integration_run_status"]
+          workflow_run_id: string | null
+        }
+        Insert: {
+          action_name?: string | null
+          completed_at?: string | null
+          connector_name: string
+          created_at?: string
+          created_by?: string | null
+          duration_ms?: number | null
+          error_code?: string | null
+          error_message?: string | null
+          id?: string
+          idempotency_key?: string | null
+          instance_name?: string | null
+          organization_id: string
+          request_payload?: Json | null
+          response_payload?: Json | null
+          retry_count?: number | null
+          started_at?: string
+          status?: Database["public"]["Enums"]["integration_run_status"]
+          workflow_run_id?: string | null
+        }
+        Update: {
+          action_name?: string | null
+          completed_at?: string | null
+          connector_name?: string
+          created_at?: string
+          created_by?: string | null
+          duration_ms?: number | null
+          error_code?: string | null
+          error_message?: string | null
+          id?: string
+          idempotency_key?: string | null
+          instance_name?: string | null
+          organization_id?: string
+          request_payload?: Json | null
+          response_payload?: Json | null
+          retry_count?: number | null
+          started_at?: string
+          status?: Database["public"]["Enums"]["integration_run_status"]
+          workflow_run_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "integration_run_logs_created_by_fkey"
+            columns: ["created_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "integration_run_logs_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       it_assets: {
         Row: {
           asset_tag: string
@@ -7176,6 +7254,76 @@ export type Database = {
           },
         ]
       }
+      org_modules: {
+        Row: {
+          created_at: string
+          created_by: string | null
+          enabled: boolean
+          ends_at: string | null
+          id: string
+          limits_json: Json | null
+          module_key: Database["public"]["Enums"]["module_key"]
+          organization_id: string
+          plan_tier: Database["public"]["Enums"]["plan_tier"]
+          starts_at: string | null
+          updated_at: string
+          updated_by: string | null
+          usage_json: Json | null
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string | null
+          enabled?: boolean
+          ends_at?: string | null
+          id?: string
+          limits_json?: Json | null
+          module_key: Database["public"]["Enums"]["module_key"]
+          organization_id: string
+          plan_tier?: Database["public"]["Enums"]["plan_tier"]
+          starts_at?: string | null
+          updated_at?: string
+          updated_by?: string | null
+          usage_json?: Json | null
+        }
+        Update: {
+          created_at?: string
+          created_by?: string | null
+          enabled?: boolean
+          ends_at?: string | null
+          id?: string
+          limits_json?: Json | null
+          module_key?: Database["public"]["Enums"]["module_key"]
+          organization_id?: string
+          plan_tier?: Database["public"]["Enums"]["plan_tier"]
+          starts_at?: string | null
+          updated_at?: string
+          updated_by?: string | null
+          usage_json?: Json | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "org_modules_created_by_fkey"
+            columns: ["created_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "org_modules_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "org_modules_updated_by_fkey"
+            columns: ["updated_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       organizations: {
         Row: {
           created_at: string
@@ -7307,6 +7455,132 @@ export type Database = {
             columns: ["organization_id"]
             isOneToOne: false
             referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      permission_set_assignments: {
+        Row: {
+          created_at: string
+          expires_at: string | null
+          granted_at: string
+          granted_by: string | null
+          id: string
+          organization_id: string
+          permission_set_id: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          expires_at?: string | null
+          granted_at?: string
+          granted_by?: string | null
+          id?: string
+          organization_id: string
+          permission_set_id: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          expires_at?: string | null
+          granted_at?: string
+          granted_by?: string | null
+          id?: string
+          organization_id?: string
+          permission_set_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "permission_set_assignments_granted_by_fkey"
+            columns: ["granted_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "permission_set_assignments_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "permission_set_assignments_permission_set_id_fkey"
+            columns: ["permission_set_id"]
+            isOneToOne: false
+            referencedRelation: "permission_sets"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "permission_set_assignments_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      permission_sets: {
+        Row: {
+          conditions: Json | null
+          created_at: string
+          created_by: string | null
+          description: string | null
+          id: string
+          is_system: boolean
+          name: string
+          organization_id: string
+          permissions: Json
+          updated_at: string
+          updated_by: string | null
+        }
+        Insert: {
+          conditions?: Json | null
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          id?: string
+          is_system?: boolean
+          name: string
+          organization_id: string
+          permissions?: Json
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Update: {
+          conditions?: Json | null
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          id?: string
+          is_system?: boolean
+          name?: string
+          organization_id?: string
+          permissions?: Json
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "permission_sets_created_by_fkey"
+            columns: ["created_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "permission_sets_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "permission_sets_updated_by_fkey"
+            columns: ["updated_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
             referencedColumns: ["id"]
           },
         ]
@@ -8905,6 +9179,101 @@ export type Database = {
           },
           {
             foreignKeyName: "shipments_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      system_events: {
+        Row: {
+          created_at: string
+          event_type: string
+          id: string
+          message: string
+          metadata: Json | null
+          organization_id: string
+          severity: Database["public"]["Enums"]["event_severity"]
+          source_entity_id: string | null
+          source_entity_type: string | null
+          source_module: Database["public"]["Enums"]["module_key"] | null
+          user_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          event_type: string
+          id?: string
+          message: string
+          metadata?: Json | null
+          organization_id: string
+          severity?: Database["public"]["Enums"]["event_severity"]
+          source_entity_id?: string | null
+          source_entity_type?: string | null
+          source_module?: Database["public"]["Enums"]["module_key"] | null
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          event_type?: string
+          id?: string
+          message?: string
+          metadata?: Json | null
+          organization_id?: string
+          severity?: Database["public"]["Enums"]["event_severity"]
+          source_entity_id?: string | null
+          source_entity_type?: string | null
+          source_module?: Database["public"]["Enums"]["module_key"] | null
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "system_events_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "system_events_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      system_metrics: {
+        Row: {
+          created_at: string
+          dimensions: Json | null
+          id: string
+          metric_type: string
+          metric_value: number
+          organization_id: string
+          recorded_at: string
+        }
+        Insert: {
+          created_at?: string
+          dimensions?: Json | null
+          id?: string
+          metric_type: string
+          metric_value: number
+          organization_id: string
+          recorded_at?: string
+        }
+        Update: {
+          created_at?: string
+          dimensions?: Json | null
+          id?: string
+          metric_type?: string
+          metric_value?: number
+          organization_id?: string
+          recorded_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "system_metrics_organization_id_fkey"
             columns: ["organization_id"]
             isOneToOne: false
             referencedRelation: "organizations"
@@ -10597,6 +10966,7 @@ export type Database = {
       generate_request_number: { Args: { org_id: string }; Returns: string }
       generate_return_number: { Args: { org_id: string }; Returns: string }
       generate_ticket_number: { Args: { org_id: string }; Returns: string }
+      get_org_enabled_modules: { Args: { _org_id: string }; Returns: Json }
       get_stale_opportunities_count: {
         Args: { org_id: string; threshold_days?: number }
         Returns: number
@@ -10606,6 +10976,7 @@ export type Database = {
         Returns: Database["public"]["Enums"]["user_role"]
       }
       get_user_org_id: { Args: never; Returns: string }
+      get_user_permissions: { Args: { _user_id: string }; Returns: Json }
       get_user_team_id: { Args: never; Returns: string }
       has_role: {
         Args: { role_name: Database["public"]["Enums"]["user_role"] }
@@ -10617,6 +10988,13 @@ export type Database = {
       }
       is_manager_of_team: { Args: { team_id_param: string }; Returns: boolean }
       is_member_of_org: { Args: { org_id: string }; Returns: boolean }
+      is_module_enabled: {
+        Args: {
+          _module_key: Database["public"]["Enums"]["module_key"]
+          _org_id: string
+        }
+        Returns: boolean
+      }
       log_audit_event: {
         Args: {
           p_action: string
@@ -10631,9 +11009,44 @@ export type Database = {
         }
         Returns: string
       }
+      log_system_event: {
+        Args: {
+          _event_type: string
+          _message: string
+          _metadata?: Json
+          _org_id: string
+          _severity: Database["public"]["Enums"]["event_severity"]
+          _source_entity_id?: string
+          _source_entity_type?: string
+          _source_module?: Database["public"]["Enums"]["module_key"]
+        }
+        Returns: string
+      }
       parse_canned_response: {
         Args: { p_contact_id?: string; p_content: string; p_ticket_id?: string }
         Returns: string
+      }
+      record_system_metric: {
+        Args: {
+          _dimensions?: Json
+          _metric_type: string
+          _metric_value: number
+          _org_id: string
+        }
+        Returns: string
+      }
+      update_module_usage: {
+        Args: {
+          _increment?: number
+          _module_key: Database["public"]["Enums"]["module_key"]
+          _org_id: string
+          _usage_key: string
+        }
+        Returns: undefined
+      }
+      user_has_permission: {
+        Args: { _capability: string; _user_id: string }
+        Returns: boolean
       }
       user_has_role: {
         Args: {
@@ -10802,6 +11215,7 @@ export type Database = {
         | "merged"
         | "ignored"
       enrollment_status: "active" | "completed" | "exited" | "paused" | "failed"
+      event_severity: "info" | "warning" | "error" | "critical"
       forecast_category: "commit" | "best_case" | "pipeline" | "omitted"
       identifier_type:
         | "email"
@@ -10811,6 +11225,12 @@ export type Database = {
         | "cookie"
         | "device_id"
         | "social_id"
+      integration_run_status:
+        | "pending"
+        | "running"
+        | "completed"
+        | "failed"
+        | "retrying"
       it_asset_condition:
         | "new"
         | "good"
@@ -10929,6 +11349,22 @@ export type Database = {
         | "failed"
         | "cancelled"
       message_sender_type: "agent" | "customer" | "system"
+      module_key:
+        | "sales"
+        | "service"
+        | "contact_center"
+        | "marketing"
+        | "commerce"
+        | "billing"
+        | "cpq"
+        | "itsm"
+        | "data_hub"
+        | "automations"
+        | "integrations"
+        | "ai_agents"
+        | "analytics"
+        | "portals"
+        | "governance"
       opportunity_stage:
         | "prospecting"
         | "qualification"
@@ -10951,6 +11387,7 @@ export type Database = {
         | "failed"
         | "refunded"
         | "partially_refunded"
+      plan_tier: "free" | "starter" | "professional" | "enterprise"
       playbook_type:
         | "onboarding"
         | "adoption"
@@ -11345,6 +11782,7 @@ export const Constants = {
         "ignored",
       ],
       enrollment_status: ["active", "completed", "exited", "paused", "failed"],
+      event_severity: ["info", "warning", "error", "critical"],
       forecast_category: ["commit", "best_case", "pipeline", "omitted"],
       identifier_type: [
         "email",
@@ -11354,6 +11792,13 @@ export const Constants = {
         "cookie",
         "device_id",
         "social_id",
+      ],
+      integration_run_status: [
+        "pending",
+        "running",
+        "completed",
+        "failed",
+        "retrying",
       ],
       it_asset_condition: [
         "new",
@@ -11485,6 +11930,23 @@ export const Constants = {
         "cancelled",
       ],
       message_sender_type: ["agent", "customer", "system"],
+      module_key: [
+        "sales",
+        "service",
+        "contact_center",
+        "marketing",
+        "commerce",
+        "billing",
+        "cpq",
+        "itsm",
+        "data_hub",
+        "automations",
+        "integrations",
+        "ai_agents",
+        "analytics",
+        "portals",
+        "governance",
+      ],
       opportunity_stage: [
         "prospecting",
         "qualification",
@@ -11510,6 +11972,7 @@ export const Constants = {
         "refunded",
         "partially_refunded",
       ],
+      plan_tier: ["free", "starter", "professional", "enterprise"],
       playbook_type: [
         "onboarding",
         "adoption",
