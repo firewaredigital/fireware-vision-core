@@ -8,6 +8,7 @@ import AITools from '@/pages/ai/AITools';
 import AIPolicies from '@/pages/ai/AIPolicies';
 import AIEvals from '@/pages/ai/AIEvals';
 import AIRuns from '@/pages/ai/AIRuns';
+import AIAnalytics from '@/pages/ai/AIAnalytics';
 
 export function AIRoutes() {
   return [
@@ -49,6 +50,11 @@ export function AIRoutes() {
     <Route key="ai-runs" path="/ai/runs" element={
       <ModuleGuard moduleKey="ai_agents" redirectTo="/dashboard">
         <AIRuns />
+      </ModuleGuard>
+    } />,
+    <Route key="ai-analytics" path="/ai/analytics" element={
+      <ModuleGuard moduleKey="ai_agents" redirectTo="/dashboard">
+        <AIAnalytics />
       </ModuleGuard>
     } />,
   ];

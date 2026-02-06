@@ -24,6 +24,7 @@ import Subscriptions from "@/pages/sales/Subscriptions";
 import Billing from "@/pages/sales/Billing";
 import BillingDetail from "@/pages/sales/BillingDetail";
 import ConversationIntelligence from "@/pages/sales/ConversationIntelligence";
+import RevenueOps from "@/pages/sales/RevenueOps";
 
 export function SalesRoutes() {
   return [
@@ -68,5 +69,8 @@ export function SalesRoutes() {
 
     // Conversation Intelligence
     <Route key="conv-intel" path="/sales/conversation-intelligence" element={<ModuleGuard moduleKey="sales"><ConversationIntelligence /></ModuleGuard>} />,
+
+    // Revenue Operations
+    <Route key="revenue-ops" path="/sales/revenue-ops" element={<ModuleGuard moduleKey="sales"><RevenueOps /></ModuleGuard>} />,
   ];
 }
