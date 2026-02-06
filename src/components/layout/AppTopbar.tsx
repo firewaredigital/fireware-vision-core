@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Bell, Plus, Moon, Sun } from 'lucide-react';
+import { Plus, Moon, Sun } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { SidebarTrigger } from '@/components/ui/sidebar';
 import {
@@ -12,6 +12,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { useNavigate } from 'react-router-dom';
 import { GlobalSearch } from '@/components/GlobalSearch';
+import { NotificationCenter } from '@/components/NotificationCenter';
 
 export function AppTopbar() {
   const navigate = useNavigate();
@@ -59,13 +60,8 @@ export function AppTopbar() {
           </DropdownMenuContent>
         </DropdownMenu>
 
-        {/* Notifications */}
-        <Button variant="ghost" size="icon" className="relative">
-          <Bell className="h-4 w-4" />
-          <span className="absolute -right-1 -top-1 flex h-4 w-4 items-center justify-center rounded-full bg-primary text-[10px] font-medium text-primary-foreground">
-            3
-          </span>
-        </Button>
+        {/* Notifications - Real-time NotificationCenter */}
+        <NotificationCenter />
 
         {/* Theme Toggle */}
         <Button variant="ghost" size="icon" onClick={toggleTheme}>
