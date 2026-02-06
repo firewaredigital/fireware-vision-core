@@ -38,7 +38,6 @@ export default function Auth() {
   const [isLoading, setIsLoading] = useState(false);
   const [activeTab, setActiveTab] = useState('login');
 
-  // Redirect if already logged in
   useEffect(() => {
     if (user && !authLoading) {
       navigate('/dashboard');
@@ -103,7 +102,7 @@ export default function Auth() {
 
   if (authLoading) {
     return (
-      <div className="flex min-h-screen items-center justify-center">
+      <div className="flex min-h-screen items-center justify-center bg-background">
         <Loader2 className="h-8 w-8 animate-spin text-primary" />
       </div>
     );
@@ -111,23 +110,23 @@ export default function Auth() {
 
   return (
     <div className="flex min-h-screen">
-      {/* Left side - Branding */}
-      <div className="hidden lg:flex lg:w-1/2 bg-foreground items-center justify-center p-12">
+      {/* Left side — Dark branding panel */}
+      <div className="hidden lg:flex lg:w-1/2 items-center justify-center p-12" style={{ backgroundColor: 'hsl(216, 5%, 14%)' }}>
         <div className="max-w-md text-center">
           <div className="mx-auto mb-8 flex h-20 w-20 items-center justify-center rounded-2xl bg-primary">
             <Flame className="h-12 w-12 text-primary-foreground" />
           </div>
-          <h1 className="mb-4 text-4xl font-bold text-background">Fireware CRM</h1>
-          <p className="text-lg text-background/80">
+          <h1 className="mb-4 text-4xl font-bold text-white">Fireware CRM</h1>
+          <p className="text-lg text-white/70">
             A plataforma completa de vendas B2B projetada para equipes empresariais. 
             Gerencie leads, feche negócios e aumente a receita.
           </p>
         </div>
       </div>
 
-      {/* Right side - Auth Form */}
-      <div className="flex w-full lg:w-1/2 items-center justify-center p-8">
-        <Card className="w-full max-w-md border-0 shadow-lg">
+      {/* Right side — Auth Form on white */}
+      <div className="flex w-full lg:w-1/2 items-center justify-center p-8 bg-card">
+        <Card className="w-full max-w-md border-0 shadow-none bg-transparent">
           <CardHeader className="text-center">
             <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-primary lg:hidden">
               <Flame className="h-7 w-7 text-primary-foreground" />

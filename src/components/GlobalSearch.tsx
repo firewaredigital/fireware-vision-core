@@ -15,11 +15,11 @@ interface SearchResult {
 }
 
 const typeConfig = {
-  lead: { icon: User, label: 'Lead', color: 'bg-blue-100 text-blue-800', path: '/leads' },
-  account: { icon: Building2, label: 'Conta', color: 'bg-green-100 text-green-800', path: '/accounts' },
-  contact: { icon: Users, label: 'Contato', color: 'bg-purple-100 text-purple-800', path: '/contacts' },
-  opportunity: { icon: Target, label: 'Oportunidade', color: 'bg-orange-100 text-orange-800', path: '/opportunities' },
-  quote: { icon: FileText, label: 'Proposta', color: 'bg-pink-100 text-pink-800', path: '/quotes' }
+  lead: { icon: User, label: 'Lead', path: '/leads' },
+  account: { icon: Building2, label: 'Conta', path: '/accounts' },
+  contact: { icon: Users, label: 'Contato', path: '/contacts' },
+  opportunity: { icon: Target, label: 'Oportunidade', path: '/opportunities' },
+  quote: { icon: FileText, label: 'Proposta', path: '/quotes' }
 };
 
 export function GlobalSearch() {
@@ -79,7 +79,6 @@ export function GlobalSearch() {
 
         const searchTerm = `%${debouncedQuery.toLowerCase()}%`;
 
-        // Search in parallel
         const [leadsRes, accountsRes, contactsRes, opportunitiesRes, quotesRes] = await Promise.all([
           supabase
             .from('leads')
@@ -205,13 +204,13 @@ export function GlobalSearch() {
   };
 
   return (
-    <div ref={containerRef} className="relative flex-1 max-w-md">
+    <div ref={containerRef} className="relative w-full max-w-lg">
       <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
       <Input
         ref={inputRef}
         type="search"
-        placeholder="Buscar leads, contas, contatos... (⌘K)"
-        className="pl-9 pr-9 bg-secondary/50 border-0 focus-visible:ring-1"
+        placeholder="Buscar em todo o sistema... (⌘K)"
+        className="pl-10 pr-9 bg-background border-border h-10"
         value={query}
         onChange={(e) => {
           setQuery(e.target.value);
@@ -231,7 +230,7 @@ export function GlobalSearch() {
 
       {/* Results Dropdown */}
       {isOpen && (query.length >= 2 || results.length > 0) && (
-        <div className="absolute top-full left-0 right-0 mt-2 bg-popover border rounded-lg shadow-lg z-50 overflow-hidden">
+        <div className="absolute top-full left-0 right-0 mt-2 bg-card border rounded-xl shadow-lg z-50 overflow-hidden">
           {isLoading ? (
             <div className="flex items-center justify-center p-4 text-muted-foreground">
               <Loader2 className="h-4 w-4 mr-2 animate-spin" />
@@ -251,8 +250,8 @@ export function GlobalSearch() {
                 return (
                   <button
                     key={`${result.type}-${result.id}`}
-                    className={`w-full flex items-center gap-3 p-3 text-left hover:bg-muted/50 transition-colors ${
-                      isSelected ? 'bg-muted/50' : ''
+                    className={`w-full flex items-center gap-3 p-3 text-left hover:bg-accent transition-colors ${
+                      isSelected ? 'bg-accent' : ''
                     }`}
                     onClick={() => navigateToResult(result)}
                   >
@@ -263,7 +262,7 @@ export function GlobalSearch() {
                         <div className="text-sm text-muted-foreground truncate">{result.subtitle}</div>
                       )}
                     </div>
-                    <Badge variant="outline" className={`text-xs ${config.color}`}>
+                    <Badge variant="secondary" className="text-xs">
                       {config.label}
                     </Badge>
                   </button>

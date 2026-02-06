@@ -68,7 +68,7 @@ const stageLabels: Record<string, string> = {
 
 const stageColors: Record<string, string> = {
   prospecting: '#94a3b8',
-  qualification: '#60a5fa',
+  qualification: '#3b82f6',
   proposal: '#a855f7',
   negotiation: '#f97316',
   closed_won: '#22c55e',
@@ -210,7 +210,7 @@ export default function Dashboard() {
     return null;
   }
 
-  const chartColors = ['#94a3b8', '#60a5fa', '#a855f7', '#f97316', '#22c55e'];
+  const chartColors = ['#94a3b8', '#3b82f6', '#a855f7', '#f97316', '#22c55e'];
 
   return (
     <>

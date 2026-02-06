@@ -31,13 +31,15 @@ export function AppTopbar() {
       : 'Sistema';
 
   return (
-    <header className="sticky top-0 z-40 flex h-14 items-center gap-4 border-b bg-background px-4">
-      <SidebarTrigger className="-ml-1" />
+    <header className="sticky top-0 z-40 flex h-16 items-center gap-4 border-b bg-card px-6">
+      <SidebarTrigger className="-ml-2" />
 
-      {/* Global Search */}
-      <GlobalSearch />
+      {/* Global Search — centered & prominent */}
+      <div className="flex-1 flex justify-center">
+        <GlobalSearch />
+      </div>
 
-      <div className="flex items-center gap-2 ml-auto">
+      <div className="flex items-center gap-2">
         {/* Quick Create */}
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -67,10 +69,10 @@ export function AppTopbar() {
           </DropdownMenuContent>
         </DropdownMenu>
 
-        {/* Notifications - Real-time NotificationCenter */}
+        {/* Notifications */}
         <NotificationCenter />
 
-        {/* Theme Toggle with 3 options */}
+        {/* Theme Toggle */}
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="ghost" size="icon" title={`Tema: ${themeLabel}`}>
