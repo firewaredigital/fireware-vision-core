@@ -1,1174 +1,1041 @@
 
-# ANALISE TECNICA COMPLETA DO FIREWARE CRM
-## Ecossistema Enterprise Integrado
+# PLANO DE IMPLEMENTACAO DO FIREWARE CRM - CUSTOMER RELATIONSHIP ECOSYSTEM
+## Evolucao para Plataforma Enterprise Modular Completa
 
 ---
 
-## 1. VISAO GERAL DA ARQUITETURA
+## ANALISE DO ESTADO ATUAL vs PRD
 
-### 1.1 Stack Tecnologico
+### RESUMO EXECUTIVO DO GAP ANALYSIS
 
-| Camada | Tecnologia | Versao |
-|--------|-----------|--------|
-| Frontend | React + TypeScript | 18.3.1 |
-| Bundler | Vite | - |
-| Styling | Tailwind CSS + tailwind-merge | - |
-| UI Components | Radix UI + shadcn/ui | Multiplos |
-| State Management | TanStack React Query | 5.83.0 |
-| Routing | React Router DOM | 6.30.1 |
-| Forms | React Hook Form + Zod | 7.61.1 / 3.25.76 |
-| Charts | Recharts | 2.15.4 |
-| Drag & Drop | @hello-pangea/dnd | 18.0.1 |
-| Backend | Supabase (Lovable Cloud) | 2.93.2 |
-| Date Handling | date-fns | 3.6.0 |
+O sistema atual possui uma base solida com 103+ tabelas, 48 enums e 80+ rotas. No entanto, o PRD solicita uma evolucao significativa para um ecossistema completo. Abaixo esta o mapeamento detalhado:
 
-### 1.2 Arquitetura Multi-Tenant
-
-```text
-+-------------------+
-|   Organization    |
-+-------------------+
-         |
-    +----+----+
-    |         |
-+-------+ +-------+
-| Units | | Teams |
-+-------+ +-------+
-              |
-          +-------+
-          | Users |
-          +-------+
-```
-
-**Hierarquia implementada:**
-- `organizations` - Tenant principal
-- `teams` - Equipes dentro da organizacao
-- `profiles` - Usuarios com roles (user/manager/admin)
-- `user_roles` - Tabela separada para controle granular de permissoes
-
-**Funcoes de Seguranca RPC:**
-- `user_has_role(_user_id, _role)` - Verifica se usuario possui role
-- `get_user_highest_role(_user_id)` - Retorna maior role do usuario
-- `is_member_of_org(org_id)` - Verifica pertencimento a organizacao
-- `is_manager_of_team(team_id)` - Verifica se e gerente da equipe
-- `get_user_org_id()` - Retorna organization_id do usuario atual
-- `get_user_team_id()` - Retorna team_id do usuario atual
+| Camada PRD | Status Atual | Lacunas Criticas |
+|------------|--------------|------------------|
+| A - Core Platform | 20% | Feature flags, Permission sets, Admin Console, Observabilidade |
+| B - Engagement Apps | 70% | CPQ, Subscriptions/Billing, Omnichannel real, Voice |
+| C - Data Hub | 60% | Golden Record completo, Data Catalog, Activation jobs |
+| D - Automation/iPaaS | 40% | Connector Framework, DLQ, Event Bus/Outbox |
+| E - Intelligence/AI | 0% | Agent Studio, AI Tools, Policies, Evals - TOTALMENTE NOVO |
+| F - Portals | 50% | Partner Portal, pedidos/faturas, Chat Widget |
+| G - Governance | 80% | DLP/PII masking, SSO/MFA/SCIM |
 
 ---
 
-## 2. MODULOS FUNCIONAIS COMPLETOS
+## PLANO DE IMPLEMENTACAO EM 8 FASES
 
-### 2.1 MODULO SALES (Vendas)
+### FASE 1: CORE PLATFORM (Fundacao Modular)
+**Objetivo:** Criar a infraestrutura de modularidade e governanca
 
-#### 2.1.1 Gestao de Leads
+#### 1.1 Feature Flags e Licenciamento
 
-**Tabela:** `leads`
-**Campos principais:**
-- Dados pessoais: first_name, last_name, email, phone
-- Dados profissionais: company, job_title, department
-- Qualificacao: score (0-100), status (new/contacted/qualified/unqualified/converted)
-- Rastreamento: source, campaign_id, utm_* (source, medium, campaign, term, content)
-- Enriquecimento: annual_revenue, employee_count, industry, website
-
-**Status Workflow:**
+**Novas Tabelas:**
 ```text
-new -> contacted -> qualified -> converted
-                 -> unqualified
+org_modules
+├── id: uuid PK
+├── organization_id: uuid FK
+├── module_key: module_key_enum
+├── enabled: boolean
+├── plan_tier: text (free/starter/professional/enterprise)
+├── starts_at: timestamptz
+├── ends_at: timestamptz
+├── limits_json: jsonb
+├── usage_json: jsonb
+├── created_at, updated_at, created_by, updated_by
 ```
 
-**Funcionalidades:**
-- Listagem com filtros (status, busca por nome/email/empresa)
-- Formulario de criacao/edicao com validacao Zod
-- Wizard de conversao de lead (3 etapas):
-  1. Criar/vincular conta
-  2. Criar contato
-  3. Criar oportunidade (opcional)
-- Lead Scoring automatico
-- Importacao/Exportacao CSV
-- Timeline de atividades
-
-#### 2.1.2 Gestao de Contas (Accounts)
-
-**Tabela:** `accounts`
-**Relacionamentos:**
-- `parent_account_id` -> Hierarquia de contas (matriz/filial)
-- `territory_id` -> Territorio de vendas
-- `owner_id` -> Responsavel
-
-**Campos avancados:**
-- Endereco completo (street, city, state, postal_code, country)
-- Dados comerciais (annual_revenue, employee_count, industry)
-- Campos customizados (custom_fields JSON)
-- Tags para segmentacao
-
-**Health Score:**
-- Funcao RPC `calculate_health_score(account_id)`
-- Considera: tickets abertos, oportunidades ganhas, ultima atividade
-- Escala: 0-100
-
-#### 2.1.3 Gestao de Contatos
-
-**Tabela:** `contacts`
-**Relacionamentos:**
-- `account_id` -> Conta associada
-- Roles: decision_maker, technical, financial, influencer, end_user, other
-
-**Campos de comunicacao:**
-- email, phone, mobile_phone
-- Preferencias de comunicacao (LGPD)
-- Redes sociais (linkedin_url)
-
-#### 2.1.4 Gestao de Oportunidades
-
-**Tabela:** `opportunities`
-**Pipeline Kanban com 6 estagios:**
-
-| Estagio | Probabilidade Padrao |
-|---------|---------------------|
-| prospecting | 10% |
-| qualification | 25% |
-| proposal | 50% |
-| negotiation | 75% |
-| closed_won | 100% |
-| closed_lost | 0% |
-
-**Funcionalidades:**
-- Visualizacao Kanban com drag-and-drop
-- Visualizacao em lista
-- Calculo automatico de pipeline value
-- Rastreamento de mudanca de estagio (trigger SQL)
-- Alertas de deals obsoletos (StaleDealAlerts)
-- Categorias de forecast: commit, best_case, pipeline, omitted
-- Motivos de ganho/perda
-
-**Trigger:** `log_opportunity_stage_change`
-- Registra mudancas de estagio na timeline
-- Eventos especiais para won/lost
-
-**Funcao RPC:** `is_deal_stale(opp_id, threshold_days)`
-- Detecta oportunidades sem atividade
-
-**Funcao RPC:** `get_stale_opportunities_count(org_id, threshold_days)`
-- Conta deals obsoletos por organizacao
-
-#### 2.1.5 Propostas Comerciais (Quotes)
-
-**Tabelas:**
-- `quotes` - Cabecalho da proposta
-- `quote_items` - Itens da proposta
-
-**Status Workflow:**
+**Novo Enum:**
 ```text
-draft -> sent -> accepted
-              -> rejected
-              -> expired
+module_key_enum:
+  sales, service, contact_center, marketing, commerce,
+  billing, cpq, itsm, data_hub, automations, integrations,
+  ai_agents, analytics, portals, governance
 ```
 
-**Trigger:** `calculate_quote_totals`
-- Recalcula subtotal, desconto, impostos e total automaticamente
+**Middleware Frontend:**
+- Hook `useModuleAccess(moduleKey)` que verifica habilitacao
+- HOC `withModuleGuard(Component, moduleKey)` para proteger rotas
+- Sidebar dinamica que mostra apenas modulos habilitados
 
-**Campos:**
-- Vinculo com opportunity, account, contact
-- Validade (valid_until)
-- Descontos percentuais (discount_percent)
-- Impostos (tax_percent)
-- Termos e condicoes (terms_and_conditions)
+#### 1.2 Permission Sets (RBAC + ABAC)
 
-#### 2.1.6 Produtos
-
-**Tabela:** `products`
-**Campos:**
-- SKU, nome, descricao
-- Precos: unit_price, cost
-- Margem calculada
-- Categorias (PRESET_CATEGORIES ou custom)
-- Status ativo/inativo
-
-#### 2.1.7 Contratos
-
-**Tabela:** `contracts`
-**Status Workflow:**
+**Novas Tabelas:**
 ```text
-draft -> pending_approval -> sent -> negotiating -> signed -> active
-                                                           -> expired
-                                                           -> terminated
-                                                           -> renewed
+permission_sets
+├── id: uuid PK
+├── organization_id: uuid FK
+├── name: text
+├── description: text
+├── permissions: jsonb (array de capability strings)
+├── conditions: jsonb (ABAC: team_id, territory_id, segment_id)
+├── is_system: boolean (imutavel se true)
+├── created_at, updated_at
+
+permission_set_assignments
+├── id: uuid PK
+├── permission_set_id: uuid FK
+├── user_id: uuid FK
+├── granted_by: uuid FK
+├── granted_at: timestamptz
+├── expires_at: timestamptz (opcional)
 ```
 
-**Campos:**
-- Numeracao automatica via RPC `generate_contract_number`
-- Valores (total_value, recurring_value)
-- Frequencia de cobranca (billing_frequency)
-- Renovacao automatica (auto_renewal)
-- Periodo de aviso (notice_period_days)
-- Termos padrao e condicoes especiais
+**Capabilities (exemplos):**
+- `sales.leads.read`, `sales.leads.write`, `sales.leads.delete`
+- `sales.discount.approve`, `sales.discount.approve_high`
+- `service.voice.read`, `service.whatsapp.send`
+- `ai.agents.view`, `ai.agents.deploy`, `ai.agents.admin`
+- `governance.lgpd.process`, `governance.audit.view`
 
-#### 2.1.8 Territorios
+**Funcao RPC:**
+```sql
+user_has_permission(user_id uuid, capability text) RETURNS boolean
+```
 
-**Tabela:** `territories`
-**Hierarquia:**
-- `parent_id` -> Territorios aninhados
-- `owner_id` -> Gerente do territorio
+#### 1.3 Admin Console
 
-**Campos:**
-- Nome e descricao
-- Regiao geografica
-- Metricas de desempenho
+**Novas Rotas:**
+- `/admin/platform/modules` - Gestao de modulos por org
+- `/admin/platform/permissions` - Permission sets
+- `/admin/platform/security` - Politicas de seguranca
+- `/admin/platform/integrations` - Conectores ativos
+- `/admin/platform/ai` - Configuracao de agentes IA
+- `/admin/platform/observability` - Metricas e saude
 
-#### 2.1.9 Cadencias de Vendas
+#### 1.4 Observabilidade
 
-**Tabelas:**
-- `cadences` - Definicao da cadencia
-- `cadence_steps` - Etapas da cadencia
-- `cadence_enrollments` - Contatos inscritos
+**Novas Tabelas:**
+```text
+system_metrics
+├── id, organization_id
+├── metric_type: text (api_latency, error_rate, active_users, etc)
+├── metric_value: numeric
+├── dimensions: jsonb (module, endpoint, etc)
+├── recorded_at: timestamptz
 
-**Tipos de etapas:**
-- email, call, linkedin, task
+system_events
+├── id, organization_id
+├── event_type: text
+├── severity: text (info, warning, error, critical)
+├── message: text
+├── metadata: jsonb
+├── created_at
 
-**Status de enrollment:**
-- active, completed, exited, paused, failed
-
-**Interface:**
-- Drag-and-drop para reordenacao de etapas
-- Configuracao de delays entre etapas
-
-#### 2.1.10 Previsao de Vendas (Forecast)
-
-**Tabela:** `forecasts`
-**Campos:**
-- Periodo (period_start, period_end, period_type)
-- Meta (target_amount)
-- Categorias: commit_amount, best_case_amount, pipeline_amount
-- Valor fechado (closed_amount)
-
-**Interface:**
-- Selecao de periodo (mensal/trimestral)
-- Visualizacao por vendedor
-- Rollup para gerentes
-
-#### 2.1.11 Fluxos de Aprovacao
-
-**Tabela:** `approval_requests`
-**Tipos de aprovacao:**
-- discount, special_terms, contract, price_override, credit_limit, exception
-
-**Status:**
-- pending, approved, rejected, cancelled, escalated
-
-**Campos:**
-- Niveis de aprovacao (approval_level, max_approval_level)
-- Valores original e solicitado (original_value, requested_value)
-- Escalacao (escalated_to, escalation_reason)
-- Expiracao (expires_at)
-
-#### 2.1.12 Regras de Roteamento de Leads
-
-**Tabela:** `routing_rules`
-**Tipos de roteamento:**
-- round_robin, territory, segment, load_balance, skill_based, priority
-
-**Log de atribuicoes:** `assignment_log`
+integration_run_logs
+├── id, organization_id
+├── connector_id, instance_id
+├── status: text
+├── started_at, completed_at
+├── request_payload, response_payload: jsonb
+├── error_message: text
+├── retry_count: int
+```
 
 ---
 
-### 2.2 MODULO SERVICE (Atendimento ao Cliente)
+### FASE 2: OMNICHANNEL INBOX + CONVERSATIONS
+**Objetivo:** Criar camada de conversas unificada para atendimento multicanal
 
-#### 2.2.1 Gestao de Tickets
+#### 2.1 Camada de Conversacoes
 
-**Tabela:** `tickets`
-**Campos completos:**
-- Numeracao automatica via RPC `generate_ticket_number`
-- Canais: email, chat, phone, whatsapp, portal, form
-- Tipos: incident, request, question, complaint, return
-- Prioridades: low, medium, high, critical
-- Status: new, open, pending, on_hold, resolved, closed
+**Novas Tabelas:**
+```text
+conversations
+├── id: uuid PK
+├── organization_id: uuid FK
+├── channel: conversation_channel_enum
+├── status: conversation_status_enum
+├── priority: ticket_priority (reutilizar)
+├── subject: text
+├── account_id, contact_id: uuid FK
+├── owner_id, queue_id: uuid FK
+├── ticket_id: uuid FK (opcional, vinculo com ticket)
+├── external_id: text (ID do canal externo)
+├── metadata: jsonb
+├── last_message_at: timestamptz
+├── first_response_at: timestamptz
+├── created_at, updated_at, closed_at
 
-**Relacionamentos:**
-- account_id, contact_id (cliente)
-- assigned_to, queue_id (agente/fila)
-- sla_id (politica de SLA)
+conversation_channel_enum:
+  email, chat, phone, whatsapp, sms, social, portal
 
-**Campos de SLA:**
-- sla_first_response_due, sla_first_response_at, sla_first_response_breached
-- sla_resolution_due, sla_resolution_at, sla_resolution_breached
+conversation_status_enum:
+  open, waiting_customer, waiting_agent, bot_handling, closed
 
-**Triggers SQL:**
-- `calculate_sla_due_dates` - Calcula prazos baseado na prioridade
-- `track_ticket_status_change` - Registra historico de status
-- `update_ticket_first_response` - Atualiza metricas de resposta
+conversation_participants
+├── id, conversation_id, participant_type (agent/customer/bot)
+├── user_id (se agent), contact_id (se customer)
+├── joined_at, left_at
 
-**Interface:**
-- Dashboard com KPIs (abertos, SLA violado, criticos, novos, resolvidos)
-- Filtros por status, prioridade, canal, responsavel
-- Abas: Todos, Abertos, Meus, Nao Atribuidos, SLA Violado
-- Contador SLA com componente SLACountdown
+conversation_messages
+├── id, conversation_id, organization_id
+├── sender_type: message_sender_type
+├── sender_id: uuid
+├── content: text
+├── content_type: text (text, image, audio, video, file, template)
+├── attachments: jsonb
+├── external_message_id: text
+├── delivery_status: delivery_status_enum
+├── delivered_at, read_at: timestamptz
+├── is_internal: boolean
+├── created_at
+```
 
-#### 2.2.2 Mensagens de Tickets
+#### 2.2 Omnichannel Routing Engine
 
-**Tabela:** `ticket_messages`
-**Tipos de remetente:** agent, customer, system
-**Campos:**
-- is_internal (nota interna vs resposta publica)
-- attachments (array JSON)
-- read_at (confirmacao de leitura)
+**Novas Tabelas:**
+```text
+routing_queues_v2
+├── id, organization_id
+├── name, description
+├── routing_method: routing_method_enum
+├── priority: int
+├── max_capacity: int
+├── skills_required: text[]
+├── sla_id: uuid FK
+├── business_hours_id: uuid FK
+├── fallback_queue_id: uuid FK
 
-#### 2.2.3 Historico de Status
+routing_method_enum:
+  round_robin, skill_based, load_based, priority_first, least_idle
 
-**Tabela:** `ticket_status_history`
-**Campos:**
-- old_status, new_status
-- changed_by, duration_minutes
+agent_skills
+├── id, organization_id
+├── user_id: uuid FK
+├── skill_name: text
+├── proficiency_level: int (1-5)
 
-#### 2.2.4 Politicas de SLA
+agent_capacity
+├── id, organization_id
+├── user_id: uuid FK
+├── channel: conversation_channel_enum
+├── max_concurrent: int
+├── current_active: int
+├── status: agent_status_enum
 
-**Tabela:** `ticket_slas`
-**Tempos por prioridade:**
-- first_response_low/medium/high/critical (minutos)
-- resolution_low/medium/high/critical (minutos)
-- Flags de horario comercial
+agent_status_enum:
+  available, busy, away, offline, in_meeting
 
-#### 2.2.5 Base de Conhecimento
-
-**Tabelas:**
-- `knowledge_articles` - Artigos
-- `knowledge_categories` - Categorias
-- `article_versions` - Versionamento
-- `article_feedback` - Feedback de utilidade
-
-**Status de artigos:** draft, in_review, published, archived
-
-**Campos:**
-- Titulo, slug SEO, excerpt
-- Conteudo (content, content_html)
-- Meta SEO (meta_title, meta_description, meta_keywords)
-- Metricas (view_count, helpful_count, not_helpful_count)
-- Controle de visibilidade (internal/public)
-
-**Trigger:** `update_article_feedback_counts`
-
-#### 2.2.6 Respostas Rapidas (Macros)
-
-**Tabelas:**
-- `canned_responses` - Templates de resposta
-- `canned_response_categories` - Organizacao
-- `canned_response_analytics` - Metricas de uso
-
-**Funcao RPC:** `parse_canned_response(content, ticket_id, contact_id)`
-- Variaveis suportadas:
-  - `{{ticket.number}}`, `{{ticket.subject}}`, `{{ticket.status}}`
-  - `{{contact.first_name}}`, `{{contact.last_name}}`, `{{contact.email}}`
-  - `{{account.name}}`
-
-#### 2.2.7 Filas de Atendimento
-
-**Tabela:** `ticket_queues`
-**Campos:**
-- Nome, descricao
-- SLA padrao
-- Notificacoes por email
-
-#### 2.2.8 Portal do Cliente
-
-**Tabelas:**
-- `customer_portal_users` - Usuarios do portal
-- `customer_portal_sessions` - Sessoes
-- `customer_portal_activity_log` - Log de atividades
-- `customer_portal_announcements` - Avisos
-- `customer_portal_settings` - Configuracoes
+routing_assignments
+├── id, conversation_id
+├── assigned_to: uuid
+├── assigned_from: uuid
+├── assignment_method: text
+├── assigned_at, accepted_at, ended_at
+├── reason: text
+```
 
 **Funcoes RPC:**
-- `create_portal_user_from_contact` - Cria usuario a partir de contato
-- `authenticate_portal_user` - Autentica usuario do portal
-
-**Status de usuario:** pending, active, suspended, deactivated
-
-**Permissoes:**
-- can_create_tickets
-- can_view_knowledge_base
-- can_view_contracts
-- can_view_invoices
-- ticket_visibility (all/own/company)
-
-**Paginas do portal:**
-- PortalLogin - Autenticacao
-- PortalTickets - Lista de chamados
-- PortalTicketDetail - Detalhe do chamado
-- PortalNewTicket - Abertura de chamado
-- PortalKnowledge - Base de conhecimento
-
----
-
-### 2.3 MODULO MARKETING (Automacao de Marketing)
-
-#### 2.3.1 Campanhas
-
-**Tabela:** `campaigns`
-**Tipos:** email, sms, whatsapp, push, social, ads, event, webinar, content, referral
-
-**Status:** draft, scheduled, sending, active, paused, completed, cancelled, archived
-
-**Metricas rastreadas:**
-- Envios: sent_count, delivered_count
-- Engajamento: open_count, unique_opens, click_count, unique_clicks
-- Conversao: conversion_count, conversion_rate, conversion_value
-- Negativo: unsubscribe_count, bounce_count, complaint_count
-- Taxas calculadas: open_rate, click_rate, bounce_rate
-
-**Recursos:**
-- A/B Testing (ab_variants, ab_winner_criteria)
-- UTM tracking (utm_source, utm_medium, utm_campaign, utm_term, utm_content)
-- Agendamento (scheduled_at)
-- Templates de email (template_id)
-
-**Trigger:** `update_campaign_metrics`
-
-#### 2.3.2 Membros de Campanha
-
-**Tabela:** `campaign_members`
-**Status:** pending, sent, delivered, opened, clicked, converted, unsubscribed, bounced, complained, failed
-
-**Tracking individual:**
-- sent_at, delivered_at, opened_at, clicked_at
-- open_count, click_count
-- converted_at, unsubscribed_at, bounced_at
-
-#### 2.3.3 Segmentacao
-
-**Tabela:** `segments`
-**Tipos:** static (lista fixa), dynamic (regras)
-**Entidades:** contact, lead, account
-
-**Campos:**
-- rules (JSON com regras de segmentacao)
-- member_count (calculado)
-- last_calculated_at
-
-**Funcao RPC:** `calculate_segment_members(segment_id)`
-
-**Tabela:** `segment_members` - Membros de segmentos estaticos
-
-#### 2.3.4 Jornadas de Cliente (Journey Builder)
-
-**Tabela:** `journeys`
-**Status:** draft, active, paused, completed, archived
-
-**Metricas:**
-- entry_count, active_count, completed_count, goal_achieved_count
-- conversion_rate
-
-**Trigger types:** segment_entry, form_submission, event_trigger, scheduled, manual
-
-**Tabela:** `journey_steps`
-**Tipos de etapas:**
-- Comunicacao: email, sms, whatsapp, push
-- Controle: wait, condition, split
-- Acao: goal, action, webhook
-- Segmento: add_to_segment, remove_from_segment
-- Dados: update_field, create_task, notify_owner
-
-**Tabela:** `journey_enrollments`
-**Status:** active, completed, exited, goal_achieved, paused, failed
-
-#### 2.3.5 Templates de Email
-
-**Tabela:** `email_templates`
-**Campos:**
-- subject, body_html, body_text, body_json
-- preview_text, layout
-- variables (JSON com variaveis disponiveis)
-- Metricas: avg_open_rate, avg_click_rate, usage_count
-
-#### 2.3.6 Formularios de Marketing
-
-**Tabelas:**
-- `marketing_forms` - Definicao de formularios
-- `form_submissions` - Envios
-
-**Campos de formulario:**
-- fields (JSON schema)
-- Configuracao visual (settings)
-- UTM tracking
-
----
-
-### 2.4 MODULO COMMERCE (E-commerce B2B/B2C)
-
-#### 2.4.1 Carrinhos
-
-**Tabelas:**
-- `carts` - Cabecalho
-- `cart_items` - Itens
-
-**Campos:**
-- session_id, account_id, contact_id
-- Totais: subtotal, discount_total, tax_total, shipping_total, total
-- coupon_code, expires_at
-
-**Trigger:** `calculate_cart_totals`
-
-#### 2.4.2 Pedidos
-
-**Tabela:** `orders`
-**Numeracao:** RPC `generate_order_number` (ORD-YYYY-NNNNNN)
-
-**Status:** pending, confirmed, processing, shipped, delivered, cancelled, refunded
-
-**Status de pagamento:** pending, authorized, captured, failed, refunded, partially_refunded
-
-**Campos:**
-- Cabecalho: order_number, order_date
-- Cliente: account_id, contact_id
-- Enderecos: billing_address, shipping_address (JSON)
-- Totais: subtotal, discount_total, tax_total, shipping_total, grand_total
-- Metodo de pagamento: payment_method
-- Timestamps: shipped_at, delivered_at, cancelled_at
-
-**Triggers:**
-- `calculate_order_totals` - Recalcula totais
-- `track_order_status_change` - Historico de status
-
-**Tabela:** `order_items`
-**Tabela:** `order_status_history`
-
-#### 2.4.3 Pagamentos
-
-**Tabela:** `payments`
-**Campos:**
-- order_id, amount, currency
-- payment_method, payment_gateway
-- transaction_id, gateway_reference
-- Status: pending, processing, completed, failed, refunded
-
-#### 2.4.4 Envios
-
-**Tabela:** `shipments`
-**Status:** preparing, shipped, in_transit, out_for_delivery, delivered, returned
-
-**Campos:**
-- carrier, tracking_number, tracking_url
-- weight, dimensions (JSON)
-- Datas: shipped_at, estimated_delivery, actual_delivery
-
-#### 2.4.5 Devolucoes (RMA)
-
-**Tabela:** `returns`
-**Numeracao:** RPC `generate_return_number` (RMA-YYYY-NNNNN)
-
-**Status:** requested, approved, rejected, received, refunded, completed
-
-**Campos:**
-- order_id, reason, description
-- refund_amount, refund_method
-- Tracking de retorno
-
-**Tabela:** `return_items`
-
-#### 2.4.6 Promocoes e Cupons
-
-**Tabela:** `promotions`
-**Tipos:** percentage, fixed, buy_x_get_y, free_shipping
-
-**Campos:**
-- code (cupom)
-- discount_value
-- Limites: min_order_value, max_discount_amount, usage_limit, used_count
-- Validade: start_date, end_date
-- Aplicabilidade: applicable_products, applicable_categories (JSON)
-
-**Trigger:** `update_promotion_usage_count`
-
----
-
-### 2.5 MODULO IT/ITSM (Gestao de TI)
-
-#### 2.5.1 Incidentes
-
-**Tabela:** `it_incidents`
-**Numeracao:** RPC `generate_incident_number` (INC-YYYY-NNNNNN)
-
-**Status:** new, acknowledged, in_progress, pending_info, pending_vendor, on_hold, resolved, closed, cancelled
-
-**Matriz de Prioridade (Impact x Urgency):**
-```text
-              | Critical | High   | Medium | Low
---------------|----------|--------|--------|------
-Critical      | Critical | Critical| High   | Medium
-High          | Critical | High   | High   | Medium
-Medium        | High     | Medium | Medium | Low
-Low           | Medium   | Medium | Low    | Low
+```sql
+route_conversation(conversation_id uuid) RETURNS uuid -- retorna agent_id
+assign_agent(conversation_id uuid, agent_id uuid, reason text)
+get_next_conversation(agent_id uuid) RETURNS uuid
 ```
 
-**Funcao RPC:** `calculate_it_priority(impact, urgency)`
-**Trigger:** `set_incident_priority`
-**Trigger:** `track_incident_status_change`
+#### 2.3 UI Omnichannel Inbox
 
-**Campos:**
-- Categorias: category, subcategory
-- Impacto: impact (low/medium/high/critical)
-- Urgencia: urgency (low/medium/high/critical)
-- Prioridade: priority (calculado)
-- SLA: first_response_at, resolved_at
-- Relacionamentos: affected_ci_id, related_problem_id
+**Nova Rota:** `/service/inbox`
 
-#### 2.5.2 Requisicoes de Servico
-
-**Tabela:** `it_requests`
-**Numeracao:** RPC `generate_request_number` (REQ-YYYY-NNNNNN)
-
-**Status:** submitted, pending_approval, approved, rejected, in_progress, pending_info, fulfilled, closed, cancelled
-
-#### 2.5.3 Problemas
-
-**Tabela:** `it_problems`
-**Numeracao:** RPC `generate_problem_number` (PRB-YYYY-NNNNN)
-
-**Status:** logged, open, root_cause_analysis, known_error, resolution_identified, resolved, closed
-
-**Campos:**
-- root_cause (analise de causa raiz)
-- workaround (solucao de contorno)
-- known_error_id (vinculo com base de erros conhecidos)
-
-#### 2.5.4 Gestao de Mudancas
-
-**Tabela:** `it_changes`
-**Numeracao:** RPC `generate_change_number` (CHG-YYYY-NNNNN)
-
-**Tipos:** standard, normal, emergency
-
-**Status:** draft, submitted, under_assessment, pending_approval, approved, rejected, scheduled, implementing, under_review, completed, cancelled, failed, rolled_back
-
-**Campos:**
-- reason, business_justification
-- implementation_plan, rollback_plan, test_plan
-- risk_level (low/medium/high/critical)
-- Agendamento: scheduled_start, scheduled_end, actual_start, actual_end
-- Aprovadores
-
-**Trigger:** `track_change_status_change`
-
-#### 2.5.5 CMDB (Configuration Management Database)
-
-**Tabela:** `cmdb_items`
-**Numeracao:** RPC `generate_ci_number` (CI-NNNNNNN)
-
-**Tipos de CI:**
-- Infra: server, virtual_machine, container, storage
-- Rede: network_device, load_balancer, firewall
-- Aplicacao: application, database, api, middleware
-- Endpoint: workstation, laptop, mobile_device, printer
-- Outros: service, other
-
-**Status:** planned, in_development, testing, active, maintenance, degraded, inactive, retired, disposed
-
-**Ambientes:** production, staging, development, testing, disaster_recovery, training
-
-**Campos:**
-- Identificacao: ci_number, name, description
-- Atributos: version, serial_number, ip_address, hostname
-- Localizacao: location, data_center, rack_position
-- Responsabilidade: owner_id, support_team_id
-- SLA: criticality, sla_id
-
-**Tabela:** `cmdb_relationships`
-**Tipos de relacionamento:**
-- runs_on, depends_on, connected_to, part_of
-- managed_by, backed_up_by, replicated_to
-- load_balanced_by, contained_in, uses, provides, supports
-
-#### 2.5.6 Ativos de TI
-
-**Tabela:** `it_assets`
-**Numeracao:** RPC `generate_asset_tag` (AST-NNNNNNN)
-
-**Tipos:** hardware, software, license, subscription, virtual, cloud_resource
-
-**Status:** ordered, received, available, in_use, in_repair, maintenance, retired, disposed, lost, stolen
-
-**Condicao:** new, good, fair, poor, damaged, non_functional
-
-**Campos:**
-- Identificacao: asset_tag, name, serial_number
-- Aquisicao: purchase_date, purchase_price, vendor, purchase_order
-- Garantia: warranty_start_date, warranty_end_date
-- Depreciacao: depreciation_method, current_value
-- Vinculo com CI: cmdb_item_id
-- Atribuicao: assigned_to, assigned_at, location
-
-#### 2.5.7 Catalogo de Servicos
-
-**Tabela:** `service_catalog`
-**Campos:**
-- Nome, descricao, categoria
-- SLA e tempo estimado de atendimento
-- Formulario de requisicao (fields JSON)
-- Fluxo de aprovacao
+**Componentes:**
+- `OmnichannelInbox.tsx` - Painel principal com 3 colunas
+  - Coluna 1: Lista de conversas (filtros, filas, prioridade)
+  - Coluna 2: Conversa ativa (mensagens, resposta, anexos)
+  - Coluna 3: Contexto (contato, conta, historico, KB)
+- `ConversationList.tsx` - Lista virtualized de conversas
+- `ConversationThread.tsx` - Thread de mensagens
+- `CustomerContext.tsx` - Painel lateral com info do cliente
+- `QuickActions.tsx` - Macros, templates, transferir, escalar
 
 ---
 
-### 2.6 MODULO DATA & ANALYTICS (Dados Avancados)
+### FASE 3: WHATSAPP + CHAT WIDGET + VOICE
+**Objetivo:** Implementar conectores nativos para canais criticos
 
-#### 2.6.1 Resolucao de Identidade
+#### 3.1 WhatsApp Business API (Conector Nativo)
 
-**Tabelas:**
-- `customer_identities` - Identidades unificadas
-- `customer_identity_links` - Links entre entidades
+**Novas Tabelas:**
+```text
+whatsapp_accounts
+├── id, organization_id
+├── phone_number_id: text
+├── display_phone: text
+├── business_name: text
+├── status: whatsapp_account_status_enum
+├── api_token_encrypted: text (criptografado)
+├── webhook_verify_token: text
+├── created_at, updated_at
 
-**Tipos de identificador:** email, phone, document, external_id, cookie, device_id, social_id
+whatsapp_templates
+├── id, organization_id, whatsapp_account_id
+├── template_name: text
+├── template_id: text (ID na Meta)
+├── category: text (marketing, utility, authentication)
+├── language: text
+├── components: jsonb
+├── status: template_status_enum
+├── created_at, updated_at
 
-#### 2.6.2 Deteccao de Duplicatas
+whatsapp_message_logs
+├── id, organization_id
+├── conversation_id, message_id: uuid FK
+├── whatsapp_message_id: text
+├── direction: text (inbound/outbound)
+├── status: whatsapp_message_status_enum
+├── template_used: text
+├── error_code, error_message: text
+├── sent_at, delivered_at, read_at, failed_at
+```
 
-**Tabelas:**
-- `duplicate_detection_rules` - Regras de deteccao
-- `detected_duplicates` - Duplicatas encontradas
+**Edge Functions:**
+- `whatsapp-webhook` - Recebe eventos da API WhatsApp
+- `whatsapp-send` - Envia mensagens (texto, template, midia)
 
-**Status:** detected, confirmed, false_positive, merged, ignored
+#### 3.2 Chat Widget Web
 
-**Funcao RPC:** `detect_duplicates(org_id, entity_type, entity_id)`
-- Retorna: duplicate_id, similarity_score, match_reasons
+**Novas Tabelas:**
+```text
+chat_widgets
+├── id, organization_id
+├── name: text
+├── config: jsonb (cores, posicao, saudacao, bot_id)
+├── allowed_domains: text[]
+├── is_active: boolean
+├── queue_id: uuid FK
+├── created_at, updated_at
 
-#### 2.6.3 Merge de Registros
+chat_sessions
+├── id, organization_id
+├── widget_id, conversation_id: uuid FK
+├── visitor_id: text
+├── visitor_info: jsonb (nome, email, pagina_atual)
+├── started_at, ended_at
+├── source_url: text
 
-**Tabela:** `merge_requests`
-**Status:** pending, approved, rejected, in_progress, completed, failed, cancelled
+chat_widget_events
+├── id, session_id
+├── event_type: text (widget_opened, message_sent, agent_joined, etc)
+├── event_data: jsonb
+├── created_at
+```
 
-**Campos:**
-- entity_type, primary_id, secondary_ids
-- field_mappings (JSON)
-- Aprovacao
+**Entregaveis:**
+- Componente React embeddable `<FirewareChatWidget />`
+- Script de embed para sites externos
+- Bot de triagem com handoff para humano
 
-**Interface:** MergeWizard de 3 etapas
+#### 3.3 Voice/Telefonia
 
-#### 2.6.4 Atribuicao de Marketing
+**Novas Tabelas:**
+```text
+voice_calls
+├── id, organization_id
+├── conversation_id: uuid FK
+├── direction: text (inbound/outbound)
+├── caller_number, called_number: text
+├── status: voice_call_status_enum
+├── started_at, answered_at, ended_at
+├── duration_seconds: int
+├── recording_url: text
+├── transcription_status: text
+├── agent_id, contact_id: uuid FK
 
-**Tabela:** `attribution_touchpoints`
-**Campos:**
-- Entidades: contact_id, lead_id, account_id, opportunity_id, order_id
-- Campanha: campaign_id, journey_id
-- Touchpoint: touchpoint_type, touchpoint_name, touchpoint_position
-- Flags: is_first_touch, is_last_touch, is_conversion_touch
-- UTM tracking completo
-- Valor: conversion_value, conversion_date
+voice_call_events
+├── id, call_id
+├── event_type: text (ringing, answered, hold, resume, transfer, hangup)
+├── event_data: jsonb
+├── created_at
 
-**Tabela:** `marketing_attribution`
+voice_transcripts
+├── id, call_id
+├── transcript_text: text
+├── segments: jsonb (speaker, start_time, end_time, text)
+├── language: text
+├── confidence_score: numeric
+├── created_at
+```
 
-**Funcao RPC:** `calculate_attribution(org_id, opp_id, model)`
-
-**Modelos suportados:**
-- first_touch, last_touch, linear
-- time_decay, position_based
-- data_driven, custom
-
-#### 2.6.5 Eventos Comportamentais
-
-**Tabela:** `behavioral_events`
-**Tipos de evento:**
-- Navegacao: page_view, search
-- Interacao: form_submit, button_click, link_click, video_play, video_complete, file_download
-- E-commerce: add_to_cart, remove_from_cart, checkout_start, checkout_complete
-- Conta: signup, login, logout, profile_update
-- Engajamento: email_open, email_click, sms_click, push_click
-- Custom
-
-**Campos:**
-- Identificacao: visitor_id, session_id, anonymous_id, contact_id
-- Pagina: page_url, page_path, page_title, referrer
-- Dispositivo: device_type, device_info (JSON)
-- Localizacao: location (JSON), ip_address
-- UTM completo
-
-#### 2.6.6 Snapshots de Funil
-
-**Tabela:** `funnel_snapshots`
-**Funcao RPC:** `create_funnel_snapshot(org_id, date, period_type)`
-
-**Metricas capturadas:**
-- Marketing: leads, campaigns_active
-- Vendas: opportunities_created/won/lost, pipeline_value, closed_value
-- Service: tickets_created/resolved/backlog
-- Commerce: orders, revenue
-
-#### 2.6.7 Customer 360
-
-**Interface:** Customer360.tsx
-**Visualizacoes:**
-- Metricas consolidadas (receita, pipeline, win rate, tickets, pedidos)
-- Graficos de receita por mes
-- Distribuicao de oportunidades por estagio
-- Timeline unificada
-- Comportamento digital
-
-**Tabela:** `customer_health_scores`
-
----
-
-### 2.7 MODULO AUTOMATIONS (Workflow Engine)
-
-#### 2.7.1 Workflows
-
-**Tabela:** `workflows`
-**Status:** draft, active, paused, archived
-
-**Gatilhos suportados:**
-- record_created, record_updated, field_changed
-- scheduled, manual
-- approval_completed, sla_breach
-- stage_changed, score_changed
-
-**Entidades suportadas:**
-- lead, opportunity, account, contact, ticket, quote, contract
-
-**Configuracoes:**
-- retry_on_failure, max_retries
-- notify_on_failure, failure_notification_emails
-- max_concurrent_runs, timeout_minutes
-
-**Metricas:** run_count, success_count, failure_count, avg_execution_time_ms
-
-#### 2.7.2 Etapas de Workflow
-
-**Tabela:** `workflow_steps`
-**Tipos de etapa:**
-- Controle: condition, delay, parallel, loop
-- Aprovacao: approval
-- Comunicacao: notification, send_email, webhook
-- Dados: field_update, create_record, add_tag
-- Atribuicao: assign_owner, create_task
-- Extensao: call_function
-
-**Campos:**
-- Posicionamento visual: position_x, position_y
-- Navegacao: next_step_on_success, next_step_on_failure
-- Resiliencia: retry_count, retry_delay_seconds, continue_on_error
-- Timeout: timeout_seconds
-
-#### 2.7.3 Execucoes
-
-**Tabela:** `workflow_runs`
-**Status:** pending, running, completed, failed, cancelled, paused, waiting_approval
-
-**Tabela:** `workflow_step_executions`
-**Status:** pending, running, completed, failed, skipped, waiting
-
-#### 2.7.4 Agendamentos
-
-**Tabela:** `workflow_schedules`
-**Campos:**
-- schedule_type, cron_expression
-- timezone, next_run_at, last_run_at
-
-#### 2.7.5 Templates
-
-**Tabela:** `workflow_templates`
-**Campos:**
-- Categoria, descricao, icone
-- steps_config (JSON com configuracao)
-- Metricas: usage_count, rating
+**UI:**
+- Softphone panel integrado ao Inbox
+- Controles: atender, mudo, espera, transferir, gravar
 
 ---
 
-### 2.8 MODULO GOVERNANCE (Governanca e LGPD)
+### FASE 4: AI AGENTS (Agent Studio)
+**Objetivo:** Criar camada completa de agentes IA com governanca
 
-#### 2.8.1 Solicitacoes LGPD
+#### 4.1 Estrutura do Agent Studio
 
-**Tabela:** `lgpd_requests`
-**Tipos:** access, rectification, deletion, portability, objection, restriction
+**Novas Tabelas:**
+```text
+ai_agents
+├── id, organization_id
+├── name, description: text
+├── agent_type: ai_agent_type_enum
+├── scope: text (modulos que pode acessar)
+├── system_prompt: text
+├── model_config: jsonb (model, temperature, max_tokens)
+├── allowed_tools: uuid[] (FK para ai_tools)
+├── policies: uuid[] (FK para ai_policies)
+├── version: int
+├── status: ai_agent_status_enum
+├── created_by, updated_by
+├── created_at, updated_at
 
-**Status:** received, verified, processing, completed, denied, expired
+ai_agent_type_enum:
+  sales, service, marketing, commerce, itsm, data_steward, compliance, custom
 
-**Campos:**
-- requester_name, requester_email, requester_document
-- description, response
-- deadline (15 dias por lei)
-- Rastreamento: verified_by, processed_by, completed_at
+ai_agent_status_enum:
+  draft, testing, active, paused, deprecated
 
-**Interface:** Governance.tsx com dashboard de compliance
+ai_agent_versions
+├── id, agent_id
+├── version_number: int
+├── config_snapshot: jsonb
+├── changelog: text
+├── published_at, published_by
 
-#### 2.8.2 Politicas de Retencao
+ai_tools
+├── id, organization_id
+├── name, description: text
+├── tool_type: ai_tool_type_enum
+├── parameters_schema: jsonb
+├── action_config: jsonb (endpoint, query, function)
+├── requires_approval: boolean
+├── risk_level: text (low, medium, high, critical)
+├── created_at, updated_at
 
-**Tabela:** `data_retention_policies`
-**Acoes:** archive, delete, anonymize
+ai_tool_type_enum:
+  http_request, database_query, rpc_call, connector_action, workflow_trigger
 
-**Campos:**
-- entity_type, retention_days
-- conditions (JSON com criterios)
-- Execucao: next_run_at, last_run_at, records_affected
+ai_tool_permissions
+├── id, tool_id
+├── permission_set_id: uuid FK
+├── can_execute: boolean
 
-#### 2.8.3 Log de Consentimento
+ai_policies
+├── id, organization_id
+├── name, description: text
+├── policy_type: ai_policy_type_enum
+├── rules: jsonb
+├── actions_on_violation: text (block, warn, require_approval, log)
+├── is_active: boolean
+├── priority: int
+├── created_at, updated_at
 
-**Tabela:** `consent_log`
-**Campos:**
-- contact_id, consent_type
-- action (granted/revoked)
-- source, ip_address, user_agent
+ai_policy_type_enum:
+  pii_protection, rate_limit, action_restriction, content_filter, approval_required
 
-#### 2.8.4 Logs de Auditoria
+ai_evals
+├── id, organization_id
+├── agent_id: uuid FK
+├── name, description: text
+├── test_cases: jsonb (input, expected_output, assertions)
+├── last_run_at: timestamptz
+├── last_run_results: jsonb
+├── pass_rate: numeric
+├── created_at, updated_at
+```
 
-**Tabela:** `audit_logs`
-**Campos:**
-- Acao: action, entity_type, entity_id, entity_name
-- Dados: old_values, new_values, changes (JSON)
-- Usuario: user_id, user_email
-- Contexto: ip_address, user_agent, session_id
+#### 4.2 Execucao e Auditoria
 
-**Funcao RPC:** `log_audit_event(...)`
+**Novas Tabelas:**
+```text
+ai_runs
+├── id, organization_id
+├── agent_id: uuid FK
+├── triggered_by: uuid (user_id)
+├── trigger_type: text (user_request, workflow, scheduled, event)
+├── input_context: jsonb
+├── status: ai_run_status_enum
+├── started_at, completed_at
+├── total_tokens_used: int
+├── cost_estimate: numeric
 
-**Interface:** AuditLogs.tsx
+ai_run_status_enum:
+  pending, running, waiting_approval, completed, failed, cancelled
 
----
+ai_run_steps
+├── id, run_id
+├── step_order: int
+├── step_type: text (reasoning, tool_call, response)
+├── tool_id: uuid FK (se tool_call)
+├── input_data, output_data: jsonb
+├── status: text
+├── started_at, completed_at
+├── error_message: text
 
-## 3. COMPONENTES COMPARTILHADOS
+ai_run_audit_receipts
+├── id, run_id
+├── organization_id
+├── action_type: text (dados lidos, dados alterados, mensagem enviada, etc)
+├── action_description: text
+├── affected_entity_type, affected_entity_id: text
+├── data_accessed: jsonb (campos acessados, com masking de PII)
+├── tool_used: text
+├── approved_by: uuid (se human-in-the-loop)
+├── approval_timestamp: timestamptz
+├── evidence_attachments: jsonb
+├── created_at
+```
 
-### 3.1 Timeline
+#### 4.3 Agentes Nativos Pre-configurados
 
-**Tabela:** `timeline_events`
-**Tipos de evento:**
-- lead_created, lead_converted
-- opportunity_created, opportunity_stage_changed, opportunity_won, opportunity_lost
-- quote_created, quote_sent
-- activity_completed, note_added
-- contact_added, account_created
+**Implementar 7 agentes prontos:**
 
-**Campos:**
-- Entidades: account_id, contact_id, lead_id, opportunity_id
-- Conteudo: title, description, metadata (JSON)
+1. **Sales Agent**
+   - Tools: create_lead, update_opportunity, get_account_info, suggest_next_action, generate_email_draft
+   - Policies: cannot_approve_discount, cannot_close_deal, log_all_changes
 
-### 3.2 Atividades
+2. **Service Agent**
+   - Tools: search_knowledge_base, create_ticket, update_ticket, suggest_macro, get_customer_history
+   - Policies: cannot_delete_data, require_approval_for_refund
 
-**Tabela:** `activities`
-**Tipos:** call, email, meeting, task, note
+3. **Marketing Agent**
+   - Tools: create_segment, analyze_campaign, suggest_ab_test, generate_content
+   - Policies: cannot_send_mass_message_without_approval
 
-**Campos:**
-- subject, description
-- due_date, completed_at
-- status, priority
-- Especificos: duration_minutes, call_result, meeting_location, outcome
+4. **Commerce Agent**
+   - Tools: track_order, initiate_return, check_inventory, generate_invoice
+   - Policies: cannot_modify_payment, limit_refund_amount
 
-### 3.3 Notas
+5. **ITSM Agent**
+   - Tools: triage_incident, search_cmdb, suggest_workaround, link_problem
+   - Policies: cannot_approve_change, log_all_access
 
-**Tabela:** `notes`
-**Campos:**
-- Entidades relacionadas (polimorficas)
-- title, content
-- is_pinned
-- Versioning
+6. **Data Steward Agent**
+   - Tools: detect_duplicates, suggest_merge, validate_data_quality, classify_pii
+   - Policies: require_approval_for_merge, mask_pii_in_logs
 
-### 3.4 Anexos
+7. **Compliance Agent**
+   - Tools: process_lgpd_request, validate_consent, apply_retention, export_evidence
+   - Policies: all_actions_require_audit_receipt, senior_approval_for_deletion
 
-**Tabela:** `attachments`
-**Storage bucket:** "attachments" (privado)
+#### 4.4 Rotas do Agent Studio
 
-**Campos:**
-- Entidades relacionadas (polimorficas)
-- file_name, file_path, file_type, file_size, mime_type
-- Versionamento: version, parent_attachment_id, is_latest
-- Acesso: access_level, is_public
-- Metadados: description, category, tags
-
----
-
-## 4. BUSCA GLOBAL
-
-**Componente:** GlobalSearch.tsx
-**Atalho:** Cmd+K / Ctrl+K
-
-**Entidades pesquisadas:**
-- Leads (nome, email, empresa)
-- Contas (nome, industria)
-- Contatos (nome, email)
-- Oportunidades (nome)
-- Propostas (nome, numero)
-
-**Funcionalidades:**
-- Debounce de 300ms
-- Navegacao por teclado (setas, Enter, Escape)
-- Resultados categorizados com badges coloridos
-- Click fora fecha dropdown
-
----
-
-## 5. FUNCOES DE BANCO DE DADOS (RPC)
-
-### 5.1 Geracao de Numeros
-
-| Funcao | Formato | Exemplo |
-|--------|---------|---------|
-| generate_ticket_number | TKT-YYYY-NNNNNN | TKT-2026-000001 |
-| generate_contract_number | CTR-YYYY-NNNNN | CTR-2026-00001 |
-| generate_order_number | ORD-YYYY-NNNNNN | ORD-2026-000001 |
-| generate_return_number | RMA-YYYY-NNNNN | RMA-2026-00001 |
-| generate_incident_number | INC-YYYY-NNNNNN | INC-2026-000001 |
-| generate_request_number | REQ-YYYY-NNNNNN | REQ-2026-000001 |
-| generate_problem_number | PRB-YYYY-NNNNN | PRB-2026-00001 |
-| generate_change_number | CHG-YYYY-NNNNN | CHG-2026-00001 |
-| generate_ci_number | CI-NNNNNNN | CI-0000001 |
-| generate_asset_tag | AST-NNNNNNN | AST-0000001 |
-
-### 5.2 Calculos
-
-| Funcao | Descricao |
-|--------|-----------|
-| calculate_health_score | Calcula score de saude da conta (0-100) |
-| calculate_segment_members | Conta membros de um segmento dinamico |
-| calculate_it_priority | Calcula prioridade IT (impact x urgency) |
-| calculate_attribution | Calcula atribuicao de marketing por modelo |
-| create_funnel_snapshot | Gera snapshot de metricas do funil |
-
-### 5.3 Seguranca
-
-| Funcao | Descricao |
-|--------|-----------|
-| user_has_role | Verifica se usuario tem role especifica |
-| get_user_highest_role | Retorna maior role do usuario |
-| has_role | Wrapper simplificado para RLS |
-| is_member_of_org | Verifica pertencimento a organizacao |
-| is_manager_of_team | Verifica se e gerente de equipe |
-| get_user_org_id | Retorna org_id do usuario atual |
-| get_user_team_id | Retorna team_id do usuario atual |
-
-### 5.4 Utilitarios
-
-| Funcao | Descricao |
-|--------|-----------|
-| detect_duplicates | Detecta registros duplicados |
-| parse_canned_response | Processa variaveis em respostas rapidas |
-| is_deal_stale | Verifica se deal esta obsoleto |
-| get_stale_opportunities_count | Conta deals obsoletos |
-| log_audit_event | Registra evento de auditoria |
-| authenticate_portal_user | Autentica usuario do portal |
-| create_portal_user_from_contact | Cria usuario portal de contato |
+- `/ai/agents` - Lista de agentes
+- `/ai/agents/new` - Criar novo agente
+- `/ai/agents/:id` - Detalhe/editar agente
+- `/ai/agents/:id/test` - Playground de teste
+- `/ai/tools` - Catalogo de ferramentas
+- `/ai/policies` - Politicas de governanca
+- `/ai/evals` - Suites de avaliacao
+- `/ai/runs` - Historico de execucoes
 
 ---
 
-## 6. ENUMS DO SISTEMA
+### FASE 5: iPaaS NATIVO (Connector Framework)
+**Objetivo:** Transformar workflow engine em hub de integracao enterprise
 
-O sistema possui 48 enums definidos no banco de dados, incluindo:
+#### 5.1 Connector Framework
 
-**Vendas:**
-- opportunity_stage, lead_status, quote_status, contract_status
-- forecast_category, contact_role
+**Novas Tabelas:**
+```text
+connectors
+├── id
+├── name, description: text
+├── connector_type: connector_type_enum
+├── icon_url: text
+├── auth_type: auth_type_enum
+├── config_schema: jsonb (campos de configuracao)
+├── capabilities: jsonb (actions e triggers disponiveis)
+├── documentation_url: text
+├── is_native: boolean
+├── version: text
+├── created_at, updated_at
 
-**Service:**
-- ticket_status, ticket_priority, ticket_type, ticket_channel
-- article_status, message_sender_type
+connector_type_enum:
+  email, sms, whatsapp, voice, crm, erp, payment, storage, analytics, custom
 
-**Marketing:**
-- campaign_status, campaign_type, campaign_member_status
-- journey_status, journey_step_type
-- behavioral_event_type
+auth_type_enum:
+  none, api_key, oauth2, basic_auth, custom
 
-**Commerce:**
-- order_status, payment_status, shipment_status
-- return_status, promotion_type
+connector_instances
+├── id, organization_id
+├── connector_id: uuid FK
+├── name: text
+├── config: jsonb (valores de configuracao)
+├── credentials_encrypted: text
+├── status: connector_instance_status_enum
+├── last_health_check: timestamptz
+├── health_status: text
+├── created_by, created_at, updated_at
 
-**IT:**
-- it_incident_status, it_request_status, it_problem_status, it_change_status
-- it_priority, it_impact, it_urgency, it_change_risk, it_change_type
-- it_asset_status, it_asset_type, it_asset_condition
-- ci_type, ci_status, ci_environment, cmdb_relationship_type
+connector_instance_status_enum:
+  active, inactive, error, configuring
 
-**Workflow:**
-- workflow_trigger, workflow_run_status, workflow_step_type, step_execution_status
+connector_actions
+├── id, connector_id
+├── action_name: text
+├── action_type: text (trigger, action)
+├── description: text
+├── input_schema, output_schema: jsonb
+├── is_async: boolean
+├── rate_limit: int (requests per minute)
+```
 
-**Dados:**
-- duplicate_status, merge_status, attribution_model, identifier_type
+#### 5.2 Runtime Robusto
 
-**Governanca:**
-- lgpd_request_type, lgpd_status, user_role
+**Novas Tabelas:**
+```text
+integration_runs
+├── id, organization_id
+├── connector_instance_id: uuid FK
+├── workflow_run_id: uuid FK (opcional)
+├── action_name: text
+├── status: integration_run_status_enum
+├── input_payload, output_payload: jsonb
+├── started_at, completed_at
+├── duration_ms: int
+├── retry_count: int
+├── error_code, error_message: text
+├── idempotency_key: text
+
+integration_run_status_enum:
+  pending, running, completed, failed, retrying, dead_letter
+
+dlq_messages (Dead Letter Queue)
+├── id, organization_id
+├── original_run_id: uuid FK
+├── connector_instance_id: uuid FK
+├── action_name: text
+├── payload: jsonb
+├── error_history: jsonb[]
+├── retry_count: int
+├── max_retries: int
+├── status: dlq_status_enum
+├── created_at, last_retry_at
+├── expires_at
+
+dlq_status_enum:
+  pending_review, retrying, resolved, expired, manually_resolved
+
+replay_requests
+├── id, organization_id
+├── dlq_message_id: uuid FK
+├── requested_by: uuid FK
+├── request_reason: text
+├── status: text
+├── replayed_at, result: jsonb
+```
+
+#### 5.3 Event Bus / Outbox Pattern
+
+**Novas Tabelas:**
+```text
+outbox_events
+├── id, organization_id
+├── event_type: text
+├── aggregate_type, aggregate_id: text
+├── payload: jsonb
+├── metadata: jsonb (correlation_id, causation_id)
+├── status: outbox_status_enum
+├── created_at, processed_at
+├── processor_id: text
+├── retry_count: int
+
+outbox_status_enum:
+  pending, processing, completed, failed
+
+event_subscriptions
+├── id, organization_id
+├── event_type: text (pattern matching com wildcards)
+├── subscriber_type: text (workflow, connector, webhook)
+├── subscriber_config: jsonb
+├── is_active: boolean
+├── created_at
+```
+
+#### 5.4 UI de Integracoes
+
+**Novas Rotas:**
+- `/integrations/catalog` - Catalogo de conectores
+- `/integrations/instances` - Instancias configuradas
+- `/integrations/monitoring` - Dashboard de execucoes
+- `/integrations/dlq` - Fila de mensagens mortas
 
 ---
 
-## 7. PROBLEMAS DE SEGURANCA IDENTIFICADOS
+### FASE 6: DATA HUB (Golden Record + Activation)
+**Objetivo:** Unificar dados de cliente e habilitar ativacao cross-modulo
 
-O linter do Supabase identificou 3 issues:
+#### 6.1 Golden Record e Unificacao
 
-### 7.1 Function Search Path Mutable (WARN)
-- **Problema:** Algumas funcoes nao tem `search_path` definido
-- **Risco:** Potencial SQL injection via search path
-- **Solucao:** Adicionar `SET search_path TO 'public'` em todas funcoes
+**Novas Tabelas:**
+```text
+golden_profiles
+├── id, organization_id
+├── profile_type: golden_profile_type_enum
+├── primary_email, primary_phone: text
+├── primary_document: text
+├── consolidated_data: jsonb (dados mesclados de todas as fontes)
+├── confidence_score: numeric
+├── source_count: int
+├── first_seen_at, last_activity_at: timestamptz
+├── created_at, updated_at
 
-### 7.2 RLS Policy Always True (WARN)
-- **Problema:** Politicas usando `USING (true)` em UPDATE/DELETE/INSERT
-- **Risco:** Acesso irrestrito a dados sensiveis
-- **Solucao:** Revisar e restringir politicas
+golden_profile_type_enum:
+  person, company
 
-### 7.3 Leaked Password Protection Disabled (WARN)
-- **Problema:** Protecao contra senhas vazadas desabilitada
-- **Risco:** Usuarios podem usar senhas comprometidas
-- **Solucao:** Habilitar no Auth settings
+golden_profile_links
+├── id, golden_profile_id
+├── entity_type: text (contact, lead, portal_user, etc)
+├── entity_id: uuid
+├── source: text
+├── link_confidence: numeric
+├── is_primary: boolean
+├── linked_at, linked_by
+
+profile_merge_history
+├── id, organization_id
+├── target_golden_profile_id: uuid
+├── merged_golden_profile_ids: uuid[]
+├── merge_reason: text
+├── field_resolutions: jsonb (qual campo veio de qual fonte)
+├── merged_by, merged_at
+├── can_undo: boolean
+├── undo_deadline: timestamptz
+```
+
+**Funcoes RPC:**
+```sql
+resolve_identity(org_id, identifiers jsonb) RETURNS uuid -- golden_profile_id
+merge_golden_profiles(target_id, source_ids uuid[], field_mappings jsonb)
+get_unified_customer_view(golden_profile_id) RETURNS jsonb
+```
+
+#### 6.2 Data Catalog e Ingestao
+
+**Novas Tabelas:**
+```text
+data_sources
+├── id, organization_id
+├── name, description: text
+├── source_type: data_source_type_enum
+├── connection_config: jsonb
+├── status: text
+├── last_sync_at: timestamptz
+├── sync_frequency: text (cron)
+├── created_at, updated_at
+
+data_source_type_enum:
+  internal, api, file_upload, webhook, connector
+
+data_connectors (vinculo com connector_instances para ingestao)
+├── id, organization_id
+├── data_source_id: uuid FK
+├── connector_instance_id: uuid FK
+├── sync_config: jsonb
+├── field_mappings: jsonb
+
+ingestion_jobs
+├── id, organization_id
+├── data_source_id: uuid FK
+├── status: ingestion_status_enum
+├── records_processed, records_created, records_updated, records_failed: int
+├── started_at, completed_at
+├── error_summary: jsonb
+
+event_schemas
+├── id, organization_id
+├── event_name: text
+├── schema_version: int
+├── properties_schema: jsonb (JSON Schema)
+├── is_active: boolean
+├── created_at, updated_at
+```
+
+#### 6.3 Segmentacao Avancada e Activation
+
+**Expandir tabela `segments` existente + novas:**
+```text
+segment_versions
+├── id, segment_id
+├── version_number: int
+├── rules_snapshot: jsonb
+├── member_count: int
+├── published_at, published_by
+
+activation_destinations
+├── id, organization_id
+├── name: text
+├── destination_type: activation_destination_type_enum
+├── config: jsonb
+├── created_at
+
+activation_destination_type_enum:
+  marketing_campaign, cadence, routing_queue, personalization, external_system
+
+activation_jobs
+├── id, organization_id
+├── segment_id, destination_id: uuid FK
+├── status: activation_status_enum
+├── records_synced: int
+├── started_at, completed_at
+├── next_run_at: timestamptz
+├── error_message: text
+
+activation_status_enum:
+  pending, running, completed, failed, paused
+```
 
 ---
 
-## 8. RELATORIOS E ANALYTICS
+### FASE 7: MARKETING EXECUCAO REAL
+**Objetivo:** Conectar marketing com providers reais de mensageria
 
-### 8.1 Dashboard Principal
+#### 7.1 Message Providers
 
-**Componente:** Dashboard.tsx
-**KPIs:**
-- Pipeline Total
-- Leads Abertos
-- Fechados Ganhos
-- Atividades Recentes
+**Novas Tabelas:**
+```text
+message_providers
+├── id, organization_id
+├── provider_type: message_provider_type_enum
+├── name: text
+├── connector_instance_id: uuid FK
+├── config: jsonb (from_address, sender_id, etc)
+├── is_default: boolean
+├── status: text
+├── created_at, updated_at
 
-**Graficos:**
-- Pipeline por Estagio (BarChart horizontal)
-- Distribuicao de Negocios (PieChart)
+message_provider_type_enum:
+  email, sms, whatsapp, push
 
-**Widgets:**
-- Top Deals
-- Atividade Recente
-- Stale Deal Alerts
+message_sends
+├── id, organization_id
+├── provider_id: uuid FK
+├── campaign_id, journey_run_id: uuid FK (opcional)
+├── recipient_type, recipient_id: text
+├── recipient_address: text
+├── message_type: text
+├── subject, content: text
+├── template_id: text
+├── status: message_send_status_enum
+├── sent_at, delivered_at, opened_at, clicked_at
+├── bounce_type, error_message: text
+├── external_message_id: text
 
-### 8.2 Modulo de Relatorios
+message_send_status_enum:
+  pending, sending, sent, delivered, opened, clicked, bounced, failed
+```
 
-**Componente:** Reports.tsx
-**Filtros de periodo:**
-- Este Mes, Mes Passado
-- Este Trimestre, Trimestre Passado
-- Ultimos 30/90 Dias
-- Periodo Personalizado
+#### 7.2 Journey Execution Engine
 
-**Relatorios disponiveis:**
-- Pipeline Overview (funil de vendas)
-- Conversion Funnel (lead to opportunity)
-- Activity Metrics (por tipo)
-- Win/Loss Analysis (motivos)
-- Rep Performance (por vendedor)
-- Trend Analysis (evolucao temporal)
+**Expandir tabelas existentes + novas:**
+```text
+journey_runs
+├── id, journey_id
+├── enrollment_id: uuid FK
+├── current_step_id: uuid FK
+├── status: journey_run_status_enum
+├── started_at, completed_at
+├── next_step_at: timestamptz
 
-**Exportacao:** CSV para todos os relatorios
+journey_step_runs
+├── id, journey_run_id
+├── step_id: uuid FK
+├── status: text
+├── input_data, output_data: jsonb
+├── started_at, completed_at
+├── error_message: text
+
+journey_event_log
+├── id, journey_run_id
+├── event_type: text
+├── event_data: jsonb
+├── external_event_id: text
+├── received_at
+```
+
+#### 7.3 Preference Center
+
+**Novas Tabelas:**
+```text
+preference_centers
+├── id, organization_id
+├── name: text
+├── config: jsonb (canais, topicos, frequencias)
+├── public_url_slug: text
+├── branding: jsonb
+├── is_default: boolean
+├── created_at, updated_at
+
+contact_preferences
+├── id, organization_id
+├── contact_id, golden_profile_id: uuid FK
+├── channel_preferences: jsonb (email: opt_in, sms: opt_out, etc)
+├── topic_preferences: jsonb
+├── frequency_limit: text
+├── updated_at, updated_source: text
+```
+
+**Novas Rotas:**
+- `/marketing/providers` - Configurar provedores de email/SMS
+- `/marketing/preference-center` - Configurar centro de preferencias
+- `/marketing/personalization` - Regras de personalizacao
+- `/marketing/intelligence` - ROI, CAC, LTV, coortes
 
 ---
 
-## 9. CONCLUSAO E METRICAS
+### FASE 8: PORTALS (Customer + Partner)
+**Objetivo:** Expandir portal do cliente e criar portal de parceiros
 
-### 9.1 Cobertura de Funcionalidades
+#### 8.1 Customer Portal Expandido
 
-| Modulo | Tabelas | Status |
-|--------|---------|--------|
-| Sales | 20+ | 100% |
-| Service | 15+ | 100% |
-| Marketing | 12+ | 100% |
-| Commerce | 10+ | 100% |
-| IT/ITSM | 10+ | 100% |
-| Data | 8+ | 100% |
-| Automations | 6+ | 100% |
-| Governance | 5+ | 100% |
+**Funcionalidades a adicionar:**
+- Historico de pedidos e rastreamento
+- Faturas e pagamentos
+- Gerenciamento de devolucoes
+- Centro de preferencias de comunicacao
+- Chat widget integrado
+- Base de conhecimento filtrada
 
-### 9.2 Estatisticas do Codigo
+**Expandir `customer_portal_settings`:**
+```text
++ enabled_features: jsonb (orders, invoices, returns, preferences, chat)
++ branding: jsonb (logo, cores, favicon)
++ custom_domain: text
++ default_language: text
+```
 
-- Total de tabelas: ~100+
-- Total de enums: 48
-- Funcoes RPC: 25+
-- Triggers SQL: 10+
-- Paginas/Rotas: 80+
-- Componentes React: 50+
+#### 8.2 Partner Portal (NOVO)
 
-### 9.3 Localizacao
+**Novas Tabelas:**
+```text
+partners
+├── id, organization_id
+├── partner_type: partner_type_enum
+├── company_name, trading_name: text
+├── tax_id: text
+├── tier: partner_tier_enum
+├── status: partner_status_enum
+├── commission_rate: numeric
+├── territory_ids: uuid[]
+├── contact_email, contact_phone: text
+├── address: jsonb
+├── created_at, updated_at
 
-- Interface: 95% PT-BR
-- Moeda: BRL padronizado
-- Datas: Formato brasileiro (dd/MM/yyyy)
-- Locale date-fns: ptBR
+partner_type_enum:
+  reseller, referral, affiliate, technology, service
 
-O Fireware CRM e uma solucao enterprise completa que integra todos os modulos de um CRM moderno com automacao de marketing, e-commerce B2B/B2C, gestao de TI (ITSM), analytics avancados e compliance LGPD, tudo em uma unica plataforma multi-tenant com arquitetura robusta de seguranca baseada em RLS.
+partner_tier_enum:
+  bronze, silver, gold, platinum
+
+partner_status_enum:
+  prospect, pending_approval, active, suspended, terminated
+
+partner_users
+├── id, partner_id
+├── email, first_name, last_name: text
+├── password_hash: text
+├── role: partner_user_role_enum
+├── permissions: jsonb
+├── status: text
+├── last_login_at: timestamptz
+├── created_at, updated_at
+
+partner_user_role_enum:
+  admin, sales, viewer
+
+partner_deals
+├── id, organization_id, partner_id
+├── deal_type: partner_deal_type_enum
+├── lead_id, opportunity_id, order_id: uuid FK
+├── status: partner_deal_status_enum
+├── deal_value: numeric
+├── commission_amount: numeric
+├── commission_status: commission_status_enum
+├── submitted_at, approved_at, paid_at: timestamptz
+├── notes: text
+
+partner_deal_type_enum:
+  lead_referral, co_sell, resale
+
+partner_deal_status_enum:
+  submitted, under_review, approved, rejected, won, lost
+
+commission_status_enum:
+  pending, approved, paid, cancelled
+
+partner_entitlements
+├── id, partner_id
+├── entitlement_type: text (demo_licenses, sandbox, training, support_level)
+├── value: jsonb
+├── valid_from, valid_until: timestamptz
+```
+
+**Novas Rotas Partner Portal:**
+- `/partner/login`
+- `/partner/dashboard`
+- `/partner/deals`
+- `/partner/deals/new`
+- `/partner/commissions`
+- `/partner/resources`
+- `/partner/training`
+
+---
+
+## RESUMO DE ENTREGAS POR FASE
+
+| Fase | Novas Tabelas | Edge Functions | Novas Rotas | Prioridade |
+|------|---------------|----------------|-------------|------------|
+| 1 - Core Platform | ~10 | 2 | ~8 | CRITICA |
+| 2 - Omnichannel | ~8 | 3 | ~5 | ALTA |
+| 3 - WhatsApp/Voice/Chat | ~10 | 4 | ~6 | ALTA |
+| 4 - AI Agents | ~12 | 5 | ~10 | MEDIA-ALTA |
+| 5 - iPaaS | ~10 | 3 | ~5 | MEDIA |
+| 6 - Data Hub | ~10 | 2 | ~6 | MEDIA |
+| 7 - Marketing Exec | ~8 | 4 | ~5 | MEDIA |
+| 8 - Portals | ~8 | 2 | ~15 | BAIXA |
+
+**Total Estimado:**
+- ~76 novas tabelas
+- ~25 Edge Functions
+- ~60 novas rotas/paginas
+- ~15 novos enums
+
+---
+
+## CONSIDERACOES TECNICAS
+
+### Padroes Obrigatorios
+
+1. **Toda nova tabela deve ter:**
+   - `id uuid PRIMARY KEY DEFAULT gen_random_uuid()`
+   - `organization_id uuid REFERENCES organizations(id)`
+   - `created_at timestamptz DEFAULT now()`
+   - `updated_at timestamptz DEFAULT now()`
+   - `created_by uuid REFERENCES profiles(id)`
+   - `updated_by uuid REFERENCES profiles(id)`
+   - RLS habilitado com policies
+
+2. **Indices obrigatorios:**
+   - `organization_id` em todas as tabelas
+   - `created_at DESC` para listagens
+   - Campos de busca frequente (email, phone, name)
+
+3. **Seguranca:**
+   - Todas as funcoes SECURITY DEFINER devem ter `SET search_path TO 'public'`
+   - Nenhuma policy com `USING (true)` em operacoes criticas
+   - PII deve ser mascarado em logs
+
+### Integracao com Lovable AI
+
+Para os agentes IA, utilizar o gateway Lovable AI:
+- Endpoint: `https://ai.gateway.lovable.dev/v1/chat/completions`
+- Modelo padrao: `google/gemini-3-flash-preview`
+- API Key: `LOVABLE_API_KEY` (pre-configurada)
+
+---
+
+## PROXIMOS PASSOS
+
+Apos aprovacao deste plano, a implementacao seguira a ordem das fases, comecando pela **Fase 1 - Core Platform** que e a fundacao para todas as outras funcionalidades modulares.
+
+Cada fase sera implementada com:
+1. Migrations SQL para novas tabelas
+2. RLS policies para seguranca
+3. Edge Functions quando necessario
+4. Componentes React para UI
+5. Testes de integracao
+6. Documentacao
+
