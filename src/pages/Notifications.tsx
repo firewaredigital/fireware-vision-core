@@ -10,7 +10,7 @@ import {
   Ticket, DollarSign, Clock, Megaphone, Filter,
   Search, Settings, ExternalLink,
 } from 'lucide-react';
-import { AppLayout } from '@/components/layout/AppLayout';
+
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -138,7 +138,7 @@ export default function Notifications() {
   groupMap.forEach((items, label) => groups.push({ label, items }));
 
   return (
-    <AppLayout>
+    <>
       <div className="space-y-6">
         {/* Header */}
         <div className="flex items-center justify-between">
@@ -399,6 +399,6 @@ export default function Notifications() {
           </CardContent>
         </Card>
       </div>
-    </AppLayout>
+    </>
   );
 }

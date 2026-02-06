@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
-import { AppLayout } from '@/components/layout/AppLayout';
+
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -212,23 +212,23 @@ export default function Customer360() {
 
   if (loadingEntity) {
     return (
-      <AppLayout>
+      <>
         <div className="flex items-center justify-center h-64">
           <RefreshCw className="h-8 w-8 animate-spin" />
         </div>
-      </AppLayout>
+      </>
     );
   }
 
   if (!entity) {
     return (
-      <AppLayout>
+      <>
         <div className="text-center py-16">
           <AlertTriangle className="h-16 w-16 mx-auto text-muted-foreground mb-4" />
           <h2 className="text-xl font-semibold">Registro não encontrado</h2>
           <Button onClick={() => navigate(-1)} className="mt-4">Voltar</Button>
         </div>
-      </AppLayout>
+      </>
     );
   }
 
@@ -237,7 +237,7 @@ export default function Customer360() {
     : `${entity.first_name || ''} ${entity.last_name || ''}`.trim();
 
   return (
-    <AppLayout>
+    <>
       <div className="space-y-6">
         {/* Header */}
         <Customer360Header
@@ -551,6 +551,6 @@ export default function Customer360() {
           </TabsContent>
         </Tabs>
       </div>
-    </AppLayout>
+    </>
   );
 }

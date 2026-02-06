@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
-import { AppLayout } from '@/components/layout/AppLayout';
+
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -191,24 +191,24 @@ export default function OrderDetail() {
 
   if (isLoading) {
     return (
-      <AppLayout>
+      <>
         <div className="flex items-center justify-center h-64">
           <div className="text-muted-foreground">Carregando...</div>
         </div>
-      </AppLayout>
+      </>
     );
   }
 
   if (!order) {
     return (
-      <AppLayout>
+      <>
         <div className="flex flex-col items-center justify-center h-64 gap-4">
           <div className="text-muted-foreground">Pedido não encontrado</div>
           <Button variant="outline" onClick={() => navigate('/orders')}>
             Voltar para Pedidos
           </Button>
         </div>
-      </AppLayout>
+      </>
     );
   }
 
@@ -216,7 +216,7 @@ export default function OrderDetail() {
   const statusCfg = statusConfig[currentStatus] || statusConfig.pending;
 
   return (
-    <AppLayout>
+    <>
       <div className="space-y-6">
         {/* Header */}
         <div className="flex items-center justify-between">
@@ -592,6 +592,6 @@ export default function OrderDetail() {
           </div>
         </div>
       </div>
-    </AppLayout>
+    </>
   );
 }

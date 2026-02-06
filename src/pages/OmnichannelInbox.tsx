@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback, useMemo } from 'react';
-import { AppLayout } from '@/components/layout/AppLayout';
+
 import { TooltipProvider } from '@/components/ui/tooltip';
 import { Inbox } from 'lucide-react';
 import {
@@ -228,7 +228,7 @@ export default function OmnichannelInbox() {
   // Render
   // ──────────────────────────────────────────────
   return (
-    <AppLayout>
+    <>
       <TooltipProvider delayDuration={200}>
         <div className="flex h-[calc(100vh-4rem)] overflow-hidden">
           {/* ───── Left: Conversation List ───── */}
@@ -305,6 +305,6 @@ export default function OmnichannelInbox() {
           )}
         </div>
       </TooltipProvider>
-    </AppLayout>
+    </>
   );
 }

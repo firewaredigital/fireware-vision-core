@@ -3,7 +3,7 @@ import { useParams, useNavigate, Link } from 'react-router-dom';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/hooks/useAuth';
-import { AppLayout } from '@/components/layout/AppLayout';
+
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
@@ -299,31 +299,31 @@ export default function TicketDetail() {
 
   if (isLoading) {
     return (
-      <AppLayout>
+      <>
         <div className="flex items-center justify-center py-12">
           <RefreshCcw className="h-8 w-8 animate-spin text-muted-foreground" />
         </div>
-      </AppLayout>
+      </>
     );
   }
 
   if (!ticket) {
     return (
-      <AppLayout>
+      <>
         <div className="flex flex-col items-center justify-center py-12">
           <h2 className="text-xl font-semibold">Ticket não encontrado</h2>
           <Button className="mt-4" onClick={() => navigate('/tickets')}>
             Voltar para Tickets
           </Button>
         </div>
-      </AppLayout>
+      </>
     );
   }
 
   const allowedTransitions = statusTransitions[ticket.status as TicketStatus] || [];
 
   return (
-    <AppLayout>
+    <>
       <div className="space-y-6">
         {/* Header */}
         <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
@@ -761,6 +761,6 @@ export default function TicketDetail() {
           </div>
         </div>
       </div>
-    </AppLayout>
+    </>
   );
 }
