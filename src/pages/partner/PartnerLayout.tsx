@@ -3,8 +3,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
-import { cn } from '@/lib/utils';
-import { Flame, Handshake, LayoutDashboard, FileText, DollarSign, BookOpen, User, LogOut, Menu } from 'lucide-react';
+import { Flame, Handshake, LayoutDashboard, DollarSign, BookOpen, User, LogOut, Menu } from 'lucide-react';
 import { useState } from 'react';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 
@@ -26,11 +25,11 @@ export function PartnerLayout({ children }: PartnerLayoutProps) {
 
   return (
     <div className="min-h-screen bg-background">
-      <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur">
+      <header className="sticky top-0 z-50 w-full border-b bg-card">
         <div className="container flex h-16 items-center justify-between">
           <Link to="/partner/dashboard" className="flex items-center gap-2">
             <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary"><Flame className="h-5 w-5 text-primary-foreground" /></div>
-            <div className="hidden md:flex flex-col"><span className="font-bold">Portal do Parceiro</span><span className="text-xs text-muted-foreground">Fireware CRM</span></div>
+            <div className="hidden md:flex flex-col"><span className="font-bold text-foreground">Portal do Parceiro</span><span className="text-xs text-muted-foreground">Fireware CRM</span></div>
           </Link>
           <nav className="hidden md:flex items-center gap-1">
             {navItems.map((item) => (
@@ -42,7 +41,7 @@ export function PartnerLayout({ children }: PartnerLayoutProps) {
           <div className="flex items-center gap-2">
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="ghost" className="gap-2"><Avatar className="h-8 w-8"><AvatarFallback>P</AvatarFallback></Avatar></Button>
+                <Button variant="ghost" className="gap-2"><Avatar className="h-8 w-8"><AvatarFallback className="bg-primary text-primary-foreground text-xs">P</AvatarFallback></Avatar></Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="w-48">
                 <DropdownMenuLabel>Parceiro</DropdownMenuLabel>

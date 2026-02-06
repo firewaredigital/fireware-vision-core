@@ -22,7 +22,6 @@ import {
   HelpCircle,
   Home,
   Menu,
-  X,
 } from 'lucide-react';
 import { useState } from 'react';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
@@ -55,7 +54,6 @@ export function PortalLayout({ children }: PortalLayoutProps) {
     navigate('/portal/login');
   };
 
-  // Mock user data
   const user = {
     name: 'João Silva',
     email: 'joao@empresa.com',
@@ -65,30 +63,25 @@ export function PortalLayout({ children }: PortalLayoutProps) {
 
   return (
     <div className="min-h-screen bg-background">
-      {/* Header */}
-      <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+      {/* Header — white with subtle border */}
+      <header className="sticky top-0 z-50 w-full border-b bg-card">
         <div className="container flex h-16 items-center justify-between">
-          {/* Logo */}
           <Link to="/portal" className="flex items-center gap-2">
             <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary">
               <Flame className="h-5 w-5 text-primary-foreground" />
             </div>
             <div className="hidden md:flex flex-col">
-              <span className="font-bold">Portal do Cliente</span>
+              <span className="font-bold text-foreground">Portal do Cliente</span>
               <span className="text-xs text-muted-foreground">Fireware CRM</span>
             </div>
           </Link>
 
-          {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center gap-1">
             {navItems.map((item) => (
               <Link key={item.url} to={item.url}>
                 <Button
                   variant={isActive(item.url) ? 'secondary' : 'ghost'}
-                  className={cn(
-                    'gap-2',
-                    isActive(item.url) && 'bg-secondary'
-                  )}
+                  className="gap-2"
                 >
                   <item.icon className="h-4 w-4" />
                   {item.title}
@@ -97,23 +90,20 @@ export function PortalLayout({ children }: PortalLayoutProps) {
             ))}
           </nav>
 
-          {/* Right Section */}
           <div className="flex items-center gap-2">
-            {/* Notifications */}
             <Button variant="ghost" size="icon" className="relative">
               <Bell className="h-5 w-5" />
-              <span className="absolute -top-1 -right-1 h-4 w-4 rounded-full bg-destructive text-[10px] font-medium text-destructive-foreground flex items-center justify-center">
+              <span className="absolute -top-1 -right-1 h-4 w-4 rounded-full bg-primary text-[10px] font-medium text-primary-foreground flex items-center justify-center">
                 2
               </span>
             </Button>
 
-            {/* User Menu */}
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button variant="ghost" className="gap-2 pl-2">
                   <Avatar className="h-8 w-8">
                     <AvatarImage src={user.avatar} />
-                    <AvatarFallback>
+                    <AvatarFallback className="bg-primary text-primary-foreground text-xs">
                       {user.name.split(' ').map(n => n[0]).join('')}
                     </AvatarFallback>
                   </Avatar>
@@ -147,7 +137,6 @@ export function PortalLayout({ children }: PortalLayoutProps) {
               </DropdownMenuContent>
             </DropdownMenu>
 
-            {/* Mobile Menu */}
             <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
               <SheetTrigger asChild>
                 <Button variant="ghost" size="icon" className="md:hidden">
@@ -160,7 +149,7 @@ export function PortalLayout({ children }: PortalLayoutProps) {
                     <div className="flex items-center gap-3">
                       <Avatar className="h-10 w-10">
                         <AvatarImage src={user.avatar} />
-                        <AvatarFallback>
+                        <AvatarFallback className="bg-primary text-primary-foreground">
                           {user.name.split(' ').map(n => n[0]).join('')}
                         </AvatarFallback>
                       </Avatar>
@@ -204,12 +193,10 @@ export function PortalLayout({ children }: PortalLayoutProps) {
         </div>
       </header>
 
-      {/* Main Content */}
       <main className="container py-6">
         {children}
       </main>
 
-      {/* Footer */}
       <footer className="border-t py-6 mt-auto">
         <div className="container flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-muted-foreground">
           <div className="flex items-center gap-2">

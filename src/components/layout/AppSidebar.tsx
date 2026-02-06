@@ -323,11 +323,11 @@ export function AppSidebar() {
         <NavLink
           to={item.url}
           className={cn(
-            'flex items-center gap-3 rounded-md px-3 py-2 text-sm font-medium transition-colors',
-            'hover:bg-sidebar-accent hover:text-sidebar-accent-foreground',
-            isActive(item.url) && 'bg-sidebar-accent text-sidebar-primary'
+            'flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-all duration-150',
+            'text-sidebar-foreground/70 hover:bg-sidebar-accent hover:text-sidebar-foreground',
+            isActive(item.url) && 'sidebar-item-active text-sidebar-foreground'
           )}
-          activeClassName="bg-sidebar-accent text-sidebar-primary"
+          activeClassName="sidebar-item-active text-sidebar-foreground"
         >
           <item.icon className="h-4 w-4 shrink-0" />
           {!collapsed && <span>{item.title}</span>}
@@ -347,14 +347,14 @@ export function AppSidebar() {
         onOpenChange={() => toggleSection(sectionKey)}
       >
         <CollapsibleTrigger asChild>
-          <SidebarGroupLabel className="cursor-pointer hover:text-sidebar-foreground">
+          <SidebarGroupLabel className="cursor-pointer hover:text-sidebar-foreground/80 text-[10px] uppercase tracking-[0.08em] text-sidebar-foreground/40 font-semibold px-3 py-2">
             <span className={cn(!collapsed && 'flex-1')}>
               {!collapsed && label}
             </span>
             {!collapsed && (
               <ChevronDown
                 className={cn(
-                  'h-4 w-4 transition-transform',
+                  'h-3.5 w-3.5 transition-transform duration-200',
                   openSections[sectionKey] && 'rotate-180'
                 )}
               />
@@ -380,21 +380,22 @@ export function AppSidebar() {
 
   return (
     <Sidebar className="border-r border-sidebar-border">
-      <SidebarHeader className="border-b border-sidebar-border p-4">
+      {/* Header with brand */}
+      <SidebarHeader className="border-b border-sidebar-border px-4 py-5">
         <div className="flex items-center gap-3">
-          <div className="flex h-8 w-8 items-center justify-center rounded-md bg-primary">
+          <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary">
             <Flame className="h-5 w-5 text-primary-foreground" />
           </div>
           {!collapsed && (
             <div className="flex flex-col">
-              <span className="text-lg font-bold text-sidebar-foreground">Fireware</span>
-              <span className="text-xs text-sidebar-foreground/60">CRM Enterprise</span>
+              <span className="text-base font-bold tracking-tight text-sidebar-foreground">Fireware</span>
+              <span className="text-[11px] text-sidebar-foreground/50">CRM Enterprise</span>
             </div>
           )}
         </div>
       </SidebarHeader>
 
-      <SidebarContent className="scrollbar-thin">
+      <SidebarContent className="scrollbar-thin px-2 py-2">
         {/* Main Navigation */}
         <SidebarGroup>
           <SidebarGroupContent>
@@ -421,11 +422,12 @@ export function AppSidebar() {
         </SidebarGroup>
       </SidebarContent>
 
-      <SidebarFooter className="border-t border-sidebar-border p-4">
+      {/* Footer with user info */}
+      <SidebarFooter className="border-t border-sidebar-border px-4 py-4">
         <div className="flex items-center gap-3">
           <Avatar className="h-9 w-9">
             <AvatarImage src={profile?.avatar_url || ''} />
-            <AvatarFallback className="bg-primary text-primary-foreground text-xs">
+            <AvatarFallback className="bg-primary text-primary-foreground text-xs font-semibold">
               {getInitials()}
             </AvatarFallback>
           </Avatar>
@@ -436,7 +438,7 @@ export function AppSidebar() {
                   ? `${profile.first_name} ${profile.last_name}`
                   : profile?.email}
               </span>
-              <span className="truncate text-xs capitalize text-sidebar-foreground/60">
+              <span className="truncate text-[11px] capitalize text-sidebar-foreground/50">
                 {profile?.role || 'Usuário'}
               </span>
             </div>
@@ -445,7 +447,7 @@ export function AppSidebar() {
             <Button
               variant="ghost"
               size="icon"
-              className="h-8 w-8 text-sidebar-foreground/60 hover:bg-sidebar-accent hover:text-sidebar-foreground"
+              className="h-8 w-8 text-sidebar-foreground/50 hover:bg-sidebar-accent hover:text-sidebar-foreground"
               onClick={signOut}
             >
               <LogOut className="h-4 w-4" />
