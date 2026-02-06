@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { AppLayout } from '@/components/layout/AppLayout';
+
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -235,7 +235,7 @@ export default function ServiceQueues() {
     : [];
 
   return (
-    <AppLayout>
+    <>
       <div className="space-y-6 p-6">
         {/* Header */}
         <div className="flex items-center justify-between">
@@ -628,6 +628,6 @@ export default function ServiceQueues() {
           </DialogContent>
         </Dialog>
       </div>
-    </AppLayout>
+    </>
   );
 }

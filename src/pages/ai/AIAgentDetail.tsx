@@ -3,7 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/hooks/useAuth';
-import { AppLayout } from '@/components/layout/AppLayout';
+
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -123,30 +123,26 @@ export default function AIAgentDetail() {
 
   if (isLoading) {
     return (
-      <AppLayout>
-        <div className="flex items-center justify-center min-h-[400px]">
-          <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
-        </div>
-      </AppLayout>
+      <div className="flex items-center justify-center min-h-[400px]">
+        <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
+      </div>
     );
   }
 
   if (!agent) {
     return (
-      <AppLayout>
-        <div className="text-center py-12">
-          <Bot className="h-16 w-16 text-muted-foreground mx-auto mb-4" />
-          <h2 className="text-2xl font-semibold">Agente não encontrado</h2>
-          <Button className="mt-4" onClick={() => navigate('/ai/agents')}>Voltar</Button>
-        </div>
-      </AppLayout>
+      <div className="text-center py-12">
+        <Bot className="h-16 w-16 text-muted-foreground mx-auto mb-4" />
+        <h2 className="text-2xl font-semibold">Agente não encontrado</h2>
+        <Button className="mt-4" onClick={() => navigate('/ai/agents')}>Voltar</Button>
+      </div>
     );
   }
 
   const modelConfig = agent.model_config as any;
 
   return (
-    <AppLayout>
+    <>
       <div className="space-y-6">
         {/* Header */}
         <div className="flex items-center justify-between">
@@ -398,6 +394,6 @@ export default function AIAgentDetail() {
           </TabsContent>
         </Tabs>
       </div>
-    </AppLayout>
+    </>
   );
 }

@@ -3,7 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/hooks/useAuth';
-import { AppLayout } from '@/components/layout/AppLayout';
+
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -76,7 +76,7 @@ export default function AIAgents() {
   });
 
   return (
-    <AppLayout>
+    <>
       <div className="space-y-6">
         {/* Header */}
         <div className="flex items-center justify-between">
@@ -246,6 +246,6 @@ export default function AIAgents() {
           </div>
         )}
       </div>
-    </AppLayout>
+    </>
   );
 }

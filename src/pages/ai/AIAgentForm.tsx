@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/hooks/useAuth';
-import { AppLayout } from '@/components/layout/AppLayout';
+
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -95,7 +95,7 @@ export default function AIAgentForm() {
   };
 
   return (
-    <AppLayout>
+    <>
       <div className="space-y-6 max-w-4xl">
         <div className="flex items-center gap-4">
           <Button variant="ghost" size="icon" onClick={() => navigate('/ai/agents')}>
@@ -214,6 +214,6 @@ export default function AIAgentForm() {
           </Button>
         </div>
       </div>
-    </AppLayout>
+    </>
   );
 }
