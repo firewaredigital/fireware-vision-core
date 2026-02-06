@@ -2248,6 +2248,399 @@ export type Database = {
           },
         ]
       }
+      chat_sessions: {
+        Row: {
+          agent_id: string | null
+          agent_joined_at: string | null
+          block_reason: string | null
+          browser: string | null
+          browser_version: string | null
+          city: string | null
+          conversation_id: string | null
+          country: string | null
+          country_code: string | null
+          created_at: string
+          current_page_title: string | null
+          current_page_url: string | null
+          device_type: string | null
+          ended_at: string | null
+          id: string
+          ip_address: string | null
+          is_blocked: boolean | null
+          language: string | null
+          last_activity_at: string
+          messages_received: number | null
+          messages_sent: number | null
+          organization_id: string
+          os: string | null
+          os_version: string | null
+          pages_viewed: number | null
+          referrer_url: string | null
+          region: string | null
+          satisfaction_comment: string | null
+          satisfaction_rating: number | null
+          screen_resolution: string | null
+          session_token: string
+          source_url: string | null
+          started_at: string
+          status: Database["public"]["Enums"]["chat_session_status"]
+          timezone: string | null
+          updated_at: string
+          visitor_custom_fields: Json | null
+          visitor_email: string | null
+          visitor_id: string
+          visitor_name: string | null
+          visitor_phone: string | null
+          widget_id: string
+        }
+        Insert: {
+          agent_id?: string | null
+          agent_joined_at?: string | null
+          block_reason?: string | null
+          browser?: string | null
+          browser_version?: string | null
+          city?: string | null
+          conversation_id?: string | null
+          country?: string | null
+          country_code?: string | null
+          created_at?: string
+          current_page_title?: string | null
+          current_page_url?: string | null
+          device_type?: string | null
+          ended_at?: string | null
+          id?: string
+          ip_address?: string | null
+          is_blocked?: boolean | null
+          language?: string | null
+          last_activity_at?: string
+          messages_received?: number | null
+          messages_sent?: number | null
+          organization_id: string
+          os?: string | null
+          os_version?: string | null
+          pages_viewed?: number | null
+          referrer_url?: string | null
+          region?: string | null
+          satisfaction_comment?: string | null
+          satisfaction_rating?: number | null
+          screen_resolution?: string | null
+          session_token?: string
+          source_url?: string | null
+          started_at?: string
+          status?: Database["public"]["Enums"]["chat_session_status"]
+          timezone?: string | null
+          updated_at?: string
+          visitor_custom_fields?: Json | null
+          visitor_email?: string | null
+          visitor_id: string
+          visitor_name?: string | null
+          visitor_phone?: string | null
+          widget_id: string
+        }
+        Update: {
+          agent_id?: string | null
+          agent_joined_at?: string | null
+          block_reason?: string | null
+          browser?: string | null
+          browser_version?: string | null
+          city?: string | null
+          conversation_id?: string | null
+          country?: string | null
+          country_code?: string | null
+          created_at?: string
+          current_page_title?: string | null
+          current_page_url?: string | null
+          device_type?: string | null
+          ended_at?: string | null
+          id?: string
+          ip_address?: string | null
+          is_blocked?: boolean | null
+          language?: string | null
+          last_activity_at?: string
+          messages_received?: number | null
+          messages_sent?: number | null
+          organization_id?: string
+          os?: string | null
+          os_version?: string | null
+          pages_viewed?: number | null
+          referrer_url?: string | null
+          region?: string | null
+          satisfaction_comment?: string | null
+          satisfaction_rating?: number | null
+          screen_resolution?: string | null
+          session_token?: string
+          source_url?: string | null
+          started_at?: string
+          status?: Database["public"]["Enums"]["chat_session_status"]
+          timezone?: string | null
+          updated_at?: string
+          visitor_custom_fields?: Json | null
+          visitor_email?: string | null
+          visitor_id?: string
+          visitor_name?: string | null
+          visitor_phone?: string | null
+          widget_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "chat_sessions_agent_id_fkey"
+            columns: ["agent_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "chat_sessions_conversation_id_fkey"
+            columns: ["conversation_id"]
+            isOneToOne: false
+            referencedRelation: "conversations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "chat_sessions_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "chat_sessions_widget_id_fkey"
+            columns: ["widget_id"]
+            isOneToOne: false
+            referencedRelation: "chat_widgets"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      chat_widget_events: {
+        Row: {
+          created_at: string
+          event_data: Json | null
+          event_type: string
+          id: string
+          organization_id: string
+          page_title: string | null
+          page_url: string | null
+          session_id: string | null
+          widget_id: string
+        }
+        Insert: {
+          created_at?: string
+          event_data?: Json | null
+          event_type: string
+          id?: string
+          organization_id: string
+          page_title?: string | null
+          page_url?: string | null
+          session_id?: string | null
+          widget_id: string
+        }
+        Update: {
+          created_at?: string
+          event_data?: Json | null
+          event_type?: string
+          id?: string
+          organization_id?: string
+          page_title?: string | null
+          page_url?: string | null
+          session_id?: string | null
+          widget_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "chat_widget_events_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "chat_widget_events_session_id_fkey"
+            columns: ["session_id"]
+            isOneToOne: false
+            referencedRelation: "chat_sessions"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "chat_widget_events_widget_id_fkey"
+            columns: ["widget_id"]
+            isOneToOne: false
+            referencedRelation: "chat_widgets"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      chat_widgets: {
+        Row: {
+          allowed_domains: string[] | null
+          auto_open: boolean | null
+          auto_open_delay_seconds: number | null
+          avg_response_time_seconds: number | null
+          background_color: string | null
+          block_vpn: boolean | null
+          bot_enabled: boolean | null
+          bot_greeting: string | null
+          bot_options: Json | null
+          business_hours_enabled: boolean | null
+          business_hours_id: string | null
+          button_icon: string | null
+          button_size: string | null
+          created_at: string
+          created_by: string | null
+          custom_icon_url: string | null
+          default_priority: string | null
+          greeting_message: string | null
+          id: string
+          is_active: boolean | null
+          name: string
+          offline_message: string | null
+          organization_id: string
+          placeholder_text: string | null
+          play_sound_on_message: boolean | null
+          position: string | null
+          pre_chat_fields: Json | null
+          pre_chat_form_enabled: boolean | null
+          primary_color: string | null
+          queue_id: string | null
+          satisfaction_score: number | null
+          secondary_color: string | null
+          show_agent_avatar: boolean | null
+          show_agent_name: boolean | null
+          show_powered_by: boolean | null
+          text_color: string | null
+          total_conversations: number | null
+          total_messages: number | null
+          updated_at: string
+          updated_by: string | null
+          widget_key: string
+          window_title: string | null
+        }
+        Insert: {
+          allowed_domains?: string[] | null
+          auto_open?: boolean | null
+          auto_open_delay_seconds?: number | null
+          avg_response_time_seconds?: number | null
+          background_color?: string | null
+          block_vpn?: boolean | null
+          bot_enabled?: boolean | null
+          bot_greeting?: string | null
+          bot_options?: Json | null
+          business_hours_enabled?: boolean | null
+          business_hours_id?: string | null
+          button_icon?: string | null
+          button_size?: string | null
+          created_at?: string
+          created_by?: string | null
+          custom_icon_url?: string | null
+          default_priority?: string | null
+          greeting_message?: string | null
+          id?: string
+          is_active?: boolean | null
+          name: string
+          offline_message?: string | null
+          organization_id: string
+          placeholder_text?: string | null
+          play_sound_on_message?: boolean | null
+          position?: string | null
+          pre_chat_fields?: Json | null
+          pre_chat_form_enabled?: boolean | null
+          primary_color?: string | null
+          queue_id?: string | null
+          satisfaction_score?: number | null
+          secondary_color?: string | null
+          show_agent_avatar?: boolean | null
+          show_agent_name?: boolean | null
+          show_powered_by?: boolean | null
+          text_color?: string | null
+          total_conversations?: number | null
+          total_messages?: number | null
+          updated_at?: string
+          updated_by?: string | null
+          widget_key?: string
+          window_title?: string | null
+        }
+        Update: {
+          allowed_domains?: string[] | null
+          auto_open?: boolean | null
+          auto_open_delay_seconds?: number | null
+          avg_response_time_seconds?: number | null
+          background_color?: string | null
+          block_vpn?: boolean | null
+          bot_enabled?: boolean | null
+          bot_greeting?: string | null
+          bot_options?: Json | null
+          business_hours_enabled?: boolean | null
+          business_hours_id?: string | null
+          button_icon?: string | null
+          button_size?: string | null
+          created_at?: string
+          created_by?: string | null
+          custom_icon_url?: string | null
+          default_priority?: string | null
+          greeting_message?: string | null
+          id?: string
+          is_active?: boolean | null
+          name?: string
+          offline_message?: string | null
+          organization_id?: string
+          placeholder_text?: string | null
+          play_sound_on_message?: boolean | null
+          position?: string | null
+          pre_chat_fields?: Json | null
+          pre_chat_form_enabled?: boolean | null
+          primary_color?: string | null
+          queue_id?: string | null
+          satisfaction_score?: number | null
+          secondary_color?: string | null
+          show_agent_avatar?: boolean | null
+          show_agent_name?: boolean | null
+          show_powered_by?: boolean | null
+          text_color?: string | null
+          total_conversations?: number | null
+          total_messages?: number | null
+          updated_at?: string
+          updated_by?: string | null
+          widget_key?: string
+          window_title?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "chat_widgets_business_hours_id_fkey"
+            columns: ["business_hours_id"]
+            isOneToOne: false
+            referencedRelation: "business_hours"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "chat_widgets_created_by_fkey"
+            columns: ["created_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "chat_widgets_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "chat_widgets_queue_id_fkey"
+            columns: ["queue_id"]
+            isOneToOne: false
+            referencedRelation: "routing_queues"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "chat_widgets_updated_by_fkey"
+            columns: ["updated_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       cmdb_items: {
         Row: {
           asset_id: string | null
@@ -11257,6 +11650,1112 @@ export type Database = {
           },
         ]
       }
+      voice_call_events: {
+        Row: {
+          call_id: string
+          created_at: string
+          event_data: Json | null
+          event_type: string
+          id: string
+          occurred_at: string
+          organization_id: string
+          participant_id: string | null
+          participant_type: string | null
+        }
+        Insert: {
+          call_id: string
+          created_at?: string
+          event_data?: Json | null
+          event_type: string
+          id?: string
+          occurred_at?: string
+          organization_id: string
+          participant_id?: string | null
+          participant_type?: string | null
+        }
+        Update: {
+          call_id?: string
+          created_at?: string
+          event_data?: Json | null
+          event_type?: string
+          id?: string
+          occurred_at?: string
+          organization_id?: string
+          participant_id?: string | null
+          participant_type?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "voice_call_events_call_id_fkey"
+            columns: ["call_id"]
+            isOneToOne: false
+            referencedRelation: "voice_calls"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "voice_call_events_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      voice_calls: {
+        Row: {
+          account_id: string | null
+          agent_id: string | null
+          answered_at: string | null
+          audio_quality_score: number | null
+          billable: boolean | null
+          caller_name: string | null
+          contact_id: string | null
+          conversation_id: string | null
+          cost_cents: number | null
+          created_at: string
+          currency: string | null
+          direction: Database["public"]["Enums"]["communication_direction"]
+          disposition: string | null
+          dtmf_input: string | null
+          end_reason: string | null
+          ended_at: string | null
+          external_call_id: string | null
+          forwarded_from: string | null
+          from_number: string
+          hold_duration_seconds: number | null
+          id: string
+          initiated_at: string
+          ivr_path: Json | null
+          metadata: Json | null
+          notes: string | null
+          organization_id: string
+          parent_call_id: string | null
+          queue_id: string | null
+          recording_duration_seconds: number | null
+          recording_enabled: boolean | null
+          recording_file_size_bytes: number | null
+          recording_status: string | null
+          recording_url: string | null
+          ring_duration_seconds: number | null
+          ringing_at: string | null
+          status: Database["public"]["Enums"]["voice_call_status"]
+          tags: string[] | null
+          talk_duration_seconds: number | null
+          ticket_id: string | null
+          to_number: string
+          total_duration_seconds: number | null
+          transcription_id: string | null
+          transcription_status:
+            | Database["public"]["Enums"]["transcription_status"]
+            | null
+          updated_at: string
+          voice_provider_id: string | null
+        }
+        Insert: {
+          account_id?: string | null
+          agent_id?: string | null
+          answered_at?: string | null
+          audio_quality_score?: number | null
+          billable?: boolean | null
+          caller_name?: string | null
+          contact_id?: string | null
+          conversation_id?: string | null
+          cost_cents?: number | null
+          created_at?: string
+          currency?: string | null
+          direction: Database["public"]["Enums"]["communication_direction"]
+          disposition?: string | null
+          dtmf_input?: string | null
+          end_reason?: string | null
+          ended_at?: string | null
+          external_call_id?: string | null
+          forwarded_from?: string | null
+          from_number: string
+          hold_duration_seconds?: number | null
+          id?: string
+          initiated_at?: string
+          ivr_path?: Json | null
+          metadata?: Json | null
+          notes?: string | null
+          organization_id: string
+          parent_call_id?: string | null
+          queue_id?: string | null
+          recording_duration_seconds?: number | null
+          recording_enabled?: boolean | null
+          recording_file_size_bytes?: number | null
+          recording_status?: string | null
+          recording_url?: string | null
+          ring_duration_seconds?: number | null
+          ringing_at?: string | null
+          status?: Database["public"]["Enums"]["voice_call_status"]
+          tags?: string[] | null
+          talk_duration_seconds?: number | null
+          ticket_id?: string | null
+          to_number: string
+          total_duration_seconds?: number | null
+          transcription_id?: string | null
+          transcription_status?:
+            | Database["public"]["Enums"]["transcription_status"]
+            | null
+          updated_at?: string
+          voice_provider_id?: string | null
+        }
+        Update: {
+          account_id?: string | null
+          agent_id?: string | null
+          answered_at?: string | null
+          audio_quality_score?: number | null
+          billable?: boolean | null
+          caller_name?: string | null
+          contact_id?: string | null
+          conversation_id?: string | null
+          cost_cents?: number | null
+          created_at?: string
+          currency?: string | null
+          direction?: Database["public"]["Enums"]["communication_direction"]
+          disposition?: string | null
+          dtmf_input?: string | null
+          end_reason?: string | null
+          ended_at?: string | null
+          external_call_id?: string | null
+          forwarded_from?: string | null
+          from_number?: string
+          hold_duration_seconds?: number | null
+          id?: string
+          initiated_at?: string
+          ivr_path?: Json | null
+          metadata?: Json | null
+          notes?: string | null
+          organization_id?: string
+          parent_call_id?: string | null
+          queue_id?: string | null
+          recording_duration_seconds?: number | null
+          recording_enabled?: boolean | null
+          recording_file_size_bytes?: number | null
+          recording_status?: string | null
+          recording_url?: string | null
+          ring_duration_seconds?: number | null
+          ringing_at?: string | null
+          status?: Database["public"]["Enums"]["voice_call_status"]
+          tags?: string[] | null
+          talk_duration_seconds?: number | null
+          ticket_id?: string | null
+          to_number?: string
+          total_duration_seconds?: number | null
+          transcription_id?: string | null
+          transcription_status?:
+            | Database["public"]["Enums"]["transcription_status"]
+            | null
+          updated_at?: string
+          voice_provider_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "voice_calls_account_id_fkey"
+            columns: ["account_id"]
+            isOneToOne: false
+            referencedRelation: "accounts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "voice_calls_agent_id_fkey"
+            columns: ["agent_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "voice_calls_contact_id_fkey"
+            columns: ["contact_id"]
+            isOneToOne: false
+            referencedRelation: "contacts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "voice_calls_conversation_id_fkey"
+            columns: ["conversation_id"]
+            isOneToOne: false
+            referencedRelation: "conversations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "voice_calls_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "voice_calls_parent_call_id_fkey"
+            columns: ["parent_call_id"]
+            isOneToOne: false
+            referencedRelation: "voice_calls"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "voice_calls_queue_id_fkey"
+            columns: ["queue_id"]
+            isOneToOne: false
+            referencedRelation: "routing_queues"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "voice_calls_ticket_id_fkey"
+            columns: ["ticket_id"]
+            isOneToOne: false
+            referencedRelation: "tickets"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "voice_calls_voice_provider_id_fkey"
+            columns: ["voice_provider_id"]
+            isOneToOne: false
+            referencedRelation: "voice_providers"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      voice_providers: {
+        Row: {
+          account_sid: string | null
+          api_key: string | null
+          api_secret_encrypted: string | null
+          auth_token_encrypted: string | null
+          created_at: string
+          created_by: string | null
+          default_caller_id: string | null
+          health_status: string | null
+          id: string
+          is_active: boolean | null
+          last_health_check: string | null
+          max_call_duration_minutes: number | null
+          name: string
+          organization_id: string
+          phone_numbers: string[] | null
+          provider_type: string
+          recording_callback_url: string | null
+          recording_enabled: boolean | null
+          status_callback_url: string | null
+          transcription_enabled: boolean | null
+          updated_at: string
+          updated_by: string | null
+          voicemail_enabled: boolean | null
+          voicemail_timeout_seconds: number | null
+          webhook_url: string | null
+        }
+        Insert: {
+          account_sid?: string | null
+          api_key?: string | null
+          api_secret_encrypted?: string | null
+          auth_token_encrypted?: string | null
+          created_at?: string
+          created_by?: string | null
+          default_caller_id?: string | null
+          health_status?: string | null
+          id?: string
+          is_active?: boolean | null
+          last_health_check?: string | null
+          max_call_duration_minutes?: number | null
+          name: string
+          organization_id: string
+          phone_numbers?: string[] | null
+          provider_type: string
+          recording_callback_url?: string | null
+          recording_enabled?: boolean | null
+          status_callback_url?: string | null
+          transcription_enabled?: boolean | null
+          updated_at?: string
+          updated_by?: string | null
+          voicemail_enabled?: boolean | null
+          voicemail_timeout_seconds?: number | null
+          webhook_url?: string | null
+        }
+        Update: {
+          account_sid?: string | null
+          api_key?: string | null
+          api_secret_encrypted?: string | null
+          auth_token_encrypted?: string | null
+          created_at?: string
+          created_by?: string | null
+          default_caller_id?: string | null
+          health_status?: string | null
+          id?: string
+          is_active?: boolean | null
+          last_health_check?: string | null
+          max_call_duration_minutes?: number | null
+          name?: string
+          organization_id?: string
+          phone_numbers?: string[] | null
+          provider_type?: string
+          recording_callback_url?: string | null
+          recording_enabled?: boolean | null
+          status_callback_url?: string | null
+          transcription_enabled?: boolean | null
+          updated_at?: string
+          updated_by?: string | null
+          voicemail_enabled?: boolean | null
+          voicemail_timeout_seconds?: number | null
+          webhook_url?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "voice_providers_created_by_fkey"
+            columns: ["created_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "voice_providers_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "voice_providers_updated_by_fkey"
+            columns: ["updated_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      voice_transcripts: {
+        Row: {
+          action_items: Json | null
+          call_id: string
+          completed_at: string | null
+          created_at: string
+          duration_seconds: number | null
+          error_message: string | null
+          full_text: string | null
+          id: string
+          keywords: string[] | null
+          language: string | null
+          model_version: string | null
+          organization_id: string
+          overall_confidence: number | null
+          processing_time_ms: number | null
+          provider: string | null
+          segments: Json | null
+          sentiment_score: number | null
+          started_at: string | null
+          status: Database["public"]["Enums"]["transcription_status"]
+          summary: string | null
+          topics: string[] | null
+          updated_at: string
+          word_count: number | null
+        }
+        Insert: {
+          action_items?: Json | null
+          call_id: string
+          completed_at?: string | null
+          created_at?: string
+          duration_seconds?: number | null
+          error_message?: string | null
+          full_text?: string | null
+          id?: string
+          keywords?: string[] | null
+          language?: string | null
+          model_version?: string | null
+          organization_id: string
+          overall_confidence?: number | null
+          processing_time_ms?: number | null
+          provider?: string | null
+          segments?: Json | null
+          sentiment_score?: number | null
+          started_at?: string | null
+          status?: Database["public"]["Enums"]["transcription_status"]
+          summary?: string | null
+          topics?: string[] | null
+          updated_at?: string
+          word_count?: number | null
+        }
+        Update: {
+          action_items?: Json | null
+          call_id?: string
+          completed_at?: string | null
+          created_at?: string
+          duration_seconds?: number | null
+          error_message?: string | null
+          full_text?: string | null
+          id?: string
+          keywords?: string[] | null
+          language?: string | null
+          model_version?: string | null
+          organization_id?: string
+          overall_confidence?: number | null
+          processing_time_ms?: number | null
+          provider?: string | null
+          segments?: Json | null
+          sentiment_score?: number | null
+          started_at?: string | null
+          status?: Database["public"]["Enums"]["transcription_status"]
+          summary?: string | null
+          topics?: string[] | null
+          updated_at?: string
+          word_count?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "voice_transcripts_call_id_fkey"
+            columns: ["call_id"]
+            isOneToOne: false
+            referencedRelation: "voice_calls"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "voice_transcripts_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      voice_voicemails: {
+        Row: {
+          agent_id: string | null
+          archived_at: string | null
+          archived_by: string | null
+          audio_url: string
+          call_id: string
+          callback_at: string | null
+          callback_by: string | null
+          callback_completed: boolean | null
+          callback_notes: string | null
+          callback_requested: boolean | null
+          created_at: string
+          duration_seconds: number | null
+          file_size_bytes: number | null
+          id: string
+          is_archived: boolean | null
+          is_read: boolean | null
+          organization_id: string
+          queue_id: string | null
+          read_at: string | null
+          read_by: string | null
+          transcription_status:
+            | Database["public"]["Enums"]["transcription_status"]
+            | null
+          transcription_text: string | null
+          updated_at: string
+        }
+        Insert: {
+          agent_id?: string | null
+          archived_at?: string | null
+          archived_by?: string | null
+          audio_url: string
+          call_id: string
+          callback_at?: string | null
+          callback_by?: string | null
+          callback_completed?: boolean | null
+          callback_notes?: string | null
+          callback_requested?: boolean | null
+          created_at?: string
+          duration_seconds?: number | null
+          file_size_bytes?: number | null
+          id?: string
+          is_archived?: boolean | null
+          is_read?: boolean | null
+          organization_id: string
+          queue_id?: string | null
+          read_at?: string | null
+          read_by?: string | null
+          transcription_status?:
+            | Database["public"]["Enums"]["transcription_status"]
+            | null
+          transcription_text?: string | null
+          updated_at?: string
+        }
+        Update: {
+          agent_id?: string | null
+          archived_at?: string | null
+          archived_by?: string | null
+          audio_url?: string
+          call_id?: string
+          callback_at?: string | null
+          callback_by?: string | null
+          callback_completed?: boolean | null
+          callback_notes?: string | null
+          callback_requested?: boolean | null
+          created_at?: string
+          duration_seconds?: number | null
+          file_size_bytes?: number | null
+          id?: string
+          is_archived?: boolean | null
+          is_read?: boolean | null
+          organization_id?: string
+          queue_id?: string | null
+          read_at?: string | null
+          read_by?: string | null
+          transcription_status?:
+            | Database["public"]["Enums"]["transcription_status"]
+            | null
+          transcription_text?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "voice_voicemails_agent_id_fkey"
+            columns: ["agent_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "voice_voicemails_archived_by_fkey"
+            columns: ["archived_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "voice_voicemails_call_id_fkey"
+            columns: ["call_id"]
+            isOneToOne: false
+            referencedRelation: "voice_calls"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "voice_voicemails_callback_by_fkey"
+            columns: ["callback_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "voice_voicemails_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "voice_voicemails_queue_id_fkey"
+            columns: ["queue_id"]
+            isOneToOne: false
+            referencedRelation: "routing_queues"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "voice_voicemails_read_by_fkey"
+            columns: ["read_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      whatsapp_accounts: {
+        Row: {
+          api_token_encrypted: string | null
+          auto_reply_enabled: boolean | null
+          auto_reply_message: string | null
+          business_description: string | null
+          business_hours_enabled: boolean | null
+          business_hours_id: string | null
+          business_name: string
+          business_vertical: string | null
+          business_website: string | null
+          connected_at: string | null
+          connected_by: string | null
+          created_at: string
+          created_by: string | null
+          default_template_language: string | null
+          display_phone: string
+          id: string
+          last_message_at: string | null
+          messages_received_today: number | null
+          messages_sent_today: number | null
+          messaging_limit: string | null
+          organization_id: string
+          phone_number_id: string
+          quality_rating: string | null
+          status: Database["public"]["Enums"]["whatsapp_account_status"]
+          updated_at: string
+          updated_by: string | null
+          verified_name: string | null
+          waba_id: string | null
+          webhook_secret: string | null
+          webhook_url: string | null
+          webhook_verify_token: string
+        }
+        Insert: {
+          api_token_encrypted?: string | null
+          auto_reply_enabled?: boolean | null
+          auto_reply_message?: string | null
+          business_description?: string | null
+          business_hours_enabled?: boolean | null
+          business_hours_id?: string | null
+          business_name: string
+          business_vertical?: string | null
+          business_website?: string | null
+          connected_at?: string | null
+          connected_by?: string | null
+          created_at?: string
+          created_by?: string | null
+          default_template_language?: string | null
+          display_phone: string
+          id?: string
+          last_message_at?: string | null
+          messages_received_today?: number | null
+          messages_sent_today?: number | null
+          messaging_limit?: string | null
+          organization_id: string
+          phone_number_id: string
+          quality_rating?: string | null
+          status?: Database["public"]["Enums"]["whatsapp_account_status"]
+          updated_at?: string
+          updated_by?: string | null
+          verified_name?: string | null
+          waba_id?: string | null
+          webhook_secret?: string | null
+          webhook_url?: string | null
+          webhook_verify_token?: string
+        }
+        Update: {
+          api_token_encrypted?: string | null
+          auto_reply_enabled?: boolean | null
+          auto_reply_message?: string | null
+          business_description?: string | null
+          business_hours_enabled?: boolean | null
+          business_hours_id?: string | null
+          business_name?: string
+          business_vertical?: string | null
+          business_website?: string | null
+          connected_at?: string | null
+          connected_by?: string | null
+          created_at?: string
+          created_by?: string | null
+          default_template_language?: string | null
+          display_phone?: string
+          id?: string
+          last_message_at?: string | null
+          messages_received_today?: number | null
+          messages_sent_today?: number | null
+          messaging_limit?: string | null
+          organization_id?: string
+          phone_number_id?: string
+          quality_rating?: string | null
+          status?: Database["public"]["Enums"]["whatsapp_account_status"]
+          updated_at?: string
+          updated_by?: string | null
+          verified_name?: string | null
+          waba_id?: string | null
+          webhook_secret?: string | null
+          webhook_url?: string | null
+          webhook_verify_token?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "whatsapp_accounts_business_hours_id_fkey"
+            columns: ["business_hours_id"]
+            isOneToOne: false
+            referencedRelation: "business_hours"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "whatsapp_accounts_connected_by_fkey"
+            columns: ["connected_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "whatsapp_accounts_created_by_fkey"
+            columns: ["created_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "whatsapp_accounts_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "whatsapp_accounts_updated_by_fkey"
+            columns: ["updated_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      whatsapp_message_logs: {
+        Row: {
+          billable: boolean | null
+          caption: string | null
+          contact_id: string | null
+          content: string | null
+          context_message_id: string | null
+          conversation_id: string | null
+          created_at: string
+          delivered_at: string | null
+          direction: Database["public"]["Enums"]["communication_direction"]
+          error_code: string | null
+          error_details: Json | null
+          error_message: string | null
+          error_title: string | null
+          failed_at: string | null
+          from_phone: string | null
+          id: string
+          interactive_data: Json | null
+          interactive_type: string | null
+          is_forwarded: boolean | null
+          is_frequently_forwarded: boolean | null
+          media_id: string | null
+          media_mime_type: string | null
+          media_sha256: string | null
+          media_url: string | null
+          message_id: string | null
+          message_type: string
+          organization_id: string
+          pricing_category: string | null
+          pricing_model: string | null
+          profile_name: string | null
+          read_at: string | null
+          sent_at: string | null
+          status: Database["public"]["Enums"]["whatsapp_message_status"]
+          template_id: string | null
+          template_name: string | null
+          template_variables: Json | null
+          to_phone: string | null
+          updated_at: string
+          whatsapp_account_id: string
+          whatsapp_conversation_id: string | null
+          whatsapp_message_id: string
+        }
+        Insert: {
+          billable?: boolean | null
+          caption?: string | null
+          contact_id?: string | null
+          content?: string | null
+          context_message_id?: string | null
+          conversation_id?: string | null
+          created_at?: string
+          delivered_at?: string | null
+          direction: Database["public"]["Enums"]["communication_direction"]
+          error_code?: string | null
+          error_details?: Json | null
+          error_message?: string | null
+          error_title?: string | null
+          failed_at?: string | null
+          from_phone?: string | null
+          id?: string
+          interactive_data?: Json | null
+          interactive_type?: string | null
+          is_forwarded?: boolean | null
+          is_frequently_forwarded?: boolean | null
+          media_id?: string | null
+          media_mime_type?: string | null
+          media_sha256?: string | null
+          media_url?: string | null
+          message_id?: string | null
+          message_type: string
+          organization_id: string
+          pricing_category?: string | null
+          pricing_model?: string | null
+          profile_name?: string | null
+          read_at?: string | null
+          sent_at?: string | null
+          status?: Database["public"]["Enums"]["whatsapp_message_status"]
+          template_id?: string | null
+          template_name?: string | null
+          template_variables?: Json | null
+          to_phone?: string | null
+          updated_at?: string
+          whatsapp_account_id: string
+          whatsapp_conversation_id?: string | null
+          whatsapp_message_id: string
+        }
+        Update: {
+          billable?: boolean | null
+          caption?: string | null
+          contact_id?: string | null
+          content?: string | null
+          context_message_id?: string | null
+          conversation_id?: string | null
+          created_at?: string
+          delivered_at?: string | null
+          direction?: Database["public"]["Enums"]["communication_direction"]
+          error_code?: string | null
+          error_details?: Json | null
+          error_message?: string | null
+          error_title?: string | null
+          failed_at?: string | null
+          from_phone?: string | null
+          id?: string
+          interactive_data?: Json | null
+          interactive_type?: string | null
+          is_forwarded?: boolean | null
+          is_frequently_forwarded?: boolean | null
+          media_id?: string | null
+          media_mime_type?: string | null
+          media_sha256?: string | null
+          media_url?: string | null
+          message_id?: string | null
+          message_type?: string
+          organization_id?: string
+          pricing_category?: string | null
+          pricing_model?: string | null
+          profile_name?: string | null
+          read_at?: string | null
+          sent_at?: string | null
+          status?: Database["public"]["Enums"]["whatsapp_message_status"]
+          template_id?: string | null
+          template_name?: string | null
+          template_variables?: Json | null
+          to_phone?: string | null
+          updated_at?: string
+          whatsapp_account_id?: string
+          whatsapp_conversation_id?: string | null
+          whatsapp_message_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "whatsapp_message_logs_contact_id_fkey"
+            columns: ["contact_id"]
+            isOneToOne: false
+            referencedRelation: "contacts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "whatsapp_message_logs_conversation_id_fkey"
+            columns: ["conversation_id"]
+            isOneToOne: false
+            referencedRelation: "conversations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "whatsapp_message_logs_message_id_fkey"
+            columns: ["message_id"]
+            isOneToOne: false
+            referencedRelation: "conversation_messages"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "whatsapp_message_logs_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "whatsapp_message_logs_template_id_fkey"
+            columns: ["template_id"]
+            isOneToOne: false
+            referencedRelation: "whatsapp_templates"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "whatsapp_message_logs_whatsapp_account_id_fkey"
+            columns: ["whatsapp_account_id"]
+            isOneToOne: false
+            referencedRelation: "whatsapp_accounts"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      whatsapp_optins: {
+        Row: {
+          consent_text: string | null
+          contact_id: string | null
+          created_at: string
+          id: string
+          ip_address: string | null
+          is_opted_in: boolean
+          marketing_opted_in: boolean | null
+          opt_in_method: string | null
+          opt_in_source: string | null
+          opted_in_at: string | null
+          opted_out_at: string | null
+          organization_id: string
+          phone_number: string
+          support_opted_in: boolean | null
+          transactional_opted_in: boolean | null
+          updated_at: string
+          user_agent: string | null
+          whatsapp_account_id: string
+        }
+        Insert: {
+          consent_text?: string | null
+          contact_id?: string | null
+          created_at?: string
+          id?: string
+          ip_address?: string | null
+          is_opted_in?: boolean
+          marketing_opted_in?: boolean | null
+          opt_in_method?: string | null
+          opt_in_source?: string | null
+          opted_in_at?: string | null
+          opted_out_at?: string | null
+          organization_id: string
+          phone_number: string
+          support_opted_in?: boolean | null
+          transactional_opted_in?: boolean | null
+          updated_at?: string
+          user_agent?: string | null
+          whatsapp_account_id: string
+        }
+        Update: {
+          consent_text?: string | null
+          contact_id?: string | null
+          created_at?: string
+          id?: string
+          ip_address?: string | null
+          is_opted_in?: boolean
+          marketing_opted_in?: boolean | null
+          opt_in_method?: string | null
+          opt_in_source?: string | null
+          opted_in_at?: string | null
+          opted_out_at?: string | null
+          organization_id?: string
+          phone_number?: string
+          support_opted_in?: boolean | null
+          transactional_opted_in?: boolean | null
+          updated_at?: string
+          user_agent?: string | null
+          whatsapp_account_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "whatsapp_optins_contact_id_fkey"
+            columns: ["contact_id"]
+            isOneToOne: false
+            referencedRelation: "contacts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "whatsapp_optins_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "whatsapp_optins_whatsapp_account_id_fkey"
+            columns: ["whatsapp_account_id"]
+            isOneToOne: false
+            referencedRelation: "whatsapp_accounts"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      whatsapp_templates: {
+        Row: {
+          approved_at: string | null
+          body_text: string
+          buttons: Json | null
+          category: Database["public"]["Enums"]["whatsapp_template_category"]
+          created_at: string
+          created_by: string | null
+          footer_text: string | null
+          header_content: string | null
+          header_media_url: string | null
+          header_type: string | null
+          id: string
+          language: string
+          last_used_at: string | null
+          organization_id: string
+          rejection_reason: string | null
+          status: Database["public"]["Enums"]["whatsapp_template_status"]
+          submitted_at: string | null
+          template_id: string | null
+          template_name: string
+          times_used: number | null
+          updated_at: string
+          updated_by: string | null
+          variables: Json | null
+          whatsapp_account_id: string
+        }
+        Insert: {
+          approved_at?: string | null
+          body_text: string
+          buttons?: Json | null
+          category: Database["public"]["Enums"]["whatsapp_template_category"]
+          created_at?: string
+          created_by?: string | null
+          footer_text?: string | null
+          header_content?: string | null
+          header_media_url?: string | null
+          header_type?: string | null
+          id?: string
+          language?: string
+          last_used_at?: string | null
+          organization_id: string
+          rejection_reason?: string | null
+          status?: Database["public"]["Enums"]["whatsapp_template_status"]
+          submitted_at?: string | null
+          template_id?: string | null
+          template_name: string
+          times_used?: number | null
+          updated_at?: string
+          updated_by?: string | null
+          variables?: Json | null
+          whatsapp_account_id: string
+        }
+        Update: {
+          approved_at?: string | null
+          body_text?: string
+          buttons?: Json | null
+          category?: Database["public"]["Enums"]["whatsapp_template_category"]
+          created_at?: string
+          created_by?: string | null
+          footer_text?: string | null
+          header_content?: string | null
+          header_media_url?: string | null
+          header_type?: string | null
+          id?: string
+          language?: string
+          last_used_at?: string | null
+          organization_id?: string
+          rejection_reason?: string | null
+          status?: Database["public"]["Enums"]["whatsapp_template_status"]
+          submitted_at?: string | null
+          template_id?: string | null
+          template_name?: string
+          times_used?: number | null
+          updated_at?: string
+          updated_by?: string | null
+          variables?: Json | null
+          whatsapp_account_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "whatsapp_templates_created_by_fkey"
+            columns: ["created_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "whatsapp_templates_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "whatsapp_templates_updated_by_fkey"
+            columns: ["updated_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "whatsapp_templates_whatsapp_account_id_fkey"
+            columns: ["whatsapp_account_id"]
+            isOneToOne: false
+            referencedRelation: "whatsapp_accounts"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       win_loss_reasons: {
         Row: {
           created_at: string
@@ -12010,6 +13509,30 @@ export type Database = {
         Args: { p_segment_id: string }
         Returns: number
       }
+      create_chat_session: {
+        Args: {
+          p_device_info?: Json
+          p_source_url?: string
+          p_visitor_id: string
+          p_visitor_info?: Json
+          p_widget_key: string
+        }
+        Returns: {
+          conversation_id: string
+          session_id: string
+          session_token: string
+        }[]
+      }
+      create_conversation_from_whatsapp: {
+        Args: {
+          p_from_phone: string
+          p_message_content: string
+          p_organization_id: string
+          p_whatsapp_account_id: string
+          p_whatsapp_message_id: string
+        }
+        Returns: string
+      }
       create_funnel_snapshot: {
         Args: {
           p_date?: string
@@ -12139,6 +13662,19 @@ export type Database = {
         }
         Returns: string
       }
+      register_voice_call: {
+        Args: {
+          p_agent_id?: string
+          p_contact_id?: string
+          p_direction: Database["public"]["Enums"]["communication_direction"]
+          p_external_call_id: string
+          p_from_number: string
+          p_organization_id: string
+          p_provider_id: string
+          p_to_number: string
+        }
+        Returns: string
+      }
       update_agent_availability: {
         Args: {
           p_reason?: string
@@ -12155,6 +13691,14 @@ export type Database = {
           _usage_key: string
         }
         Returns: undefined
+      }
+      update_voice_call_status: {
+        Args: {
+          p_call_id: string
+          p_event_data?: Json
+          p_status: Database["public"]["Enums"]["voice_call_status"]
+        }
+        Returns: boolean
       }
       user_has_permission: {
         Args: { _capability: string; _user_id: string }
@@ -12264,6 +13808,13 @@ export type Database = {
         | "webinar"
         | "content"
         | "referral"
+      chat_session_status:
+        | "active"
+        | "idle"
+        | "waiting_agent"
+        | "with_agent"
+        | "ended"
+        | "abandoned"
       ci_environment:
         | "production"
         | "staging"
@@ -12312,6 +13863,7 @@ export type Database = {
         | "uses"
         | "provides"
         | "supports"
+      communication_direction: "inbound" | "outbound"
       contact_role:
         | "decision_maker"
         | "technical"
@@ -12627,7 +14179,48 @@ export type Database = {
         | "note_added"
         | "contact_added"
         | "account_created"
+      transcription_status:
+        | "pending"
+        | "processing"
+        | "completed"
+        | "failed"
+        | "not_available"
       user_role: "user" | "manager" | "admin"
+      voice_call_status:
+        | "initiated"
+        | "ringing"
+        | "in_progress"
+        | "on_hold"
+        | "completed"
+        | "missed"
+        | "failed"
+        | "cancelled"
+        | "busy"
+        | "no_answer"
+      whatsapp_account_status:
+        | "pending_verification"
+        | "verified"
+        | "active"
+        | "suspended"
+        | "disconnected"
+      whatsapp_message_status:
+        | "pending"
+        | "sent"
+        | "delivered"
+        | "read"
+        | "failed"
+        | "deleted"
+      whatsapp_template_category:
+        | "marketing"
+        | "utility"
+        | "authentication"
+        | "service"
+      whatsapp_template_status:
+        | "pending"
+        | "approved"
+        | "rejected"
+        | "paused"
+        | "disabled"
       workflow_run_status:
         | "pending"
         | "running"
@@ -12883,6 +14476,14 @@ export const Constants = {
         "content",
         "referral",
       ],
+      chat_session_status: [
+        "active",
+        "idle",
+        "waiting_agent",
+        "with_agent",
+        "ended",
+        "abandoned",
+      ],
       ci_environment: [
         "production",
         "staging",
@@ -12935,6 +14536,7 @@ export const Constants = {
         "provides",
         "supports",
       ],
+      communication_direction: ["inbound", "outbound"],
       contact_role: [
         "decision_maker",
         "technical",
@@ -13277,7 +14879,54 @@ export const Constants = {
         "contact_added",
         "account_created",
       ],
+      transcription_status: [
+        "pending",
+        "processing",
+        "completed",
+        "failed",
+        "not_available",
+      ],
       user_role: ["user", "manager", "admin"],
+      voice_call_status: [
+        "initiated",
+        "ringing",
+        "in_progress",
+        "on_hold",
+        "completed",
+        "missed",
+        "failed",
+        "cancelled",
+        "busy",
+        "no_answer",
+      ],
+      whatsapp_account_status: [
+        "pending_verification",
+        "verified",
+        "active",
+        "suspended",
+        "disconnected",
+      ],
+      whatsapp_message_status: [
+        "pending",
+        "sent",
+        "delivered",
+        "read",
+        "failed",
+        "deleted",
+      ],
+      whatsapp_template_category: [
+        "marketing",
+        "utility",
+        "authentication",
+        "service",
+      ],
+      whatsapp_template_status: [
+        "pending",
+        "approved",
+        "rejected",
+        "paused",
+        "disabled",
+      ],
       workflow_run_status: [
         "pending",
         "running",
