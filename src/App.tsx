@@ -13,6 +13,7 @@ import Settings from "./pages/Settings";
 import AuditLogs from "./pages/AuditLogs";
 import Reports from "./pages/Reports";
 import CannedResponses from "./pages/CannedResponses";
+import Notifications from "./pages/Notifications";
 
 // Route groups
 import { SalesRoutes } from "./routes/SalesRoutes";
@@ -71,6 +72,7 @@ const App = () => (
             {/* Settings */}
             <Route path="/reports" element={<Reports />} />
             <Route path="/audit-logs" element={<AuditLogs />} />
+            <Route path="/notifications" element={<Notifications />} />
             <Route path="/settings" element={<Settings />} />
             <Route path="/settings/canned-responses" element={
               <ModuleGuard moduleKey="service">

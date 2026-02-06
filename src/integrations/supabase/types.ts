@@ -11315,13 +11315,232 @@ export type Database = {
           },
         ]
       }
+      notification_deliveries: {
+        Row: {
+          channel: Database["public"]["Enums"]["notification_channel"]
+          created_at: string
+          delivered_at: string | null
+          error_message: string | null
+          external_id: string | null
+          failed_at: string | null
+          id: string
+          metadata: Json | null
+          notification_id: string
+          organization_id: string
+          status: string
+        }
+        Insert: {
+          channel: Database["public"]["Enums"]["notification_channel"]
+          created_at?: string
+          delivered_at?: string | null
+          error_message?: string | null
+          external_id?: string | null
+          failed_at?: string | null
+          id?: string
+          metadata?: Json | null
+          notification_id: string
+          organization_id: string
+          status?: string
+        }
+        Update: {
+          channel?: Database["public"]["Enums"]["notification_channel"]
+          created_at?: string
+          delivered_at?: string | null
+          error_message?: string | null
+          external_id?: string | null
+          failed_at?: string | null
+          id?: string
+          metadata?: Json | null
+          notification_id?: string
+          organization_id?: string
+          status?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "notification_deliveries_notification_id_fkey"
+            columns: ["notification_id"]
+            isOneToOne: false
+            referencedRelation: "notifications"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "notification_deliveries_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      notification_preferences: {
+        Row: {
+          category_preferences: Json | null
+          created_at: string
+          desktop_notifications_enabled: boolean
+          email_digest_enabled: boolean
+          email_digest_frequency: string | null
+          email_digest_last_sent_at: string | null
+          id: string
+          mute_all: boolean
+          mute_until: string | null
+          organization_id: string
+          push_enabled: boolean
+          quiet_hours_end: string | null
+          quiet_hours_start: string | null
+          quiet_hours_timezone: string | null
+          sound_enabled: boolean
+          type_preferences: Json | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          category_preferences?: Json | null
+          created_at?: string
+          desktop_notifications_enabled?: boolean
+          email_digest_enabled?: boolean
+          email_digest_frequency?: string | null
+          email_digest_last_sent_at?: string | null
+          id?: string
+          mute_all?: boolean
+          mute_until?: string | null
+          organization_id: string
+          push_enabled?: boolean
+          quiet_hours_end?: string | null
+          quiet_hours_start?: string | null
+          quiet_hours_timezone?: string | null
+          sound_enabled?: boolean
+          type_preferences?: Json | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          category_preferences?: Json | null
+          created_at?: string
+          desktop_notifications_enabled?: boolean
+          email_digest_enabled?: boolean
+          email_digest_frequency?: string | null
+          email_digest_last_sent_at?: string | null
+          id?: string
+          mute_all?: boolean
+          mute_until?: string | null
+          organization_id?: string
+          push_enabled?: boolean
+          quiet_hours_end?: string | null
+          quiet_hours_start?: string | null
+          quiet_hours_timezone?: string | null
+          sound_enabled?: boolean
+          type_preferences?: Json | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "notification_preferences_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "notification_preferences_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      notification_templates: {
+        Row: {
+          action_label: string | null
+          action_url_template: string | null
+          body_template: string | null
+          category: Database["public"]["Enums"]["notification_category"]
+          channels: string[] | null
+          cooldown_minutes: number | null
+          created_at: string
+          icon: string | null
+          id: string
+          is_active: boolean
+          is_system: boolean
+          name: string
+          notification_type: string
+          organization_id: string
+          priority: string
+          template_key: string
+          title_template: string
+          updated_at: string
+        }
+        Insert: {
+          action_label?: string | null
+          action_url_template?: string | null
+          body_template?: string | null
+          category?: Database["public"]["Enums"]["notification_category"]
+          channels?: string[] | null
+          cooldown_minutes?: number | null
+          created_at?: string
+          icon?: string | null
+          id?: string
+          is_active?: boolean
+          is_system?: boolean
+          name: string
+          notification_type?: string
+          organization_id: string
+          priority?: string
+          template_key: string
+          title_template: string
+          updated_at?: string
+        }
+        Update: {
+          action_label?: string | null
+          action_url_template?: string | null
+          body_template?: string | null
+          category?: Database["public"]["Enums"]["notification_category"]
+          channels?: string[] | null
+          cooldown_minutes?: number | null
+          created_at?: string
+          icon?: string | null
+          id?: string
+          is_active?: boolean
+          is_system?: boolean
+          name?: string
+          notification_type?: string
+          organization_id?: string
+          priority?: string
+          template_key?: string
+          title_template?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "notification_templates_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       notifications: {
         Row: {
+          action_label: string | null
+          action_url: string | null
+          actioned_at: string | null
+          archived_at: string | null
+          body: string | null
+          category: Database["public"]["Enums"]["notification_category"] | null
           created_at: string
+          delivered_channels: string[] | null
           entity_id: string | null
+          entity_name: string | null
           entity_type: string | null
           expires_at: string | null
+          group_count: number | null
+          group_key: string | null
+          icon: string | null
           id: string
+          is_actioned: boolean
+          is_archived: boolean
           is_read: boolean | null
           link: string | null
           message: string | null
@@ -11329,16 +11548,32 @@ export type Database = {
           organization_id: string
           priority: string | null
           read_at: string | null
+          sender_id: string | null
+          sender_name: string | null
           title: string
           type: string
+          updated_at: string
           user_id: string
         }
         Insert: {
+          action_label?: string | null
+          action_url?: string | null
+          actioned_at?: string | null
+          archived_at?: string | null
+          body?: string | null
+          category?: Database["public"]["Enums"]["notification_category"] | null
           created_at?: string
+          delivered_channels?: string[] | null
           entity_id?: string | null
+          entity_name?: string | null
           entity_type?: string | null
           expires_at?: string | null
+          group_count?: number | null
+          group_key?: string | null
+          icon?: string | null
           id?: string
+          is_actioned?: boolean
+          is_archived?: boolean
           is_read?: boolean | null
           link?: string | null
           message?: string | null
@@ -11346,16 +11581,32 @@ export type Database = {
           organization_id: string
           priority?: string | null
           read_at?: string | null
+          sender_id?: string | null
+          sender_name?: string | null
           title: string
           type?: string
+          updated_at?: string
           user_id: string
         }
         Update: {
+          action_label?: string | null
+          action_url?: string | null
+          actioned_at?: string | null
+          archived_at?: string | null
+          body?: string | null
+          category?: Database["public"]["Enums"]["notification_category"] | null
           created_at?: string
+          delivered_channels?: string[] | null
           entity_id?: string | null
+          entity_name?: string | null
           entity_type?: string | null
           expires_at?: string | null
+          group_count?: number | null
+          group_key?: string | null
+          icon?: string | null
           id?: string
+          is_actioned?: boolean
+          is_archived?: boolean
           is_read?: boolean | null
           link?: string | null
           message?: string | null
@@ -11363,8 +11614,11 @@ export type Database = {
           organization_id?: string
           priority?: string | null
           read_at?: string | null
+          sender_id?: string | null
+          sender_name?: string | null
           title?: string
           type?: string
+          updated_at?: string
           user_id?: string
         }
         Relationships: [
@@ -11373,6 +11627,13 @@ export type Database = {
             columns: ["organization_id"]
             isOneToOne: false
             referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "notifications_sender_id_fkey"
+            columns: ["sender_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
             referencedColumns: ["id"]
           },
           {
@@ -19609,6 +19870,10 @@ export type Database = {
         }
         Returns: string
       }
+      archive_old_notifications: {
+        Args: { p_days_old?: number; p_user_id: string }
+        Returns: number
+      }
       assign_conversation_to_agent: {
         Args: {
           p_agent_id: string
@@ -19811,6 +20076,7 @@ export type Database = {
       generate_ticket_number: { Args: { org_id: string }; Returns: string }
       get_ai_usage_metrics: { Args: { _org_id: string }; Returns: Json }
       get_next_conversation: { Args: { p_agent_id: string }; Returns: string }
+      get_notification_counts: { Args: { p_user_id: string }; Returns: Json }
       get_org_enabled_modules: { Args: { _org_id: string }; Returns: Json }
       get_stale_opportunities_count: {
         Args: { org_id: string; threshold_days?: number }
@@ -19870,6 +20136,10 @@ export type Database = {
           _source_module?: Database["public"]["Enums"]["module_key"]
         }
         Returns: string
+      }
+      mark_all_notifications_read: {
+        Args: { p_user_id: string }
+        Returns: number
       }
       parse_canned_response: {
         Args: { p_contact_id?: string; p_content: string; p_ticket_id?: string }
@@ -20495,6 +20765,20 @@ export type Database = {
         | "analytics"
         | "portals"
         | "governance"
+      notification_category:
+        | "sales"
+        | "service"
+        | "marketing"
+        | "commerce"
+        | "itsm"
+        | "ai"
+        | "automation"
+        | "governance"
+        | "data"
+        | "system"
+        | "integrations"
+      notification_channel: "in_app" | "email" | "push" | "sms" | "webhook"
+      notification_priority_v2: "low" | "normal" | "high" | "urgent"
       nps_survey_status:
         | "draft"
         | "active"
@@ -21496,6 +21780,21 @@ export const Constants = {
         "portals",
         "governance",
       ],
+      notification_category: [
+        "sales",
+        "service",
+        "marketing",
+        "commerce",
+        "itsm",
+        "ai",
+        "automation",
+        "governance",
+        "data",
+        "system",
+        "integrations",
+      ],
+      notification_channel: ["in_app", "email", "push", "sms", "webhook"],
+      notification_priority_v2: ["low", "normal", "high", "urgent"],
       nps_survey_status: ["draft", "active", "paused", "completed", "archived"],
       nps_trigger_type: [
         "ticket_resolved",
