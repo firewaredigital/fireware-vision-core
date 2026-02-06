@@ -407,6 +407,841 @@ export type Database = {
           },
         ]
       }
+      ai_agent_policies: {
+        Row: {
+          agent_id: string
+          created_at: string
+          id: string
+          is_active: boolean
+          override_config: Json | null
+          policy_id: string
+        }
+        Insert: {
+          agent_id: string
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          override_config?: Json | null
+          policy_id: string
+        }
+        Update: {
+          agent_id?: string
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          override_config?: Json | null
+          policy_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ai_agent_policies_agent_id_fkey"
+            columns: ["agent_id"]
+            isOneToOne: false
+            referencedRelation: "ai_agents"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "ai_agent_policies_policy_id_fkey"
+            columns: ["policy_id"]
+            isOneToOne: false
+            referencedRelation: "ai_policies"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      ai_agent_tools: {
+        Row: {
+          agent_id: string
+          created_at: string
+          custom_config: Json | null
+          execution_order: number | null
+          id: string
+          is_enabled: boolean
+          tool_id: string
+        }
+        Insert: {
+          agent_id: string
+          created_at?: string
+          custom_config?: Json | null
+          execution_order?: number | null
+          id?: string
+          is_enabled?: boolean
+          tool_id: string
+        }
+        Update: {
+          agent_id?: string
+          created_at?: string
+          custom_config?: Json | null
+          execution_order?: number | null
+          id?: string
+          is_enabled?: boolean
+          tool_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ai_agent_tools_agent_id_fkey"
+            columns: ["agent_id"]
+            isOneToOne: false
+            referencedRelation: "ai_agents"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "ai_agent_tools_tool_id_fkey"
+            columns: ["tool_id"]
+            isOneToOne: false
+            referencedRelation: "ai_tools"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      ai_agent_versions: {
+        Row: {
+          agent_id: string
+          changelog: string | null
+          config_snapshot: Json
+          created_at: string
+          id: string
+          organization_id: string
+          published_at: string | null
+          published_by: string | null
+          version_number: number
+        }
+        Insert: {
+          agent_id: string
+          changelog?: string | null
+          config_snapshot?: Json
+          created_at?: string
+          id?: string
+          organization_id: string
+          published_at?: string | null
+          published_by?: string | null
+          version_number: number
+        }
+        Update: {
+          agent_id?: string
+          changelog?: string | null
+          config_snapshot?: Json
+          created_at?: string
+          id?: string
+          organization_id?: string
+          published_at?: string | null
+          published_by?: string | null
+          version_number?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ai_agent_versions_agent_id_fkey"
+            columns: ["agent_id"]
+            isOneToOne: false
+            referencedRelation: "ai_agents"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "ai_agent_versions_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "ai_agent_versions_published_by_fkey"
+            columns: ["published_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      ai_agents: {
+        Row: {
+          agent_type: Database["public"]["Enums"]["ai_agent_type"]
+          created_at: string
+          created_by: string | null
+          description: string | null
+          icon: string | null
+          id: string
+          is_native: boolean
+          max_turns: number | null
+          model_config: Json
+          name: string
+          organization_id: string
+          scope: string | null
+          status: Database["public"]["Enums"]["ai_agent_status"]
+          system_prompt: string | null
+          timeout_seconds: number | null
+          updated_at: string
+          updated_by: string | null
+          version: number
+        }
+        Insert: {
+          agent_type?: Database["public"]["Enums"]["ai_agent_type"]
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          icon?: string | null
+          id?: string
+          is_native?: boolean
+          max_turns?: number | null
+          model_config?: Json
+          name: string
+          organization_id: string
+          scope?: string | null
+          status?: Database["public"]["Enums"]["ai_agent_status"]
+          system_prompt?: string | null
+          timeout_seconds?: number | null
+          updated_at?: string
+          updated_by?: string | null
+          version?: number
+        }
+        Update: {
+          agent_type?: Database["public"]["Enums"]["ai_agent_type"]
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          icon?: string | null
+          id?: string
+          is_native?: boolean
+          max_turns?: number | null
+          model_config?: Json
+          name?: string
+          organization_id?: string
+          scope?: string | null
+          status?: Database["public"]["Enums"]["ai_agent_status"]
+          system_prompt?: string | null
+          timeout_seconds?: number | null
+          updated_at?: string
+          updated_by?: string | null
+          version?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ai_agents_created_by_fkey"
+            columns: ["created_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "ai_agents_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "ai_agents_updated_by_fkey"
+            columns: ["updated_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      ai_conversations: {
+        Row: {
+          agent_id: string
+          archived_at: string | null
+          created_at: string
+          id: string
+          last_run_id: string | null
+          message_count: number
+          messages: Json
+          organization_id: string
+          pinned: boolean | null
+          status: string
+          title: string | null
+          total_tokens_used: number | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          agent_id: string
+          archived_at?: string | null
+          created_at?: string
+          id?: string
+          last_run_id?: string | null
+          message_count?: number
+          messages?: Json
+          organization_id: string
+          pinned?: boolean | null
+          status?: string
+          title?: string | null
+          total_tokens_used?: number | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          agent_id?: string
+          archived_at?: string | null
+          created_at?: string
+          id?: string
+          last_run_id?: string | null
+          message_count?: number
+          messages?: Json
+          organization_id?: string
+          pinned?: boolean | null
+          status?: string
+          title?: string | null
+          total_tokens_used?: number | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ai_conversations_agent_id_fkey"
+            columns: ["agent_id"]
+            isOneToOne: false
+            referencedRelation: "ai_agents"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "ai_conversations_last_run_id_fkey"
+            columns: ["last_run_id"]
+            isOneToOne: false
+            referencedRelation: "ai_runs"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "ai_conversations_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "ai_conversations_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      ai_evals: {
+        Row: {
+          agent_id: string
+          created_at: string
+          created_by: string | null
+          description: string | null
+          id: string
+          last_run_at: string | null
+          last_run_results: Json | null
+          name: string
+          organization_id: string
+          pass_rate: number | null
+          test_cases: Json
+          total_runs: number
+          updated_at: string
+        }
+        Insert: {
+          agent_id: string
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          id?: string
+          last_run_at?: string | null
+          last_run_results?: Json | null
+          name: string
+          organization_id: string
+          pass_rate?: number | null
+          test_cases?: Json
+          total_runs?: number
+          updated_at?: string
+        }
+        Update: {
+          agent_id?: string
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          id?: string
+          last_run_at?: string | null
+          last_run_results?: Json | null
+          name?: string
+          organization_id?: string
+          pass_rate?: number | null
+          test_cases?: Json
+          total_runs?: number
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ai_evals_agent_id_fkey"
+            columns: ["agent_id"]
+            isOneToOne: false
+            referencedRelation: "ai_agents"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "ai_evals_created_by_fkey"
+            columns: ["created_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "ai_evals_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      ai_policies: {
+        Row: {
+          actions_on_violation: string
+          created_at: string
+          created_by: string | null
+          description: string | null
+          id: string
+          is_active: boolean
+          name: string
+          organization_id: string
+          policy_type: Database["public"]["Enums"]["ai_policy_type"]
+          priority: number
+          rules: Json
+          scope: string | null
+          updated_at: string
+        }
+        Insert: {
+          actions_on_violation?: string
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          id?: string
+          is_active?: boolean
+          name: string
+          organization_id: string
+          policy_type: Database["public"]["Enums"]["ai_policy_type"]
+          priority?: number
+          rules?: Json
+          scope?: string | null
+          updated_at?: string
+        }
+        Update: {
+          actions_on_violation?: string
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          id?: string
+          is_active?: boolean
+          name?: string
+          organization_id?: string
+          policy_type?: Database["public"]["Enums"]["ai_policy_type"]
+          priority?: number
+          rules?: Json
+          scope?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ai_policies_created_by_fkey"
+            columns: ["created_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "ai_policies_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      ai_run_audit_receipts: {
+        Row: {
+          action_description: string
+          action_type: string
+          affected_entity_id: string | null
+          affected_entity_type: string | null
+          approval_status: string | null
+          approval_timestamp: string | null
+          approved_by: string | null
+          created_at: string
+          data_accessed: Json | null
+          data_modified: Json | null
+          evidence_attachments: Json | null
+          execution_context: Json | null
+          id: string
+          organization_id: string
+          pii_detected: boolean | null
+          pii_fields_masked: string[] | null
+          rejection_reason: string | null
+          requires_approval: boolean
+          risk_level: Database["public"]["Enums"]["ai_risk_level"] | null
+          run_id: string
+          step_id: string | null
+          tool_used: string | null
+        }
+        Insert: {
+          action_description: string
+          action_type: string
+          affected_entity_id?: string | null
+          affected_entity_type?: string | null
+          approval_status?: string | null
+          approval_timestamp?: string | null
+          approved_by?: string | null
+          created_at?: string
+          data_accessed?: Json | null
+          data_modified?: Json | null
+          evidence_attachments?: Json | null
+          execution_context?: Json | null
+          id?: string
+          organization_id: string
+          pii_detected?: boolean | null
+          pii_fields_masked?: string[] | null
+          rejection_reason?: string | null
+          requires_approval?: boolean
+          risk_level?: Database["public"]["Enums"]["ai_risk_level"] | null
+          run_id: string
+          step_id?: string | null
+          tool_used?: string | null
+        }
+        Update: {
+          action_description?: string
+          action_type?: string
+          affected_entity_id?: string | null
+          affected_entity_type?: string | null
+          approval_status?: string | null
+          approval_timestamp?: string | null
+          approved_by?: string | null
+          created_at?: string
+          data_accessed?: Json | null
+          data_modified?: Json | null
+          evidence_attachments?: Json | null
+          execution_context?: Json | null
+          id?: string
+          organization_id?: string
+          pii_detected?: boolean | null
+          pii_fields_masked?: string[] | null
+          rejection_reason?: string | null
+          requires_approval?: boolean
+          risk_level?: Database["public"]["Enums"]["ai_risk_level"] | null
+          run_id?: string
+          step_id?: string | null
+          tool_used?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ai_run_audit_receipts_approved_by_fkey"
+            columns: ["approved_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "ai_run_audit_receipts_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "ai_run_audit_receipts_run_id_fkey"
+            columns: ["run_id"]
+            isOneToOne: false
+            referencedRelation: "ai_runs"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "ai_run_audit_receipts_step_id_fkey"
+            columns: ["step_id"]
+            isOneToOne: false
+            referencedRelation: "ai_run_steps"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      ai_run_steps: {
+        Row: {
+          completed_at: string | null
+          created_at: string
+          duration_ms: number | null
+          error_message: string | null
+          id: string
+          input_data: Json | null
+          organization_id: string
+          output_data: Json | null
+          run_id: string
+          started_at: string | null
+          status: string
+          step_order: number
+          step_type: string
+          tokens_used: number | null
+          tool_id: string | null
+          tool_name: string | null
+        }
+        Insert: {
+          completed_at?: string | null
+          created_at?: string
+          duration_ms?: number | null
+          error_message?: string | null
+          id?: string
+          input_data?: Json | null
+          organization_id: string
+          output_data?: Json | null
+          run_id: string
+          started_at?: string | null
+          status?: string
+          step_order: number
+          step_type: string
+          tokens_used?: number | null
+          tool_id?: string | null
+          tool_name?: string | null
+        }
+        Update: {
+          completed_at?: string | null
+          created_at?: string
+          duration_ms?: number | null
+          error_message?: string | null
+          id?: string
+          input_data?: Json | null
+          organization_id?: string
+          output_data?: Json | null
+          run_id?: string
+          started_at?: string | null
+          status?: string
+          step_order?: number
+          step_type?: string
+          tokens_used?: number | null
+          tool_id?: string | null
+          tool_name?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ai_run_steps_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "ai_run_steps_run_id_fkey"
+            columns: ["run_id"]
+            isOneToOne: false
+            referencedRelation: "ai_runs"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "ai_run_steps_tool_id_fkey"
+            columns: ["tool_id"]
+            isOneToOne: false
+            referencedRelation: "ai_tools"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      ai_runs: {
+        Row: {
+          agent_id: string
+          approval_request_id: string | null
+          completed_at: string | null
+          completion_tokens: number | null
+          correlation_id: string | null
+          cost_estimate: number | null
+          created_at: string
+          error_message: string | null
+          id: string
+          input_context: Json
+          model_used: string | null
+          organization_id: string
+          output_result: Json | null
+          parent_run_id: string | null
+          prompt_tokens: number | null
+          started_at: string | null
+          status: Database["public"]["Enums"]["ai_run_status"]
+          total_steps: number | null
+          total_tokens_used: number | null
+          trigger_type: string
+          triggered_by: string | null
+        }
+        Insert: {
+          agent_id: string
+          approval_request_id?: string | null
+          completed_at?: string | null
+          completion_tokens?: number | null
+          correlation_id?: string | null
+          cost_estimate?: number | null
+          created_at?: string
+          error_message?: string | null
+          id?: string
+          input_context?: Json
+          model_used?: string | null
+          organization_id: string
+          output_result?: Json | null
+          parent_run_id?: string | null
+          prompt_tokens?: number | null
+          started_at?: string | null
+          status?: Database["public"]["Enums"]["ai_run_status"]
+          total_steps?: number | null
+          total_tokens_used?: number | null
+          trigger_type?: string
+          triggered_by?: string | null
+        }
+        Update: {
+          agent_id?: string
+          approval_request_id?: string | null
+          completed_at?: string | null
+          completion_tokens?: number | null
+          correlation_id?: string | null
+          cost_estimate?: number | null
+          created_at?: string
+          error_message?: string | null
+          id?: string
+          input_context?: Json
+          model_used?: string | null
+          organization_id?: string
+          output_result?: Json | null
+          parent_run_id?: string | null
+          prompt_tokens?: number | null
+          started_at?: string | null
+          status?: Database["public"]["Enums"]["ai_run_status"]
+          total_steps?: number | null
+          total_tokens_used?: number | null
+          trigger_type?: string
+          triggered_by?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ai_runs_agent_id_fkey"
+            columns: ["agent_id"]
+            isOneToOne: false
+            referencedRelation: "ai_agents"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "ai_runs_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "ai_runs_parent_run_id_fkey"
+            columns: ["parent_run_id"]
+            isOneToOne: false
+            referencedRelation: "ai_runs"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "ai_runs_triggered_by_fkey"
+            columns: ["triggered_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      ai_tool_permissions: {
+        Row: {
+          can_execute: boolean
+          created_at: string
+          id: string
+          permission_set_id: string
+          tool_id: string
+        }
+        Insert: {
+          can_execute?: boolean
+          created_at?: string
+          id?: string
+          permission_set_id: string
+          tool_id: string
+        }
+        Update: {
+          can_execute?: boolean
+          created_at?: string
+          id?: string
+          permission_set_id?: string
+          tool_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ai_tool_permissions_permission_set_id_fkey"
+            columns: ["permission_set_id"]
+            isOneToOne: false
+            referencedRelation: "permission_sets"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "ai_tool_permissions_tool_id_fkey"
+            columns: ["tool_id"]
+            isOneToOne: false
+            referencedRelation: "ai_tools"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      ai_tools: {
+        Row: {
+          action_config: Json
+          category: string | null
+          created_at: string
+          created_by: string | null
+          description: string | null
+          icon: string | null
+          id: string
+          is_system: boolean
+          name: string
+          organization_id: string
+          parameters_schema: Json
+          requires_approval: boolean
+          risk_level: Database["public"]["Enums"]["ai_risk_level"]
+          tool_type: Database["public"]["Enums"]["ai_tool_type"]
+          updated_at: string
+        }
+        Insert: {
+          action_config?: Json
+          category?: string | null
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          icon?: string | null
+          id?: string
+          is_system?: boolean
+          name: string
+          organization_id: string
+          parameters_schema?: Json
+          requires_approval?: boolean
+          risk_level?: Database["public"]["Enums"]["ai_risk_level"]
+          tool_type?: Database["public"]["Enums"]["ai_tool_type"]
+          updated_at?: string
+        }
+        Update: {
+          action_config?: Json
+          category?: string | null
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          icon?: string | null
+          id?: string
+          is_system?: boolean
+          name?: string
+          organization_id?: string
+          parameters_schema?: Json
+          requires_approval?: boolean
+          risk_level?: Database["public"]["Enums"]["ai_risk_level"]
+          tool_type?: Database["public"]["Enums"]["ai_tool_type"]
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ai_tools_created_by_fkey"
+            columns: ["created_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "ai_tools_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       approval_requests: {
         Row: {
           approval_level: number | null
@@ -13469,6 +14304,23 @@ export type Database = {
       }
     }
     Functions: {
+      add_ai_run_step: {
+        Args: {
+          _duration_ms?: number
+          _error_message?: string
+          _input_data?: Json
+          _org_id: string
+          _output_data?: Json
+          _run_id: string
+          _status?: string
+          _step_order: number
+          _step_type: string
+          _tokens_used?: number
+          _tool_id?: string
+          _tool_name?: string
+        }
+        Returns: string
+      }
       assign_conversation_to_agent: {
         Args: {
           p_agent_id: string
@@ -13508,6 +14360,48 @@ export type Database = {
       calculate_segment_members: {
         Args: { p_segment_id: string }
         Returns: number
+      }
+      complete_ai_run: {
+        Args: {
+          _completion_tokens?: number
+          _error_message?: string
+          _output_result: Json
+          _prompt_tokens?: number
+          _run_id: string
+          _status?: Database["public"]["Enums"]["ai_run_status"]
+          _total_tokens?: number
+        }
+        Returns: undefined
+      }
+      create_ai_audit_receipt: {
+        Args: {
+          _action_description?: string
+          _action_type?: string
+          _affected_entity_id?: string
+          _affected_entity_type?: string
+          _data_accessed?: Json
+          _data_modified?: Json
+          _execution_context?: Json
+          _org_id: string
+          _pii_detected?: boolean
+          _pii_fields_masked?: string[]
+          _requires_approval?: boolean
+          _risk_level?: Database["public"]["Enums"]["ai_risk_level"]
+          _run_id: string
+          _step_id?: string
+          _tool_used?: string
+        }
+        Returns: string
+      }
+      create_ai_run: {
+        Args: {
+          _agent_id: string
+          _correlation_id?: string
+          _input_context?: Json
+          _org_id: string
+          _trigger_type?: string
+        }
+        Returns: string
       }
       create_chat_session: {
         Args: {
@@ -13592,6 +14486,7 @@ export type Database = {
       generate_request_number: { Args: { org_id: string }; Returns: string }
       generate_return_number: { Args: { org_id: string }; Returns: string }
       generate_ticket_number: { Args: { org_id: string }; Returns: string }
+      get_ai_usage_metrics: { Args: { _org_id: string }; Returns: Json }
       get_next_conversation: { Args: { p_agent_id: string }; Returns: string }
       get_org_enabled_modules: { Args: { _org_id: string }; Returns: Json }
       get_stale_opportunities_count: {
@@ -13732,6 +14627,36 @@ export type Database = {
         | "on_break"
         | "after_call_work"
         | "training"
+      ai_agent_status: "draft" | "testing" | "active" | "paused" | "deprecated"
+      ai_agent_type:
+        | "sales"
+        | "service"
+        | "marketing"
+        | "commerce"
+        | "itsm"
+        | "data_steward"
+        | "compliance"
+        | "custom"
+      ai_policy_type:
+        | "pii_protection"
+        | "rate_limit"
+        | "action_restriction"
+        | "content_filter"
+        | "approval_required"
+      ai_risk_level: "low" | "medium" | "high" | "critical"
+      ai_run_status:
+        | "pending"
+        | "running"
+        | "waiting_approval"
+        | "completed"
+        | "failed"
+        | "cancelled"
+      ai_tool_type:
+        | "http_request"
+        | "database_query"
+        | "rpc_call"
+        | "connector_action"
+        | "workflow_trigger"
       approval_request_status:
         | "pending"
         | "approved"
@@ -14392,6 +15317,40 @@ export const Constants = {
         "on_break",
         "after_call_work",
         "training",
+      ],
+      ai_agent_status: ["draft", "testing", "active", "paused", "deprecated"],
+      ai_agent_type: [
+        "sales",
+        "service",
+        "marketing",
+        "commerce",
+        "itsm",
+        "data_steward",
+        "compliance",
+        "custom",
+      ],
+      ai_policy_type: [
+        "pii_protection",
+        "rate_limit",
+        "action_restriction",
+        "content_filter",
+        "approval_required",
+      ],
+      ai_risk_level: ["low", "medium", "high", "critical"],
+      ai_run_status: [
+        "pending",
+        "running",
+        "waiting_approval",
+        "completed",
+        "failed",
+        "cancelled",
+      ],
+      ai_tool_type: [
+        "http_request",
+        "database_query",
+        "rpc_call",
+        "connector_action",
+        "workflow_trigger",
       ],
       approval_request_status: [
         "pending",
