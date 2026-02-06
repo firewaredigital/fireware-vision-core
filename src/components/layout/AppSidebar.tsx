@@ -48,6 +48,18 @@ import {
   Eye,
   Lock,
   Cpu,
+  Inbox,
+  Radio,
+  Sparkles,
+  FileBarChart,
+  Send,
+  SlidersHorizontal,
+  Brain,
+  Handshake,
+  DollarSign,
+  FolderOpen,
+  Fingerprint,
+  LayoutList,
 } from 'lucide-react';
 import { NavLink } from '@/components/NavLink';
 import {
@@ -85,7 +97,7 @@ interface NavItem {
 interface NavSection {
   key: string;
   label: string;
-  moduleKey?: ModuleKey; // If undefined, always shown
+  moduleKey?: ModuleKey;
   items: NavItem[];
   defaultOpen?: boolean;
 }
@@ -115,9 +127,9 @@ const NAV_SECTIONS: NavSection[] = [
     moduleKey: 'service',
     items: [
       { title: 'Dashboard de Service', url: '/service', icon: Headphones },
-      { title: 'Inbox Omnichannel', url: '/service/inbox', icon: MessageSquare },
+      { title: 'Inbox Omnichannel', url: '/service/inbox', icon: Inbox },
       { title: 'WhatsApp', url: '/service/whatsapp', icon: MessageSquare },
-      { title: 'Chat Widgets', url: '/service/chat-widgets', icon: MessageSquare },
+      { title: 'Chat Widgets', url: '/service/chat-widgets', icon: Radio },
       { title: 'Telefonia', url: '/service/voice', icon: Headphones },
       { title: 'Tickets', url: '/tickets', icon: Ticket },
       { title: 'Base de Conhecimento', url: '/knowledge', icon: BookOpen },
@@ -134,6 +146,10 @@ const NAV_SECTIONS: NavSection[] = [
       { title: 'Campanhas', url: '/marketing/campaigns', icon: Mail },
       { title: 'Segmentos', url: '/marketing/segments', icon: Filter },
       { title: 'Jornadas', url: '/marketing/journeys', icon: Route },
+      { title: 'Provedores', url: '/marketing/providers', icon: Send },
+      { title: 'Preferências', url: '/marketing/preference-center', icon: SlidersHorizontal },
+      { title: 'Personalização', url: '/marketing/personalization', icon: Sparkles },
+      { title: 'Intelligence', url: '/marketing/intelligence', icon: Brain },
     ],
     defaultOpen: true,
   },
@@ -189,8 +205,12 @@ const NAV_SECTIONS: NavSection[] = [
       { title: 'Funil Completo', url: '/full-funnel', icon: Layers },
       { title: 'Atribuição', url: '/attribution', icon: Activity },
       { title: 'Customer 360', url: '/customer-360', icon: UserCircle },
+      { title: 'Golden Records', url: '/data-hub/golden-records', icon: Fingerprint },
+      { title: 'Fontes de Dados', url: '/data-hub/sources', icon: Database },
+      { title: 'Event Schemas', url: '/data-hub/schemas', icon: LayoutList },
+      { title: 'Activation', url: '/data-hub/activation', icon: Zap },
     ],
-    defaultOpen: true,
+    defaultOpen: false,
   },
   {
     key: 'ai_agents',
@@ -213,6 +233,8 @@ const NAV_SECTIONS: NavSection[] = [
       { title: 'Catálogo', url: '/integrations/catalog', icon: Link },
       { title: 'Instâncias', url: '/integrations/instances', icon: Cpu },
       { title: 'Monitoramento', url: '/integrations/monitoring', icon: Activity },
+      { title: 'Dead Letter Queue', url: '/integrations/dlq', icon: AlertTriangle },
+      { title: 'Webhooks', url: '/integrations/webhooks', icon: Globe },
     ],
     defaultOpen: false,
   },
@@ -222,6 +244,7 @@ const NAV_SECTIONS: NavSection[] = [
     moduleKey: 'portals',
     items: [
       { title: 'Portal do Cliente', url: '/portal', icon: Globe },
+      { title: 'Portal de Parceiros', url: '/partner', icon: Handshake },
     ],
     defaultOpen: false,
   },
@@ -257,7 +280,6 @@ export function AppSidebar() {
   const { isModuleEnabled, isLoading: modulesLoading } = useModuleAccess();
   const collapsed = state === 'collapsed';
 
-  // Track open/close state per section
   const [openSections, setOpenSections] = useState<Record<string, boolean>>(() => {
     const initial: Record<string, boolean> = {};
     NAV_SECTIONS.forEach(s => {
@@ -335,11 +357,9 @@ export function AppSidebar() {
     </SidebarGroup>
   );
 
-  // Determine which sections to show based on module access
-  // While loading, show all sections to avoid flicker
   const shouldShowSection = (section: NavSection): boolean => {
     if (!section.moduleKey) return true;
-    if (modulesLoading) return true; // Show all while loading
+    if (modulesLoading) return true;
     return isModuleEnabled(section.moduleKey);
   };
 
@@ -362,7 +382,7 @@ export function AppSidebar() {
       </SidebarHeader>
 
       <SidebarContent className="scrollbar-thin">
-        {/* Main Navigation - always visible */}
+        {/* Main Navigation */}
         <SidebarGroup>
           <SidebarGroupContent>
             <SidebarMenu>{mainNavItems.map(renderNavItem)}</SidebarMenu>
@@ -374,13 +394,13 @@ export function AppSidebar() {
           renderCollapsibleSection(section.key, section.label, section.items)
         )}
 
-        {/* Management - always visible */}
+        {/* Management */}
         {renderCollapsibleSection('management', 'Gestão', managementNavItems)}
 
         {/* Admin Platform */}
         {renderCollapsibleSection('admin', 'Administração', adminNavItems)}
 
-        {/* Settings - always visible */}
+        {/* Settings */}
         <SidebarGroup>
           <SidebarGroupContent>
             <SidebarMenu>{settingsNavItems.map(renderNavItem)}</SidebarMenu>

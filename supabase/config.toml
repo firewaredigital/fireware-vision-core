@@ -14,3 +14,9 @@ verify_jwt = false
 
 [functions.ai-agent-execute]
 verify_jwt = false
+
+[functions.send-message]
+verify_jwt = false
+
+[functions.journey-processor]
+verify_jwt = false
