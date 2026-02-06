@@ -6197,6 +6197,225 @@ export type Database = {
           },
         ]
       }
+      dashboard_widgets: {
+        Row: {
+          aggregation_period:
+            | Database["public"]["Enums"]["aggregation_period"]
+            | null
+          cache_ttl_seconds: number | null
+          cached_data: Json | null
+          chart_config: Json
+          click_action: string | null
+          click_target: string | null
+          created_at: string
+          dashboard_id: string
+          data_source: string
+          date_range: string | null
+          description: string | null
+          display_order: number | null
+          drill_down_config: Json | null
+          error_message: string | null
+          filters: Json | null
+          height: number
+          id: string
+          is_loading: boolean
+          is_visible: boolean
+          last_data_refresh: string | null
+          min_height: number | null
+          min_width: number | null
+          name: string
+          organization_id: string
+          position_x: number
+          position_y: number
+          query_config: Json
+          updated_at: string
+          widget_type: Database["public"]["Enums"]["widget_type"]
+          width: number
+        }
+        Insert: {
+          aggregation_period?:
+            | Database["public"]["Enums"]["aggregation_period"]
+            | null
+          cache_ttl_seconds?: number | null
+          cached_data?: Json | null
+          chart_config?: Json
+          click_action?: string | null
+          click_target?: string | null
+          created_at?: string
+          dashboard_id: string
+          data_source: string
+          date_range?: string | null
+          description?: string | null
+          display_order?: number | null
+          drill_down_config?: Json | null
+          error_message?: string | null
+          filters?: Json | null
+          height?: number
+          id?: string
+          is_loading?: boolean
+          is_visible?: boolean
+          last_data_refresh?: string | null
+          min_height?: number | null
+          min_width?: number | null
+          name: string
+          organization_id: string
+          position_x?: number
+          position_y?: number
+          query_config?: Json
+          updated_at?: string
+          widget_type: Database["public"]["Enums"]["widget_type"]
+          width?: number
+        }
+        Update: {
+          aggregation_period?:
+            | Database["public"]["Enums"]["aggregation_period"]
+            | null
+          cache_ttl_seconds?: number | null
+          cached_data?: Json | null
+          chart_config?: Json
+          click_action?: string | null
+          click_target?: string | null
+          created_at?: string
+          dashboard_id?: string
+          data_source?: string
+          date_range?: string | null
+          description?: string | null
+          display_order?: number | null
+          drill_down_config?: Json | null
+          error_message?: string | null
+          filters?: Json | null
+          height?: number
+          id?: string
+          is_loading?: boolean
+          is_visible?: boolean
+          last_data_refresh?: string | null
+          min_height?: number | null
+          min_width?: number | null
+          name?: string
+          organization_id?: string
+          position_x?: number
+          position_y?: number
+          query_config?: Json
+          updated_at?: string
+          widget_type?: Database["public"]["Enums"]["widget_type"]
+          width?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "dashboard_widgets_dashboard_id_fkey"
+            columns: ["dashboard_id"]
+            isOneToOne: false
+            referencedRelation: "dashboards"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "dashboard_widgets_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      dashboards: {
+        Row: {
+          auto_refresh_seconds: number | null
+          created_at: string
+          created_by: string | null
+          default_date_range: string | null
+          description: string | null
+          display_order: number | null
+          global_filters: Json | null
+          id: string
+          is_default: boolean
+          is_favorite: boolean
+          is_system: boolean
+          last_viewed_at: string | null
+          layout_config: Json
+          module: Database["public"]["Enums"]["dashboard_module"]
+          name: string
+          organization_id: string
+          shared_with_roles: string[] | null
+          shared_with_users: string[] | null
+          tags: string[] | null
+          theme_config: Json | null
+          thumbnail_url: string | null
+          updated_at: string
+          version: number
+          view_count: number
+          visibility: Database["public"]["Enums"]["dashboard_visibility"]
+        }
+        Insert: {
+          auto_refresh_seconds?: number | null
+          created_at?: string
+          created_by?: string | null
+          default_date_range?: string | null
+          description?: string | null
+          display_order?: number | null
+          global_filters?: Json | null
+          id?: string
+          is_default?: boolean
+          is_favorite?: boolean
+          is_system?: boolean
+          last_viewed_at?: string | null
+          layout_config?: Json
+          module?: Database["public"]["Enums"]["dashboard_module"]
+          name: string
+          organization_id: string
+          shared_with_roles?: string[] | null
+          shared_with_users?: string[] | null
+          tags?: string[] | null
+          theme_config?: Json | null
+          thumbnail_url?: string | null
+          updated_at?: string
+          version?: number
+          view_count?: number
+          visibility?: Database["public"]["Enums"]["dashboard_visibility"]
+        }
+        Update: {
+          auto_refresh_seconds?: number | null
+          created_at?: string
+          created_by?: string | null
+          default_date_range?: string | null
+          description?: string | null
+          display_order?: number | null
+          global_filters?: Json | null
+          id?: string
+          is_default?: boolean
+          is_favorite?: boolean
+          is_system?: boolean
+          last_viewed_at?: string | null
+          layout_config?: Json
+          module?: Database["public"]["Enums"]["dashboard_module"]
+          name?: string
+          organization_id?: string
+          shared_with_roles?: string[] | null
+          shared_with_users?: string[] | null
+          tags?: string[] | null
+          theme_config?: Json | null
+          thumbnail_url?: string | null
+          updated_at?: string
+          version?: number
+          view_count?: number
+          visibility?: Database["public"]["Enums"]["dashboard_visibility"]
+        }
+        Relationships: [
+          {
+            foreignKeyName: "dashboards_created_by_fkey"
+            columns: ["created_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "dashboards_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       data_retention_policies: {
         Row: {
           action: string
@@ -14447,6 +14666,235 @@ export type Database = {
           },
         ]
       }
+      report_definitions: {
+        Row: {
+          avg_run_duration_ms: number | null
+          columns: Json
+          created_at: string
+          created_by: string | null
+          data_source: string
+          description: string | null
+          filters: Json | null
+          formatting_rules: Json | null
+          group_by: Json | null
+          id: string
+          is_favorite: boolean
+          is_scheduled: boolean
+          is_system: boolean
+          last_run_at: string | null
+          module: Database["public"]["Enums"]["dashboard_module"]
+          name: string
+          next_scheduled_at: string | null
+          organization_id: string
+          query_config: Json
+          report_type: string
+          run_count: number
+          schedule_cron: string | null
+          schedule_format: Database["public"]["Enums"]["report_format"] | null
+          schedule_recipients: string[] | null
+          schedule_timezone: string | null
+          shared_with_users: string[] | null
+          sort_by: Json | null
+          summary_fields: Json | null
+          tags: string[] | null
+          updated_at: string
+          visibility: Database["public"]["Enums"]["dashboard_visibility"]
+        }
+        Insert: {
+          avg_run_duration_ms?: number | null
+          columns?: Json
+          created_at?: string
+          created_by?: string | null
+          data_source: string
+          description?: string | null
+          filters?: Json | null
+          formatting_rules?: Json | null
+          group_by?: Json | null
+          id?: string
+          is_favorite?: boolean
+          is_scheduled?: boolean
+          is_system?: boolean
+          last_run_at?: string | null
+          module?: Database["public"]["Enums"]["dashboard_module"]
+          name: string
+          next_scheduled_at?: string | null
+          organization_id: string
+          query_config?: Json
+          report_type?: string
+          run_count?: number
+          schedule_cron?: string | null
+          schedule_format?: Database["public"]["Enums"]["report_format"] | null
+          schedule_recipients?: string[] | null
+          schedule_timezone?: string | null
+          shared_with_users?: string[] | null
+          sort_by?: Json | null
+          summary_fields?: Json | null
+          tags?: string[] | null
+          updated_at?: string
+          visibility?: Database["public"]["Enums"]["dashboard_visibility"]
+        }
+        Update: {
+          avg_run_duration_ms?: number | null
+          columns?: Json
+          created_at?: string
+          created_by?: string | null
+          data_source?: string
+          description?: string | null
+          filters?: Json | null
+          formatting_rules?: Json | null
+          group_by?: Json | null
+          id?: string
+          is_favorite?: boolean
+          is_scheduled?: boolean
+          is_system?: boolean
+          last_run_at?: string | null
+          module?: Database["public"]["Enums"]["dashboard_module"]
+          name?: string
+          next_scheduled_at?: string | null
+          organization_id?: string
+          query_config?: Json
+          report_type?: string
+          run_count?: number
+          schedule_cron?: string | null
+          schedule_format?: Database["public"]["Enums"]["report_format"] | null
+          schedule_recipients?: string[] | null
+          schedule_timezone?: string | null
+          shared_with_users?: string[] | null
+          sort_by?: Json | null
+          summary_fields?: Json | null
+          tags?: string[] | null
+          updated_at?: string
+          visibility?: Database["public"]["Enums"]["dashboard_visibility"]
+        }
+        Relationships: [
+          {
+            foreignKeyName: "report_definitions_created_by_fkey"
+            columns: ["created_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "report_definitions_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      report_runs: {
+        Row: {
+          applied_filters: Json | null
+          completed_at: string | null
+          created_at: string
+          date_range_end: string | null
+          date_range_start: string | null
+          duration_ms: number | null
+          error_details: Json | null
+          error_message: string | null
+          expires_at: string | null
+          file_size_bytes: number | null
+          file_url: string | null
+          format: Database["public"]["Enums"]["report_format"]
+          id: string
+          max_retries: number
+          notification_sent: boolean
+          notification_sent_at: string | null
+          notified_users: string[] | null
+          organization_id: string
+          parameters: Json | null
+          report_id: string
+          result_preview: Json | null
+          retry_count: number
+          row_count: number | null
+          started_at: string | null
+          status: Database["public"]["Enums"]["report_status"]
+          trigger_type: string
+          triggered_by: string | null
+        }
+        Insert: {
+          applied_filters?: Json | null
+          completed_at?: string | null
+          created_at?: string
+          date_range_end?: string | null
+          date_range_start?: string | null
+          duration_ms?: number | null
+          error_details?: Json | null
+          error_message?: string | null
+          expires_at?: string | null
+          file_size_bytes?: number | null
+          file_url?: string | null
+          format?: Database["public"]["Enums"]["report_format"]
+          id?: string
+          max_retries?: number
+          notification_sent?: boolean
+          notification_sent_at?: string | null
+          notified_users?: string[] | null
+          organization_id: string
+          parameters?: Json | null
+          report_id: string
+          result_preview?: Json | null
+          retry_count?: number
+          row_count?: number | null
+          started_at?: string | null
+          status?: Database["public"]["Enums"]["report_status"]
+          trigger_type?: string
+          triggered_by?: string | null
+        }
+        Update: {
+          applied_filters?: Json | null
+          completed_at?: string | null
+          created_at?: string
+          date_range_end?: string | null
+          date_range_start?: string | null
+          duration_ms?: number | null
+          error_details?: Json | null
+          error_message?: string | null
+          expires_at?: string | null
+          file_size_bytes?: number | null
+          file_url?: string | null
+          format?: Database["public"]["Enums"]["report_format"]
+          id?: string
+          max_retries?: number
+          notification_sent?: boolean
+          notification_sent_at?: string | null
+          notified_users?: string[] | null
+          organization_id?: string
+          parameters?: Json | null
+          report_id?: string
+          result_preview?: Json | null
+          retry_count?: number
+          row_count?: number | null
+          started_at?: string | null
+          status?: Database["public"]["Enums"]["report_status"]
+          trigger_type?: string
+          triggered_by?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "report_runs_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "report_runs_report_id_fkey"
+            columns: ["report_id"]
+            isOneToOne: false
+            referencedRelation: "report_definitions"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "report_runs_triggered_by_fkey"
+            columns: ["triggered_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       returns: {
         Row: {
           approved_at: string | null
@@ -19210,6 +19658,14 @@ export type Database = {
         Args: { p_segment_id: string }
         Returns: number
       }
+      clone_dashboard: {
+        Args: {
+          p_dashboard_id: string
+          p_new_name?: string
+          p_new_owner?: string
+        }
+        Returns: string
+      }
       complete_ai_run: {
         Args: {
           _completion_tokens?: number
@@ -19345,6 +19801,7 @@ export type Database = {
       generate_invoice_number: { Args: { org_id: string }; Returns: string }
       generate_order_number: { Args: { org_id: string }; Returns: string }
       generate_problem_number: { Args: { org_id: string }; Returns: string }
+      generate_report_number: { Args: { org_id: string }; Returns: string }
       generate_request_number: { Args: { org_id: string }; Returns: string }
       generate_return_number: { Args: { org_id: string }; Returns: string }
       generate_subscription_number: {
@@ -19523,6 +19980,15 @@ export type Database = {
         | "on_break"
         | "after_call_work"
         | "training"
+      aggregation_period:
+        | "realtime"
+        | "hourly"
+        | "daily"
+        | "weekly"
+        | "monthly"
+        | "quarterly"
+        | "yearly"
+        | "custom"
       ai_agent_status: "draft" | "testing" | "active" | "paused" | "deprecated"
       ai_agent_type:
         | "sales"
@@ -19769,6 +20235,17 @@ export type Database = {
         | "dependency"
         | "pricing"
         | "validation"
+      dashboard_module:
+        | "sales"
+        | "service"
+        | "marketing"
+        | "commerce"
+        | "itsm"
+        | "ai_agents"
+        | "data_hub"
+        | "integrations"
+        | "general"
+      dashboard_visibility: "private" | "team" | "organization" | "public"
       data_source_type:
         | "internal"
         | "api"
@@ -20102,6 +20579,14 @@ export type Database = {
         | "calibrated"
       qa_scorecard_status: "draft" | "active" | "archived"
       quote_status: "draft" | "sent" | "accepted" | "rejected" | "expired"
+      report_format: "pdf" | "csv" | "xlsx" | "json" | "html"
+      report_status:
+        | "pending"
+        | "running"
+        | "completed"
+        | "failed"
+        | "cancelled"
+        | "expired"
       return_status:
         | "requested"
         | "approved"
@@ -20240,6 +20725,21 @@ export type Database = {
         | "rejected"
         | "paused"
         | "disabled"
+      widget_type:
+        | "kpi_card"
+        | "bar_chart"
+        | "line_chart"
+        | "area_chart"
+        | "pie_chart"
+        | "donut_chart"
+        | "table"
+        | "funnel"
+        | "gauge"
+        | "heatmap"
+        | "scatter"
+        | "treemap"
+        | "metric_comparison"
+        | "sparkline"
       workflow_run_status:
         | "pending"
         | "running"
@@ -20425,6 +20925,16 @@ export const Constants = {
         "on_break",
         "after_call_work",
         "training",
+      ],
+      aggregation_period: [
+        "realtime",
+        "hourly",
+        "daily",
+        "weekly",
+        "monthly",
+        "quarterly",
+        "yearly",
+        "custom",
       ],
       ai_agent_status: ["draft", "testing", "active", "paused", "deprecated"],
       ai_agent_type: [
@@ -20698,6 +21208,18 @@ export const Constants = {
         "pricing",
         "validation",
       ],
+      dashboard_module: [
+        "sales",
+        "service",
+        "marketing",
+        "commerce",
+        "itsm",
+        "ai_agents",
+        "data_hub",
+        "integrations",
+        "general",
+      ],
+      dashboard_visibility: ["private", "team", "organization", "public"],
       data_source_type: [
         "internal",
         "api",
@@ -21063,6 +21585,15 @@ export const Constants = {
       ],
       qa_scorecard_status: ["draft", "active", "archived"],
       quote_status: ["draft", "sent", "accepted", "rejected", "expired"],
+      report_format: ["pdf", "csv", "xlsx", "json", "html"],
+      report_status: [
+        "pending",
+        "running",
+        "completed",
+        "failed",
+        "cancelled",
+        "expired",
+      ],
       return_status: [
         "requested",
         "approved",
@@ -21211,6 +21742,22 @@ export const Constants = {
         "rejected",
         "paused",
         "disabled",
+      ],
+      widget_type: [
+        "kpi_card",
+        "bar_chart",
+        "line_chart",
+        "area_chart",
+        "pie_chart",
+        "donut_chart",
+        "table",
+        "funnel",
+        "gauge",
+        "heatmap",
+        "scatter",
+        "treemap",
+        "metric_comparison",
+        "sparkline",
       ],
       workflow_run_status: [
         "pending",

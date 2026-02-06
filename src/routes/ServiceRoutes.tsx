@@ -15,6 +15,7 @@ import VoiceAdmin from "@/pages/service/VoiceAdmin";
 import QADashboard from "@/pages/service/QADashboard";
 import ServiceQueues from "@/pages/service/ServiceQueues";
 import SocialInbox from "@/pages/service/SocialInbox";
+import ServiceAnalytics from "@/pages/service/ServiceAnalytics";
 
 export function ServiceRoutes() {
   return [
@@ -33,6 +34,7 @@ export function ServiceRoutes() {
     <Route key="service-queues" path="/service/queues" element={<ModuleGuard moduleKey="service"><ServiceQueues /></ModuleGuard>} />,
     <Route key="service-qa" path="/service/qa" element={<ModuleGuard moduleKey="service"><QADashboard /></ModuleGuard>} />,
     <Route key="service-social" path="/service/social" element={<ModuleGuard moduleKey="service"><SocialInbox /></ModuleGuard>} />,
+    <Route key="service-analytics" path="/service/analytics" element={<ModuleGuard moduleKey="service"><ServiceAnalytics /></ModuleGuard>} />,
     <Route key="service-wa" path="/service/whatsapp" element={<ModuleGuard moduleKey="service"><WhatsAppAdmin /></ModuleGuard>} />,
     <Route key="service-chat" path="/service/chat-widgets" element={<ModuleGuard moduleKey="service"><ChatWidgetsAdmin /></ModuleGuard>} />,
     <Route key="service-voice" path="/service/voice" element={<ModuleGuard moduleKey="service"><VoiceAdmin /></ModuleGuard>} />,
