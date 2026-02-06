@@ -79,6 +79,9 @@ import Customer360 from "./pages/Customer360";
 // Service Extras
 import CannedResponses from "./pages/CannedResponses";
 import OmnichannelInbox from "./pages/OmnichannelInbox";
+import WhatsAppAdmin from "./pages/service/WhatsAppAdmin";
+import ChatWidgetsAdmin from "./pages/service/ChatWidgetsAdmin";
+import VoiceAdmin from "./pages/service/VoiceAdmin";
 // Portal Module
 import PortalLogin from "./pages/portal/PortalLogin";
 import PortalTickets from "./pages/portal/PortalTickets";
@@ -161,6 +164,9 @@ const App = () => (
             {/* Service Dashboard */}
             <Route path="/service" element={<ServiceDashboard />} />
             <Route path="/service/inbox" element={<OmnichannelInbox />} />
+            <Route path="/service/whatsapp" element={<WhatsAppAdmin />} />
+            <Route path="/service/chat-widgets" element={<ChatWidgetsAdmin />} />
+            <Route path="/service/voice" element={<VoiceAdmin />} />
             
             {/* Governance */}
             <Route path="/governance" element={<Governance />} />
