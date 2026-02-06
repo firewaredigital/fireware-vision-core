@@ -47,6 +47,7 @@ import { Timeline } from '@/components/Timeline';
 import { NotesWidget } from '@/components/NotesWidget';
 import { ActivitiesWidget } from '@/components/ActivitiesWidget';
 import { format } from 'date-fns';
+import { ChangeHistory } from '@/components/ChangeHistory';
 
 interface Contact {
   id: string;
@@ -340,6 +341,7 @@ export default function ContactDetail() {
                 <TabsTrigger value="opportunities">Oportunidades ({opportunities.length})</TabsTrigger>
                 <TabsTrigger value="activities">Atividades</TabsTrigger>
                 <TabsTrigger value="timeline">Linha do Tempo</TabsTrigger>
+                <TabsTrigger value="history">Histórico</TabsTrigger>
               </TabsList>
 
               <TabsContent value="details" className="mt-6">

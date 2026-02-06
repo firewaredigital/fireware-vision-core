@@ -36,6 +36,7 @@ import {
 import { AppLayout } from '@/components/layout/AppLayout';
 import { Timeline } from '@/components/Timeline';
 import { useAuth } from '@/hooks/useAuth';
+import { ChangeHistory } from '@/components/ChangeHistory';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
 import {
@@ -445,6 +446,7 @@ export default function QuoteDetail() {
                 <TabsTrigger value="items">Itens</TabsTrigger>
                 <TabsTrigger value="details">Detalhes</TabsTrigger>
                 <TabsTrigger value="timeline">Linha do Tempo</TabsTrigger>
+                <TabsTrigger value="history">Histórico</TabsTrigger>
               </TabsList>
 
               <TabsContent value="items" className="mt-6">

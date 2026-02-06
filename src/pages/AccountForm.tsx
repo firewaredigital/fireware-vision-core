@@ -29,6 +29,8 @@ import { AppLayout } from '@/components/layout/AppLayout';
 import { useAuth } from '@/hooks/useAuth';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
+import { CustomFieldsRenderer } from '@/components/CustomFieldsRenderer';
+import { useCustomFieldDefinitions, useCustomFieldValues, useSaveCustomFieldValues, getFieldValue } from '@/hooks/useCustomFields';
 
 const accountSchema = z.object({
   name: z.string().min(1, 'Nome da empresa é obrigatório').max(255),
@@ -111,6 +113,21 @@ export default function AccountForm() {
   const [users, setUsers] = useState<User[]>([]);
   const [tags, setTags] = useState<string[]>([]);
   const [tagInput, setTagInput] = useState('');
+  const { data: customFieldDefs = [] } = useCustomFieldDefinitions('account');
+  const { data: customFieldValuesData = [] } = useCustomFieldValues('account', id);
+  const saveCustomFields = useSaveCustomFieldValues();
+  const [customFieldValues, setCustomFieldValues] = useState<Record<string, any>>({});
+
+  useEffect(() => {
+    if (customFieldDefs.length > 0) {
+      const values: Record<string, any> = {};
+      customFieldDefs.forEach(def => {
+        const fieldValue = customFieldValuesData.find(v => v.field_definition_id === def.id);
+        values[def.id] = getFieldValue(def, fieldValue);
+      });
+      setCustomFieldValues(values);
+    }
+  }, [customFieldDefs, customFieldValuesData]);
 
   const isEditing = Boolean(id);
 
@@ -265,6 +282,9 @@ export default function AccountForm() {
         toast({ variant: 'destructive', title: 'Erro', description: 'Falha ao atualizar conta' });
       } else {
         toast({ title: 'Conta atualizada' });
+        if (customFieldDefs.length > 0 && id) {
+          saveCustomFields.mutate({ entityType: 'account', entityId: id, values: customFieldValues, definitions: customFieldDefs });
+        }
         navigate(`/accounts/${id}`);
       }
     } else {
@@ -278,6 +298,9 @@ export default function AccountForm() {
         toast({ variant: 'destructive', title: 'Erro', description: 'Falha ao criar conta' });
       } else {
         toast({ title: 'Conta criada' });
+        if (customFieldDefs.length > 0) {
+          saveCustomFields.mutate({ entityType: 'account', entityId: newAccount.id, values: customFieldValues, definitions: customFieldDefs });
+        }
         navigate(`/accounts/${newAccount.id}`);
       }
     }
@@ -725,6 +748,16 @@ export default function AccountForm() {
                 )}
               </CardContent>
             </Card>
+
+            {/* Custom Fields */}
+            {customFieldDefs.length > 0 && (
+              <CustomFieldsRenderer
+                entityType="account"
+                definitions={customFieldDefs}
+                values={customFieldValues}
+                onChange={setCustomFieldValues}
+              />
+            )}
 
             {/* Actions */}
             <div className="flex justify-end gap-4">

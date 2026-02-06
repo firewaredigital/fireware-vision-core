@@ -14,6 +14,7 @@ import { useAuth } from '@/hooks/useAuth';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
 import { Skeleton } from '@/components/ui/skeleton';
+import { ChangeHistory } from '@/components/ChangeHistory';
 
 interface OpportunityData {
   id: string;
@@ -288,6 +289,7 @@ export default function OpportunityDetail() {
               <TabsList>
                 <TabsTrigger value="timeline">Linha do Tempo</TabsTrigger>
                 <TabsTrigger value="contacts">Stakeholders ({contacts.length})</TabsTrigger>
+                <TabsTrigger value="history">Histórico</TabsTrigger>
               </TabsList>
               
               <TabsContent value="timeline" className="mt-4">
