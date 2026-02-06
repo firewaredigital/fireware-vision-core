@@ -133,7 +133,7 @@ export default function WhatsAppAdmin() {
         .limit(100);
       
       if (statusFilter !== 'all') {
-        query = query.eq('status', statusFilter);
+        query = query.eq('status', statusFilter as Database['public']['Enums']['whatsapp_message_status']);
       }
       
       if (searchQuery) {
@@ -166,19 +166,18 @@ export default function WhatsAppAdmin() {
   const createAccountMutation = useMutation({
     mutationFn: async (data: typeof accountForm) => {
       if (!profile?.organization_id || !profile?.id) throw new Error('Não autenticado');
-      const { error } = await supabase.from('whatsapp_accounts').insert({
+      const { error } = await supabase.from('whatsapp_accounts').insert([{
         organization_id: profile.organization_id,
         phone_number_id: data.phone_number_id,
         display_phone: data.display_phone,
         waba_id: data.waba_id || null,
-        business_name: data.business_name || null,
+        business_name: data.business_name || 'Empresa',
         api_token_encrypted: data.api_token,
-        webhook_verify_token: data.webhook_verify_token || null,
-        status: 'pending',
-        is_active: false,
+        webhook_verify_token: data.webhook_verify_token || crypto.randomUUID().replace(/-/g, ''),
+        status: 'pending_verification' as const,
         created_by: profile.id,
         updated_by: profile.id,
-      });
+      }]);
       if (error) throw error;
     },
     onSuccess: () => {
@@ -227,21 +226,21 @@ export default function WhatsAppAdmin() {
   const createTemplateMutation = useMutation({
     mutationFn: async (data: typeof templateForm) => {
       if (!profile?.organization_id || !profile?.id) throw new Error('Não autenticado');
-      const { error } = await supabase.from('whatsapp_templates').insert({
+      const { error } = await supabase.from('whatsapp_templates').insert([{
         organization_id: profile.organization_id,
         whatsapp_account_id: data.whatsapp_account_id,
         template_name: data.template_name,
-        category: data.category,
+        category: data.category as Database['public']['Enums']['whatsapp_template_category'],
         language: data.language,
         header_type: data.header_type !== 'none' ? data.header_type : null,
         header_content: data.header_content || null,
-        body_content: data.body_content,
-        footer_content: data.footer_content || null,
+        body_text: data.body_content,
+        footer_text: data.footer_content || null,
         variables: data.variables ? data.variables.split(',').map(v => v.trim()) : null,
-        status: 'draft',
+        status: 'pending' as const,
         created_by: profile.id,
         updated_by: profile.id,
-      });
+      }]);
       if (error) throw error;
     },
     onSuccess: () => {
@@ -338,12 +337,12 @@ export default function WhatsAppAdmin() {
   // Calculate stats
   const stats = {
     totalAccounts: accounts?.length || 0,
-    activeAccounts: accounts?.filter(a => a.is_active).length || 0,
+    activeAccounts: accounts?.filter(a => a.status === 'active').length || 0,
     totalTemplates: templates?.length || 0,
     approvedTemplates: templates?.filter(t => t.status === 'approved').length || 0,
     messagesToday: accounts?.reduce((sum, a) => sum + (a.messages_sent_today || 0), 0) || 0,
     messagesReceivedToday: accounts?.reduce((sum, a) => sum + (a.messages_received_today || 0), 0) || 0,
-    totalOptins: optins?.filter(o => o.optin_status === 'opted_in').length || 0,
+    totalOptins: optins?.filter(o => o.is_opted_in).length || 0,
   };
 
   const webhookUrl = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/whatsapp-webhook`;
@@ -619,9 +618,9 @@ export default function WhatsAppAdmin() {
                             </Label>
                             <Switch
                               id={`active-${account.id}`}
-                              checked={account.is_active}
+                              checked={account.status === 'active'}
                               onCheckedChange={(checked) => 
-                                updateAccountMutation.mutate({ id: account.id, data: { is_active: checked } })
+                                updateAccountMutation.mutate({ id: account.id, data: { status: checked ? 'active' : 'suspended' } })
                               }
                             />
                           </div>
@@ -896,11 +895,11 @@ export default function WhatsAppAdmin() {
                         </CardHeader>
                         <CardContent className="pt-0">
                           <div className="text-sm text-muted-foreground line-clamp-3 mb-3">
-                            {template.body_content}
+                            {template.body_text}
                           </div>
-                          {template.variables && template.variables.length > 0 && (
+                          {template.variables && Array.isArray(template.variables) && (template.variables as unknown as string[]).length > 0 && (
                             <div className="flex flex-wrap gap-1 mb-3">
-                              {template.variables.map((variable, idx) => (
+                              {(template.variables as unknown as string[]).map((variable: string, idx: number) => (
                                 <Badge key={idx} variant="outline" className="text-xs">
                                   {variable}
                                 </Badge>
@@ -1098,19 +1097,25 @@ export default function WhatsAppAdmin() {
                       {optins.map((optin) => (
                         <TableRow key={optin.id}>
                           <TableCell className="font-mono">{optin.phone_number}</TableCell>
-                          <TableCell>{getStatusBadge(optin.optin_status)}</TableCell>
                           <TableCell>
-                            <Badge variant="outline">{optin.optin_source || 'N/A'}</Badge>
+                            <Badge variant={optin.is_opted_in ? 'default' : 'destructive'}>
+                              {optin.is_opted_in ? 'Opted In' : 'Opted Out'}
+                            </Badge>
                           </TableCell>
-                          <TableCell>{optin.message_count}</TableCell>
+                          <TableCell>
+                            <Badge variant="outline">{optin.opt_in_source || 'N/A'}</Badge>
+                          </TableCell>
+                          <TableCell>
+                            {optin.marketing_opted_in ? '✓' : '—'}
+                          </TableCell>
                           <TableCell className="text-sm text-muted-foreground">
                             {optin.opted_in_at
                               ? format(new Date(optin.opted_in_at), "dd/MM/yy HH:mm", { locale: ptBR })
                               : '-'}
                           </TableCell>
                           <TableCell className="text-sm text-muted-foreground">
-                            {optin.last_message_at
-                              ? format(new Date(optin.last_message_at), "dd/MM/yy HH:mm", { locale: ptBR })
+                            {optin.updated_at
+                              ? format(new Date(optin.updated_at), "dd/MM/yy HH:mm", { locale: ptBR })
                               : '-'}
                           </TableCell>
                           <TableCell>
