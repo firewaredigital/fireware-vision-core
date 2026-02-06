@@ -78,6 +78,7 @@ import AttributionDashboard from "./pages/AttributionDashboard";
 import Customer360 from "./pages/Customer360";
 // Service Extras
 import CannedResponses from "./pages/CannedResponses";
+import OmnichannelInbox from "./pages/OmnichannelInbox";
 // Portal Module
 import PortalLogin from "./pages/portal/PortalLogin";
 import PortalTickets from "./pages/portal/PortalTickets";
@@ -159,6 +160,7 @@ const App = () => (
             
             {/* Service Dashboard */}
             <Route path="/service" element={<ServiceDashboard />} />
+            <Route path="/service/inbox" element={<OmnichannelInbox />} />
             
             {/* Governance */}
             <Route path="/governance" element={<Governance />} />
