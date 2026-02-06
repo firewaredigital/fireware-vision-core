@@ -83,6 +83,9 @@ const salesNavItems = [
 const serviceNavItems = [
   { title: 'Dashboard de Service', url: '/service', icon: Headphones },
   { title: 'Inbox Omnichannel', url: '/service/inbox', icon: MessageSquare },
+  { title: 'WhatsApp', url: '/service/whatsapp', icon: MessageSquare },
+  { title: 'Chat Widgets', url: '/service/chat-widgets', icon: MessageSquare },
+  { title: 'Telefonia', url: '/service/voice', icon: Headphones },
   { title: 'Tickets', url: '/tickets', icon: Ticket },
   { title: 'Base de Conhecimento', url: '/knowledge', icon: BookOpen },
   { title: 'Customer Success', url: '/customer-success', icon: Heart },
