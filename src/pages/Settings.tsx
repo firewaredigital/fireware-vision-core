@@ -11,7 +11,6 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, Dialog
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { AppLayout } from '@/components/layout/AppLayout';
 import { useAuth } from '@/hooks/useAuth';
 import { useToast } from '@/hooks/use-toast';
 import { supabase } from '@/integrations/supabase/client';
@@ -93,10 +92,6 @@ export default function Settings() {
   const [teamFormOpen, setTeamFormOpen] = useState(false);
   const [editingTeam, setEditingTeam] = useState<Team | null>(null);
   const [teamForm, setTeamForm] = useState({ name: '', description: '' });
-
-  useEffect(() => {
-    if (!loading && !user) navigate('/auth');
-  }, [user, loading, navigate]);
 
   // Fetch organization ID
   const { data: profile } = useQuery({
@@ -373,12 +368,10 @@ export default function Settings() {
     setTeamFormOpen(true);
   };
 
-  if (loading || !user) return null;
-
   const isAdmin = profile?.role === 'admin';
 
   return (
-    <AppLayout>
+    <>
       <div className="space-y-6">
         <div>
           <h1 className="text-2xl font-bold">Configurações</h1>
@@ -830,6 +823,6 @@ export default function Settings() {
           </TabsContent>
         </Tabs>
       </div>
-    </AppLayout>
+    </>
   );
 }

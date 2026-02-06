@@ -46,7 +46,6 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import { AppLayout } from '@/components/layout/AppLayout';
 import { useAuth } from '@/hooks/useAuth';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
@@ -155,12 +154,6 @@ export default function Reports() {
   const [winRate, setWinRate] = useState(0);
   const [totalLeads, setTotalLeads] = useState(0);
   const [conversionRate, setConversionRate] = useState(0);
-
-  useEffect(() => {
-    if (!authLoading && !user) {
-      navigate('/auth');
-    }
-  }, [user, authLoading, navigate]);
 
   useEffect(() => {
     if (user && profile) {
@@ -429,9 +422,8 @@ export default function Reports() {
     ]);
   };
 
-  if (authLoading || !user) {
-    return null;
-  }
+
+
 
   const formatCurrency = (value: number) => {
     return new Intl.NumberFormat('pt-BR', {
@@ -443,7 +435,7 @@ export default function Reports() {
   };
 
   return (
-    <AppLayout>
+    <>
       <div className="space-y-6">
         {/* Header */}
         <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
@@ -1023,6 +1015,6 @@ export default function Reports() {
           </TabsContent>
         </Tabs>
       </div>
-    </AppLayout>
+    </>
   );
 }
