@@ -1,80 +1,49 @@
-import { useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
-import { useQuery } from "@tanstack/react-query";
-import { supabase } from "@/integrations/supabase/client";
-import { AppLayout } from "@/components/layout/AppLayout";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { ScrollArea } from "@/components/ui/scroll-area";
-import { Separator } from "@/components/ui/separator";
-import { Progress } from "@/components/ui/progress";
-import { format } from "date-fns";
-import { ptBR } from "date-fns/locale";
-import { 
-  ArrowLeft, 
-  Building2, 
-  Mail, 
-  Phone, 
-  Globe,
-  MapPin,
-  Calendar,
-  DollarSign,
-  Target,
-  Ticket,
-  ShoppingCart,
-  Activity,
-  MessageSquare,
-  FileText,
-  TrendingUp,
-  TrendingDown,
-  AlertTriangle,
-  CheckCircle,
-  Clock,
-  Users,
-  Heart,
-  Zap,
-  Star,
-  BarChart3,
-  PieChart,
-  RefreshCw
-} from "lucide-react";
-import { Timeline } from "@/components/Timeline";
+import { useState } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
+import { useQuery } from '@tanstack/react-query';
+import { supabase } from '@/integrations/supabase/client';
+import { AppLayout } from '@/components/layout/AppLayout';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { ScrollArea } from '@/components/ui/scroll-area';
+import { format } from 'date-fns';
+import { ptBR } from 'date-fns/locale';
 import {
-  AreaChart,
-  Area,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  ResponsiveContainer,
-  PieChart as RechartsPie,
-  Pie,
-  Cell,
-} from "recharts";
+  Activity, AlertTriangle, RefreshCw, Star, Zap,
+  DollarSign, Target, TrendingUp, Ticket, ShoppingCart,
+  Mail, Phone, FileSignature, MessageSquare, StickyNote,
+} from 'lucide-react';
+import {
+  AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip,
+  ResponsiveContainer, PieChart as RechartsPie, Pie, Cell,
+} from 'recharts';
+
+// Subcomponents
+import { Customer360Header } from '@/components/customer360/Customer360Header';
+import { Customer360Stats } from '@/components/customer360/Customer360Stats';
+import { Customer360Contracts } from '@/components/customer360/Customer360Contracts';
+import { Customer360Conversations } from '@/components/customer360/Customer360Conversations';
+import { Customer360Notes } from '@/components/customer360/Customer360Notes';
+import { Customer360EngagementScore } from '@/components/customer360/Customer360EngagementScore';
 
 const COLORS = ['#3b82f6', '#22c55e', '#f59e0b', '#ef4444', '#8b5cf6'];
 
 export default function Customer360() {
   const { type, id } = useParams<{ type: string; id: string }>();
   const navigate = useNavigate();
-  const [activeTab, setActiveTab] = useState("overview");
+  const [activeTab, setActiveTab] = useState('overview');
 
-  // Determine entity type
-  const entityType = type || "account";
-  const tableName = entityType === "contact" ? "contacts" : "accounts";
+  const entityType = type || 'account';
+  const tableName = entityType === 'contact' ? 'contacts' : 'accounts';
 
   // Fetch main entity
   const { data: entity, isLoading: loadingEntity } = useQuery({
-    queryKey: ["customer-360-entity", entityType, id],
+    queryKey: ['customer-360-entity', entityType, id],
     queryFn: async () => {
-      const { data, error } = await supabase
-        .from(tableName)
-        .select("*")
-        .eq("id", id)
-        .single();
+      const { data, error } = await supabase.from(tableName).select('*').eq('id', id).single();
       if (error) throw error;
       return data as any;
     },
@@ -83,29 +52,21 @@ export default function Customer360() {
 
   // Fetch related contacts (for accounts)
   const { data: contacts = [] } = useQuery({
-    queryKey: ["customer-360-contacts", id],
+    queryKey: ['customer-360-contacts', id],
     queryFn: async () => {
-      if (entityType !== "account") return [];
-      const { data, error } = await supabase
-        .from("contacts")
-        .select("*")
-        .eq("account_id", id)
-        .order("created_at", { ascending: false });
+      if (entityType !== 'account') return [];
+      const { data, error } = await supabase.from('contacts').select('*').eq('account_id', id).order('created_at', { ascending: false });
       if (error) throw error;
       return data as any[];
     },
-    enabled: entityType === "account" && !!id,
+    enabled: entityType === 'account' && !!id,
   });
 
   // Fetch opportunities
   const { data: opportunities = [] } = useQuery({
-    queryKey: ["customer-360-opportunities", id],
+    queryKey: ['customer-360-opportunities', id],
     queryFn: async () => {
-      const { data, error } = await supabase
-        .from("opportunities")
-        .select("*")
-        .eq(entityType === "account" ? "account_id" : "account_id", id)
-        .order("created_at", { ascending: false });
+      const { data, error } = await supabase.from('opportunities').select('*').eq('account_id', id).order('created_at', { ascending: false });
       if (error) throw error;
       return data || [];
     },
@@ -114,143 +75,131 @@ export default function Customer360() {
 
   // Fetch tickets
   const { data: tickets = [] } = useQuery({
-    queryKey: ["customer-360-tickets", id],
+    queryKey: ['customer-360-tickets', id],
     queryFn: async () => {
-      const column = entityType === "account" ? "account_id" : "contact_id";
-      const { data, error } = await supabase
-        .from("tickets")
-        .select("*")
-        .eq(column, id)
-        .order("created_at", { ascending: false });
+      const column = entityType === 'account' ? 'account_id' : 'contact_id';
+      const { data, error } = await supabase.from('tickets').select('*').eq(column, id).order('created_at', { ascending: false });
       if (error) throw error;
-      return data;
+      return data || [];
     },
     enabled: !!id,
   });
 
   // Fetch orders
   const { data: orders = [] } = useQuery({
-    queryKey: ["customer-360-orders", id],
+    queryKey: ['customer-360-orders', id],
     queryFn: async () => {
-      const column = entityType === "account" ? "account_id" : "contact_id";
-      const { data, error } = await supabase
-        .from("orders")
-        .select("*")
-        .eq(column, id)
-        .order("created_at", { ascending: false });
+      const column = entityType === 'account' ? 'account_id' : 'contact_id';
+      const { data, error } = await supabase.from('orders').select('*').eq(column, id).order('created_at', { ascending: false });
       if (error) throw error;
-      return data;
+      return data || [];
     },
     enabled: !!id,
   });
 
   // Fetch activities
   const { data: activities = [] } = useQuery({
-    queryKey: ["customer-360-activities", id],
+    queryKey: ['customer-360-activities', id],
     queryFn: async () => {
-      const column = entityType === "account" ? "account_id" : "contact_id";
-      const { data, error } = await supabase
-        .from("activities")
-        .select("*")
-        .eq(column, id)
-        .order("created_at", { ascending: false })
-        .limit(20);
+      const column = entityType === 'account' ? 'account_id' : 'contact_id';
+      const { data, error } = await supabase.from('activities').select('*').eq(column, id).order('created_at', { ascending: false }).limit(20);
       if (error) throw error;
-      return data;
+      return data || [];
+    },
+    enabled: !!id,
+  });
+
+  // Fetch contracts
+  const { data: contracts = [] } = useQuery({
+    queryKey: ['customer-360-contracts-count', id],
+    queryFn: async () => {
+      const { data, error } = await supabase.from('contracts').select('id, status').eq('account_id', id);
+      if (error) throw error;
+      return data || [];
+    },
+    enabled: !!id,
+  });
+
+  // Fetch conversations count
+  const { data: conversationsData = [] } = useQuery({
+    queryKey: ['customer-360-conversations-count', id],
+    queryFn: async () => {
+      const column = entityType === 'account' ? 'account_id' : 'contact_id';
+      const { data, error } = await supabase.from('conversations').select('id').eq(column, id);
+      if (error) throw error;
+      return data || [];
     },
     enabled: !!id,
   });
 
   // Fetch timeline events
   const { data: timelineEvents = [] } = useQuery({
-    queryKey: ["customer-360-timeline", id],
+    queryKey: ['customer-360-timeline', id],
     queryFn: async () => {
-      const column = entityType === "account" ? "account_id" : "contact_id";
-      const { data, error } = await supabase
-        .from("timeline_events")
-        .select("*")
-        .eq(column, id)
-        .order("created_at", { ascending: false })
-        .limit(50);
+      const column = entityType === 'account' ? 'account_id' : 'contact_id';
+      const { data, error } = await supabase.from('timeline_events').select('*').eq(column, id).order('created_at', { ascending: false }).limit(50);
       if (error) throw error;
-      return data;
+      return data || [];
     },
     enabled: !!id,
   });
 
   // Fetch health score
   const { data: healthScore } = useQuery({
-    queryKey: ["customer-360-health", id],
+    queryKey: ['customer-360-health', id],
     queryFn: async () => {
-      if (entityType !== "account") return null;
-      const { data, error } = await supabase
-        .from("customer_health_scores")
-        .select("*")
-        .eq("account_id", id)
-        .order("calculated_at", { ascending: false })
-        .limit(1)
-        .single();
-      if (error && error.code !== "PGRST116") throw error;
+      if (entityType !== 'account') return null;
+      const { data, error } = await supabase.from('customer_health_scores').select('*').eq('account_id', id).order('calculated_at', { ascending: false }).limit(1).single();
+      if (error && error.code !== 'PGRST116') throw error;
       return data as any;
     },
-    enabled: entityType === "account" && !!id,
+    enabled: entityType === 'account' && !!id,
   });
 
   // Fetch behavioral events
   const { data: behavioralEvents = [] } = useQuery({
-    queryKey: ["customer-360-behavioral", id],
+    queryKey: ['customer-360-behavioral', id],
     queryFn: async () => {
-      const column = entityType === "account" ? "account_id" : "contact_id";
-      const { data, error } = await supabase
-        .from("behavioral_events")
-        .select("*")
-        .eq(column, id)
-        .order("occurred_at", { ascending: false })
-        .limit(50);
+      const column = entityType === 'account' ? 'account_id' : 'contact_id';
+      const { data, error } = await supabase.from('behavioral_events').select('*').eq(column, id).order('occurred_at', { ascending: false }).limit(50);
       if (error) throw error;
-      return data;
+      return data || [];
     },
     enabled: !!id,
   });
 
   // Calculate metrics
   const metrics = {
-    totalRevenue: opportunities
-      .filter(o => o.stage === "closed_won")
-      .reduce((sum, o) => sum + (o.amount || 0), 0),
-    openPipeline: opportunities
-      .filter(o => !["closed_won", "closed_lost"].includes(o.stage))
-      .reduce((sum, o) => sum + (o.amount || 0), 0),
+    totalRevenue: opportunities.filter((o: any) => o.stage === 'closed_won').reduce((sum: number, o: any) => sum + (o.amount || 0), 0),
+    openPipeline: opportunities.filter((o: any) => !['closed_won', 'closed_lost'].includes(o.stage)).reduce((sum: number, o: any) => sum + (o.amount || 0), 0),
     totalOpportunities: opportunities.length,
-    wonOpportunities: opportunities.filter(o => o.stage === "closed_won").length,
-    openTickets: tickets.filter(t => !["resolved", "closed"].includes(t.status)).length,
+    wonOpportunities: opportunities.filter((o: any) => o.stage === 'closed_won').length,
+    openTickets: tickets.filter((t: any) => !['resolved', 'closed'].includes(t.status)).length,
     totalOrders: orders.length,
-    orderValue: orders.reduce((sum, o) => sum + (o.grand_total || 0), 0),
+    orderValue: orders.reduce((sum: number, o: any) => sum + (o.grand_total || 0), 0),
     activities: activities.length,
+    activeContracts: contracts.filter((c: any) => c.status === 'active').length,
+    totalConversations: conversationsData.length,
+    winRate: opportunities.length > 0
+      ? ((opportunities.filter((o: any) => o.stage === 'closed_won').length / opportunities.length) * 100).toFixed(0)
+      : '0',
   };
-
-  const winRate = metrics.totalOpportunities > 0 
-    ? ((metrics.wonOpportunities / metrics.totalOpportunities) * 100).toFixed(0) 
-    : 0;
 
   // Chart data
   const revenueByMonth = opportunities
-    .filter(o => o.stage === "closed_won" && o.close_date)
-    .reduce((acc, o) => {
-      const month = format(new Date(o.close_date!), "MMM/yy", { locale: ptBR });
+    .filter((o: any) => o.stage === 'closed_won' && o.close_date)
+    .reduce((acc: Record<string, number>, o: any) => {
+      const month = format(new Date(o.close_date!), 'MMM/yy', { locale: ptBR });
       acc[month] = (acc[month] || 0) + (o.amount || 0);
       return acc;
-    }, {} as Record<string, number>);
+    }, {});
 
-  const revenueChartData = Object.entries(revenueByMonth).map(([month, value]) => ({
-    month,
-    value,
-  }));
+  const revenueChartData = Object.entries(revenueByMonth).map(([month, value]) => ({ month, value }));
 
-  const opportunityStages = opportunities.reduce((acc, o) => {
+  const opportunityStages = opportunities.reduce((acc: Record<string, number>, o: any) => {
     acc[o.stage] = (acc[o.stage] || 0) + 1;
     return acc;
-  }, {} as Record<string, number>);
+  }, {});
 
   const stageChartData = Object.entries(opportunityStages).map(([name, value], index) => ({
     name,
@@ -258,25 +207,8 @@ export default function Customer360() {
     fill: COLORS[index % COLORS.length],
   }));
 
-  const formatCurrency = (value: number) => {
-    return new Intl.NumberFormat("pt-BR", {
-      style: "currency",
-      currency: "BRL",
-      notation: "compact",
-    }).format(value);
-  };
-
-  const getHealthColor = (score: number) => {
-    if (score >= 70) return "text-green-500";
-    if (score >= 40) return "text-yellow-500";
-    return "text-red-500";
-  };
-
-  const getHealthBg = (score: number) => {
-    if (score >= 70) return "bg-green-500";
-    if (score >= 40) return "bg-yellow-500";
-    return "bg-red-500";
-  };
+  const formatCurrency = (value: number) =>
+    new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL', notation: 'compact' }).format(value);
 
   if (loadingEntity) {
     return (
@@ -294,229 +226,150 @@ export default function Customer360() {
         <div className="text-center py-16">
           <AlertTriangle className="h-16 w-16 mx-auto text-muted-foreground mb-4" />
           <h2 className="text-xl font-semibold">Registro não encontrado</h2>
-          <Button onClick={() => navigate(-1)} className="mt-4">
-            Voltar
-          </Button>
+          <Button onClick={() => navigate(-1)} className="mt-4">Voltar</Button>
         </div>
       </AppLayout>
     );
   }
 
-  const entityName = entityType === "account" 
-    ? entity.name 
-    : `${entity.first_name || ""} ${entity.last_name || ""}`.trim();
+  const entityName = entityType === 'account'
+    ? entity.name
+    : `${entity.first_name || ''} ${entity.last_name || ''}`.trim();
 
   return (
     <AppLayout>
       <div className="space-y-6">
         {/* Header */}
-        <div className="flex items-start gap-4">
-          <Button variant="ghost" size="icon" onClick={() => navigate(-1)}>
-            <ArrowLeft className="h-4 w-4" />
-          </Button>
-          <div className="flex-1">
-            <div className="flex items-center gap-4">
-              <Avatar className="h-16 w-16">
-                <AvatarImage src={entity.avatar_url} />
-                <AvatarFallback className="text-lg">
-                  {entityName.split(" ").map(n => n[0]).join("").slice(0, 2).toUpperCase()}
-                </AvatarFallback>
-              </Avatar>
-              <div>
-                <h1 className="text-3xl font-bold tracking-tight">{entityName}</h1>
-                <div className="flex items-center gap-4 mt-1 text-muted-foreground">
-                  {entity.email && (
-                    <div className="flex items-center gap-1">
-                      <Mail className="h-4 w-4" />
-                      <span>{entity.email}</span>
-                    </div>
-                  )}
-                  {entity.phone && (
-                    <div className="flex items-center gap-1">
-                      <Phone className="h-4 w-4" />
-                      <span>{entity.phone}</span>
-                    </div>
-                  )}
-                  {entity.industry && (
-                    <Badge variant="secondary">{entity.industry}</Badge>
-                  )}
-                </div>
-              </div>
-            </div>
-          </div>
-          {healthScore && (
-            <Card className="w-48">
-              <CardContent className="py-4 text-center">
-                <p className="text-sm text-muted-foreground">Health Score</p>
-                <div className={`text-4xl font-bold ${getHealthColor(healthScore.score || 50)}`}>
-                  {healthScore.score || 50}
-                </div>
-                <Progress 
-                  value={healthScore.score || 50} 
-                  className="mt-2"
-                />
-              </CardContent>
-            </Card>
-          )}
-        </div>
+        <Customer360Header
+          entityType={entityType}
+          entityName={entityName}
+          entity={entity}
+          healthScore={healthScore}
+        />
 
         {/* Quick Stats */}
-        <div className="grid gap-4 md:grid-cols-5">
-          <Card>
-            <CardContent className="py-4">
-              <div className="flex items-center gap-2">
-                <DollarSign className="h-5 w-5 text-green-500" />
-                <div>
-                  <p className="text-sm text-muted-foreground">Receita Total</p>
-                  <p className="text-xl font-bold">{formatCurrency(metrics.totalRevenue)}</p>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-          <Card>
-            <CardContent className="py-4">
-              <div className="flex items-center gap-2">
-                <Target className="h-5 w-5 text-amber-500" />
-                <div>
-                  <p className="text-sm text-muted-foreground">Pipeline Aberto</p>
-                  <p className="text-xl font-bold">{formatCurrency(metrics.openPipeline)}</p>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-          <Card>
-            <CardContent className="py-4">
-              <div className="flex items-center gap-2">
-                <TrendingUp className="h-5 w-5 text-blue-500" />
-                <div>
-                  <p className="text-sm text-muted-foreground">Win Rate</p>
-                  <p className="text-xl font-bold">{winRate}%</p>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-          <Card>
-            <CardContent className="py-4">
-              <div className="flex items-center gap-2">
-                <Ticket className="h-5 w-5 text-purple-500" />
-                <div>
-                  <p className="text-sm text-muted-foreground">Tickets Abertos</p>
-                  <p className="text-xl font-bold">{metrics.openTickets}</p>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-          <Card>
-            <CardContent className="py-4">
-              <div className="flex items-center gap-2">
-                <ShoppingCart className="h-5 w-5 text-green-500" />
-                <div>
-                  <p className="text-sm text-muted-foreground">Pedidos</p>
-                  <p className="text-xl font-bold">{metrics.totalOrders}</p>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
+        <Customer360Stats metrics={metrics} />
 
         {/* Main Content */}
         <Tabs value={activeTab} onValueChange={setActiveTab}>
-          <TabsList>
+          <TabsList className="flex-wrap h-auto">
             <TabsTrigger value="overview">Visão Geral</TabsTrigger>
             <TabsTrigger value="timeline">Timeline</TabsTrigger>
             <TabsTrigger value="opportunities">Oportunidades</TabsTrigger>
             <TabsTrigger value="tickets">Tickets</TabsTrigger>
             <TabsTrigger value="orders">Pedidos</TabsTrigger>
-            {entityType === "account" && (
-              <TabsTrigger value="contacts">Contatos</TabsTrigger>
-            )}
+            <TabsTrigger value="contracts">Contratos</TabsTrigger>
+            <TabsTrigger value="conversations">Conversas</TabsTrigger>
+            <TabsTrigger value="notes">Notas</TabsTrigger>
+            {entityType === 'account' && <TabsTrigger value="contacts">Contatos</TabsTrigger>}
             <TabsTrigger value="behavior">Comportamento</TabsTrigger>
           </TabsList>
 
+          {/* ─── Overview ─── */}
           <TabsContent value="overview" className="mt-4 space-y-6">
-            <div className="grid gap-6 lg:grid-cols-2">
-              {/* Revenue Chart */}
-              <Card>
-                <CardHeader>
-                  <CardTitle>Receita por Mês</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="h-[250px]">
-                    <ResponsiveContainer width="100%" height="100%">
-                      <AreaChart data={revenueChartData}>
-                        <CartesianGrid strokeDasharray="3 3" />
-                        <XAxis dataKey="month" />
-                        <YAxis />
-                        <Tooltip formatter={(value) => formatCurrency(Number(value))} />
-                        <Area 
-                          type="monotone" 
-                          dataKey="value" 
-                          stroke="#22c55e" 
-                          fill="#22c55e" 
-                          fillOpacity={0.3} 
-                        />
-                      </AreaChart>
-                    </ResponsiveContainer>
-                  </div>
-                </CardContent>
-              </Card>
+            <div className="grid gap-6 lg:grid-cols-3">
+              <div className="lg:col-span-2 space-y-6">
+                {/* Revenue Chart */}
+                <Card>
+                  <CardHeader><CardTitle>Receita por Mês</CardTitle></CardHeader>
+                  <CardContent>
+                    <div className="h-[250px]">
+                      <ResponsiveContainer width="100%" height="100%">
+                        <AreaChart data={revenueChartData}>
+                          <CartesianGrid strokeDasharray="3 3" />
+                          <XAxis dataKey="month" />
+                          <YAxis />
+                          <Tooltip formatter={(value) => formatCurrency(Number(value))} />
+                          <Area type="monotone" dataKey="value" stroke="hsl(var(--primary))" fill="hsl(var(--primary))" fillOpacity={0.3} />
+                        </AreaChart>
+                      </ResponsiveContainer>
+                    </div>
+                  </CardContent>
+                </Card>
 
-              {/* Stage Distribution */}
-              <Card>
-                <CardHeader>
-                  <CardTitle>Oportunidades por Estágio</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="h-[250px]">
-                    <ResponsiveContainer width="100%" height="100%">
-                      <RechartsPie>
-                        <Pie
-                          data={stageChartData}
-                          cx="50%"
-                          cy="50%"
-                          innerRadius={50}
-                          outerRadius={80}
-                          paddingAngle={5}
-                          dataKey="value"
-                        >
-                          {stageChartData.map((entry, index) => (
-                            <Cell key={`cell-${index}`} fill={entry.fill} />
-                          ))}
-                        </Pie>
-                        <Tooltip />
-                      </RechartsPie>
-                    </ResponsiveContainer>
-                  </div>
-                </CardContent>
-              </Card>
+                {/* Stage Distribution */}
+                <Card>
+                  <CardHeader><CardTitle>Oportunidades por Estágio</CardTitle></CardHeader>
+                  <CardContent>
+                    <div className="h-[250px]">
+                      <ResponsiveContainer width="100%" height="100%">
+                        <RechartsPie>
+                          <Pie data={stageChartData} cx="50%" cy="50%" innerRadius={50} outerRadius={80} paddingAngle={5} dataKey="value">
+                            {stageChartData.map((entry, index) => (
+                              <Cell key={`cell-${index}`} fill={entry.fill} />
+                            ))}
+                          </Pie>
+                          <Tooltip />
+                        </RechartsPie>
+                      </ResponsiveContainer>
+                    </div>
+                  </CardContent>
+                </Card>
+
+                {/* Recent Activities */}
+                <Card>
+                  <CardHeader><CardTitle>Atividades Recentes</CardTitle></CardHeader>
+                  <CardContent>
+                    <ScrollArea className="h-[300px]">
+                      <div className="space-y-4">
+                        {activities.slice(0, 10).map((activity: any) => (
+                          <div key={activity.id} className="flex items-start gap-3">
+                            <div className="w-8 h-8 rounded-full bg-muted flex items-center justify-center">
+                              <Activity className="h-4 w-4" />
+                            </div>
+                            <div className="flex-1">
+                              <p className="font-medium">{activity.subject}</p>
+                              <p className="text-sm text-muted-foreground">
+                                {format(new Date(activity.created_at), 'dd/MM/yyyy HH:mm', { locale: ptBR })}
+                              </p>
+                            </div>
+                            <Badge variant="outline">{activity.type}</Badge>
+                          </div>
+                        ))}
+                        {activities.length === 0 && (
+                          <p className="text-center text-muted-foreground py-8">Nenhuma atividade registrada</p>
+                        )}
+                      </div>
+                    </ScrollArea>
+                  </CardContent>
+                </Card>
+              </div>
+
+              {/* Engagement Score Sidebar */}
+              <div>
+                <Customer360EngagementScore
+                  opportunities={opportunities}
+                  tickets={tickets}
+                  orders={orders}
+                  activities={activities}
+                  conversations={conversationsData.length}
+                  contracts={contracts.filter((c: any) => c.status === 'active').length}
+                />
+              </div>
             </div>
+          </TabsContent>
 
-            {/* Recent Activities */}
+          {/* ─── Timeline ─── */}
+          <TabsContent value="timeline" className="mt-4">
             <Card>
               <CardHeader>
-                <CardTitle>Atividades Recentes</CardTitle>
+                <CardTitle>Timeline Unificada</CardTitle>
+                <CardDescription>Todas as interações e eventos relacionados</CardDescription>
               </CardHeader>
               <CardContent>
-                <ScrollArea className="h-[300px]">
+                <ScrollArea className="h-[500px]">
                   <div className="space-y-4">
-                    {activities.slice(0, 10).map((activity) => (
-                      <div key={activity.id} className="flex items-start gap-3">
-                        <div className="w-8 h-8 rounded-full bg-muted flex items-center justify-center">
-                          <Activity className="h-4 w-4" />
-                        </div>
-                        <div className="flex-1">
-                          <p className="font-medium">{activity.subject}</p>
-                          <p className="text-sm text-muted-foreground">
-                            {format(new Date(activity.created_at), "dd/MM/yyyy HH:mm", { locale: ptBR })}
-                          </p>
-                        </div>
-                        <Badge variant="outline">{activity.type}</Badge>
+                    {timelineEvents.map((event: any) => (
+                      <div key={event.id} className="p-3 border rounded-lg">
+                        <p className="font-medium">{event.title}</p>
+                        <p className="text-sm text-muted-foreground">{event.description}</p>
+                        <p className="text-xs text-muted-foreground mt-1">
+                          {format(new Date(event.created_at), 'dd/MM/yyyy HH:mm', { locale: ptBR })}
+                        </p>
                       </div>
                     ))}
-                    {activities.length === 0 && (
-                      <p className="text-center text-muted-foreground py-8">
-                        Nenhuma atividade registrada
-                      </p>
+                    {timelineEvents.length === 0 && (
+                      <p className="text-center text-muted-foreground py-8">Nenhum evento na timeline</p>
                     )}
                   </div>
                 </ScrollArea>
@@ -524,136 +377,79 @@ export default function Customer360() {
             </Card>
           </TabsContent>
 
-          <TabsContent value="timeline" className="mt-4">
-            <Card>
-              <CardHeader>
-                <CardTitle>Timeline Unificada</CardTitle>
-                <CardDescription>
-                  Todas as interações e eventos relacionados
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-4">
-                  {timelineEvents.map((event) => (
-                    <div key={event.id} className="p-3 border rounded-lg">
-                      <p className="font-medium">{event.title}</p>
-                      <p className="text-sm text-muted-foreground">{event.description}</p>
-                      <p className="text-xs text-muted-foreground mt-1">
-                        {format(new Date(event.created_at), "dd/MM/yyyy HH:mm", { locale: ptBR })}
-                      </p>
-                    </div>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
-          </TabsContent>
-
+          {/* ─── Opportunities ─── */}
           <TabsContent value="opportunities" className="mt-4">
             <Card>
               <CardHeader className="flex flex-row items-center justify-between">
                 <CardTitle>Oportunidades ({opportunities.length})</CardTitle>
-                <Button size="sm" onClick={() => navigate(`/opportunities/new?${entityType}_id=${id}`)}>
-                  Nova Oportunidade
-                </Button>
+                <Button size="sm" onClick={() => navigate(`/opportunities/new?${entityType}_id=${id}`)}>Nova Oportunidade</Button>
               </CardHeader>
               <CardContent>
                 <div className="space-y-3">
-                  {opportunities.map((opp) => (
-                    <div 
-                      key={opp.id} 
-                      className="p-4 border rounded-lg hover:bg-muted/50 cursor-pointer"
-                      onClick={() => navigate(`/opportunities/${opp.id}`)}
-                    >
+                  {opportunities.map((opp: any) => (
+                    <div key={opp.id} className="p-4 border rounded-lg hover:bg-muted/50 cursor-pointer" onClick={() => navigate(`/opportunities/${opp.id}`)}>
                       <div className="flex items-center justify-between">
                         <div>
                           <p className="font-medium">{opp.name}</p>
-                          <p className="text-sm text-muted-foreground">
-                            Criada em {format(new Date(opp.created_at), "dd/MM/yyyy", { locale: ptBR })}
-                          </p>
+                          <p className="text-sm text-muted-foreground">Criada em {format(new Date(opp.created_at), 'dd/MM/yyyy', { locale: ptBR })}</p>
                         </div>
                         <div className="text-right">
                           <p className="font-bold">{formatCurrency(opp.amount || 0)}</p>
-                          <Badge variant={opp.stage === "closed_won" ? "default" : opp.stage === "closed_lost" ? "destructive" : "secondary"}>
-                            {opp.stage}
-                          </Badge>
+                          <Badge variant={opp.stage === 'closed_won' ? 'default' : opp.stage === 'closed_lost' ? 'destructive' : 'secondary'}>{opp.stage}</Badge>
                         </div>
                       </div>
                     </div>
                   ))}
-                  {opportunities.length === 0 && (
-                    <p className="text-center text-muted-foreground py-8">
-                      Nenhuma oportunidade encontrada
-                    </p>
-                  )}
+                  {opportunities.length === 0 && <p className="text-center text-muted-foreground py-8">Nenhuma oportunidade encontrada</p>}
                 </div>
               </CardContent>
             </Card>
           </TabsContent>
 
+          {/* ─── Tickets ─── */}
           <TabsContent value="tickets" className="mt-4">
             <Card>
               <CardHeader className="flex flex-row items-center justify-between">
                 <CardTitle>Tickets ({tickets.length})</CardTitle>
-                <Button size="sm" onClick={() => navigate(`/tickets/new?${entityType}_id=${id}`)}>
-                  Novo Ticket
-                </Button>
+                <Button size="sm" onClick={() => navigate(`/tickets/new?${entityType}_id=${id}`)}>Novo Ticket</Button>
               </CardHeader>
               <CardContent>
                 <div className="space-y-3">
-                  {tickets.map((ticket) => (
-                    <div 
-                      key={ticket.id} 
-                      className="p-4 border rounded-lg hover:bg-muted/50 cursor-pointer"
-                      onClick={() => navigate(`/tickets/${ticket.id}`)}
-                    >
+                  {tickets.map((ticket: any) => (
+                    <div key={ticket.id} className="p-4 border rounded-lg hover:bg-muted/50 cursor-pointer" onClick={() => navigate(`/tickets/${ticket.id}`)}>
                       <div className="flex items-center justify-between">
                         <div>
                           <p className="font-medium">{ticket.subject}</p>
-                          <p className="text-sm text-muted-foreground">
-                            {ticket.ticket_number} • {format(new Date(ticket.created_at), "dd/MM/yyyy", { locale: ptBR })}
-                          </p>
+                          <p className="text-sm text-muted-foreground">{ticket.ticket_number} • {format(new Date(ticket.created_at), 'dd/MM/yyyy', { locale: ptBR })}</p>
                         </div>
                         <div className="flex gap-2">
-                          <Badge variant={ticket.priority === "critical" ? "destructive" : "secondary"}>
-                            {ticket.priority}
-                          </Badge>
+                          <Badge variant={ticket.priority === 'critical' ? 'destructive' : 'secondary'}>{ticket.priority}</Badge>
                           <Badge variant="outline">{ticket.status}</Badge>
                         </div>
                       </div>
                     </div>
                   ))}
-                  {tickets.length === 0 && (
-                    <p className="text-center text-muted-foreground py-8">
-                      Nenhum ticket encontrado
-                    </p>
-                  )}
+                  {tickets.length === 0 && <p className="text-center text-muted-foreground py-8">Nenhum ticket encontrado</p>}
                 </div>
               </CardContent>
             </Card>
           </TabsContent>
 
+          {/* ─── Orders ─── */}
           <TabsContent value="orders" className="mt-4">
             <Card>
               <CardHeader className="flex flex-row items-center justify-between">
                 <CardTitle>Pedidos ({orders.length})</CardTitle>
-                <Button size="sm" onClick={() => navigate(`/orders/new?${entityType}_id=${id}`)}>
-                  Novo Pedido
-                </Button>
+                <Button size="sm" onClick={() => navigate(`/orders/new?${entityType}_id=${id}`)}>Novo Pedido</Button>
               </CardHeader>
               <CardContent>
                 <div className="space-y-3">
-                  {orders.map((order) => (
-                    <div 
-                      key={order.id} 
-                      className="p-4 border rounded-lg hover:bg-muted/50 cursor-pointer"
-                      onClick={() => navigate(`/orders/${order.id}`)}
-                    >
+                  {orders.map((order: any) => (
+                    <div key={order.id} className="p-4 border rounded-lg hover:bg-muted/50 cursor-pointer" onClick={() => navigate(`/orders/${order.id}`)}>
                       <div className="flex items-center justify-between">
                         <div>
                           <p className="font-medium">{order.order_number}</p>
-                          <p className="text-sm text-muted-foreground">
-                            {format(new Date(order.created_at), "dd/MM/yyyy", { locale: ptBR })}
-                          </p>
+                          <p className="text-sm text-muted-foreground">{format(new Date(order.created_at), 'dd/MM/yyyy', { locale: ptBR })}</p>
                         </div>
                         <div className="text-right">
                           <p className="font-bold">{formatCurrency(order.grand_total || 0)}</p>
@@ -662,47 +458,47 @@ export default function Customer360() {
                       </div>
                     </div>
                   ))}
-                  {orders.length === 0 && (
-                    <p className="text-center text-muted-foreground py-8">
-                      Nenhum pedido encontrado
-                    </p>
-                  )}
+                  {orders.length === 0 && <p className="text-center text-muted-foreground py-8">Nenhum pedido encontrado</p>}
                 </div>
               </CardContent>
             </Card>
           </TabsContent>
 
-          {entityType === "account" && (
+          {/* ─── Contracts ─── */}
+          <TabsContent value="contracts" className="mt-4">
+            <Customer360Contracts entityType={entityType} entityId={id!} />
+          </TabsContent>
+
+          {/* ─── Conversations ─── */}
+          <TabsContent value="conversations" className="mt-4">
+            <Customer360Conversations entityType={entityType} entityId={id!} />
+          </TabsContent>
+
+          {/* ─── Notes ─── */}
+          <TabsContent value="notes" className="mt-4">
+            <Customer360Notes entityType={entityType} entityId={id!} />
+          </TabsContent>
+
+          {/* ─── Contacts ─── */}
+          {entityType === 'account' && (
             <TabsContent value="contacts" className="mt-4">
               <Card>
                 <CardHeader className="flex flex-row items-center justify-between">
                   <CardTitle>Contatos ({contacts.length})</CardTitle>
-                  <Button size="sm" onClick={() => navigate(`/contacts/new?account_id=${id}`)}>
-                    Novo Contato
-                  </Button>
+                  <Button size="sm" onClick={() => navigate(`/contacts/new?account_id=${id}`)}>Novo Contato</Button>
                 </CardHeader>
                 <CardContent>
                   <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-                    {contacts.map((contact) => (
-                      <div 
-                        key={contact.id} 
-                        className="p-4 border rounded-lg hover:bg-muted/50 cursor-pointer"
-                        onClick={() => navigate(`/contacts/${contact.id}`)}
-                      >
+                    {contacts.map((contact: any) => (
+                      <div key={contact.id} className="p-4 border rounded-lg hover:bg-muted/50 cursor-pointer" onClick={() => navigate(`/contacts/${contact.id}`)}>
                         <div className="flex items-center gap-3">
                           <Avatar>
-                            <AvatarFallback>
-                              {`${contact.first_name?.[0] || ""}${contact.last_name?.[0] || ""}`.toUpperCase()}
-                            </AvatarFallback>
+                            <AvatarFallback>{`${contact.first_name?.[0] || ''}${contact.last_name?.[0] || ''}`.toUpperCase()}</AvatarFallback>
                           </Avatar>
                           <div>
-                            <p className="font-medium">
-                              {contact.first_name} {contact.last_name}
-                            </p>
+                            <p className="font-medium">{contact.first_name} {contact.last_name}</p>
                             <p className="text-sm text-muted-foreground">{contact.title}</p>
-                            {contact.email && (
-                              <p className="text-sm text-muted-foreground">{contact.email}</p>
-                            )}
+                            {contact.email && <p className="text-sm text-muted-foreground">{contact.email}</p>}
                           </div>
                         </div>
                         {contact.is_primary && (
@@ -713,49 +509,40 @@ export default function Customer360() {
                         )}
                       </div>
                     ))}
-                    {contacts.length === 0 && (
-                      <p className="text-center text-muted-foreground py-8 col-span-full">
-                        Nenhum contato encontrado
-                      </p>
-                    )}
+                    {contacts.length === 0 && <p className="text-center text-muted-foreground py-8 col-span-full">Nenhum contato encontrado</p>}
                   </div>
                 </CardContent>
               </Card>
             </TabsContent>
           )}
 
+          {/* ─── Behavior ─── */}
           <TabsContent value="behavior" className="mt-4">
             <Card>
               <CardHeader>
                 <CardTitle>Eventos Comportamentais</CardTitle>
-                <CardDescription>
-                  Interações rastreadas do cliente
-                </CardDescription>
+                <CardDescription>Interações rastreadas do cliente</CardDescription>
               </CardHeader>
               <CardContent>
                 <ScrollArea className="h-[400px]">
                   <div className="space-y-3">
-                    {behavioralEvents.map((event) => (
+                    {behavioralEvents.map((event: any) => (
                       <div key={event.id} className="flex items-start gap-3 p-3 border rounded-lg">
-                        <div className="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center">
-                          <Zap className="h-5 w-5 text-blue-600" />
+                        <div className="w-10 h-10 rounded-full bg-muted flex items-center justify-center">
+                          <Zap className="h-5 w-5" />
                         </div>
                         <div className="flex-1">
                           <p className="font-medium">{event.event_name}</p>
-                          <p className="text-sm text-muted-foreground">
-                            {event.page_url && `Página: ${event.page_url}`}
-                          </p>
+                          <p className="text-sm text-muted-foreground">{event.page_url && `Página: ${event.page_url}`}</p>
                           <p className="text-xs text-muted-foreground">
-                            {format(new Date(event.occurred_at), "dd/MM/yyyy HH:mm:ss", { locale: ptBR })}
+                            {format(new Date(event.occurred_at), 'dd/MM/yyyy HH:mm:ss', { locale: ptBR })}
                           </p>
                         </div>
                         <Badge variant="secondary">{event.event_type}</Badge>
                       </div>
                     ))}
                     {behavioralEvents.length === 0 && (
-                      <p className="text-center text-muted-foreground py-8">
-                        Nenhum evento comportamental rastreado
-                      </p>
+                      <p className="text-center text-muted-foreground py-8">Nenhum evento comportamental rastreado</p>
                     )}
                   </div>
                 </ScrollArea>
