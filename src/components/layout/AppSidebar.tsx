@@ -132,6 +132,9 @@ const NAV_SECTIONS: NavSection[] = [
     items: [
       { title: 'Dashboard de Service', url: '/service', icon: Headphones },
       { title: 'Inbox Omnichannel', url: '/service/inbox', icon: Inbox },
+      { title: 'Filas', url: '/service/queues', icon: Layers },
+      { title: 'Qualidade & NPS', url: '/service/qa', icon: ClipboardList },
+      { title: 'Social Inbox', url: '/service/social', icon: Globe },
       { title: 'WhatsApp', url: '/service/whatsapp', icon: MessageSquare },
       { title: 'Chat Widgets', url: '/service/chat-widgets', icon: Radio },
       { title: 'Telefonia', url: '/service/voice', icon: Headphones },
