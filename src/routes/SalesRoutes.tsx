@@ -18,6 +18,12 @@ import QuoteForm from "@/pages/QuoteForm";
 import Contracts from "@/pages/Contracts";
 import ContractDetail from "@/pages/ContractDetail";
 import ContractForm from "@/pages/ContractForm";
+import CPQConfigurations from "@/pages/sales/CPQConfigurations";
+import CPQConfigurationDetail from "@/pages/sales/CPQConfigurationDetail";
+import Subscriptions from "@/pages/sales/Subscriptions";
+import Billing from "@/pages/sales/Billing";
+import BillingDetail from "@/pages/sales/BillingDetail";
+import ConversationIntelligence from "@/pages/sales/ConversationIntelligence";
 
 export function SalesRoutes() {
   return [
@@ -50,5 +56,17 @@ export function SalesRoutes() {
     <Route key="contracts-new" path="/contracts/new" element={<ModuleGuard moduleKey="sales"><ContractForm /></ModuleGuard>} />,
     <Route key="contracts-id" path="/contracts/:id" element={<ModuleGuard moduleKey="sales"><ContractDetail /></ModuleGuard>} />,
     <Route key="contracts-edit" path="/contracts/:id/edit" element={<ModuleGuard moduleKey="sales"><ContractForm /></ModuleGuard>} />,
+
+    // CPQ
+    <Route key="cpq" path="/sales/cpq" element={<ModuleGuard moduleKey="sales"><CPQConfigurations /></ModuleGuard>} />,
+    <Route key="cpq-id" path="/sales/cpq/:id" element={<ModuleGuard moduleKey="sales"><CPQConfigurationDetail /></ModuleGuard>} />,
+
+    // Subscriptions & Billing
+    <Route key="subscriptions" path="/sales/subscriptions" element={<ModuleGuard moduleKey="sales"><Subscriptions /></ModuleGuard>} />,
+    <Route key="billing" path="/sales/billing" element={<ModuleGuard moduleKey="sales"><Billing /></ModuleGuard>} />,
+    <Route key="billing-id" path="/sales/billing/:id" element={<ModuleGuard moduleKey="sales"><BillingDetail /></ModuleGuard>} />,
+
+    // Conversation Intelligence
+    <Route key="conv-intel" path="/sales/conversation-intelligence" element={<ModuleGuard moduleKey="sales"><ConversationIntelligence /></ModuleGuard>} />,
   ];
 }

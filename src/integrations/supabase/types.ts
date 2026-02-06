@@ -2486,6 +2486,106 @@ export type Database = {
           },
         ]
       }
+      call_insights: {
+        Row: {
+          addressed_at: string | null
+          addressed_by: string | null
+          competitor_name: string | null
+          confidence: number
+          created_at: string
+          description: string | null
+          duration_ms: number | null
+          feature_requested: string | null
+          follow_up_action: string | null
+          id: string
+          insight_type: Database["public"]["Enums"]["insight_type"]
+          is_addressed: boolean
+          metadata: Json | null
+          objection_category: string | null
+          organization_id: string
+          product_mentioned: string | null
+          recording_id: string
+          severity: string | null
+          speaker: string | null
+          tags: string[] | null
+          timestamp_ms: number | null
+          title: string
+          transcript_excerpt: string | null
+        }
+        Insert: {
+          addressed_at?: string | null
+          addressed_by?: string | null
+          competitor_name?: string | null
+          confidence?: number
+          created_at?: string
+          description?: string | null
+          duration_ms?: number | null
+          feature_requested?: string | null
+          follow_up_action?: string | null
+          id?: string
+          insight_type: Database["public"]["Enums"]["insight_type"]
+          is_addressed?: boolean
+          metadata?: Json | null
+          objection_category?: string | null
+          organization_id: string
+          product_mentioned?: string | null
+          recording_id: string
+          severity?: string | null
+          speaker?: string | null
+          tags?: string[] | null
+          timestamp_ms?: number | null
+          title: string
+          transcript_excerpt?: string | null
+        }
+        Update: {
+          addressed_at?: string | null
+          addressed_by?: string | null
+          competitor_name?: string | null
+          confidence?: number
+          created_at?: string
+          description?: string | null
+          duration_ms?: number | null
+          feature_requested?: string | null
+          follow_up_action?: string | null
+          id?: string
+          insight_type?: Database["public"]["Enums"]["insight_type"]
+          is_addressed?: boolean
+          metadata?: Json | null
+          objection_category?: string | null
+          organization_id?: string
+          product_mentioned?: string | null
+          recording_id?: string
+          severity?: string | null
+          speaker?: string | null
+          tags?: string[] | null
+          timestamp_ms?: number | null
+          title?: string
+          transcript_excerpt?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "call_insights_addressed_by_fkey"
+            columns: ["addressed_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "call_insights_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "call_insights_recording_id_fkey"
+            columns: ["recording_id"]
+            isOneToOne: false
+            referencedRelation: "sales_call_recordings"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       campaign_links: {
         Row: {
           campaign_id: string
@@ -3913,6 +4013,92 @@ export type Database = {
           },
         ]
       }
+      coaching_notes: {
+        Row: {
+          acknowledged_at: string | null
+          category: string | null
+          coach_id: string
+          content: string
+          created_at: string
+          id: string
+          improvement_area: string | null
+          is_acknowledged: boolean
+          is_private: boolean
+          organization_id: string
+          rating: string | null
+          recording_id: string
+          rep_id: string
+          suggested_action: string | null
+          timestamp_ms: number | null
+          updated_at: string
+        }
+        Insert: {
+          acknowledged_at?: string | null
+          category?: string | null
+          coach_id: string
+          content: string
+          created_at?: string
+          id?: string
+          improvement_area?: string | null
+          is_acknowledged?: boolean
+          is_private?: boolean
+          organization_id: string
+          rating?: string | null
+          recording_id: string
+          rep_id: string
+          suggested_action?: string | null
+          timestamp_ms?: number | null
+          updated_at?: string
+        }
+        Update: {
+          acknowledged_at?: string | null
+          category?: string | null
+          coach_id?: string
+          content?: string
+          created_at?: string
+          id?: string
+          improvement_area?: string | null
+          is_acknowledged?: boolean
+          is_private?: boolean
+          organization_id?: string
+          rating?: string | null
+          recording_id?: string
+          rep_id?: string
+          suggested_action?: string | null
+          timestamp_ms?: number | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "coaching_notes_coach_id_fkey"
+            columns: ["coach_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "coaching_notes_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "coaching_notes_recording_id_fkey"
+            columns: ["recording_id"]
+            isOneToOne: false
+            referencedRelation: "sales_call_recordings"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "coaching_notes_rep_id_fkey"
+            columns: ["rep_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       connector_actions: {
         Row: {
           action_name: string
@@ -4965,6 +5151,555 @@ export type Database = {
           },
         ]
       }
+      cpq_bundle_items: {
+        Row: {
+          bundle_id: string
+          created_at: string
+          discount_override: number | null
+          id: string
+          is_default_selected: boolean
+          is_optional: boolean
+          product_id: string
+          quantity: number
+          sort_order: number
+          unit_price_override: number | null
+        }
+        Insert: {
+          bundle_id: string
+          created_at?: string
+          discount_override?: number | null
+          id?: string
+          is_default_selected?: boolean
+          is_optional?: boolean
+          product_id: string
+          quantity?: number
+          sort_order?: number
+          unit_price_override?: number | null
+        }
+        Update: {
+          bundle_id?: string
+          created_at?: string
+          discount_override?: number | null
+          id?: string
+          is_default_selected?: boolean
+          is_optional?: boolean
+          product_id?: string
+          quantity?: number
+          sort_order?: number
+          unit_price_override?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "cpq_bundle_items_bundle_id_fkey"
+            columns: ["bundle_id"]
+            isOneToOne: false
+            referencedRelation: "cpq_bundles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "cpq_bundle_items_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "products"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      cpq_bundles: {
+        Row: {
+          bundle_price: number
+          created_at: string
+          created_by: string | null
+          description: string | null
+          discount_type: string
+          discount_value: number
+          effective_from: string | null
+          effective_until: string | null
+          id: string
+          is_active: boolean
+          max_quantity: number | null
+          min_quantity: number | null
+          name: string
+          organization_id: string
+          sku: string | null
+          tags: string[] | null
+          updated_at: string
+        }
+        Insert: {
+          bundle_price?: number
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          discount_type?: string
+          discount_value?: number
+          effective_from?: string | null
+          effective_until?: string | null
+          id?: string
+          is_active?: boolean
+          max_quantity?: number | null
+          min_quantity?: number | null
+          name: string
+          organization_id: string
+          sku?: string | null
+          tags?: string[] | null
+          updated_at?: string
+        }
+        Update: {
+          bundle_price?: number
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          discount_type?: string
+          discount_value?: number
+          effective_from?: string | null
+          effective_until?: string | null
+          id?: string
+          is_active?: boolean
+          max_quantity?: number | null
+          min_quantity?: number | null
+          name?: string
+          organization_id?: string
+          sku?: string | null
+          tags?: string[] | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "cpq_bundles_created_by_fkey"
+            columns: ["created_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "cpq_bundles_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      cpq_discount_policies: {
+        Row: {
+          applicable_products: Json | null
+          applicable_territories: string[] | null
+          approval_chain: Json | null
+          approver_role: string | null
+          created_at: string
+          created_by: string | null
+          description: string | null
+          id: string
+          is_active: boolean
+          max_deal_value: number | null
+          max_discount_amount: number | null
+          max_discount_percent: number
+          min_deal_value: number | null
+          name: string
+          organization_id: string
+          priority: number
+          requires_approval: boolean
+          tier: Database["public"]["Enums"]["cpq_discount_tier"]
+          updated_at: string
+        }
+        Insert: {
+          applicable_products?: Json | null
+          applicable_territories?: string[] | null
+          approval_chain?: Json | null
+          approver_role?: string | null
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          id?: string
+          is_active?: boolean
+          max_deal_value?: number | null
+          max_discount_amount?: number | null
+          max_discount_percent: number
+          min_deal_value?: number | null
+          name: string
+          organization_id: string
+          priority?: number
+          requires_approval?: boolean
+          tier: Database["public"]["Enums"]["cpq_discount_tier"]
+          updated_at?: string
+        }
+        Update: {
+          applicable_products?: Json | null
+          applicable_territories?: string[] | null
+          approval_chain?: Json | null
+          approver_role?: string | null
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          id?: string
+          is_active?: boolean
+          max_deal_value?: number | null
+          max_discount_amount?: number | null
+          max_discount_percent?: number
+          min_deal_value?: number | null
+          name?: string
+          organization_id?: string
+          priority?: number
+          requires_approval?: boolean
+          tier?: Database["public"]["Enums"]["cpq_discount_tier"]
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "cpq_discount_policies_created_by_fkey"
+            columns: ["created_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "cpq_discount_policies_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      cpq_price_calculations: {
+        Row: {
+          adjustments: Json
+          calculated_by: string | null
+          calculated_price: number
+          calculation_duration_ms: number | null
+          calculation_type: string
+          configuration_id: string
+          created_at: string
+          discounts_applied: Json
+          errors: Json | null
+          id: string
+          input_data: Json
+          list_price: number
+          margin_amount: number | null
+          margin_percent: number | null
+          organization_id: string
+          rules_applied: Json
+          warnings: Json | null
+        }
+        Insert: {
+          adjustments?: Json
+          calculated_by?: string | null
+          calculated_price?: number
+          calculation_duration_ms?: number | null
+          calculation_type: string
+          configuration_id: string
+          created_at?: string
+          discounts_applied?: Json
+          errors?: Json | null
+          id?: string
+          input_data?: Json
+          list_price?: number
+          margin_amount?: number | null
+          margin_percent?: number | null
+          organization_id: string
+          rules_applied?: Json
+          warnings?: Json | null
+        }
+        Update: {
+          adjustments?: Json
+          calculated_by?: string | null
+          calculated_price?: number
+          calculation_duration_ms?: number | null
+          calculation_type?: string
+          configuration_id?: string
+          created_at?: string
+          discounts_applied?: Json
+          errors?: Json | null
+          id?: string
+          input_data?: Json
+          list_price?: number
+          margin_amount?: number | null
+          margin_percent?: number | null
+          organization_id?: string
+          rules_applied?: Json
+          warnings?: Json | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "cpq_price_calculations_calculated_by_fkey"
+            columns: ["calculated_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "cpq_price_calculations_configuration_id_fkey"
+            columns: ["configuration_id"]
+            isOneToOne: false
+            referencedRelation: "cpq_product_configurations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "cpq_price_calculations_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      cpq_product_configurations: {
+        Row: {
+          account_id: string | null
+          adjusted_price: number
+          approval_status: string | null
+          approved_at: string | null
+          approved_by: string | null
+          base_price: number
+          base_product_id: string | null
+          configuration_data: Json
+          created_at: string
+          created_by: string | null
+          currency: string
+          description: string | null
+          discount_amount: number
+          discount_percent: number
+          final_price: number
+          id: string
+          name: string
+          notes: string | null
+          opportunity_id: string | null
+          organization_id: string
+          quote_id: string | null
+          requires_approval: boolean
+          selected_options: Json
+          status: Database["public"]["Enums"]["cpq_config_status"]
+          updated_at: string
+          updated_by: string | null
+          valid_until: string | null
+          version: number
+        }
+        Insert: {
+          account_id?: string | null
+          adjusted_price?: number
+          approval_status?: string | null
+          approved_at?: string | null
+          approved_by?: string | null
+          base_price?: number
+          base_product_id?: string | null
+          configuration_data?: Json
+          created_at?: string
+          created_by?: string | null
+          currency?: string
+          description?: string | null
+          discount_amount?: number
+          discount_percent?: number
+          final_price?: number
+          id?: string
+          name: string
+          notes?: string | null
+          opportunity_id?: string | null
+          organization_id: string
+          quote_id?: string | null
+          requires_approval?: boolean
+          selected_options?: Json
+          status?: Database["public"]["Enums"]["cpq_config_status"]
+          updated_at?: string
+          updated_by?: string | null
+          valid_until?: string | null
+          version?: number
+        }
+        Update: {
+          account_id?: string | null
+          adjusted_price?: number
+          approval_status?: string | null
+          approved_at?: string | null
+          approved_by?: string | null
+          base_price?: number
+          base_product_id?: string | null
+          configuration_data?: Json
+          created_at?: string
+          created_by?: string | null
+          currency?: string
+          description?: string | null
+          discount_amount?: number
+          discount_percent?: number
+          final_price?: number
+          id?: string
+          name?: string
+          notes?: string | null
+          opportunity_id?: string | null
+          organization_id?: string
+          quote_id?: string | null
+          requires_approval?: boolean
+          selected_options?: Json
+          status?: Database["public"]["Enums"]["cpq_config_status"]
+          updated_at?: string
+          updated_by?: string | null
+          valid_until?: string | null
+          version?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "cpq_product_configurations_account_id_fkey"
+            columns: ["account_id"]
+            isOneToOne: false
+            referencedRelation: "accounts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "cpq_product_configurations_approved_by_fkey"
+            columns: ["approved_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "cpq_product_configurations_base_product_id_fkey"
+            columns: ["base_product_id"]
+            isOneToOne: false
+            referencedRelation: "products"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "cpq_product_configurations_created_by_fkey"
+            columns: ["created_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "cpq_product_configurations_opportunity_id_fkey"
+            columns: ["opportunity_id"]
+            isOneToOne: false
+            referencedRelation: "opportunities"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "cpq_product_configurations_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "cpq_product_configurations_quote_id_fkey"
+            columns: ["quote_id"]
+            isOneToOne: false
+            referencedRelation: "quotes"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "cpq_product_configurations_updated_by_fkey"
+            columns: ["updated_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      cpq_rules: {
+        Row: {
+          action: Database["public"]["Enums"]["cpq_rule_action"]
+          conditions: Json
+          created_at: string
+          created_by: string | null
+          description: string | null
+          effective_from: string | null
+          effective_until: string | null
+          error_message: string | null
+          id: string
+          is_active: boolean
+          name: string
+          organization_id: string
+          price_formula: string | null
+          price_modifier_type: string | null
+          price_modifier_value: number | null
+          priority: number
+          rule_type: Database["public"]["Enums"]["cpq_rule_type"]
+          source_category: string | null
+          source_product_id: string | null
+          target_category: string | null
+          target_product_id: string | null
+          updated_at: string
+          warning_message: string | null
+        }
+        Insert: {
+          action?: Database["public"]["Enums"]["cpq_rule_action"]
+          conditions?: Json
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          effective_from?: string | null
+          effective_until?: string | null
+          error_message?: string | null
+          id?: string
+          is_active?: boolean
+          name: string
+          organization_id: string
+          price_formula?: string | null
+          price_modifier_type?: string | null
+          price_modifier_value?: number | null
+          priority?: number
+          rule_type: Database["public"]["Enums"]["cpq_rule_type"]
+          source_category?: string | null
+          source_product_id?: string | null
+          target_category?: string | null
+          target_product_id?: string | null
+          updated_at?: string
+          warning_message?: string | null
+        }
+        Update: {
+          action?: Database["public"]["Enums"]["cpq_rule_action"]
+          conditions?: Json
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          effective_from?: string | null
+          effective_until?: string | null
+          error_message?: string | null
+          id?: string
+          is_active?: boolean
+          name?: string
+          organization_id?: string
+          price_formula?: string | null
+          price_modifier_type?: string | null
+          price_modifier_value?: number | null
+          priority?: number
+          rule_type?: Database["public"]["Enums"]["cpq_rule_type"]
+          source_category?: string | null
+          source_product_id?: string | null
+          target_category?: string | null
+          target_product_id?: string | null
+          updated_at?: string
+          warning_message?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "cpq_rules_created_by_fkey"
+            columns: ["created_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "cpq_rules_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "cpq_rules_source_product_id_fkey"
+            columns: ["source_product_id"]
+            isOneToOne: false
+            referencedRelation: "products"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "cpq_rules_target_product_id_fkey"
+            columns: ["target_product_id"]
+            isOneToOne: false
+            referencedRelation: "products"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       csat_responses: {
         Row: {
           agent_id: string | null
@@ -5797,6 +6532,137 @@ export type Database = {
             columns: ["resolved_by"]
             isOneToOne: false
             referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      dunning_attempts: {
+        Row: {
+          account_id: string
+          attempt_number: number
+          channel: string
+          created_at: string
+          created_by: string | null
+          delivered_at: string | null
+          escalated_to: string | null
+          escalation_reason: string | null
+          id: string
+          invoice_id: string
+          max_attempts: number
+          message_template: string | null
+          next_attempt_at: string | null
+          opened_at: string | null
+          organization_id: string
+          payment_amount: number | null
+          payment_received: boolean
+          resolution_notes: string | null
+          resolved_at: string | null
+          resolved_by: string | null
+          sent_at: string | null
+          status: Database["public"]["Enums"]["dunning_status"]
+          subscription_id: string | null
+          updated_at: string
+        }
+        Insert: {
+          account_id: string
+          attempt_number?: number
+          channel?: string
+          created_at?: string
+          created_by?: string | null
+          delivered_at?: string | null
+          escalated_to?: string | null
+          escalation_reason?: string | null
+          id?: string
+          invoice_id: string
+          max_attempts?: number
+          message_template?: string | null
+          next_attempt_at?: string | null
+          opened_at?: string | null
+          organization_id: string
+          payment_amount?: number | null
+          payment_received?: boolean
+          resolution_notes?: string | null
+          resolved_at?: string | null
+          resolved_by?: string | null
+          sent_at?: string | null
+          status?: Database["public"]["Enums"]["dunning_status"]
+          subscription_id?: string | null
+          updated_at?: string
+        }
+        Update: {
+          account_id?: string
+          attempt_number?: number
+          channel?: string
+          created_at?: string
+          created_by?: string | null
+          delivered_at?: string | null
+          escalated_to?: string | null
+          escalation_reason?: string | null
+          id?: string
+          invoice_id?: string
+          max_attempts?: number
+          message_template?: string | null
+          next_attempt_at?: string | null
+          opened_at?: string | null
+          organization_id?: string
+          payment_amount?: number | null
+          payment_received?: boolean
+          resolution_notes?: string | null
+          resolved_at?: string | null
+          resolved_by?: string | null
+          sent_at?: string | null
+          status?: Database["public"]["Enums"]["dunning_status"]
+          subscription_id?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "dunning_attempts_account_id_fkey"
+            columns: ["account_id"]
+            isOneToOne: false
+            referencedRelation: "accounts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "dunning_attempts_created_by_fkey"
+            columns: ["created_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "dunning_attempts_escalated_to_fkey"
+            columns: ["escalated_to"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "dunning_attempts_invoice_id_fkey"
+            columns: ["invoice_id"]
+            isOneToOne: false
+            referencedRelation: "invoices"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "dunning_attempts_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "dunning_attempts_resolved_by_fkey"
+            columns: ["resolved_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "dunning_attempts_subscription_id_fkey"
+            columns: ["subscription_id"]
+            isOneToOne: false
+            referencedRelation: "subscriptions"
             referencedColumns: ["id"]
           },
         ]
@@ -6717,6 +7583,268 @@ export type Database = {
             columns: ["organization_id"]
             isOneToOne: false
             referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      invoice_items: {
+        Row: {
+          created_at: string
+          description: string
+          discount_amount: number
+          discount_percent: number
+          id: string
+          invoice_id: string
+          period_end: string | null
+          period_start: string | null
+          product_id: string | null
+          quantity: number
+          sort_order: number
+          subscription_item_id: string | null
+          tax_amount: number
+          tax_percent: number
+          total: number
+          unit_price: number
+        }
+        Insert: {
+          created_at?: string
+          description: string
+          discount_amount?: number
+          discount_percent?: number
+          id?: string
+          invoice_id: string
+          period_end?: string | null
+          period_start?: string | null
+          product_id?: string | null
+          quantity?: number
+          sort_order?: number
+          subscription_item_id?: string | null
+          tax_amount?: number
+          tax_percent?: number
+          total?: number
+          unit_price?: number
+        }
+        Update: {
+          created_at?: string
+          description?: string
+          discount_amount?: number
+          discount_percent?: number
+          id?: string
+          invoice_id?: string
+          period_end?: string | null
+          period_start?: string | null
+          product_id?: string | null
+          quantity?: number
+          sort_order?: number
+          subscription_item_id?: string | null
+          tax_amount?: number
+          tax_percent?: number
+          total?: number
+          unit_price?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "invoice_items_invoice_id_fkey"
+            columns: ["invoice_id"]
+            isOneToOne: false
+            referencedRelation: "invoices"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "invoice_items_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "products"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "invoice_items_subscription_item_id_fkey"
+            columns: ["subscription_item_id"]
+            isOneToOne: false
+            referencedRelation: "subscription_items"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      invoices: {
+        Row: {
+          account_id: string
+          amount_due: number
+          amount_paid: number
+          billing_address_city: string | null
+          billing_address_country: string | null
+          billing_address_postal_code: string | null
+          billing_address_state: string | null
+          billing_address_street: string | null
+          billing_email: string | null
+          billing_name: string | null
+          contact_id: string | null
+          contract_id: string | null
+          created_at: string
+          created_by: string | null
+          currency: string
+          custom_fields: Json | null
+          discount_amount: number
+          due_date: string
+          footer_text: string | null
+          id: string
+          internal_notes: string | null
+          invoice_number: string
+          issue_date: string
+          notes: string | null
+          order_id: string | null
+          organization_id: string
+          paid_at: string | null
+          payment_method: string | null
+          payment_reference: string | null
+          shipping_amount: number
+          status: Database["public"]["Enums"]["invoice_status"]
+          subscription_id: string | null
+          subtotal: number
+          tax_amount: number
+          terms: string | null
+          total: number
+          updated_at: string
+          voided_at: string | null
+          voided_by: string | null
+        }
+        Insert: {
+          account_id: string
+          amount_due?: number
+          amount_paid?: number
+          billing_address_city?: string | null
+          billing_address_country?: string | null
+          billing_address_postal_code?: string | null
+          billing_address_state?: string | null
+          billing_address_street?: string | null
+          billing_email?: string | null
+          billing_name?: string | null
+          contact_id?: string | null
+          contract_id?: string | null
+          created_at?: string
+          created_by?: string | null
+          currency?: string
+          custom_fields?: Json | null
+          discount_amount?: number
+          due_date: string
+          footer_text?: string | null
+          id?: string
+          internal_notes?: string | null
+          invoice_number: string
+          issue_date?: string
+          notes?: string | null
+          order_id?: string | null
+          organization_id: string
+          paid_at?: string | null
+          payment_method?: string | null
+          payment_reference?: string | null
+          shipping_amount?: number
+          status?: Database["public"]["Enums"]["invoice_status"]
+          subscription_id?: string | null
+          subtotal?: number
+          tax_amount?: number
+          terms?: string | null
+          total?: number
+          updated_at?: string
+          voided_at?: string | null
+          voided_by?: string | null
+        }
+        Update: {
+          account_id?: string
+          amount_due?: number
+          amount_paid?: number
+          billing_address_city?: string | null
+          billing_address_country?: string | null
+          billing_address_postal_code?: string | null
+          billing_address_state?: string | null
+          billing_address_street?: string | null
+          billing_email?: string | null
+          billing_name?: string | null
+          contact_id?: string | null
+          contract_id?: string | null
+          created_at?: string
+          created_by?: string | null
+          currency?: string
+          custom_fields?: Json | null
+          discount_amount?: number
+          due_date?: string
+          footer_text?: string | null
+          id?: string
+          internal_notes?: string | null
+          invoice_number?: string
+          issue_date?: string
+          notes?: string | null
+          order_id?: string | null
+          organization_id?: string
+          paid_at?: string | null
+          payment_method?: string | null
+          payment_reference?: string | null
+          shipping_amount?: number
+          status?: Database["public"]["Enums"]["invoice_status"]
+          subscription_id?: string | null
+          subtotal?: number
+          tax_amount?: number
+          terms?: string | null
+          total?: number
+          updated_at?: string
+          voided_at?: string | null
+          voided_by?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "invoices_account_id_fkey"
+            columns: ["account_id"]
+            isOneToOne: false
+            referencedRelation: "accounts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "invoices_contact_id_fkey"
+            columns: ["contact_id"]
+            isOneToOne: false
+            referencedRelation: "contacts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "invoices_contract_id_fkey"
+            columns: ["contract_id"]
+            isOneToOne: false
+            referencedRelation: "contracts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "invoices_created_by_fkey"
+            columns: ["created_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "invoices_order_id_fkey"
+            columns: ["order_id"]
+            isOneToOne: false
+            referencedRelation: "orders"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "invoices_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "invoices_subscription_id_fkey"
+            columns: ["subscription_id"]
+            isOneToOne: false
+            referencedRelation: "subscriptions"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "invoices_voided_by_fkey"
+            columns: ["voided_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
             referencedColumns: ["id"]
           },
         ]
@@ -11087,6 +12215,124 @@ export type Database = {
           },
         ]
       }
+      payment_ledger: {
+        Row: {
+          account_id: string
+          amount: number
+          created_at: string
+          created_by: string | null
+          currency: string
+          description: string
+          effective_date: string
+          entry_type: Database["public"]["Enums"]["ledger_entry_type"]
+          gateway_transaction_id: string | null
+          id: string
+          invoice_id: string | null
+          metadata: Json | null
+          notes: string | null
+          order_id: string | null
+          organization_id: string
+          payment_gateway: string | null
+          payment_method: string | null
+          reference_number: string | null
+          running_balance: number | null
+          status: string
+          subscription_id: string | null
+          transaction_date: string
+        }
+        Insert: {
+          account_id: string
+          amount: number
+          created_at?: string
+          created_by?: string | null
+          currency?: string
+          description: string
+          effective_date?: string
+          entry_type: Database["public"]["Enums"]["ledger_entry_type"]
+          gateway_transaction_id?: string | null
+          id?: string
+          invoice_id?: string | null
+          metadata?: Json | null
+          notes?: string | null
+          order_id?: string | null
+          organization_id: string
+          payment_gateway?: string | null
+          payment_method?: string | null
+          reference_number?: string | null
+          running_balance?: number | null
+          status?: string
+          subscription_id?: string | null
+          transaction_date?: string
+        }
+        Update: {
+          account_id?: string
+          amount?: number
+          created_at?: string
+          created_by?: string | null
+          currency?: string
+          description?: string
+          effective_date?: string
+          entry_type?: Database["public"]["Enums"]["ledger_entry_type"]
+          gateway_transaction_id?: string | null
+          id?: string
+          invoice_id?: string | null
+          metadata?: Json | null
+          notes?: string | null
+          order_id?: string | null
+          organization_id?: string
+          payment_gateway?: string | null
+          payment_method?: string | null
+          reference_number?: string | null
+          running_balance?: number | null
+          status?: string
+          subscription_id?: string | null
+          transaction_date?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "payment_ledger_account_id_fkey"
+            columns: ["account_id"]
+            isOneToOne: false
+            referencedRelation: "accounts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "payment_ledger_created_by_fkey"
+            columns: ["created_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "payment_ledger_invoice_id_fkey"
+            columns: ["invoice_id"]
+            isOneToOne: false
+            referencedRelation: "invoices"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "payment_ledger_order_id_fkey"
+            columns: ["order_id"]
+            isOneToOne: false
+            referencedRelation: "orders"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "payment_ledger_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "payment_ledger_subscription_id_fkey"
+            columns: ["subscription_id"]
+            isOneToOne: false
+            referencedRelation: "subscriptions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       payments: {
         Row: {
           amount: number
@@ -13256,6 +14502,186 @@ export type Database = {
           },
         ]
       }
+      sales_call_recordings: {
+        Row: {
+          account_id: string | null
+          action_items: Json | null
+          analyzed_at: string | null
+          analyzed_by: string | null
+          call_id: string | null
+          call_score: number | null
+          caller_id: string | null
+          contact_id: string | null
+          created_at: string
+          created_by: string | null
+          engagement_score: number | null
+          file_format: string | null
+          file_size_bytes: number | null
+          filler_word_count: number | null
+          id: string
+          key_moments: Json | null
+          lead_id: string | null
+          longest_monologue_seconds: number | null
+          opportunity_id: string | null
+          organization_id: string
+          overall_sentiment:
+            | Database["public"]["Enums"]["call_sentiment"]
+            | null
+          question_count: number | null
+          recorded_at: string
+          recording_duration_seconds: number | null
+          recording_url: string | null
+          sentiment_timeline: Json | null
+          status: Database["public"]["Enums"]["call_recording_status"]
+          tags: string[] | null
+          talk_ratio: Json | null
+          talk_speed: Json | null
+          title: string
+          transcription: string | null
+          transcription_confidence: number | null
+          transcription_language: string | null
+          transcription_segments: Json | null
+          updated_at: string
+        }
+        Insert: {
+          account_id?: string | null
+          action_items?: Json | null
+          analyzed_at?: string | null
+          analyzed_by?: string | null
+          call_id?: string | null
+          call_score?: number | null
+          caller_id?: string | null
+          contact_id?: string | null
+          created_at?: string
+          created_by?: string | null
+          engagement_score?: number | null
+          file_format?: string | null
+          file_size_bytes?: number | null
+          filler_word_count?: number | null
+          id?: string
+          key_moments?: Json | null
+          lead_id?: string | null
+          longest_monologue_seconds?: number | null
+          opportunity_id?: string | null
+          organization_id: string
+          overall_sentiment?:
+            | Database["public"]["Enums"]["call_sentiment"]
+            | null
+          question_count?: number | null
+          recorded_at?: string
+          recording_duration_seconds?: number | null
+          recording_url?: string | null
+          sentiment_timeline?: Json | null
+          status?: Database["public"]["Enums"]["call_recording_status"]
+          tags?: string[] | null
+          talk_ratio?: Json | null
+          talk_speed?: Json | null
+          title: string
+          transcription?: string | null
+          transcription_confidence?: number | null
+          transcription_language?: string | null
+          transcription_segments?: Json | null
+          updated_at?: string
+        }
+        Update: {
+          account_id?: string | null
+          action_items?: Json | null
+          analyzed_at?: string | null
+          analyzed_by?: string | null
+          call_id?: string | null
+          call_score?: number | null
+          caller_id?: string | null
+          contact_id?: string | null
+          created_at?: string
+          created_by?: string | null
+          engagement_score?: number | null
+          file_format?: string | null
+          file_size_bytes?: number | null
+          filler_word_count?: number | null
+          id?: string
+          key_moments?: Json | null
+          lead_id?: string | null
+          longest_monologue_seconds?: number | null
+          opportunity_id?: string | null
+          organization_id?: string
+          overall_sentiment?:
+            | Database["public"]["Enums"]["call_sentiment"]
+            | null
+          question_count?: number | null
+          recorded_at?: string
+          recording_duration_seconds?: number | null
+          recording_url?: string | null
+          sentiment_timeline?: Json | null
+          status?: Database["public"]["Enums"]["call_recording_status"]
+          tags?: string[] | null
+          talk_ratio?: Json | null
+          talk_speed?: Json | null
+          title?: string
+          transcription?: string | null
+          transcription_confidence?: number | null
+          transcription_language?: string | null
+          transcription_segments?: Json | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "sales_call_recordings_account_id_fkey"
+            columns: ["account_id"]
+            isOneToOne: false
+            referencedRelation: "accounts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "sales_call_recordings_call_id_fkey"
+            columns: ["call_id"]
+            isOneToOne: false
+            referencedRelation: "voice_calls"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "sales_call_recordings_caller_id_fkey"
+            columns: ["caller_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "sales_call_recordings_contact_id_fkey"
+            columns: ["contact_id"]
+            isOneToOne: false
+            referencedRelation: "contacts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "sales_call_recordings_created_by_fkey"
+            columns: ["created_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "sales_call_recordings_lead_id_fkey"
+            columns: ["lead_id"]
+            isOneToOne: false
+            referencedRelation: "leads"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "sales_call_recordings_opportunity_id_fkey"
+            columns: ["opportunity_id"]
+            isOneToOne: false
+            referencedRelation: "opportunities"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "sales_call_recordings_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       segment_members: {
         Row: {
           account_id: string | null
@@ -13578,6 +15004,279 @@ export type Database = {
             columns: ["organization_id"]
             isOneToOne: false
             referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      subscription_items: {
+        Row: {
+          created_at: string
+          current_usage: number | null
+          description: string | null
+          discount_percent: number
+          effective_from: string
+          effective_until: string | null
+          id: string
+          included_units: number | null
+          is_active: boolean
+          is_metered: boolean
+          name: string
+          overage_price: number | null
+          product_id: string | null
+          quantity: number
+          subscription_id: string
+          tax_percent: number
+          total: number
+          unit_price: number
+          updated_at: string
+          usage_metric: string | null
+        }
+        Insert: {
+          created_at?: string
+          current_usage?: number | null
+          description?: string | null
+          discount_percent?: number
+          effective_from?: string
+          effective_until?: string | null
+          id?: string
+          included_units?: number | null
+          is_active?: boolean
+          is_metered?: boolean
+          name: string
+          overage_price?: number | null
+          product_id?: string | null
+          quantity?: number
+          subscription_id: string
+          tax_percent?: number
+          total?: number
+          unit_price?: number
+          updated_at?: string
+          usage_metric?: string | null
+        }
+        Update: {
+          created_at?: string
+          current_usage?: number | null
+          description?: string | null
+          discount_percent?: number
+          effective_from?: string
+          effective_until?: string | null
+          id?: string
+          included_units?: number | null
+          is_active?: boolean
+          is_metered?: boolean
+          name?: string
+          overage_price?: number | null
+          product_id?: string | null
+          quantity?: number
+          subscription_id?: string
+          tax_percent?: number
+          total?: number
+          unit_price?: number
+          updated_at?: string
+          usage_metric?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "subscription_items_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "products"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "subscription_items_subscription_id_fkey"
+            columns: ["subscription_id"]
+            isOneToOne: false
+            referencedRelation: "subscriptions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      subscriptions: {
+        Row: {
+          account_id: string
+          auto_renew: boolean
+          base_price: number
+          billing_day: number | null
+          billing_interval: Database["public"]["Enums"]["subscription_interval"]
+          cancellation_feedback: string | null
+          cancellation_reason: string | null
+          cancelled_at: string | null
+          contact_id: string | null
+          contract_id: string | null
+          created_at: string
+          created_by: string | null
+          currency: string
+          current_period_end: string | null
+          current_period_start: string | null
+          custom_fields: Json | null
+          discount_amount: number
+          discount_percent: number
+          expires_at: string | null
+          id: string
+          last_renewed_at: string | null
+          next_billing_date: string | null
+          notes: string | null
+          opportunity_id: string | null
+          organization_id: string
+          owner_id: string | null
+          paused_at: string | null
+          plan_description: string | null
+          plan_name: string
+          quote_id: string | null
+          renewal_count: number
+          resume_at: string | null
+          starts_at: string
+          status: Database["public"]["Enums"]["subscription_status"]
+          subscription_number: string
+          tags: string[] | null
+          tax_percent: number
+          total_recurring: number
+          trial_ends_at: string | null
+          trial_starts_at: string | null
+          updated_at: string
+        }
+        Insert: {
+          account_id: string
+          auto_renew?: boolean
+          base_price?: number
+          billing_day?: number | null
+          billing_interval?: Database["public"]["Enums"]["subscription_interval"]
+          cancellation_feedback?: string | null
+          cancellation_reason?: string | null
+          cancelled_at?: string | null
+          contact_id?: string | null
+          contract_id?: string | null
+          created_at?: string
+          created_by?: string | null
+          currency?: string
+          current_period_end?: string | null
+          current_period_start?: string | null
+          custom_fields?: Json | null
+          discount_amount?: number
+          discount_percent?: number
+          expires_at?: string | null
+          id?: string
+          last_renewed_at?: string | null
+          next_billing_date?: string | null
+          notes?: string | null
+          opportunity_id?: string | null
+          organization_id: string
+          owner_id?: string | null
+          paused_at?: string | null
+          plan_description?: string | null
+          plan_name: string
+          quote_id?: string | null
+          renewal_count?: number
+          resume_at?: string | null
+          starts_at?: string
+          status?: Database["public"]["Enums"]["subscription_status"]
+          subscription_number: string
+          tags?: string[] | null
+          tax_percent?: number
+          total_recurring?: number
+          trial_ends_at?: string | null
+          trial_starts_at?: string | null
+          updated_at?: string
+        }
+        Update: {
+          account_id?: string
+          auto_renew?: boolean
+          base_price?: number
+          billing_day?: number | null
+          billing_interval?: Database["public"]["Enums"]["subscription_interval"]
+          cancellation_feedback?: string | null
+          cancellation_reason?: string | null
+          cancelled_at?: string | null
+          contact_id?: string | null
+          contract_id?: string | null
+          created_at?: string
+          created_by?: string | null
+          currency?: string
+          current_period_end?: string | null
+          current_period_start?: string | null
+          custom_fields?: Json | null
+          discount_amount?: number
+          discount_percent?: number
+          expires_at?: string | null
+          id?: string
+          last_renewed_at?: string | null
+          next_billing_date?: string | null
+          notes?: string | null
+          opportunity_id?: string | null
+          organization_id?: string
+          owner_id?: string | null
+          paused_at?: string | null
+          plan_description?: string | null
+          plan_name?: string
+          quote_id?: string | null
+          renewal_count?: number
+          resume_at?: string | null
+          starts_at?: string
+          status?: Database["public"]["Enums"]["subscription_status"]
+          subscription_number?: string
+          tags?: string[] | null
+          tax_percent?: number
+          total_recurring?: number
+          trial_ends_at?: string | null
+          trial_starts_at?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "subscriptions_account_id_fkey"
+            columns: ["account_id"]
+            isOneToOne: false
+            referencedRelation: "accounts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "subscriptions_contact_id_fkey"
+            columns: ["contact_id"]
+            isOneToOne: false
+            referencedRelation: "contacts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "subscriptions_contract_id_fkey"
+            columns: ["contract_id"]
+            isOneToOne: false
+            referencedRelation: "contracts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "subscriptions_created_by_fkey"
+            columns: ["created_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "subscriptions_opportunity_id_fkey"
+            columns: ["opportunity_id"]
+            isOneToOne: false
+            referencedRelation: "opportunities"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "subscriptions_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "subscriptions_owner_id_fkey"
+            columns: ["owner_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "subscriptions_quote_id_fkey"
+            columns: ["quote_id"]
+            isOneToOne: false
+            referencedRelation: "quotes"
             referencedColumns: ["id"]
           },
         ]
@@ -16694,10 +18393,15 @@ export type Database = {
         Returns: string
       }
       generate_incident_number: { Args: { org_id: string }; Returns: string }
+      generate_invoice_number: { Args: { org_id: string }; Returns: string }
       generate_order_number: { Args: { org_id: string }; Returns: string }
       generate_problem_number: { Args: { org_id: string }; Returns: string }
       generate_request_number: { Args: { org_id: string }; Returns: string }
       generate_return_number: { Args: { org_id: string }; Returns: string }
+      generate_subscription_number: {
+        Args: { org_id: string }
+        Returns: string
+      }
       generate_ticket_number: { Args: { org_id: string }; Returns: string }
       get_ai_usage_metrics: { Args: { _org_id: string }; Returns: Json }
       get_next_conversation: { Args: { p_agent_id: string }; Returns: string }
@@ -16945,6 +18649,20 @@ export type Database = {
         | "push_click"
         | "custom"
       cadence_step_type: "email" | "call" | "linkedin" | "task"
+      call_recording_status:
+        | "processing"
+        | "ready"
+        | "transcribed"
+        | "analyzed"
+        | "failed"
+        | "archived"
+      call_sentiment:
+        | "very_positive"
+        | "positive"
+        | "neutral"
+        | "negative"
+        | "very_negative"
+        | "mixed"
       campaign_member_status:
         | "pending"
         | "sent"
@@ -17088,6 +18806,20 @@ export type Database = {
         | "snoozed"
         | "closed"
         | "spam"
+      cpq_config_status: "draft" | "valid" | "invalid" | "approved" | "expired"
+      cpq_discount_tier: "tier_1" | "tier_2" | "tier_3" | "tier_4" | "tier_5"
+      cpq_rule_action:
+        | "require"
+        | "exclude"
+        | "suggest"
+        | "price_override"
+        | "warn"
+      cpq_rule_type:
+        | "compatibility"
+        | "restriction"
+        | "dependency"
+        | "pricing"
+        | "validation"
       data_source_type:
         | "internal"
         | "api"
@@ -17100,6 +18832,13 @@ export type Database = {
         | "resolved"
         | "expired"
         | "manually_resolved"
+      dunning_status:
+        | "pending"
+        | "sent"
+        | "escalated"
+        | "resolved"
+        | "failed"
+        | "cancelled"
       duplicate_status:
         | "detected"
         | "confirmed"
@@ -17124,12 +18863,33 @@ export type Database = {
         | "completed"
         | "failed"
         | "partial"
+      insight_type:
+        | "objection"
+        | "competitor_mention"
+        | "pricing_discussion"
+        | "next_step"
+        | "risk_signal"
+        | "buying_signal"
+        | "feature_request"
+        | "pain_point"
+        | "decision_maker"
+        | "timeline"
       integration_run_status:
         | "pending"
         | "running"
         | "completed"
         | "failed"
         | "retrying"
+      invoice_status:
+        | "draft"
+        | "pending"
+        | "sent"
+        | "paid"
+        | "partial"
+        | "overdue"
+        | "cancelled"
+        | "void"
+        | "refunded"
       it_asset_condition:
         | "new"
         | "good"
@@ -17231,6 +18991,14 @@ export type Database = {
         | "qualified"
         | "unqualified"
         | "converted"
+      ledger_entry_type:
+        | "charge"
+        | "payment"
+        | "credit"
+        | "debit"
+        | "refund"
+        | "adjustment"
+        | "write_off"
       lgpd_request_type:
         | "access"
         | "rectification"
@@ -17395,6 +19163,20 @@ export type Database = {
         | "failed"
         | "skipped"
         | "waiting"
+      subscription_interval:
+        | "monthly"
+        | "quarterly"
+        | "semi_annual"
+        | "annual"
+        | "custom"
+      subscription_status:
+        | "trial"
+        | "active"
+        | "past_due"
+        | "cancelled"
+        | "paused"
+        | "expired"
+        | "pending_activation"
       ticket_channel:
         | "email"
         | "chat"
@@ -17735,6 +19517,22 @@ export const Constants = {
         "custom",
       ],
       cadence_step_type: ["email", "call", "linkedin", "task"],
+      call_recording_status: [
+        "processing",
+        "ready",
+        "transcribed",
+        "analyzed",
+        "failed",
+        "archived",
+      ],
+      call_sentiment: [
+        "very_positive",
+        "positive",
+        "neutral",
+        "negative",
+        "very_negative",
+        "mixed",
+      ],
       campaign_member_status: [
         "pending",
         "sent",
@@ -17892,6 +19690,22 @@ export const Constants = {
         "closed",
         "spam",
       ],
+      cpq_config_status: ["draft", "valid", "invalid", "approved", "expired"],
+      cpq_discount_tier: ["tier_1", "tier_2", "tier_3", "tier_4", "tier_5"],
+      cpq_rule_action: [
+        "require",
+        "exclude",
+        "suggest",
+        "price_override",
+        "warn",
+      ],
+      cpq_rule_type: [
+        "compatibility",
+        "restriction",
+        "dependency",
+        "pricing",
+        "validation",
+      ],
       data_source_type: [
         "internal",
         "api",
@@ -17905,6 +19719,14 @@ export const Constants = {
         "resolved",
         "expired",
         "manually_resolved",
+      ],
+      dunning_status: [
+        "pending",
+        "sent",
+        "escalated",
+        "resolved",
+        "failed",
+        "cancelled",
       ],
       duplicate_status: [
         "detected",
@@ -17933,12 +19755,35 @@ export const Constants = {
         "failed",
         "partial",
       ],
+      insight_type: [
+        "objection",
+        "competitor_mention",
+        "pricing_discussion",
+        "next_step",
+        "risk_signal",
+        "buying_signal",
+        "feature_request",
+        "pain_point",
+        "decision_maker",
+        "timeline",
+      ],
       integration_run_status: [
         "pending",
         "running",
         "completed",
         "failed",
         "retrying",
+      ],
+      invoice_status: [
+        "draft",
+        "pending",
+        "sent",
+        "paid",
+        "partial",
+        "overdue",
+        "cancelled",
+        "void",
+        "refunded",
       ],
       it_asset_condition: [
         "new",
@@ -18050,6 +19895,15 @@ export const Constants = {
         "qualified",
         "unqualified",
         "converted",
+      ],
+      ledger_entry_type: [
+        "charge",
+        "payment",
+        "credit",
+        "debit",
+        "refund",
+        "adjustment",
+        "write_off",
       ],
       lgpd_request_type: [
         "access",
@@ -18233,6 +20087,22 @@ export const Constants = {
         "failed",
         "skipped",
         "waiting",
+      ],
+      subscription_interval: [
+        "monthly",
+        "quarterly",
+        "semi_annual",
+        "annual",
+        "custom",
+      ],
+      subscription_status: [
+        "trial",
+        "active",
+        "past_due",
+        "cancelled",
+        "paused",
+        "expired",
+        "pending_activation",
       ],
       ticket_channel: ["email", "chat", "phone", "whatsapp", "portal", "form"],
       ticket_priority: ["low", "medium", "high", "critical"],
