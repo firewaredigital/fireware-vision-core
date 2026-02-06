@@ -233,6 +233,180 @@ export type Database = {
           },
         ]
       }
+      agent_capacity: {
+        Row: {
+          channel: Database["public"]["Enums"]["conversation_channel"]
+          created_at: string
+          current_active: number
+          id: string
+          max_concurrent: number
+          organization_id: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          channel: Database["public"]["Enums"]["conversation_channel"]
+          created_at?: string
+          current_active?: number
+          id?: string
+          max_concurrent?: number
+          organization_id: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          channel?: Database["public"]["Enums"]["conversation_channel"]
+          created_at?: string
+          current_active?: number
+          id?: string
+          max_concurrent?: number
+          organization_id?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "agent_capacity_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "agent_capacity_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      agent_skills: {
+        Row: {
+          certified_at: string | null
+          created_at: string
+          expires_at: string | null
+          id: string
+          is_active: boolean | null
+          organization_id: string
+          proficiency_level: number | null
+          skill_name: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          certified_at?: string | null
+          created_at?: string
+          expires_at?: string | null
+          id?: string
+          is_active?: boolean | null
+          organization_id: string
+          proficiency_level?: number | null
+          skill_name: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          certified_at?: string | null
+          created_at?: string
+          expires_at?: string | null
+          id?: string
+          is_active?: boolean | null
+          organization_id?: string
+          proficiency_level?: number | null
+          skill_name?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "agent_skills_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "agent_skills_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      agent_status: {
+        Row: {
+          auto_away_enabled: boolean | null
+          auto_away_minutes: number | null
+          available_channels:
+            | Database["public"]["Enums"]["conversation_channel"][]
+            | null
+          created_at: string
+          custom_status_text: string | null
+          id: string
+          is_accepting_new: boolean | null
+          last_activity_at: string | null
+          organization_id: string
+          status: Database["public"]["Enums"]["agent_availability_status"]
+          status_changed_at: string | null
+          status_reason: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          auto_away_enabled?: boolean | null
+          auto_away_minutes?: number | null
+          available_channels?:
+            | Database["public"]["Enums"]["conversation_channel"][]
+            | null
+          created_at?: string
+          custom_status_text?: string | null
+          id?: string
+          is_accepting_new?: boolean | null
+          last_activity_at?: string | null
+          organization_id: string
+          status?: Database["public"]["Enums"]["agent_availability_status"]
+          status_changed_at?: string | null
+          status_reason?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          auto_away_enabled?: boolean | null
+          auto_away_minutes?: number | null
+          available_channels?:
+            | Database["public"]["Enums"]["conversation_channel"][]
+            | null
+          created_at?: string
+          custom_status_text?: string | null
+          id?: string
+          is_accepting_new?: boolean | null
+          last_activity_at?: string | null
+          organization_id?: string
+          status?: Database["public"]["Enums"]["agent_availability_status"]
+          status_changed_at?: string | null
+          status_reason?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "agent_status_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "agent_status_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: true
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       approval_requests: {
         Row: {
           approval_level: number | null
@@ -1059,6 +1233,53 @@ export type Database = {
           },
           {
             foreignKeyName: "behavioral_events_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      business_hours: {
+        Row: {
+          created_at: string
+          holidays: Json | null
+          id: string
+          is_active: boolean | null
+          is_default: boolean | null
+          name: string
+          organization_id: string
+          schedule: Json
+          timezone: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          holidays?: Json | null
+          id?: string
+          is_active?: boolean | null
+          is_default?: boolean | null
+          name: string
+          organization_id: string
+          schedule?: Json
+          timezone?: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          holidays?: Json | null
+          id?: string
+          is_active?: boolean | null
+          is_default?: boolean | null
+          name?: string
+          organization_id?: string
+          schedule?: Json
+          timezone?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "business_hours_organization_id_fkey"
             columns: ["organization_id"]
             isOneToOne: false
             referencedRelation: "organizations"
@@ -2609,6 +2830,501 @@ export type Database = {
             columns: ["quote_id"]
             isOneToOne: false
             referencedRelation: "quotes"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      conversation_messages: {
+        Row: {
+          ai_confidence: number | null
+          ai_generated: boolean | null
+          ai_model: string | null
+          ai_suggestions: Json | null
+          attachments: Json | null
+          canned_response_id: string | null
+          content: string | null
+          content_html: string | null
+          content_type: Database["public"]["Enums"]["message_content_type"]
+          conversation_id: string
+          created_at: string
+          deleted_at: string | null
+          delivered_at: string | null
+          delivery_status: Database["public"]["Enums"]["message_delivery_status"]
+          edited_at: string | null
+          external_message_id: string | null
+          failed_at: string | null
+          failure_reason: string | null
+          id: string
+          in_reply_to_id: string | null
+          interactive_data: Json | null
+          is_automated: boolean | null
+          is_deleted: boolean | null
+          is_edited: boolean | null
+          is_internal: boolean | null
+          is_pinned: boolean | null
+          metadata: Json | null
+          organization_id: string
+          quick_replies: Json | null
+          reactions: Json | null
+          read_at: string | null
+          sender_avatar_url: string | null
+          sender_email: string | null
+          sender_id: string | null
+          sender_name: string | null
+          sender_type: Database["public"]["Enums"]["conversation_sender_type"]
+          sent_at: string | null
+          template_data: Json | null
+          template_id: string | null
+          thread_id: string | null
+          updated_at: string
+        }
+        Insert: {
+          ai_confidence?: number | null
+          ai_generated?: boolean | null
+          ai_model?: string | null
+          ai_suggestions?: Json | null
+          attachments?: Json | null
+          canned_response_id?: string | null
+          content?: string | null
+          content_html?: string | null
+          content_type?: Database["public"]["Enums"]["message_content_type"]
+          conversation_id: string
+          created_at?: string
+          deleted_at?: string | null
+          delivered_at?: string | null
+          delivery_status?: Database["public"]["Enums"]["message_delivery_status"]
+          edited_at?: string | null
+          external_message_id?: string | null
+          failed_at?: string | null
+          failure_reason?: string | null
+          id?: string
+          in_reply_to_id?: string | null
+          interactive_data?: Json | null
+          is_automated?: boolean | null
+          is_deleted?: boolean | null
+          is_edited?: boolean | null
+          is_internal?: boolean | null
+          is_pinned?: boolean | null
+          metadata?: Json | null
+          organization_id: string
+          quick_replies?: Json | null
+          reactions?: Json | null
+          read_at?: string | null
+          sender_avatar_url?: string | null
+          sender_email?: string | null
+          sender_id?: string | null
+          sender_name?: string | null
+          sender_type: Database["public"]["Enums"]["conversation_sender_type"]
+          sent_at?: string | null
+          template_data?: Json | null
+          template_id?: string | null
+          thread_id?: string | null
+          updated_at?: string
+        }
+        Update: {
+          ai_confidence?: number | null
+          ai_generated?: boolean | null
+          ai_model?: string | null
+          ai_suggestions?: Json | null
+          attachments?: Json | null
+          canned_response_id?: string | null
+          content?: string | null
+          content_html?: string | null
+          content_type?: Database["public"]["Enums"]["message_content_type"]
+          conversation_id?: string
+          created_at?: string
+          deleted_at?: string | null
+          delivered_at?: string | null
+          delivery_status?: Database["public"]["Enums"]["message_delivery_status"]
+          edited_at?: string | null
+          external_message_id?: string | null
+          failed_at?: string | null
+          failure_reason?: string | null
+          id?: string
+          in_reply_to_id?: string | null
+          interactive_data?: Json | null
+          is_automated?: boolean | null
+          is_deleted?: boolean | null
+          is_edited?: boolean | null
+          is_internal?: boolean | null
+          is_pinned?: boolean | null
+          metadata?: Json | null
+          organization_id?: string
+          quick_replies?: Json | null
+          reactions?: Json | null
+          read_at?: string | null
+          sender_avatar_url?: string | null
+          sender_email?: string | null
+          sender_id?: string | null
+          sender_name?: string | null
+          sender_type?: Database["public"]["Enums"]["conversation_sender_type"]
+          sent_at?: string | null
+          template_data?: Json | null
+          template_id?: string | null
+          thread_id?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "conversation_messages_canned_response_id_fkey"
+            columns: ["canned_response_id"]
+            isOneToOne: false
+            referencedRelation: "canned_responses"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "conversation_messages_conversation_id_fkey"
+            columns: ["conversation_id"]
+            isOneToOne: false
+            referencedRelation: "conversations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "conversation_messages_in_reply_to_id_fkey"
+            columns: ["in_reply_to_id"]
+            isOneToOne: false
+            referencedRelation: "conversation_messages"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "conversation_messages_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      conversation_participants: {
+        Row: {
+          avatar_url: string | null
+          can_reply: boolean | null
+          contact_id: string | null
+          conversation_id: string
+          created_at: string
+          display_name: string | null
+          email: string | null
+          external_id: string | null
+          id: string
+          is_primary: boolean | null
+          joined_at: string
+          last_read_at: string | null
+          last_typed_at: string | null
+          left_at: string | null
+          organization_id: string
+          participant_type: Database["public"]["Enums"]["conversation_participant_type"]
+          phone: string | null
+          role: string | null
+          user_id: string | null
+        }
+        Insert: {
+          avatar_url?: string | null
+          can_reply?: boolean | null
+          contact_id?: string | null
+          conversation_id: string
+          created_at?: string
+          display_name?: string | null
+          email?: string | null
+          external_id?: string | null
+          id?: string
+          is_primary?: boolean | null
+          joined_at?: string
+          last_read_at?: string | null
+          last_typed_at?: string | null
+          left_at?: string | null
+          organization_id: string
+          participant_type: Database["public"]["Enums"]["conversation_participant_type"]
+          phone?: string | null
+          role?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          avatar_url?: string | null
+          can_reply?: boolean | null
+          contact_id?: string | null
+          conversation_id?: string
+          created_at?: string
+          display_name?: string | null
+          email?: string | null
+          external_id?: string | null
+          id?: string
+          is_primary?: boolean | null
+          joined_at?: string
+          last_read_at?: string | null
+          last_typed_at?: string | null
+          left_at?: string | null
+          organization_id?: string
+          participant_type?: Database["public"]["Enums"]["conversation_participant_type"]
+          phone?: string | null
+          role?: string | null
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "conversation_participants_contact_id_fkey"
+            columns: ["contact_id"]
+            isOneToOne: false
+            referencedRelation: "contacts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "conversation_participants_conversation_id_fkey"
+            columns: ["conversation_id"]
+            isOneToOne: false
+            referencedRelation: "conversations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "conversation_participants_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "conversation_participants_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      conversations: {
+        Row: {
+          account_id: string | null
+          bot_handled: boolean | null
+          bot_id: string | null
+          channel: Database["public"]["Enums"]["conversation_channel"]
+          closed_at: string | null
+          closed_by: string | null
+          contact_id: string | null
+          conversation_number: string
+          created_at: string
+          custom_fields: Json | null
+          deleted_at: string | null
+          device_info: Json | null
+          external_id: string | null
+          external_metadata: Json | null
+          external_thread_id: string | null
+          first_message_at: string | null
+          first_response_at: string | null
+          handoff_at: string | null
+          handoff_requested: boolean | null
+          id: string
+          last_agent_message_at: string | null
+          last_customer_message_at: string | null
+          last_message_at: string | null
+          lead_id: string | null
+          location_info: Json | null
+          message_count: number | null
+          metadata: Json | null
+          organization_id: string
+          owner_id: string | null
+          participant_count: number | null
+          priority: Database["public"]["Enums"]["ticket_priority"]
+          queue_id: string | null
+          satisfaction_comment: string | null
+          satisfaction_rating: number | null
+          satisfaction_submitted_at: string | null
+          sla_id: string | null
+          sla_resolution_breached: boolean | null
+          sla_resolution_due_at: string | null
+          sla_response_breached: boolean | null
+          sla_response_due_at: string | null
+          snooze_reason: string | null
+          snoozed_until: string | null
+          source: string | null
+          source_url: string | null
+          status: Database["public"]["Enums"]["conversation_status"]
+          subject: string | null
+          summary: string | null
+          tags: string[] | null
+          team_id: string | null
+          ticket_id: string | null
+          unread_count: number | null
+          updated_at: string
+          visitor_info: Json | null
+        }
+        Insert: {
+          account_id?: string | null
+          bot_handled?: boolean | null
+          bot_id?: string | null
+          channel: Database["public"]["Enums"]["conversation_channel"]
+          closed_at?: string | null
+          closed_by?: string | null
+          contact_id?: string | null
+          conversation_number: string
+          created_at?: string
+          custom_fields?: Json | null
+          deleted_at?: string | null
+          device_info?: Json | null
+          external_id?: string | null
+          external_metadata?: Json | null
+          external_thread_id?: string | null
+          first_message_at?: string | null
+          first_response_at?: string | null
+          handoff_at?: string | null
+          handoff_requested?: boolean | null
+          id?: string
+          last_agent_message_at?: string | null
+          last_customer_message_at?: string | null
+          last_message_at?: string | null
+          lead_id?: string | null
+          location_info?: Json | null
+          message_count?: number | null
+          metadata?: Json | null
+          organization_id: string
+          owner_id?: string | null
+          participant_count?: number | null
+          priority?: Database["public"]["Enums"]["ticket_priority"]
+          queue_id?: string | null
+          satisfaction_comment?: string | null
+          satisfaction_rating?: number | null
+          satisfaction_submitted_at?: string | null
+          sla_id?: string | null
+          sla_resolution_breached?: boolean | null
+          sla_resolution_due_at?: string | null
+          sla_response_breached?: boolean | null
+          sla_response_due_at?: string | null
+          snooze_reason?: string | null
+          snoozed_until?: string | null
+          source?: string | null
+          source_url?: string | null
+          status?: Database["public"]["Enums"]["conversation_status"]
+          subject?: string | null
+          summary?: string | null
+          tags?: string[] | null
+          team_id?: string | null
+          ticket_id?: string | null
+          unread_count?: number | null
+          updated_at?: string
+          visitor_info?: Json | null
+        }
+        Update: {
+          account_id?: string | null
+          bot_handled?: boolean | null
+          bot_id?: string | null
+          channel?: Database["public"]["Enums"]["conversation_channel"]
+          closed_at?: string | null
+          closed_by?: string | null
+          contact_id?: string | null
+          conversation_number?: string
+          created_at?: string
+          custom_fields?: Json | null
+          deleted_at?: string | null
+          device_info?: Json | null
+          external_id?: string | null
+          external_metadata?: Json | null
+          external_thread_id?: string | null
+          first_message_at?: string | null
+          first_response_at?: string | null
+          handoff_at?: string | null
+          handoff_requested?: boolean | null
+          id?: string
+          last_agent_message_at?: string | null
+          last_customer_message_at?: string | null
+          last_message_at?: string | null
+          lead_id?: string | null
+          location_info?: Json | null
+          message_count?: number | null
+          metadata?: Json | null
+          organization_id?: string
+          owner_id?: string | null
+          participant_count?: number | null
+          priority?: Database["public"]["Enums"]["ticket_priority"]
+          queue_id?: string | null
+          satisfaction_comment?: string | null
+          satisfaction_rating?: number | null
+          satisfaction_submitted_at?: string | null
+          sla_id?: string | null
+          sla_resolution_breached?: boolean | null
+          sla_resolution_due_at?: string | null
+          sla_response_breached?: boolean | null
+          sla_response_due_at?: string | null
+          snooze_reason?: string | null
+          snoozed_until?: string | null
+          source?: string | null
+          source_url?: string | null
+          status?: Database["public"]["Enums"]["conversation_status"]
+          subject?: string | null
+          summary?: string | null
+          tags?: string[] | null
+          team_id?: string | null
+          ticket_id?: string | null
+          unread_count?: number | null
+          updated_at?: string
+          visitor_info?: Json | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "conversations_account_id_fkey"
+            columns: ["account_id"]
+            isOneToOne: false
+            referencedRelation: "accounts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "conversations_closed_by_fkey"
+            columns: ["closed_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "conversations_contact_id_fkey"
+            columns: ["contact_id"]
+            isOneToOne: false
+            referencedRelation: "contacts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "conversations_lead_id_fkey"
+            columns: ["lead_id"]
+            isOneToOne: false
+            referencedRelation: "leads"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "conversations_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "conversations_owner_id_fkey"
+            columns: ["owner_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "conversations_queue_id_fkey"
+            columns: ["queue_id"]
+            isOneToOne: false
+            referencedRelation: "routing_queues"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "conversations_sla_id_fkey"
+            columns: ["sla_id"]
+            isOneToOne: false
+            referencedRelation: "ticket_slas"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "conversations_team_id_fkey"
+            columns: ["team_id"]
+            isOneToOne: false
+            referencedRelation: "teams"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "conversations_ticket_id_fkey"
+            columns: ["ticket_id"]
+            isOneToOne: false
+            referencedRelation: "tickets"
             referencedColumns: ["id"]
           },
         ]
@@ -8481,6 +9197,64 @@ export type Database = {
           },
         ]
       }
+      queue_members: {
+        Row: {
+          created_at: string
+          id: string
+          is_active: boolean | null
+          joined_at: string
+          left_at: string | null
+          organization_id: string
+          priority: number | null
+          queue_id: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          is_active?: boolean | null
+          joined_at?: string
+          left_at?: string | null
+          organization_id: string
+          priority?: number | null
+          queue_id: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          is_active?: boolean | null
+          joined_at?: string
+          left_at?: string | null
+          organization_id?: string
+          priority?: number | null
+          queue_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "queue_members_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "queue_members_queue_id_fkey"
+            columns: ["queue_id"]
+            isOneToOne: false
+            referencedRelation: "routing_queues"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "queue_members_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       quote_items: {
         Row: {
           created_at: string
@@ -8814,6 +9588,240 @@ export type Database = {
           },
         ]
       }
+      routing_assignments: {
+        Row: {
+          accepted_at: string | null
+          assigned_at: string
+          assigned_from: string | null
+          assigned_to: string | null
+          assigned_to_queue: string | null
+          assigned_to_team: string | null
+          assignment_method: string
+          conversation_id: string
+          created_at: string
+          ended_at: string | null
+          handle_time_seconds: number | null
+          id: string
+          notes: string | null
+          organization_id: string
+          reason: string | null
+          rejected_at: string | null
+          rejection_reason: string | null
+          response_time_seconds: number | null
+          routing_rule_id: string | null
+          status: string
+        }
+        Insert: {
+          accepted_at?: string | null
+          assigned_at?: string
+          assigned_from?: string | null
+          assigned_to?: string | null
+          assigned_to_queue?: string | null
+          assigned_to_team?: string | null
+          assignment_method?: string
+          conversation_id: string
+          created_at?: string
+          ended_at?: string | null
+          handle_time_seconds?: number | null
+          id?: string
+          notes?: string | null
+          organization_id: string
+          reason?: string | null
+          rejected_at?: string | null
+          rejection_reason?: string | null
+          response_time_seconds?: number | null
+          routing_rule_id?: string | null
+          status?: string
+        }
+        Update: {
+          accepted_at?: string | null
+          assigned_at?: string
+          assigned_from?: string | null
+          assigned_to?: string | null
+          assigned_to_queue?: string | null
+          assigned_to_team?: string | null
+          assignment_method?: string
+          conversation_id?: string
+          created_at?: string
+          ended_at?: string | null
+          handle_time_seconds?: number | null
+          id?: string
+          notes?: string | null
+          organization_id?: string
+          reason?: string | null
+          rejected_at?: string | null
+          rejection_reason?: string | null
+          response_time_seconds?: number | null
+          routing_rule_id?: string | null
+          status?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "routing_assignments_assigned_from_fkey"
+            columns: ["assigned_from"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "routing_assignments_assigned_to_fkey"
+            columns: ["assigned_to"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "routing_assignments_assigned_to_queue_fkey"
+            columns: ["assigned_to_queue"]
+            isOneToOne: false
+            referencedRelation: "routing_queues"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "routing_assignments_assigned_to_team_fkey"
+            columns: ["assigned_to_team"]
+            isOneToOne: false
+            referencedRelation: "teams"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "routing_assignments_conversation_id_fkey"
+            columns: ["conversation_id"]
+            isOneToOne: false
+            referencedRelation: "conversations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "routing_assignments_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "routing_assignments_routing_rule_id_fkey"
+            columns: ["routing_rule_id"]
+            isOneToOne: false
+            referencedRelation: "routing_rules_v2"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      routing_queues: {
+        Row: {
+          auto_accept_delay_seconds: number | null
+          auto_accept_enabled: boolean | null
+          business_hours_id: string | null
+          created_at: string
+          created_by: string | null
+          description: string | null
+          fallback_queue_id: string | null
+          id: string
+          is_active: boolean | null
+          is_default: boolean | null
+          max_capacity: number | null
+          metadata: Json | null
+          name: string
+          organization_id: string
+          priority: number
+          routing_method: Database["public"]["Enums"]["routing_method"]
+          skills_required: string[] | null
+          sla_id: string | null
+          updated_at: string
+          updated_by: string | null
+          wrap_up_time_seconds: number | null
+        }
+        Insert: {
+          auto_accept_delay_seconds?: number | null
+          auto_accept_enabled?: boolean | null
+          business_hours_id?: string | null
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          fallback_queue_id?: string | null
+          id?: string
+          is_active?: boolean | null
+          is_default?: boolean | null
+          max_capacity?: number | null
+          metadata?: Json | null
+          name: string
+          organization_id: string
+          priority?: number
+          routing_method?: Database["public"]["Enums"]["routing_method"]
+          skills_required?: string[] | null
+          sla_id?: string | null
+          updated_at?: string
+          updated_by?: string | null
+          wrap_up_time_seconds?: number | null
+        }
+        Update: {
+          auto_accept_delay_seconds?: number | null
+          auto_accept_enabled?: boolean | null
+          business_hours_id?: string | null
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          fallback_queue_id?: string | null
+          id?: string
+          is_active?: boolean | null
+          is_default?: boolean | null
+          max_capacity?: number | null
+          metadata?: Json | null
+          name?: string
+          organization_id?: string
+          priority?: number
+          routing_method?: Database["public"]["Enums"]["routing_method"]
+          skills_required?: string[] | null
+          sla_id?: string | null
+          updated_at?: string
+          updated_by?: string | null
+          wrap_up_time_seconds?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "routing_queues_business_hours_id_fkey"
+            columns: ["business_hours_id"]
+            isOneToOne: false
+            referencedRelation: "business_hours"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "routing_queues_created_by_fkey"
+            columns: ["created_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "routing_queues_fallback_queue_id_fkey"
+            columns: ["fallback_queue_id"]
+            isOneToOne: false
+            referencedRelation: "routing_queues"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "routing_queues_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "routing_queues_sla_id_fkey"
+            columns: ["sla_id"]
+            isOneToOne: false
+            referencedRelation: "ticket_slas"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "routing_queues_updated_by_fkey"
+            columns: ["updated_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       routing_rules: {
         Row: {
           actions: Json | null
@@ -8914,6 +9922,88 @@ export type Database = {
             columns: ["target_territory_id"]
             isOneToOne: false
             referencedRelation: "territories"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      routing_rules_v2: {
+        Row: {
+          action_config: Json
+          action_type: string
+          conditions: Json
+          created_at: string
+          created_by: string | null
+          current_daily_matches: number | null
+          daily_reset_at: string | null
+          description: string | null
+          id: string
+          is_active: boolean | null
+          max_daily_matches: number | null
+          name: string
+          organization_id: string
+          priority: number
+          schedule: Json | null
+          updated_at: string
+          updated_by: string | null
+        }
+        Insert: {
+          action_config?: Json
+          action_type?: string
+          conditions?: Json
+          created_at?: string
+          created_by?: string | null
+          current_daily_matches?: number | null
+          daily_reset_at?: string | null
+          description?: string | null
+          id?: string
+          is_active?: boolean | null
+          max_daily_matches?: number | null
+          name: string
+          organization_id: string
+          priority?: number
+          schedule?: Json | null
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Update: {
+          action_config?: Json
+          action_type?: string
+          conditions?: Json
+          created_at?: string
+          created_by?: string | null
+          current_daily_matches?: number | null
+          daily_reset_at?: string | null
+          description?: string | null
+          id?: string
+          is_active?: boolean | null
+          max_daily_matches?: number | null
+          name?: string
+          organization_id?: string
+          priority?: number
+          schedule?: Json | null
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "routing_rules_v2_created_by_fkey"
+            columns: ["created_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "routing_rules_v2_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "routing_rules_v2_updated_by_fkey"
+            columns: ["updated_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
             referencedColumns: ["id"]
           },
         ]
@@ -10880,6 +11970,15 @@ export type Database = {
       }
     }
     Functions: {
+      assign_conversation_to_agent: {
+        Args: {
+          p_agent_id: string
+          p_conversation_id: string
+          p_method?: string
+          p_rule_id?: string
+        }
+        Returns: boolean
+      }
       authenticate_portal_user: {
         Args: { p_email: string; p_organization_id: string; p_password: string }
         Returns: {
@@ -10960,12 +12059,17 @@ export type Database = {
       generate_change_number: { Args: { org_id: string }; Returns: string }
       generate_ci_number: { Args: { org_id: string }; Returns: string }
       generate_contract_number: { Args: { org_id: string }; Returns: string }
+      generate_conversation_number: {
+        Args: { org_id: string }
+        Returns: string
+      }
       generate_incident_number: { Args: { org_id: string }; Returns: string }
       generate_order_number: { Args: { org_id: string }; Returns: string }
       generate_problem_number: { Args: { org_id: string }; Returns: string }
       generate_request_number: { Args: { org_id: string }; Returns: string }
       generate_return_number: { Args: { org_id: string }; Returns: string }
       generate_ticket_number: { Args: { org_id: string }; Returns: string }
+      get_next_conversation: { Args: { p_agent_id: string }; Returns: string }
       get_org_enabled_modules: { Args: { _org_id: string }; Returns: Json }
       get_stale_opportunities_count: {
         Args: { org_id: string; threshold_days?: number }
@@ -11035,6 +12139,14 @@ export type Database = {
         }
         Returns: string
       }
+      update_agent_availability: {
+        Args: {
+          p_reason?: string
+          p_status: Database["public"]["Enums"]["agent_availability_status"]
+          p_user_id: string
+        }
+        Returns: boolean
+      }
       update_module_usage: {
         Args: {
           _increment?: number
@@ -11067,6 +12179,15 @@ export type Database = {
     }
     Enums: {
       activity_type: "call" | "email" | "meeting" | "task" | "note"
+      agent_availability_status:
+        | "available"
+        | "busy"
+        | "away"
+        | "offline"
+        | "in_meeting"
+        | "on_break"
+        | "after_call_work"
+        | "training"
       approval_request_status:
         | "pending"
         | "approved"
@@ -11208,6 +12329,26 @@ export type Database = {
         | "expired"
         | "terminated"
         | "renewed"
+      conversation_channel:
+        | "email"
+        | "chat"
+        | "phone"
+        | "whatsapp"
+        | "sms"
+        | "social"
+        | "portal"
+        | "internal"
+      conversation_participant_type: "agent" | "customer" | "bot" | "observer"
+      conversation_sender_type: "agent" | "customer" | "bot" | "system"
+      conversation_status:
+        | "open"
+        | "waiting_customer"
+        | "waiting_agent"
+        | "bot_handling"
+        | "on_hold"
+        | "snoozed"
+        | "closed"
+        | "spam"
       duplicate_status:
         | "detected"
         | "confirmed"
@@ -11348,6 +12489,27 @@ export type Database = {
         | "completed"
         | "failed"
         | "cancelled"
+      message_content_type:
+        | "text"
+        | "html"
+        | "image"
+        | "audio"
+        | "video"
+        | "file"
+        | "location"
+        | "contact"
+        | "template"
+        | "interactive"
+        | "sticker"
+        | "reaction"
+      message_delivery_status:
+        | "pending"
+        | "sending"
+        | "sent"
+        | "delivered"
+        | "read"
+        | "failed"
+        | "bounced"
       message_sender_type: "agent" | "customer" | "system"
       module_key:
         | "sales"
@@ -11407,6 +12569,14 @@ export type Database = {
         | "received"
         | "refunded"
         | "completed"
+      routing_method:
+        | "round_robin"
+        | "skill_based"
+        | "load_based"
+        | "priority_first"
+        | "least_idle"
+        | "random"
+        | "manual"
       routing_rule_type:
         | "round_robin"
         | "territory"
@@ -11620,6 +12790,16 @@ export const Constants = {
   public: {
     Enums: {
       activity_type: ["call", "email", "meeting", "task", "note"],
+      agent_availability_status: [
+        "available",
+        "busy",
+        "away",
+        "offline",
+        "in_meeting",
+        "on_break",
+        "after_call_work",
+        "training",
+      ],
       approval_request_status: [
         "pending",
         "approved",
@@ -11773,6 +12953,28 @@ export const Constants = {
         "expired",
         "terminated",
         "renewed",
+      ],
+      conversation_channel: [
+        "email",
+        "chat",
+        "phone",
+        "whatsapp",
+        "sms",
+        "social",
+        "portal",
+        "internal",
+      ],
+      conversation_participant_type: ["agent", "customer", "bot", "observer"],
+      conversation_sender_type: ["agent", "customer", "bot", "system"],
+      conversation_status: [
+        "open",
+        "waiting_customer",
+        "waiting_agent",
+        "bot_handling",
+        "on_hold",
+        "snoozed",
+        "closed",
+        "spam",
       ],
       duplicate_status: [
         "detected",
@@ -11929,6 +13131,29 @@ export const Constants = {
         "failed",
         "cancelled",
       ],
+      message_content_type: [
+        "text",
+        "html",
+        "image",
+        "audio",
+        "video",
+        "file",
+        "location",
+        "contact",
+        "template",
+        "interactive",
+        "sticker",
+        "reaction",
+      ],
+      message_delivery_status: [
+        "pending",
+        "sending",
+        "sent",
+        "delivered",
+        "read",
+        "failed",
+        "bounced",
+      ],
       message_sender_type: ["agent", "customer", "system"],
       module_key: [
         "sales",
@@ -11993,6 +13218,15 @@ export const Constants = {
         "received",
         "refunded",
         "completed",
+      ],
+      routing_method: [
+        "round_robin",
+        "skill_based",
+        "load_based",
+        "priority_first",
+        "least_idle",
+        "random",
+        "manual",
       ],
       routing_rule_type: [
         "round_robin",
