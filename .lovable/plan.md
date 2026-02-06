@@ -1,157 +1,114 @@
 
-# Correcao do Layout Duplicado em 95 Paginas do Fireware CRM
+# Plano de Correção: Fluxo de Ativação de Módulos
 
-## Diagnostico
+## Diagnostico Completo da Cadeia de Falhas
 
-O problema e causado por **dupla renderizacao do layout** (sidebar + topbar). A estrutura atual funciona assim:
+A analise revelou **4 problemas encadeados** que impedem o funcionamento da tela de Modulos:
 
-### Caminho de renderizacao atual (ERRADO):
+### Causa Raiz 1: Onboarding Incompleto
+O trigger `on_auth_user_created` (disparado ao criar usuario) apenas insere `id` e `email` na tabela `profiles`. Ele **NAO**:
+- Cria uma organizacao na tabela `organizations`
+- Associa o usuario a essa organizacao (`profiles.organization_id` fica `NULL`)
+- Atribui a role `admin` ao primeiro usuario
 
-```text
-Rota (App.tsx / *Routes.tsx)
-  -> ProtectedLayout
-      -> AuthGuard (verifica autenticacao)
-      -> AppLayout (1o nivel - sidebar + topbar + main)
-          -> Pagina (ex: Products.tsx)
-              -> AppLayout (2o nivel - DUPLICADO - sidebar + topbar + main)
-                  -> Conteudo real da pagina
-```
+### Causa Raiz 2: Role Insuficiente
+O usuario de teste possui `role: 'user'` tanto em `profiles` quanto em `user_roles`. As politicas RLS da tabela `org_modules` exigem explicitamente `user_has_role(auth.uid(), 'admin')` para INSERT, UPDATE e DELETE.
 
-Isso acontece porque:
+### Causa Raiz 3: Violacao de RLS
+A funcao `is_member_of_org(organization_id)` verifica se o `profiles.organization_id` do usuario corresponde ao parametro. Como o `organization_id` e `NULL`, a verificacao sempre falha, bloqueando qualquer operacao.
 
-1. O Bloco 1 da Fase 2 criou o `ProtectedLayout` que combina `AuthGuard` + `AppLayout` e foi aplicado em **todas as rotas** nos arquivos de roteamento.
-2. Porem, **as 95 paginas originais** nunca tiveram seu `<AppLayout>` interno removido. Cada pagina ainda renderiza `<AppLayout>` ao redor do seu conteudo.
-
-O resultado visual (visivel nos screenshots) e:
-- Topbar aparece 2 vezes (uma do ProtectedLayout, outra da pagina)
-- Sidebar e renderizada 2 vezes (aninhada)
-- O conteudo fica "encolhido" dentro de um sub-layout desnecessario
-
-### Caminho de renderizacao correto (OBJETIVO):
+### Causa Raiz 4: organization_id NULL no INSERT
+O componente `PlatformModules.tsx` envia `organization_id: null` (obtido de `profile?.organization_id`) na operacao de INSERT na tabela `org_modules`, que possui constraint `NOT NULL` nessa coluna.
 
 ```text
-Rota (App.tsx / *Routes.tsx)
-  -> ProtectedLayout
-      -> AuthGuard (verifica autenticacao)
-      -> AppLayout (UNICO - sidebar + topbar + main)
-          -> Pagina (ex: Products.tsx)
-              -> Conteudo puro (sem layout wrapper)
+Fluxo do Erro:
+Usuario clica "Ativar Modulo"
+    |
+    v
+PlatformModules envia INSERT com organization_id: null
+    |
+    v
+RLS Policy: is_member_of_org(null) => FALSE
+    |
+    v
+RLS Policy: user_has_role(uid, 'admin') => FALSE
+    |
+    v
+Erro 42501: "new row violates row-level security policy"
 ```
 
-## Escopo da Correcao
+---
 
-### Arquivos afetados: 95 paginas
+## Plano de Implementacao
 
-Todos os arquivos em `src/pages/` (exceto `portal/*`, `partner/*`, `Auth.tsx`, `NotFound.tsx` e `Index.tsx`) que importam e usam `<AppLayout>`.
+### Etapa 1: Migrar Trigger de Onboarding Automatico (SQL)
 
-A correcao em cada arquivo consiste em 2 alteracoes:
+Refatorar o trigger `handle_new_user` para:
+1. Detectar o dominio do email do novo usuario
+2. Buscar se ja existe uma organizacao com esse dominio
+3. Se existir: associar o usuario a ela com role `user`
+4. Se NAO existir: criar nova organizacao, associar o usuario como `admin`, e provisionar todos os 15 modulos com `enabled: true` e `plan_tier: 'free'`
+5. Inserir a role correspondente na tabela `user_roles`
 
-1. **Remover a linha de import**: `import { AppLayout } from '@/components/layout/AppLayout';`
-2. **Remover os wrappers JSX**: Substituir `<AppLayout>..conteudo..</AppLayout>` por apenas `..conteudo..` (o fragment ou div interna)
+Essa logica garante que **todo novo usuario** tenha uma organizacao e uma role adequada desde o momento do cadastro.
 
-### Limpeza adicional em 27 paginas
+### Etapa 2: Corrigir Dados do Usuario Existente (SQL)
 
-27 paginas possuem `useEffect` redundante que redireciona para `/auth` caso o usuario nao esteja logado. Essa logica agora e desnecessaria pois o `AuthGuard` no `ProtectedLayout` ja cuida disso de forma centralizada. Essas paginas sao:
+Para o usuario de teste (`teste@fireware.com`) que ja existe sem organizacao:
+1. Criar organizacao "Fireware" com dominio `fireware.com`
+2. Atualizar `profiles.organization_id` para apontar para essa organizacao
+3. Atualizar `profiles.role` para `admin`
+4. Atualizar `user_roles.role` para `admin`
 
-- Products, ProductDetail, ProductForm
-- Leads, LeadDetail, LeadForm
-- Contacts, ContactDetail, ContactForm
-- Accounts, AccountDetail, AccountForm
-- Opportunities, OpportunityDetail, OpportunityForm
-- Quotes, QuoteDetail, QuoteForm
-- Contracts, ContractDetail, ContractForm
-- Cadences, Forecast, Territories, Settings
-- Reports, AuditLogs
+### Etapa 3: Refatorar PlatformModules.tsx (Frontend)
 
-## Detalhamento Tecnico
+Melhorias no componente:
+1. Adicionar verificacao de `organization_id` antes de permitir operacoes
+2. Exibir mensagem orientativa caso o usuario nao tenha organizacao associada
+3. Adicionar tratamento de erro mais detalhado com mensagens contextuais (ex: diferenciar RLS error de validation error)
+4. Corrigir os warnings de `forwardRef` no componente e no Badge
 
-Para cada um dos 95 arquivos, as seguintes alteracoes serao feitas:
+### Etapa 4: Proteção da Pagina Admin (Frontend)
 
-### Alteracao 1 - Remover import do AppLayout
+1. Adicionar verificacao de role `admin` na pagina de modulos
+2. Exibir mensagem de acesso negado para usuarios nao-admin
+3. Verificar se `organization_id` esta disponivel antes de habilitar controles
 
-**Antes:**
-```typescript
-import { AppLayout } from '@/components/layout/AppLayout';
-```
+---
 
-**Depois:** Linha removida completamente.
+## Detalhes Tecnicos
 
-### Alteracao 2 - Remover wrapper JSX
+### SQL Migration 1 - Trigger `handle_new_user` refatorado
 
-**Antes:**
-```tsx
-return (
-  <AppLayout>
-    <div className="space-y-6">
-      {/* conteudo */}
-    </div>
-  </AppLayout>
-);
-```
+A nova funcao `handle_new_user()` implementara:
+- Declaracao de variaveis para `_org_id`, `_email_domain`, `_existing_org_id`, `_user_role`
+- Extracao do dominio do email com `split_part(NEW.email, '@', 2)`
+- SELECT para verificar organizacao existente pelo dominio
+- Logica condicional com IF/ELSE para criar ou reutilizar organizacao
+- INSERT na `profiles` com `organization_id`, `first_name`, `last_name`
+- INSERT na `user_roles` com a role apropriada
+- Loop INSERT nos `org_modules` com os 15 module_keys quando criar nova org
 
-**Depois:**
-```tsx
-return (
-  <div className="space-y-6">
-    {/* conteudo */}
-  </div>
-);
-```
+### SQL Migration 2 - Correcao de dados existentes
 
-Nota: Algumas paginas possuem multiplos `return` (ex: loading state, not found state, conteudo principal). Todos os returns que envolvem `<AppLayout>` serao corrigidos.
+Script para:
+- Criar organizacao para o usuario atual
+- Vincular usuario a organizacao
+- Promover usuario a admin
+- Provisionar modulos iniciais
 
-### Alteracao 3 - Remover useEffect de auth redirect (27 paginas)
+### Frontend - PlatformModules.tsx
 
-**Antes:**
-```tsx
-useEffect(() => {
-  if (!authLoading && !user) {
-    navigate('/auth');
-  }
-}, [user, authLoading, navigate]);
-```
+Alteracoes:
+- Importar `useAuth` e verificar `profile.role` e `profile.organization_id`
+- Estado de "sem organizacao" com UI informativa
+- Mensagens de erro contextuais no `onError` da mutation
+- Desabilitar controles quando `organizationId` for null
 
-**Depois:** Bloco removido completamente (o `AuthGuard` ja cuida disso).
+### Arquivos Impactados
 
-### Alteracao 4 - Remover `if (!user) return null` guards redundantes
-
-Muitas paginas possuem:
-```tsx
-if (authLoading || !user) return null;
-```
-
-Isso pode ser mantido como medida de seguranca extra, mas o `return null` nao e mais necessario pois o AuthGuard ja previne a renderizacao. Esses guards serao mantidos apenas onde protegem queries (evitando queries com `user` undefined).
-
-## Lista Completa de Arquivos (95)
-
-### Paginas Raiz (`src/pages/`)
-AccountDetail, AccountForm, Accounts, ArticleDetail, ArticleForm, AttributionDashboard, AuditLogs, Automations, Cadences, CampaignForm, CannedResponses, CMDB, ContactDetail, ContactForm, Contacts, ContractDetail, ContractForm, Contracts, Customer360, CustomerSuccess, DashboardBuilder, Dashboards, Duplicates, Forecast, FullFunnel, Governance, ITAssets, ITChangeForm, ITChanges, ITDashboard, ITIncidentDetail, ITIncidentForm, ITIncidents, JourneyBuilder, Knowledge, LeadDetail, LeadForm, Leads, LGPDRequestForm, Marketing, MergeWizard, Notifications, OmnichannelInbox, Opportunities, OpportunityDetail, OpportunityForm, OrderDetail, OrderForm, Orders, ProductDetail, ProductForm, Products, PromotionForm, Promotions, QuoteDetail, QuoteForm, Quotes, Reports, Returns, SegmentForm, ServiceDashboard, Settings, Territories, TicketDetail, TicketForm, Tickets, WorkflowBuilder
-
-### Subpastas
-- `admin/`: CustomFieldsAdmin, PlatformAI, PlatformIntegrations, PlatformModules, PlatformObservability, PlatformPermissions, PlatformSecurity
-- `ai/`: AIAgentDetail, AIAgentForm, AIAgentPlayground, AIAgents, AIAnalytics, AIEvals, AIPolicies, AIRuns, AITools
-- `datahub/`: ActivationJobs, DataSources, EventSchemas, GoldenRecordDetail, GoldenRecords
-- `integrations/`: IntegrationsCatalog, IntegrationsDLQ, IntegrationsInstances, IntegrationsMonitoring, IntegrationsWebhooks
-- `marketing/`: CampaignABTest, EmailTemplateBuilder, EmailTemplates, MarketingIntelligence, MarketingPersonalization, MarketingPreferenceCenter, MarketingProviders
-- `sales/`: Billing, BillingDetail, ConversationIntelligence, CPQConfigurationDetail, CPQConfigurations, RevenueOps, Subscriptions
-- `service/`: ChatWidgetsAdmin, QADashboard, ServiceAnalytics, ServiceQueues, SocialInbox, VoiceAdmin, WhatsAppAdmin
-
-## Sequencia de Implementacao
-
-Devido ao grande volume de arquivos (95), a implementacao sera feita em lotes organizados por modulo/pasta:
-
-1. **Lote 1**: Paginas raiz de entidades principais (Leads, Contacts, Accounts, Opportunities, Quotes, Products, Orders, Contracts, Tickets) + seus formularios e detalhes (~30 arquivos)
-2. **Lote 2**: Paginas de modulos (Sales, Service, Marketing, AI) (~25 arquivos)
-3. **Lote 3**: Paginas de administracao, integracoes, datahub e demais (~25 arquivos)
-4. **Lote 4**: Paginas utilitarias restantes (Reports, Settings, Notifications, etc.) (~15 arquivos)
-
-Cada lote sera processado em paralelo para maximizar eficiencia.
-
-## Validacao
-
-Apos a correcao, o resultado esperado sera:
-- Topbar renderizada apenas 1 vez no topo
-- Sidebar renderizada apenas 1 vez a esquerda
-- Conteudo ocupando 100% da area principal
-- Layout responsivo sem aninhamento desnecessario
-- Todas as rotas continuam protegidas pelo AuthGuard centralizado
+| Arquivo | Tipo de Alteracao |
+|---------|-------------------|
+| SQL Migration (trigger) | Refatorar `handle_new_user()` |
+| SQL Migration (dados) | Corrigir usuario existente |
+| `src/pages/admin/PlatformModules.tsx` | Validacoes e UX melhorada |
