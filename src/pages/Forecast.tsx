@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
+import { useAuth } from '@/hooks/useAuth';
 import { BarChart3, Calendar, Target, TrendingUp, DollarSign, ChevronLeft, ChevronRight, Plus, Edit, Save, X } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -9,8 +9,6 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Progress } from '@/components/ui/progress';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { AppLayout } from '@/components/layout/AppLayout';
-import { useAuth } from '@/hooks/useAuth';
 import { useToast } from '@/hooks/use-toast';
 import { supabase } from '@/integrations/supabase/client';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
@@ -62,8 +60,7 @@ const forecastCategoryLabels: Record<string, string> = {
 };
 
 export default function Forecast() {
-  const { user, loading } = useAuth();
-  const navigate = useNavigate();
+  const { user } = useAuth();
   const { toast } = useToast();
   const queryClient = useQueryClient();
   
@@ -75,10 +72,6 @@ export default function Forecast() {
     commit_amount: number;
     best_case_amount: number;
   }>({ target_amount: 0, commit_amount: 0, best_case_amount: 0 });
-
-  useEffect(() => {
-    if (!loading && !user) navigate('/auth');
-  }, [user, loading, navigate]);
 
   const getPeriodRange = () => {
     if (periodType === 'monthly') {
@@ -337,10 +330,8 @@ export default function Forecast() {
     closed: opportunities.filter(o => o.stage === 'closed_won').reduce((sum, o) => sum + (o.amount || 0), 0)
   };
 
-  if (loading || !user) return null;
-
   return (
-    <AppLayout>
+    <>
       <div className="space-y-6">
         {/* Header */}
         <div className="flex items-center justify-between">
@@ -674,6 +665,6 @@ export default function Forecast() {
           </TabsContent>
         </Tabs>
       </div>
-    </AppLayout>
+    </>
   );
 }
