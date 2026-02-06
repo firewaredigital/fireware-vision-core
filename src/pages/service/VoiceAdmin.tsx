@@ -116,10 +116,10 @@ export default function VoiceAdmin() {
         .limit(100);
 
       if (statusFilter !== 'all') {
-        query = query.eq('status', statusFilter);
+        query = query.eq('status', statusFilter as Database['public']['Enums']['voice_call_status']);
       }
       if (directionFilter !== 'all') {
-        query = query.eq('direction', directionFilter);
+        query = query.eq('direction', directionFilter as Database['public']['Enums']['communication_direction']);
       }
       if (searchQuery) {
         query = query.or(`from_number.ilike.%${searchQuery}%,to_number.ilike.%${searchQuery}%,caller_name.ilike.%${searchQuery}%`);
@@ -172,15 +172,11 @@ export default function VoiceAdmin() {
         organization_id: profile.organization_id,
         name: data.name,
         provider_type: data.provider_type,
-        config: {
-          account_sid: data.account_sid,
-          phone_number: data.phone_number,
-          region: data.region,
-        },
-        credentials_encrypted: data.auth_token,
-        status: 'pending',
+        account_sid: data.account_sid,
+        auth_token_encrypted: data.auth_token,
+        phone_numbers: data.phone_number ? [data.phone_number] : null,
+        health_status: 'pending',
         is_active: false,
-        is_default: providers?.length === 0,
         created_by: profile.id,
         updated_by: profile.id,
       });
@@ -234,7 +230,7 @@ export default function VoiceAdmin() {
       if (!profile?.id) throw new Error('Não autenticado');
       const { error } = await supabase
         .from('voice_voicemails')
-        .update({ is_listened: true, listened_by: profile.id, listened_at: new Date().toISOString() })
+        .update({ is_read: true, read_by: profile.id, read_at: new Date().toISOString() })
         .eq('id', id);
       if (error) throw error;
     },
@@ -312,8 +308,8 @@ export default function VoiceAdmin() {
     inboundCalls: calls?.filter(c => c.direction === 'inbound').length || 0,
     outboundCalls: calls?.filter(c => c.direction === 'outbound').length || 0,
     missedCalls: calls?.filter(c => c.status === 'no_answer' || c.status === 'missed').length || 0,
-    totalMinutes: providers?.reduce((sum, p) => sum + (p.total_minutes || 0), 0) || 0,
-    unheardVoicemails: voicemails?.filter(v => !v.is_listened).length || 0,
+    totalMinutes: calls?.filter(c => c.talk_duration_seconds).reduce((sum, c) => sum + Math.round((c.talk_duration_seconds || 0) / 60), 0) || 0,
+    unheardVoicemails: voicemails?.filter(v => !v.is_read).length || 0,
     avgCallDuration: calls && calls.length > 0
       ? Math.round(calls.filter(c => c.talk_duration_seconds).reduce((sum, c) => sum + (c.talk_duration_seconds || 0), 0) / calls.filter(c => c.talk_duration_seconds).length)
       : 0,
@@ -575,23 +571,19 @@ export default function VoiceAdmin() {
                           <div>
                             <div className="flex items-center gap-2">
                               <h3 className="font-semibold">{provider.name}</h3>
-                              {getProviderStatusBadge(provider.status)}
-                              {provider.is_default && (
-                                <Badge variant="outline" className="text-xs">Padrão</Badge>
-                              )}
+                              {getProviderStatusBadge(provider.health_status || 'pending')}
                             </div>
                             <div className="flex items-center gap-4 text-sm text-muted-foreground">
                               <span className="capitalize">{provider.provider_type}</span>
-                              {(provider.config as any)?.phone_number && (
-                                <span>{(provider.config as any).phone_number}</span>
+                              {provider.phone_numbers && provider.phone_numbers.length > 0 && (
+                                <span>{provider.phone_numbers[0]}</span>
                               )}
                             </div>
                             <div className="flex items-center gap-4 text-xs text-muted-foreground mt-1">
-                              <span>{provider.total_calls || 0} chamadas</span>
-                              <span>{provider.total_minutes || 0} minutos</span>
-                              {provider.last_call_at && (
+                              <span>SID: {provider.account_sid || 'N/A'}</span>
+                              {provider.last_health_check && (
                                 <span>
-                                  Última: {format(new Date(provider.last_call_at), "dd/MM HH:mm", { locale: ptBR })}
+                                  Última verificação: {format(new Date(provider.last_health_check), "dd/MM HH:mm", { locale: ptBR })}
                                 </span>
                               )}
                             </div>
@@ -623,11 +615,11 @@ export default function VoiceAdmin() {
                               </DropdownMenuItem>
                               <DropdownMenuItem
                                 onClick={() =>
-                                  updateProviderMutation.mutate({ id: provider.id, data: { is_default: true } })
+                                  updateProviderMutation.mutate({ id: provider.id, data: { is_active: true } })
                                 }
                               >
                                 <CheckCircle className="h-4 w-4 mr-2" />
-                                Definir como Padrão
+                                Ativar Provedor
                               </DropdownMenuItem>
                               <DropdownMenuItem
                                 className="text-destructive"
@@ -862,23 +854,18 @@ export default function VoiceAdmin() {
                       <div
                         key={voicemail.id}
                         className={`flex items-start justify-between p-4 rounded-lg border ${
-                          !voicemail.is_listened ? 'bg-primary/5 border-primary/20' : 'bg-card'
+                          !voicemail.is_read ? 'bg-primary/5 border-primary/20' : 'bg-card'
                         }`}
                       >
                         <div className="flex items-start gap-4">
-                          <div className={`flex h-10 w-10 items-center justify-center rounded-full ${
-                            voicemail.is_urgent ? 'bg-destructive/10' : 'bg-muted'
-                          }`}>
-                            <Voicemail className={`h-5 w-5 ${voicemail.is_urgent ? 'text-destructive' : 'text-muted-foreground'}`} />
+                          <div className="flex h-10 w-10 items-center justify-center rounded-full bg-muted">
+                            <Voicemail className="h-5 w-5 text-muted-foreground" />
                           </div>
                           <div className="space-y-1">
                             <div className="flex items-center gap-2">
-                              <span className="font-mono font-medium">{voicemail.from_number}</span>
-                              {!voicemail.is_listened && (
+                              <span className="font-mono font-medium">Chamada {voicemail.call_id.slice(0, 8)}...</span>
+                              {!voicemail.is_read && (
                                 <Badge variant="default" className="text-xs">Novo</Badge>
-                              )}
-                              {voicemail.is_urgent && (
-                                <Badge variant="destructive" className="text-xs">Urgente</Badge>
                               )}
                               {voicemail.callback_requested && !voicemail.callback_completed && (
                                 <Badge variant="secondary" className="text-xs">Callback Pendente</Badge>
@@ -887,7 +874,7 @@ export default function VoiceAdmin() {
                             <div className="flex items-center gap-4 text-sm text-muted-foreground">
                               <span className="flex items-center gap-1">
                                 <Timer className="h-3 w-3" />
-                                {formatDurationFromSeconds(voicemail.recording_duration_seconds)}
+                                {formatDurationFromSeconds(voicemail.duration_seconds)}
                               </span>
                               <span>
                                 {format(new Date(voicemail.created_at), "dd/MM/yy 'às' HH:mm", { locale: ptBR })}
@@ -905,8 +892,8 @@ export default function VoiceAdmin() {
                             variant="outline"
                             size="sm"
                             onClick={() => {
-                              window.open(voicemail.recording_url, '_blank');
-                              if (!voicemail.is_listened) {
+                              window.open(voicemail.audio_url, '_blank');
+                              if (!voicemail.is_read) {
                                 markVoicemailListenedMutation.mutate(voicemail.id);
                               }
                             }}
@@ -969,11 +956,11 @@ export default function VoiceAdmin() {
                               <div className="flex items-center gap-4 text-sm text-muted-foreground">
                                 <span>{transcript.word_count || 0} palavras</span>
                                 <span>{formatDurationFromSeconds(transcript.duration_seconds)}</span>
-                                {transcript.confidence_score && (
+                                {transcript.overall_confidence != null && (
                                   <div className="flex items-center gap-2">
                                     <span className="text-xs">Confiança:</span>
-                                    <Progress value={transcript.confidence_score * 100} className="w-16 h-2" />
-                                    <span className="text-xs">{Math.round(transcript.confidence_score * 100)}%</span>
+                                    <Progress value={transcript.overall_confidence * 100} className="w-16 h-2" />
+                                    <span className="text-xs">{Math.round(transcript.overall_confidence * 100)}%</span>
                                   </div>
                                 )}
                               </div>
@@ -982,7 +969,7 @@ export default function VoiceAdmin() {
                           <CardContent>
                             <div className="prose prose-sm max-w-none dark:prose-invert">
                               <p className="text-sm text-muted-foreground whitespace-pre-wrap">
-                                {transcript.transcript_text}
+                                {transcript.full_text}
                               </p>
                             </div>
                             {transcript.keywords && transcript.keywords.length > 0 && (
@@ -994,14 +981,15 @@ export default function VoiceAdmin() {
                                 ))}
                               </div>
                             )}
-                            {transcript.sentiment_analysis && (
+                            {transcript.sentiment_score != null && (
                               <div className="flex items-center gap-2 mt-3 pt-3 border-t text-sm">
                                 <span className="text-muted-foreground">Sentimento:</span>
                                 <Badge variant={
-                                  (transcript.sentiment_analysis as any)?.overall === 'positive' ? 'default' :
-                                  (transcript.sentiment_analysis as any)?.overall === 'negative' ? 'destructive' : 'secondary'
+                                  transcript.sentiment_score > 0.3 ? 'default' :
+                                  transcript.sentiment_score < -0.3 ? 'destructive' : 'secondary'
                                 }>
-                                  {(transcript.sentiment_analysis as any)?.overall || 'neutro'}
+                                  {transcript.sentiment_score > 0.3 ? 'Positivo' :
+                                   transcript.sentiment_score < -0.3 ? 'Negativo' : 'Neutro'}
                                 </Badge>
                               </div>
                             )}

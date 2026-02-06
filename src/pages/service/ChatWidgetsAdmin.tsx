@@ -149,32 +149,20 @@ export default function ChatWidgetsAdmin() {
         organization_id: profile.organization_id,
         name: data.name,
         widget_key: widgetKey,
-        config: {
-          position: data.position,
-          theme: data.theme,
-          primary_color: data.primary_color,
-          greeting_message: data.greeting_message,
-          offline_message: data.offline_message,
-          input_placeholder: data.input_placeholder,
-          show_agent_photo: data.show_agent_photo,
-          show_agent_name: data.show_agent_name,
-          require_email: data.require_email,
-          require_name: data.require_name,
-          pre_chat_form: data.pre_chat_form,
-          auto_open_delay: data.auto_open_delay,
-          sound_enabled: data.sound_enabled,
-        },
-        appearance: {
-          header_text: data.header_text,
-        },
-        behavior: {
-          auto_reply_enabled: data.auto_reply_enabled,
-          auto_reply_message: data.auto_reply_message,
-          typing_indicator: data.typing_indicator,
-          read_receipts: data.read_receipts,
-          file_upload_enabled: data.file_upload_enabled,
-          max_file_size_mb: data.max_file_size_mb,
-        },
+        position: data.position,
+        primary_color: data.primary_color,
+        greeting_message: data.greeting_message,
+        offline_message: data.offline_message,
+        placeholder_text: data.input_placeholder,
+        show_agent_avatar: data.show_agent_photo,
+        show_agent_name: data.show_agent_name,
+        pre_chat_form_enabled: data.pre_chat_form,
+        auto_open: data.auto_open_delay > 0,
+        auto_open_delay_seconds: data.auto_open_delay,
+        play_sound_on_message: data.sound_enabled,
+        bot_enabled: data.auto_reply_enabled,
+        bot_greeting: data.auto_reply_message,
+        window_title: data.header_text,
         allowed_domains: data.allowed_domains ? data.allowed_domains.split(',').map(d => d.trim()) : null,
         is_active: true,
         created_by: profile.id,
@@ -730,9 +718,9 @@ export default function ChatWidgetsAdmin() {
                   <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
                     {widgets.map((widget) => (
                       <Card key={widget.id} className="overflow-hidden">
-                        <div 
+                         <div 
                           className="h-2"
-                          style={{ backgroundColor: (widget.config as any)?.primary_color || '#4F46E5' }}
+                          style={{ backgroundColor: widget.primary_color || '#4F46E5' }}
                         />
                         <CardHeader className="pb-2">
                           <div className="flex items-start justify-between">
@@ -751,11 +739,11 @@ export default function ChatWidgetsAdmin() {
                           <div className="space-y-3">
                             <div className="flex items-center justify-between text-sm">
                               <span className="text-muted-foreground">Posição</span>
-                              <span>{(widget.config as any)?.position === 'bottom-right' ? 'Inferior Direita' : 'Inferior Esquerda'}</span>
+                              <span>{widget.position === 'bottom-right' ? 'Inferior Direita' : 'Inferior Esquerda'}</span>
                             </div>
                             <div className="flex items-center justify-between text-sm">
-                              <span className="text-muted-foreground">Tema</span>
-                              <span className="capitalize">{(widget.config as any)?.theme || 'light'}</span>
+                              <span className="text-muted-foreground">Título</span>
+                              <span>{widget.window_title || 'Chat'}</span>
                             </div>
                             <div className="flex items-center justify-between text-sm">
                               <span className="text-muted-foreground">Conversas</span>
@@ -901,7 +889,7 @@ export default function ChatWidgetsAdmin() {
                             <TableCell className="max-w-xs truncate text-sm">
                               {session.source_url || 'N/A'}
                             </TableCell>
-                            <TableCell>{session.page_views}</TableCell>
+                            <TableCell>{session.pages_viewed}</TableCell>
                             <TableCell className="text-sm">
                               {format(new Date(session.started_at), "dd/MM HH:mm", { locale: ptBR })}
                             </TableCell>
