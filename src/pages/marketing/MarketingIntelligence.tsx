@@ -1,4 +1,3 @@
-import { AppLayout } from '@/components/layout/AppLayout';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { useQuery } from '@tanstack/react-query';
@@ -37,8 +36,7 @@ export default function MarketingIntelligence() {
   const deliveredCount = sends?.filter(s => ['delivered', 'opened', 'clicked'].includes(s.status)).length || 0;
 
   return (
-    <AppLayout>
-      <div className="space-y-6">
+    <div className="space-y-6">
         <div>
           <h1 className="text-3xl font-bold">Marketing Intelligence</h1>
           <p className="text-muted-foreground mt-1">ROI, CAC, performance de mídia e coortes</p>
@@ -68,7 +66,6 @@ export default function MarketingIntelligence() {
             </CardContent>
           </Card>
         </div>
-      </div>
-    </AppLayout>
+    </div>
   );
 }

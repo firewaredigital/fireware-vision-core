@@ -1,11 +1,9 @@
-import { AppLayout } from '@/components/layout/AppLayout';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Wand2 } from 'lucide-react';
 
 export default function MarketingPersonalization() {
   return (
-    <AppLayout>
-      <div className="space-y-6">
+    <div className="space-y-6">
         <div>
           <h1 className="text-3xl font-bold">Personalização</h1>
           <p className="text-muted-foreground mt-1">Regras de conteúdo dinâmico e personalização</p>
@@ -17,7 +15,6 @@ export default function MarketingPersonalization() {
             <p className="text-sm mt-2">Configure regras de conteúdo dinâmico baseado em segmentos, comportamento e dados do Data Hub para entregar experiências personalizadas em todos os canais.</p>
           </CardContent>
         </Card>
-      </div>
-    </AppLayout>
+    </div>
   );
 }
