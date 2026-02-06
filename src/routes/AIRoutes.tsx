@@ -10,48 +10,46 @@ import AIEvals from '@/pages/ai/AIEvals';
 import AIRuns from '@/pages/ai/AIRuns';
 
 export function AIRoutes() {
-  return (
-    <>
-      <Route path="/ai/agents" element={
-        <ModuleGuard moduleKey="ai_agents" redirectTo="/dashboard">
-          <AIAgents />
-        </ModuleGuard>
-      } />
-      <Route path="/ai/agents/new" element={
-        <ModuleGuard moduleKey="ai_agents" redirectTo="/dashboard">
-          <AIAgentForm />
-        </ModuleGuard>
-      } />
-      <Route path="/ai/agents/:id" element={
-        <ModuleGuard moduleKey="ai_agents" redirectTo="/dashboard">
-          <AIAgentDetail />
-        </ModuleGuard>
-      } />
-      <Route path="/ai/agents/:id/test" element={
-        <ModuleGuard moduleKey="ai_agents" redirectTo="/dashboard">
-          <AIAgentPlayground />
-        </ModuleGuard>
-      } />
-      <Route path="/ai/tools" element={
-        <ModuleGuard moduleKey="ai_agents" redirectTo="/dashboard">
-          <AITools />
-        </ModuleGuard>
-      } />
-      <Route path="/ai/policies" element={
-        <ModuleGuard moduleKey="ai_agents" redirectTo="/dashboard">
-          <AIPolicies />
-        </ModuleGuard>
-      } />
-      <Route path="/ai/evals" element={
-        <ModuleGuard moduleKey="ai_agents" redirectTo="/dashboard">
-          <AIEvals />
-        </ModuleGuard>
-      } />
-      <Route path="/ai/runs" element={
-        <ModuleGuard moduleKey="ai_agents" redirectTo="/dashboard">
-          <AIRuns />
-        </ModuleGuard>
-      } />
-    </>
-  );
+  return [
+    <Route key="ai-agents" path="/ai/agents" element={
+      <ModuleGuard moduleKey="ai_agents" redirectTo="/dashboard">
+        <AIAgents />
+      </ModuleGuard>
+    } />,
+    <Route key="ai-agents-new" path="/ai/agents/new" element={
+      <ModuleGuard moduleKey="ai_agents" redirectTo="/dashboard">
+        <AIAgentForm />
+      </ModuleGuard>
+    } />,
+    <Route key="ai-agents-id" path="/ai/agents/:id" element={
+      <ModuleGuard moduleKey="ai_agents" redirectTo="/dashboard">
+        <AIAgentDetail />
+      </ModuleGuard>
+    } />,
+    <Route key="ai-agents-test" path="/ai/agents/:id/test" element={
+      <ModuleGuard moduleKey="ai_agents" redirectTo="/dashboard">
+        <AIAgentPlayground />
+      </ModuleGuard>
+    } />,
+    <Route key="ai-tools" path="/ai/tools" element={
+      <ModuleGuard moduleKey="ai_agents" redirectTo="/dashboard">
+        <AITools />
+      </ModuleGuard>
+    } />,
+    <Route key="ai-policies" path="/ai/policies" element={
+      <ModuleGuard moduleKey="ai_agents" redirectTo="/dashboard">
+        <AIPolicies />
+      </ModuleGuard>
+    } />,
+    <Route key="ai-evals" path="/ai/evals" element={
+      <ModuleGuard moduleKey="ai_agents" redirectTo="/dashboard">
+        <AIEvals />
+      </ModuleGuard>
+    } />,
+    <Route key="ai-runs" path="/ai/runs" element={
+      <ModuleGuard moduleKey="ai_agents" redirectTo="/dashboard">
+        <AIRuns />
+      </ModuleGuard>
+    } />,
+  ];
 }
