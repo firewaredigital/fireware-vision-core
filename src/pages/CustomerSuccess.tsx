@@ -165,23 +165,19 @@ export default function CustomerSuccess() {
   return (
     <>
       <div className="space-y-6">
-        {/* Header */}
-        <div className="flex items-center justify-between">
-          <div>
-            <h1 className="text-3xl font-bold tracking-tight">Customer Success</h1>
-            <p className="text-muted-foreground">
-              Monitore a saúde dos clientes e gerencie playbooks de sucesso
-            </p>
-          </div>
-          <div className="flex gap-2">
-            <Button variant="outline" asChild>
+        <ModuleHeroBanner
+          module="service"
+          title="Customer Success"
+          subtitle="Monitore a saúde dos clientes e gerencie playbooks de sucesso"
+          compact
+          actions={
+            <Button variant="outline" asChild className="gap-2 bg-white text-foreground hover:bg-white/90">
               <Link to="/customer-success/playbooks/new">
-                <Plus className="mr-2 h-4 w-4" />
-                Novo Playbook
+                <Plus className="h-4 w-4" /> Novo Playbook
               </Link>
             </Button>
-          </div>
-        </div>
+          }
+        />
 
         {/* KPI Cards */}
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">

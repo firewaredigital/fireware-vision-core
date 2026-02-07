@@ -249,31 +249,28 @@ export default function ServiceDashboard() {
   return (
     <>
       <div className="space-y-6">
-        {/* Header */}
-        <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-          <div>
-            <h1 className="text-3xl font-bold tracking-tight">Dashboard de Atendimento</h1>
-            <p className="text-muted-foreground">
-              Visão geral de performance e métricas de suporte
-            </p>
-          </div>
-          <div className="flex gap-3">
-            <Select value={dateRange} onValueChange={setDateRange}>
-              <SelectTrigger className="w-[180px]">
-                <SelectValue placeholder="Período" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="7">Últimos 7 dias</SelectItem>
-                <SelectItem value="14">Últimos 14 dias</SelectItem>
-                <SelectItem value="30">Últimos 30 dias</SelectItem>
-                <SelectItem value="60">Últimos 60 dias</SelectItem>
-                <SelectItem value="90">Últimos 90 dias</SelectItem>
-              </SelectContent>
-            </Select>
-            <Button variant="outline" size="icon" onClick={() => refetch()}>
-              <RefreshCcw className="h-4 w-4" />
-            </Button>
-          </div>
+        <ModuleHeroBanner
+          module="service"
+          title="Dashboard de Atendimento"
+          subtitle="Visão geral de performance e métricas de suporte"
+          compact
+        />
+        <div className="flex justify-end gap-3">
+          <Select value={dateRange} onValueChange={setDateRange}>
+            <SelectTrigger className="w-[180px]">
+              <SelectValue placeholder="Período" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="7">Últimos 7 dias</SelectItem>
+              <SelectItem value="14">Últimos 14 dias</SelectItem>
+              <SelectItem value="30">Últimos 30 dias</SelectItem>
+              <SelectItem value="60">Últimos 60 dias</SelectItem>
+              <SelectItem value="90">Últimos 90 dias</SelectItem>
+            </SelectContent>
+          </Select>
+          <Button variant="outline" size="icon" onClick={() => refetch()}>
+            <RefreshCcw className="h-4 w-4" />
+          </Button>
         </div>
 
         {/* KPI Cards */}

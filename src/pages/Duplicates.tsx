@@ -263,25 +263,22 @@ export default function Duplicates() {
   return (
     <>
       <div className="space-y-6">
-        {/* Header */}
-        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-          <div>
-            <h1 className="text-3xl font-bold tracking-tight">Duplicatas</h1>
-            <p className="text-muted-foreground">
-              Detecte e gerencie registros duplicados no sistema
-            </p>
-          </div>
-          <div className="flex gap-2">
-            <Button variant="outline" onClick={() => setShowRulesDialog(true)}>
-              <Settings className="h-4 w-4 mr-2" />
-              Regras
-            </Button>
-            <Button>
-              <Zap className="h-4 w-4 mr-2" />
-              Executar Detecção
-            </Button>
-          </div>
-        </div>
+        <ModuleHeroBanner
+          module="admin"
+          title="Duplicatas"
+          subtitle="Detecte e gerencie registros duplicados no sistema"
+          compact
+          actions={
+            <div className="flex gap-2">
+              <Button variant="outline" onClick={() => setShowRulesDialog(true)} className="gap-2 bg-white/10 text-white border-white/20 hover:bg-white/20">
+                <Settings className="h-4 w-4" /> Regras
+              </Button>
+              <Button className="gap-2 bg-white text-foreground hover:bg-white/90">
+                <Zap className="h-4 w-4" /> Executar Detecção
+              </Button>
+            </div>
+          }
+        />
 
         {/* Stats Cards */}
         <div className="grid gap-4 md:grid-cols-4">

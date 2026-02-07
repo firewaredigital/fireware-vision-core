@@ -247,25 +247,22 @@ export default function Contracts() {
   return (
     <>
       <div className="space-y-6">
-        {/* Header */}
-        <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-          <div>
-            <h1 className="text-2xl font-bold tracking-tight">Contratos</h1>
-            <p className="text-muted-foreground">
-              Gerencie contratos de clientes e acompanhe renovações
-            </p>
-          </div>
-          <div className="flex gap-2">
-            <Button variant="outline" size="sm">
-              <Download className="mr-2 h-4 w-4" />
-              Exportar
-            </Button>
-            <Button size="sm" onClick={() => navigate('/contracts/new')}>
-              <Plus className="mr-2 h-4 w-4" />
-              Novo Contrato
-            </Button>
-          </div>
-        </div>
+        <ModuleHeroBanner
+          module="sales"
+          title="Contratos"
+          subtitle="Gerencie contratos de clientes e acompanhe renovações"
+          compact
+          actions={
+            <div className="flex gap-2">
+              <Button variant="outline" size="sm" className="gap-2 bg-white/10 text-white border-white/20 hover:bg-white/20">
+                <Download className="h-4 w-4" /> Exportar
+              </Button>
+              <Button size="sm" onClick={() => navigate('/contracts/new')} className="gap-2 bg-white text-foreground hover:bg-white/90">
+                <Plus className="h-4 w-4" /> Novo Contrato
+              </Button>
+            </div>
+          }
+        />
 
         {/* Stats Cards */}
         <div className="grid gap-4 md:grid-cols-4">

@@ -437,14 +437,14 @@ export default function Reports() {
   return (
     <>
       <div className="space-y-6">
-        {/* Header */}
-        <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-          <div>
-            <h1 className="text-2xl font-bold tracking-tight">Relatórios & Análises</h1>
-            <p className="text-muted-foreground">
-              Insights completos sobre seu desempenho de vendas
-            </p>
-          </div>
+        <ModuleHeroBanner
+          module="admin"
+          title="Relatórios & Análises"
+          subtitle="Insights completos sobre seu desempenho de vendas"
+          compact
+        />
+        <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-end">
+          <div className="hidden" />
           <div className="flex items-center gap-2">
             <Select value={dateRange} onValueChange={setDateRange}>
               <SelectTrigger className="w-[160px]">

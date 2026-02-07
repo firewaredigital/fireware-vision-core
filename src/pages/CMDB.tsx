@@ -116,21 +116,19 @@ export default function CMDB() {
 
   return (
     <div className="space-y-6">
-      {/* Header */}
-      <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-        <div>
-          <h1 className="text-3xl font-bold tracking-tight">CMDB</h1>
-          <p className="text-muted-foreground">
-            Configuration Management Database - Itens de Configuração
-          </p>
-        </div>
-        <Button asChild>
-          <Link to="/it/cmdb/new">
-            <Plus className="mr-2 h-4 w-4" />
-            Novo CI
-          </Link>
-        </Button>
-      </div>
+      <ModuleHeroBanner
+        module="itsm"
+        title="CMDB"
+        subtitle="Configuration Management Database - Itens de Configuração"
+        compact
+        actions={
+          <Button asChild className="gap-2 bg-white text-foreground hover:bg-white/90">
+            <Link to="/it/cmdb/new">
+              <Plus className="h-4 w-4" /> Novo CI
+            </Link>
+          </Button>
+        }
+      />
 
       {/* Stats Cards */}
       <div className="grid gap-4 md:grid-cols-5">

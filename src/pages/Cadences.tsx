@@ -433,12 +433,14 @@ export default function Cadences() {
   return (
     <>
       <div className="space-y-6">
-        {/* Header */}
+        <ModuleHeroBanner
+          module="sales"
+          title="Cadências"
+          subtitle="Sequências de prospecção automatizadas"
+          compact
+        />
         <div className="flex items-center justify-between">
-          <div>
-            <h1 className="text-2xl font-bold">Cadências</h1>
-            <p className="text-muted-foreground">Sequências de prospecção automatizadas</p>
-          </div>
+          <div />
           <Dialog open={isCadenceFormOpen} onOpenChange={(open) => {
             setIsCadenceFormOpen(open);
             if (!open) {
