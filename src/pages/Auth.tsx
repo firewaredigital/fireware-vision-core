@@ -372,7 +372,7 @@ export default function Auth() {
             <img
               src={poweredByFireware}
               alt="Powered by Fireware"
-              className="h-6 object-contain opacity-90"
+              className="h-10 object-contain opacity-90"
             />
           </div>
 
