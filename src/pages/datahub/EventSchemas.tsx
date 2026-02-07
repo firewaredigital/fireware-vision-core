@@ -10,6 +10,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import { Plus, Code, Eye } from '@/components/icons';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { useState } from 'react';
+import { ModuleHeroBanner } from '@/components/ModuleHeroBanner';
 
 export default function EventSchemas() {
   const { profile } = useAuth();
@@ -28,13 +29,15 @@ export default function EventSchemas() {
   return (
     <>
       <div className="space-y-6">
-        <div className="flex items-center justify-between">
-          <div>
-            <h1 className="text-3xl font-bold">Event Schemas</h1>
-            <p className="text-muted-foreground mt-1">Registry de schemas de eventos comportamentais</p>
-          </div>
-          <Button className="gap-2"><Plus className="h-4 w-4" /> Novo Schema</Button>
-        </div>
+        <ModuleHeroBanner
+          module="data"
+          title="Event Schemas"
+          subtitle="Registry de schemas de eventos comportamentais"
+          compact
+          actions={
+            <Button className="gap-2 bg-white text-foreground hover:bg-white/90"><Plus className="h-4 w-4" /> Novo Schema</Button>
+          }
+        />
 
         <Card>
           <CardContent className="p-0">

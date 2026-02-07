@@ -56,6 +56,7 @@ import { Progress } from '@/components/ui/progress';
 import { useAuth } from '@/hooks/useAuth';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
+import { ModuleHeroBanner } from '@/components/ModuleHeroBanner';
 import { format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 
@@ -217,27 +218,23 @@ export default function Marketing() {
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-3xl font-bold tracking-tight flex items-center gap-2">
-            <Megaphone className="h-8 w-8 text-primary" />
-            Marketing
-          </h1>
-          <p className="text-muted-foreground">
-            Gerencie campanhas, segmentos e jornadas de marketing
-          </p>
-        </div>
-        <div className="flex items-center gap-2">
-          <Button variant="outline" onClick={() => navigate('/marketing/segments/new')}>
-            <Users className="mr-2 h-4 w-4" />
-            Novo Segmento
-          </Button>
-          <Button onClick={() => navigate('/marketing/campaigns/new')}>
-            <Plus className="mr-2 h-4 w-4" />
-            Nova Campanha
-          </Button>
-        </div>
-      </div>
+      <ModuleHeroBanner
+        module="marketing"
+        title="Marketing"
+        subtitle="Gerencie campanhas, segmentos e jornadas de marketing"
+        actions={
+          <div className="flex items-center gap-2">
+            <Button variant="outline" onClick={() => navigate('/marketing/segments/new')} className="bg-white/10 border-white/20 text-white hover:bg-white/20">
+              <Users className="mr-2 h-4 w-4" />
+              Novo Segmento
+            </Button>
+            <Button onClick={() => navigate('/marketing/campaigns/new')} className="bg-white text-foreground hover:bg-white/90">
+              <Plus className="mr-2 h-4 w-4" />
+              Nova Campanha
+            </Button>
+          </div>
+        }
+      />
 
       {/* Stats Cards */}
       <div className="grid gap-4 md:grid-cols-4 lg:grid-cols-8">

@@ -23,6 +23,7 @@ import {
 import { Link } from 'react-router-dom';
 import { format, subDays, startOfDay } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
+import { ModuleHeroBanner } from '@/components/ModuleHeroBanner';
 
 export default function ITDashboard() {
   // Fetch incidents statistics
@@ -216,29 +217,28 @@ export default function ITDashboard() {
 
   return (
     <div className="space-y-6">
-      {/* Header */}
-      <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-        <div>
-          <h1 className="text-3xl font-bold tracking-tight">IT Service Management</h1>
-          <p className="text-muted-foreground">
-            Visão geral de incidentes, mudanças, problemas e ativos de TI
-          </p>
-        </div>
-        <div className="flex gap-2">
-          <Button asChild variant="outline">
-            <Link to="/it/incidents/new">
-              <Plus className="mr-2 h-4 w-4" />
-              Novo Incidente
-            </Link>
-          </Button>
-          <Button asChild>
-            <Link to="/it/changes/new">
-              <Plus className="mr-2 h-4 w-4" />
-              Nova Mudança
-            </Link>
-          </Button>
-        </div>
-      </div>
+      {/* Hero Banner */}
+      <ModuleHeroBanner
+        module="itsm"
+        title="IT Service Management"
+        subtitle="Visão geral de incidentes, mudanças, problemas e ativos de TI"
+        actions={
+          <div className="flex gap-2">
+            <Button asChild variant="outline" className="bg-white/10 border-white/20 text-white hover:bg-white/20">
+              <Link to="/it/incidents/new">
+                <Plus className="mr-2 h-4 w-4" />
+                Novo Incidente
+              </Link>
+            </Button>
+            <Button asChild className="bg-white text-foreground hover:bg-white/90">
+              <Link to="/it/changes/new">
+                <Plus className="mr-2 h-4 w-4" />
+                Nova Mudança
+              </Link>
+            </Button>
+          </div>
+        }
+      />
 
       {/* Quick Stats */}
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">

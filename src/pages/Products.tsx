@@ -59,6 +59,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { useAuth } from '@/hooks/useAuth';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
+import { ModuleHeroBanner } from '@/components/ModuleHeroBanner';
 
 interface Product {
   id: string;
@@ -222,29 +223,28 @@ export default function Products() {
   return (
     
       <div className="space-y-6">
-        {/* Header */}
-        <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-          <div>
-            <h1 className="text-2xl font-bold tracking-tight">Produtos</h1>
-            <p className="text-muted-foreground">
-              Gerencie seu catálogo de produtos para propostas e pedidos
-            </p>
-          </div>
-          <div className="flex gap-2">
-            <Button variant="outline" size="sm">
-              <Upload className="mr-2 h-4 w-4" />
-              Importar
-            </Button>
-            <Button variant="outline" size="sm">
-              <Download className="mr-2 h-4 w-4" />
-              Exportar
-            </Button>
-            <Button size="sm" onClick={() => navigate('/products/new')}>
-              <Plus className="mr-2 h-4 w-4" />
-              Novo Produto
-            </Button>
-          </div>
-        </div>
+        {/* Hero Banner */}
+        <ModuleHeroBanner
+          module="commerce"
+          title="Produtos"
+          subtitle="Gerencie seu catálogo de produtos para propostas e pedidos"
+          actions={
+            <div className="flex gap-2">
+              <Button variant="outline" size="sm" className="bg-white/10 border-white/20 text-white hover:bg-white/20">
+                <Upload className="mr-2 h-4 w-4" />
+                Importar
+              </Button>
+              <Button variant="outline" size="sm" className="bg-white/10 border-white/20 text-white hover:bg-white/20">
+                <Download className="mr-2 h-4 w-4" />
+                Exportar
+              </Button>
+              <Button size="sm" onClick={() => navigate('/products/new')} className="bg-white text-foreground hover:bg-white/90">
+                <Plus className="mr-2 h-4 w-4" />
+                Novo Produto
+              </Button>
+            </div>
+          }
+        />
 
         {/* Stats Cards */}
         <div className="grid gap-4 md:grid-cols-4">

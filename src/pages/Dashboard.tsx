@@ -21,6 +21,7 @@ import { useAuth } from '@/hooks/useAuth';
 import { supabase } from '@/integrations/supabase/client';
 import { format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
+import { ModuleHeroBanner } from '@/components/ModuleHeroBanner';
 import {
   BarChart,
   Bar,
@@ -215,15 +216,12 @@ export default function Dashboard() {
   return (
     <>
       <div className="space-y-6">
-        {/* Header */}
-        <div>
-          <h1 className="text-2xl font-bold tracking-tight">
-            Bem-vindo de volta, {profile?.first_name || 'Usuário'}
-          </h1>
-          <p className="text-muted-foreground">
-            Veja o que está acontecendo com seu pipeline de vendas hoje.
-          </p>
-        </div>
+        {/* Hero Banner */}
+        <ModuleHeroBanner
+          module="sales"
+          title={`Bem-vindo de volta, ${profile?.first_name || 'Usuário'}`}
+          subtitle="Veja o que está acontecendo com seu pipeline de vendas hoje."
+        />
 
         {/* KPI Cards */}
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">

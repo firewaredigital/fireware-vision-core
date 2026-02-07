@@ -14,6 +14,7 @@ import {
   Server, Database, Shield, Wrench, Play, Settings, Activity, Loader2,
   Brain, Zap, CheckCircle, PauseCircle, AlertTriangle, Archive
 } from '@/components/icons';
+import { ModuleHeroBanner } from '@/components/ModuleHeroBanner';
 
 const AGENT_TYPE_CONFIG: Record<string, { label: string; icon: React.ElementType; color: string }> = {
   sales: { label: 'Vendas', icon: TrendingUp, color: 'text-emerald-500' },
@@ -78,17 +79,18 @@ export default function AIAgents() {
   return (
     <>
       <div className="space-y-6">
-        {/* Header */}
-        <div className="flex items-center justify-between">
-          <div>
-            <h1 className="text-3xl font-bold">Agent Studio</h1>
-            <p className="text-muted-foreground mt-1">Gerencie agentes de IA com governança enterprise</p>
-          </div>
-          <Button onClick={() => navigate('/ai/agents/new')}>
-            <Plus className="h-4 w-4 mr-2" />
-            Novo Agente
-          </Button>
-        </div>
+        {/* Hero Banner */}
+        <ModuleHeroBanner
+          module="ai"
+          title="Agent Studio"
+          subtitle="Gerencie agentes de IA com governança enterprise"
+          actions={
+            <Button onClick={() => navigate('/ai/agents/new')} className="bg-white text-foreground hover:bg-white/90">
+              <Plus className="h-4 w-4 mr-2" />
+              Novo Agente
+            </Button>
+          }
+        />
 
         {/* Metrics */}
         {metrics && (

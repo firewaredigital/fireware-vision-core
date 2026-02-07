@@ -10,6 +10,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import { Plus, Database, RefreshCw, CheckCircle, Clock, AlertTriangle } from '@/components/icons';
 import { format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
+import { ModuleHeroBanner } from '@/components/ModuleHeroBanner';
 
 const typeLabels: Record<string, string> = {
   internal: 'Interno',
@@ -35,13 +36,15 @@ export default function DataSources() {
   return (
     <>
       <div className="space-y-6">
-        <div className="flex items-center justify-between">
-          <div>
-            <h1 className="text-3xl font-bold">Fontes de Dados</h1>
-            <p className="text-muted-foreground mt-1">Catálogo de origens de dados do Data Hub</p>
-          </div>
-          <Button className="gap-2"><Plus className="h-4 w-4" /> Nova Fonte</Button>
-        </div>
+        <ModuleHeroBanner
+          module="data"
+          title="Fontes de Dados"
+          subtitle="Catálogo de origens de dados do Data Hub"
+          compact
+          actions={
+            <Button className="gap-2 bg-white text-foreground hover:bg-white/90"><Plus className="h-4 w-4" /> Nova Fonte</Button>
+          }
+        />
 
         <Card>
           <CardContent className="p-0">

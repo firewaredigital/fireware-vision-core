@@ -56,6 +56,7 @@ import { ptBR } from 'date-fns/locale';
 import { SLACountdown } from '@/components/service/SLACountdown';
 import { TicketStatusBadge } from '@/components/service/TicketStatusBadge';
 import { TicketPriorityBadge } from '@/components/service/TicketPriorityBadge';
+import { ModuleHeroBanner } from '@/components/ModuleHeroBanner';
 
 type TicketStatus = 'new' | 'open' | 'pending' | 'on_hold' | 'resolved' | 'closed';
 type TicketPriority = 'low' | 'medium' | 'high' | 'critical';
@@ -231,25 +232,24 @@ export default function Tickets() {
   return (
     <>
       <div className="space-y-6">
-        {/* Header */}
-        <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-          <div>
-            <h1 className="text-3xl font-bold tracking-tight">Tickets de Suporte</h1>
-            <p className="text-muted-foreground">
-              Gerencie solicitações, incidentes e atendimentos
-            </p>
-          </div>
-          <div className="flex gap-2">
-            <Button variant="outline" size="sm" onClick={() => refetch()}>
-              <RefreshCcw className="mr-2 h-4 w-4" />
-              Atualizar
-            </Button>
-            <Button onClick={() => navigate('/tickets/new')}>
-              <Plus className="mr-2 h-4 w-4" />
-              Novo Ticket
-            </Button>
-          </div>
-        </div>
+        {/* Hero Banner */}
+        <ModuleHeroBanner
+          module="service"
+          title="Tickets de Suporte"
+          subtitle="Gerencie solicitações, incidentes e atendimentos"
+          actions={
+            <div className="flex gap-2">
+              <Button variant="outline" size="sm" onClick={() => refetch()} className="bg-white/10 border-white/20 text-white hover:bg-white/20">
+                <RefreshCcw className="mr-2 h-4 w-4" />
+                Atualizar
+              </Button>
+              <Button onClick={() => navigate('/tickets/new')} className="bg-white text-foreground hover:bg-white/90">
+                <Plus className="mr-2 h-4 w-4" />
+                Novo Ticket
+              </Button>
+            </div>
+          }
+        />
 
         {/* Metrics Cards */}
         <div className="grid gap-4 md:grid-cols-5">
