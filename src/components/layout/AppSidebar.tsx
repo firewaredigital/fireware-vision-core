@@ -85,6 +85,7 @@ import { Button } from '@/components/ui/button';
 import { useAuth } from '@/hooks/useAuth';
 import { useModuleAccess, type ModuleKey } from '@/hooks/useModuleAccess';
 import { cn } from '@/lib/utils';
+import firewareLogo from '@/assets/fireware-logo.png';
 
 // --- Navigation item definitions ---
 
@@ -383,15 +384,14 @@ export function AppSidebar() {
       {/* Header with brand */}
       <SidebarHeader className="border-b border-sidebar-border px-4 py-5">
         <div className="flex items-center gap-3">
-          <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary">
-            <Flame className="h-5 w-5 text-primary-foreground" />
-          </div>
-          {!collapsed && (
-            <div className="flex flex-col">
-              <span className="text-base font-bold tracking-tight text-sidebar-foreground">Fireware</span>
-              <span className="text-[11px] text-sidebar-foreground/50">CRM Enterprise</span>
-            </div>
-          )}
+          <img
+            src={firewareLogo}
+            alt="Fireware CRM"
+            className={cn(
+              'object-contain transition-all duration-200',
+              collapsed ? 'h-8 w-8' : 'h-8'
+            )}
+          />
         </div>
       </SidebarHeader>
 
