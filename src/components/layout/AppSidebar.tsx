@@ -493,14 +493,20 @@ export function AppSidebar() {
 
   const [selectedRail, setSelectedRail] = useState(activeRailFromRoute);
   const [searchQuery, setSearchQuery] = useState('');
+  // Animation key — incremented on every rail switch to re-trigger CSS animation
+  const [animKey, setAnimKey] = useState(0);
 
   // Sync rail selection when route changes
   useEffect(() => {
     setSelectedRail(activeRailFromRoute);
+    setAnimKey((k) => k + 1);
   }, [activeRailFromRoute]);
 
   const handleRailClick = useCallback((key: string) => {
-    setSelectedRail(key);
+    setSelectedRail((prev) => {
+      if (prev !== key) setAnimKey((k) => k + 1);
+      return key;
+    });
     setSearchQuery('');
   }, []);
 
@@ -607,7 +613,7 @@ export function AppSidebar() {
       {/* ═══ CONTENT PANEL (Right — Light/Grayish White) ═══ */}
       <div className="sidebar-content-panel">
         {/* Panel Header */}
-        <div className="sidebar-content-header">
+        <div className="sidebar-content-header" key={`header-${animKey}`}>
           <h2 className="sidebar-content-title">
             {activeModule?.label || 'Home'}
           </h2>
@@ -623,11 +629,18 @@ export function AppSidebar() {
           </div>
         </div>
 
-        {/* Panel Content — Scrollable */}
+        {/* Panel Content — Scrollable with transition animation */}
         <ScrollArea className="flex-1">
-          <nav className="sidebar-content-nav">
-            {filteredSections.map((section) => (
-              <div key={section.key} className="sidebar-content-group">
+          <nav
+            key={animKey}
+            className="sidebar-content-nav sidebar-content-enter"
+          >
+            {filteredSections.map((section, sectionIdx) => (
+              <div
+                key={section.key}
+                className="sidebar-content-group sidebar-group-enter"
+                style={{ animationDelay: `${sectionIdx * 60}ms` }}
+              >
                 {/* Section label — show when multiple sections exist */}
                 {visibleSections.length > 1 && (
                   <span className="sidebar-group-label">{section.label}</span>
@@ -635,11 +648,17 @@ export function AppSidebar() {
 
                 {/* Navigation Items */}
                 <ul className="sidebar-content-items">
-                  {section.items.map((item) => {
+                  {section.items.map((item, itemIdx) => {
                     const Icon = item.icon;
                     const active = isActive(item.url);
                     return (
-                      <li key={item.url}>
+                      <li
+                        key={item.url}
+                        className="sidebar-item-enter"
+                        style={{
+                          animationDelay: `${sectionIdx * 60 + itemIdx * 30 + 40}ms`,
+                        }}
+                      >
                         <NavLink
                           to={item.url}
                           className={cn(
