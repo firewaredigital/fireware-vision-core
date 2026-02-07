@@ -50,7 +50,7 @@ import {
   Download,
   Upload,
   Users
-} from 'lucide-react';
+} from '@/components/icons';
 import { formatDistanceToNow, format, differenceInMinutes, isPast } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 import { SLACountdown } from '@/components/service/SLACountdown';

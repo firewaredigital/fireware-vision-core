@@ -1,5 +1,5 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Wand2 } from 'lucide-react';
+import { Wand2 } from '@/components/icons';
 
 export default function MarketingPersonalization() {
   return (

@@ -6,7 +6,7 @@ import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/hooks/useAuth';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { Plus, Mail, MessageSquare, Send, Bell } from 'lucide-react';
+import { Plus, Mail, MessageSquare, Send, Bell } from '@/components/icons';
 
 const typeIcons: Record<string, React.ElementType> = { email: Mail, sms: Send, whatsapp: MessageSquare, push: Bell };
 

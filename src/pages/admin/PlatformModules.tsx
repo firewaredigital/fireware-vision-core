@@ -12,7 +12,7 @@ import {
   CreditCard, Calculator, Monitor, Database, Zap, 
   Link, Bot, BarChart3, Users, Shield, Loader2,
   AlertTriangle, Building2, ShieldAlert
-} from 'lucide-react';
+} from '@/components/icons';
 
 type ModuleKeyType = 'sales' | 'service' | 'contact_center' | 'marketing' | 'commerce' | 
   'billing' | 'cpq' | 'itsm' | 'data_hub' | 'automations' | 'integrations' | 

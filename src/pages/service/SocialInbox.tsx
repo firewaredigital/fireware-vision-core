@@ -20,7 +20,7 @@ import {
   CheckCircle, AlertTriangle, Eye, EyeOff, Flag,
   Sparkles, RefreshCw, ExternalLink, Send, ThumbsUp,
   ThumbsDown, Minus
-} from 'lucide-react';
+} from '@/components/icons';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/hooks/useAuth';
 import { toast } from 'sonner';

@@ -5,7 +5,7 @@ import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/hooks/useAuth';
 import { Skeleton } from '@/components/ui/skeleton';
-import { Plus, Settings, Eye } from 'lucide-react';
+import { Plus, Settings, Eye } from '@/components/icons';
 
 export default function MarketingPreferenceCenter() {
   const { profile } = useAuth();

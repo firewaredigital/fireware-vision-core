@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import {
-  ArrowLeft, Plus, Trash2, Trophy, BarChart3, Send, RefreshCw,
-  Eye, Mail, Percent, Users, Clock, Award, Zap,
-} from 'lucide-react';
+  ArrowLeft, Plus, Trash2, Award, BarChart3, Send, RefreshCw,
+  Eye, Mail, Percent, Users, Clock, Zap,
+} from '@/components/icons';
+import { Trophy } from '@phosphor-icons/react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';

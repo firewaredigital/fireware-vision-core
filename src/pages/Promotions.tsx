@@ -33,7 +33,7 @@ import {
   Truck,
   Edit,
   Copy
-} from 'lucide-react';
+} from '@/components/icons';
 import { toast } from 'sonner';
 import { format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';

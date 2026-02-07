@@ -13,7 +13,7 @@ import { ptBR } from 'date-fns/locale';
 import { 
   Activity, AlertTriangle, CheckCircle, XCircle, 
   Clock, RefreshCw, Loader2, TrendingUp, Server
-} from 'lucide-react';
+} from '@/components/icons';
 
 type EventSeverity = 'info' | 'warning' | 'error' | 'critical';
 type IntegrationStatus = 'pending' | 'running' | 'completed' | 'failed' | 'retrying';

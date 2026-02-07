@@ -54,7 +54,7 @@ import {
   AlignLeft,
   Link,
   Loader2,
-} from 'lucide-react';
+} from '@/components/icons';
 import { useToast } from '@/hooks/use-toast';
 import {
   useAllCustomFieldDefinitions,

@@ -35,7 +35,7 @@ import {
   Timer,
   BarChart3,
   Target
-} from 'lucide-react';
+} from '@/components/icons';
 import { formatDistanceToNow, format, subDays, startOfDay, endOfDay } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 import {

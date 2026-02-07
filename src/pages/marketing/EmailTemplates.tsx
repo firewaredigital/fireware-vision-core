@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import {
   Plus, Search, Mail, Eye, Copy, Trash2, MoreHorizontal,
   RefreshCw, LayoutTemplate, Tag, Star, Clock, BarChart3,
-} from 'lucide-react';
+} from '@/components/icons';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';

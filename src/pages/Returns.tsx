@@ -31,7 +31,7 @@ import {
   Package,
   Eye,
   DollarSign
-} from 'lucide-react';
+} from '@/components/icons';
 import { format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 

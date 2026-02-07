@@ -31,7 +31,7 @@ import {
   RefreshCcw,
   ExternalLink,
   Star
-} from 'lucide-react';
+} from '@/components/icons';
 import { formatDistanceToNow, format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 

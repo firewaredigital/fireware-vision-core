@@ -18,7 +18,7 @@ import {
   Layers, Plus, Settings, Users, Activity, Inbox,
   CheckCircle, Clock, AlertTriangle, Zap, Trash2,
   UserPlus, Shield, BarChart3, Search, RefreshCw
-} from 'lucide-react';
+} from '@/components/icons';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/hooks/useAuth';
 import { toast } from 'sonner';

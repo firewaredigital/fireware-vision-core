@@ -19,7 +19,7 @@ import {
 import {
   Headphones, Clock, CheckCircle2, AlertTriangle, TrendingUp,
   Users, MessageSquare, BarChart3, Gauge, ThumbsUp, ThumbsDown, Timer
-} from 'lucide-react';
+} from '@/components/icons';
 
 const CHART_COLORS = [
   'hsl(var(--primary))',

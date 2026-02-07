@@ -18,7 +18,7 @@ import {
   ClipboardCheck, Search, Plus, Star, TrendingUp, TrendingDown,
   AlertTriangle, CheckCircle, Clock, BarChart3, Users, FileText,
   Filter, Award, Target, ThumbsUp, ThumbsDown, Eye
-} from 'lucide-react';
+} from '@/components/icons';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/hooks/useAuth';
 import { toast } from 'sonner';

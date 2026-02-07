@@ -11,7 +11,7 @@ import { Badge } from '@/components/ui/badge';
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { toast } from 'sonner';
-import { Plus, Pencil, Trash2, Shield, Users, Loader2 } from 'lucide-react';
+import { Plus, Pencil, Trash2, Shield, Users, Loader2 } from '@/components/icons';
 
 const DEFAULT_CAPABILITIES = [
   // Sales
