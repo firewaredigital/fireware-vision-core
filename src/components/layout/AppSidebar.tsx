@@ -60,7 +60,7 @@ import {
   FolderOpen,
   Fingerprint,
   LayoutList,
-} from 'lucide-react';
+} from '@/components/icons';
 import { NavLink } from '@/components/NavLink';
 import {
   Sidebar,

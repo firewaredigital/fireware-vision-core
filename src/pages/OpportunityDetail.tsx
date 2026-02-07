@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { ArrowLeft, Pencil, Building, DollarSign, Calendar, User, Percent, Target, Trash2 } from 'lucide-react';
+import { ArrowLeft, Pencil, Building, DollarSign, Calendar, User, Percent, Target, Trash2 } from '@/components/icons';
 import { format } from 'date-fns';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';

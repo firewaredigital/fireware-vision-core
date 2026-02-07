@@ -2,7 +2,7 @@ import { ReactNode } from 'react';
 import { Navigate } from 'react-router-dom';
 import { useModuleAccess, ModuleKey } from '@/hooks/useModuleAccess';
 import { Skeleton } from '@/components/ui/skeleton';
-import { ShieldX } from 'lucide-react';
+import { ShieldX } from '@/components/icons';
 
 interface ModuleGuardProps {
   moduleKey: ModuleKey;
