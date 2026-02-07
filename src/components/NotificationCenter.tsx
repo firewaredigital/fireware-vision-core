@@ -8,7 +8,7 @@ import {
   Users, Target, Ticket, Bot, Zap, Shield, BarChart3,
   ShoppingCart, Server, Link as LinkIcon, Database,
   FileText, DollarSign, Clock, Megaphone
-} from 'lucide-react';
+} from '@/components/icons';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { ScrollArea } from '@/components/ui/scroll-area';

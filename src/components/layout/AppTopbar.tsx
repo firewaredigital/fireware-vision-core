@@ -1,4 +1,4 @@
-import { Plus, Moon, Sun, Monitor } from 'lucide-react';
+import { Plus, Moon, Sun, Monitor } from '@/components/icons';
 import { Button } from '@/components/ui/button';
 import { SidebarTrigger } from '@/components/ui/sidebar';
 import {
