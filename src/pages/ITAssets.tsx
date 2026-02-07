@@ -116,21 +116,19 @@ export default function ITAssets() {
 
   return (
     <div className="space-y-6">
-      {/* Header */}
-      <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-        <div>
-          <h1 className="text-3xl font-bold tracking-tight">Ativos de TI</h1>
-          <p className="text-muted-foreground">
-            Inventário de hardware, software e licenças
-          </p>
-        </div>
-        <Button asChild>
-          <Link to="/it/assets/new">
-            <Plus className="mr-2 h-4 w-4" />
-            Novo Ativo
-          </Link>
-        </Button>
-      </div>
+      <ModuleHeroBanner
+        module="itsm"
+        title="Ativos de TI"
+        subtitle="Inventário de hardware, software e licenças"
+        compact
+        actions={
+          <Button asChild className="gap-2 bg-white text-foreground hover:bg-white/90">
+            <Link to="/it/assets/new">
+              <Plus className="h-4 w-4" /> Novo Ativo
+            </Link>
+          </Button>
+        }
+      />
 
       {/* Stats Cards */}
       <div className="grid gap-4 md:grid-cols-4">

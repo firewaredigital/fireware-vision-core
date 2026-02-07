@@ -192,25 +192,22 @@ export default function Knowledge() {
   return (
     <>
       <div className="space-y-6">
-        {/* Header */}
-        <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-          <div>
-            <h1 className="text-3xl font-bold tracking-tight">Base de Conhecimento</h1>
-            <p className="text-muted-foreground">
-              Gerencie artigos, tutoriais e documentação de suporte
-            </p>
-          </div>
-          <div className="flex gap-2">
-            <Button variant="outline" size="sm" onClick={() => refetchArticles()}>
-              <RefreshCcw className="mr-2 h-4 w-4" />
-              Atualizar
-            </Button>
-            <Button onClick={() => navigate('/knowledge/new')}>
-              <Plus className="mr-2 h-4 w-4" />
-              Novo Artigo
-            </Button>
-          </div>
-        </div>
+        <ModuleHeroBanner
+          module="service"
+          title="Base de Conhecimento"
+          subtitle="Gerencie artigos, tutoriais e documentação de suporte"
+          compact
+          actions={
+            <div className="flex gap-2">
+              <Button variant="outline" size="sm" onClick={() => refetchArticles()} className="gap-2 bg-white/10 text-white border-white/20 hover:bg-white/20">
+                <RefreshCcw className="h-4 w-4" /> Atualizar
+              </Button>
+              <Button onClick={() => navigate('/knowledge/new')} className="gap-2 bg-white text-foreground hover:bg-white/90">
+                <Plus className="h-4 w-4" /> Novo Artigo
+              </Button>
+            </div>
+          }
+        />
 
         {/* Metrics Cards */}
         <div className="grid gap-4 md:grid-cols-5">

@@ -111,21 +111,19 @@ export default function ITChanges() {
 
   return (
     <div className="space-y-6">
-      {/* Header */}
-      <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-        <div>
-          <h1 className="text-3xl font-bold tracking-tight">Gestão de Mudanças</h1>
-          <p className="text-muted-foreground">
-            Change Management - Controle de mudanças em TI
-          </p>
-        </div>
-        <Button asChild>
-          <Link to="/it/changes/new">
-            <Plus className="mr-2 h-4 w-4" />
-            Nova Mudança
-          </Link>
-        </Button>
-      </div>
+      <ModuleHeroBanner
+        module="itsm"
+        title="Gestão de Mudanças"
+        subtitle="Change Management - Controle de mudanças em TI"
+        compact
+        actions={
+          <Button asChild className="gap-2 bg-white text-foreground hover:bg-white/90">
+            <Link to="/it/changes/new">
+              <Plus className="h-4 w-4" /> Nova Mudança
+            </Link>
+          </Button>
+        }
+      />
 
       {/* Stats Cards */}
       <div className="grid gap-4 md:grid-cols-4">

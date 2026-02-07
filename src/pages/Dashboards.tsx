@@ -112,17 +112,17 @@ export default function Dashboards() {
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-2xl font-bold flex items-center gap-2">
-            <LayoutDashboard className="h-7 w-7 text-primary" />Dashboards
-          </h1>
-          <p className="text-muted-foreground">Crie e gerencie dashboards personalizados</p>
-        </div>
-        <Button onClick={() => navigate('/dashboards/new')}>
-          <Plus className="mr-2 h-4 w-4" />Novo Dashboard
-        </Button>
-      </div>
+      <ModuleHeroBanner
+        module="admin"
+        title="Dashboards"
+        subtitle="Crie e gerencie dashboards personalizados"
+        compact
+        actions={
+          <Button onClick={() => navigate('/dashboards/new')} className="gap-2 bg-white text-foreground hover:bg-white/90">
+            <Plus className="h-4 w-4" /> Novo Dashboard
+          </Button>
+        }
+      />
 
       {/* Stats */}
       <div className="grid gap-4 md:grid-cols-4">

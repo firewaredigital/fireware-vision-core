@@ -311,25 +311,22 @@ export default function Quotes() {
   return (
     <>
       <div className="space-y-6">
-        {/* Header */}
-        <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-          <div>
-            <h1 className="text-2xl font-bold tracking-tight">Propostas</h1>
-            <p className="text-muted-foreground">
-              Crie e gerencie propostas para seus clientes
-            </p>
-          </div>
-          <div className="flex gap-2">
-            <Button variant="outline" size="sm">
-              <Download className="mr-2 h-4 w-4" />
-              Exportar
-            </Button>
-            <Button size="sm" onClick={() => navigate('/quotes/new')}>
-              <Plus className="mr-2 h-4 w-4" />
-              Nova Proposta
-            </Button>
-          </div>
-        </div>
+        <ModuleHeroBanner
+          module="sales"
+          title="Propostas"
+          subtitle="Crie e gerencie propostas para seus clientes"
+          compact
+          actions={
+            <div className="flex gap-2">
+              <Button variant="outline" size="sm" className="gap-2 bg-white/10 text-white border-white/20 hover:bg-white/20">
+                <Download className="h-4 w-4" /> Exportar
+              </Button>
+              <Button size="sm" onClick={() => navigate('/quotes/new')} className="gap-2 bg-white text-foreground hover:bg-white/90">
+                <Plus className="h-4 w-4" /> Nova Proposta
+              </Button>
+            </div>
+          }
+        />
 
         {/* Stats Cards */}
         <div className="grid gap-4 md:grid-cols-4">

@@ -375,12 +375,15 @@ export default function Territories() {
   return (
     <>
       <div className="space-y-6">
-        {/* Header */}
-        <div className="flex items-center justify-between">
-          <div>
-            <h1 className="text-2xl font-bold">Territórios</h1>
-            <p className="text-muted-foreground">Gerencie territórios de vendas e atribuições</p>
-          </div>
+        <ModuleHeroBanner
+          module="sales"
+          title="Territórios"
+          subtitle="Gerencie territórios de vendas e atribuições"
+          compact
+        />
+        {/* Territory Form */}
+        <div className="flex items-center justify-end">
+          <div className="hidden" />
           <Dialog open={isFormOpen} onOpenChange={(open) => {
             setIsFormOpen(open);
             if (!open) {

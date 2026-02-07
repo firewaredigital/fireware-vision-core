@@ -333,12 +333,15 @@ export default function Forecast() {
   return (
     <>
       <div className="space-y-6">
-        {/* Header */}
-        <div className="flex items-center justify-between">
-          <div>
-            <h1 className="text-2xl font-bold">Previsão de Vendas</h1>
-            <p className="text-muted-foreground">Metas e previsões de vendas da equipe</p>
-          </div>
+        <ModuleHeroBanner
+          module="sales"
+          title="Previsão de Vendas"
+          subtitle="Metas e previsões de vendas da equipe"
+          compact
+        />
+        {/* Header Controls */}
+        <div className="flex items-center justify-end">
+          <div className="hidden" />
           <div className="flex items-center gap-4">
             <Select value={periodType} onValueChange={(v: 'monthly' | 'quarterly') => setPeriodType(v)}>
               <SelectTrigger className="w-32">

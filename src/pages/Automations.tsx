@@ -297,21 +297,17 @@ export default function Automations() {
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-3xl font-bold tracking-tight flex items-center gap-2">
-            <Zap className="h-8 w-8 text-primary" />
-            Automações
-          </h1>
-          <p className="text-muted-foreground">
-            Gerencie workflows e automações do sistema
-          </p>
-        </div>
-        <Button onClick={() => setCreateDialogOpen(true)}>
-          <Plus className="mr-2 h-4 w-4" />
-          Novo Workflow
-        </Button>
-      </div>
+      <ModuleHeroBanner
+        module="admin"
+        title="Automações"
+        subtitle="Gerencie workflows e automações do sistema"
+        compact
+        actions={
+          <Button onClick={() => setCreateDialogOpen(true)} className="gap-2 bg-white text-foreground hover:bg-white/90">
+            <Plus className="h-4 w-4" /> Novo Workflow
+          </Button>
+        }
+      />
 
       {/* Stats Cards */}
       <div className="grid gap-4 md:grid-cols-4">

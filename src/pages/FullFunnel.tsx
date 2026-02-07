@@ -276,32 +276,29 @@ export default function FullFunnel() {
   return (
     <>
       <div className="space-y-6">
-        {/* Header */}
-        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-          <div>
-            <h1 className="text-3xl font-bold tracking-tight">Funil Completo</h1>
-            <p className="text-muted-foreground">
-              Visão integrada Marketing → Vendas → Atendimento → Commerce
-            </p>
-          </div>
-          <div className="flex gap-2">
-            <Select value={period} onValueChange={setPeriod}>
-              <SelectTrigger className="w-[150px]">
-                <Calendar className="h-4 w-4 mr-2" />
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="7d">Últimos 7 dias</SelectItem>
-                <SelectItem value="30d">Últimos 30 dias</SelectItem>
-                <SelectItem value="90d">Últimos 90 dias</SelectItem>
-                <SelectItem value="12m">Últimos 12 meses</SelectItem>
-              </SelectContent>
-            </Select>
-            <Button variant="outline">
-              <RefreshCw className="h-4 w-4 mr-2" />
-              Atualizar
-            </Button>
-          </div>
+        <ModuleHeroBanner
+          module="sales"
+          title="Funil Completo"
+          subtitle="Visão integrada Marketing → Vendas → Atendimento → Commerce"
+          compact
+        />
+        <div className="flex justify-end gap-2">
+          <Select value={period} onValueChange={setPeriod}>
+            <SelectTrigger className="w-[150px]">
+              <Calendar className="h-4 w-4 mr-2" />
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="7d">Últimos 7 dias</SelectItem>
+              <SelectItem value="30d">Últimos 30 dias</SelectItem>
+              <SelectItem value="90d">Últimos 90 dias</SelectItem>
+              <SelectItem value="12m">Últimos 12 meses</SelectItem>
+            </SelectContent>
+          </Select>
+          <Button variant="outline">
+            <RefreshCw className="h-4 w-4 mr-2" />
+            Atualizar
+          </Button>
         </div>
 
         {/* Module Summary Cards */}

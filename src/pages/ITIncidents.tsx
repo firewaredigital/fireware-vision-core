@@ -109,21 +109,19 @@ export default function ITIncidents() {
 
   return (
     <div className="space-y-6">
-      {/* Header */}
-      <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-        <div>
-          <h1 className="text-3xl font-bold tracking-tight">Incidentes</h1>
-          <p className="text-muted-foreground">
-            Gerenciamento de incidentes de TI
-          </p>
-        </div>
-        <Button asChild>
-          <Link to="/it/incidents/new">
-            <Plus className="mr-2 h-4 w-4" />
-            Novo Incidente
-          </Link>
-        </Button>
-      </div>
+      <ModuleHeroBanner
+        module="itsm"
+        title="Incidentes"
+        subtitle="Gerenciamento de incidentes de TI"
+        compact
+        actions={
+          <Button asChild className="gap-2 bg-white text-foreground hover:bg-white/90">
+            <Link to="/it/incidents/new">
+              <Plus className="h-4 w-4" /> Novo Incidente
+            </Link>
+          </Button>
+        }
+      />
 
       {/* Stats Cards */}
       <div className="grid gap-4 md:grid-cols-4">

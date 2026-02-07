@@ -140,17 +140,14 @@ export default function Notifications() {
   return (
     <>
       <div className="space-y-6">
-        {/* Header */}
-        <div className="flex items-center justify-between">
-          <div>
-            <h1 className="text-3xl font-bold tracking-tight flex items-center gap-2">
-              <Bell className="h-8 w-8 text-primary" />
-              Notificações
-            </h1>
-            <p className="text-muted-foreground">
-              {unreadCount > 0 ? `${unreadCount} não lida${unreadCount !== 1 ? 's' : ''}` : 'Todas as notificações lidas'}
-            </p>
-          </div>
+        <ModuleHeroBanner
+          module="admin"
+          title="Notificações"
+          subtitle={unreadCount > 0 ? `${unreadCount} não lida${unreadCount !== 1 ? 's' : ''}` : 'Todas as notificações lidas'}
+          compact
+        />
+        <div className="flex items-center justify-end">
+          <div className="hidden" />
           <div className="flex items-center gap-2">
             <Button
               variant="outline"

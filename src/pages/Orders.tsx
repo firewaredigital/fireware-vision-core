@@ -121,19 +121,19 @@ export default function Orders() {
   return (
     <>
       <div className="space-y-6">
-        {/* Header */}
-        <div className="flex items-center justify-between">
-          <div>
-            <h1 className="text-3xl font-bold">Pedidos</h1>
-            <p className="text-muted-foreground">Gerencie todos os pedidos do e-commerce</p>
-          </div>
-          <Button asChild>
-            <Link to="/orders/new">
-              <Plus className="mr-2 h-4 w-4" />
-              Novo Pedido
-            </Link>
-          </Button>
-        </div>
+        <ModuleHeroBanner
+          module="commerce"
+          title="Pedidos"
+          subtitle="Gerencie todos os pedidos do e-commerce"
+          compact
+          actions={
+            <Button asChild className="gap-2 bg-white text-foreground hover:bg-white/90">
+              <Link to="/orders/new">
+                <Plus className="h-4 w-4" /> Novo Pedido
+              </Link>
+            </Button>
+          }
+        />
 
         {/* Stats Cards */}
         <div className="grid gap-4 md:grid-cols-4">

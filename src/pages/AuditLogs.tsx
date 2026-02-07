@@ -321,25 +321,22 @@ export default function AuditLogs() {
   return (
     <>
       <div className="space-y-6">
-        {/* Header */}
-        <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-          <div>
-            <h1 className="text-2xl font-bold tracking-tight">Audit Logs</h1>
-            <p className="text-muted-foreground">
-              Track all actions and changes in your organization
-            </p>
-          </div>
-          <div className="flex gap-2">
-            <Button variant="outline" size="sm" onClick={fetchLogs}>
-              <RefreshCw className="mr-2 h-4 w-4" />
-              Refresh
-            </Button>
-            <Button variant="outline" size="sm" onClick={handleExport}>
-              <Download className="mr-2 h-4 w-4" />
-              Export
-            </Button>
-          </div>
-        </div>
+        <ModuleHeroBanner
+          module="governance"
+          title="Audit Logs"
+          subtitle="Rastreie todas as ações e alterações na organização"
+          compact
+          actions={
+            <div className="flex gap-2">
+              <Button variant="outline" size="sm" onClick={fetchLogs} className="gap-2 bg-white/10 text-white border-white/20 hover:bg-white/20">
+                <RefreshCw className="h-4 w-4" /> Atualizar
+              </Button>
+              <Button variant="outline" size="sm" onClick={handleExport} className="gap-2 bg-white text-foreground hover:bg-white/90">
+                <Download className="h-4 w-4" /> Exportar
+              </Button>
+            </div>
+          }
+        />
 
         {/* Filters */}
         <div className="flex flex-col gap-4 md:flex-row md:items-center">
