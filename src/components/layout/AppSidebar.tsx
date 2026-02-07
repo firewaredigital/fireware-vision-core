@@ -1,5 +1,5 @@
-import { useState, useMemo, useCallback } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useState, useMemo, useCallback, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import {
   LayoutDashboard,
   Users,
@@ -55,15 +55,12 @@ import {
   Brain,
   Handshake,
   DollarSign,
-  FolderOpen,
   Fingerprint,
   LayoutList,
   Search,
 } from '@/components/icons';
 import { NavLink } from '@/components/NavLink';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { useAuth } from '@/hooks/useAuth';
 import { useModuleAccess, type ModuleKey } from '@/hooks/useModuleAccess';
@@ -78,7 +75,8 @@ interface NavItem {
   icon: React.ElementType;
 }
 
-interface NavGroup {
+interface ContentSection {
+  key: string;
   label: string;
   moduleKey?: ModuleKey;
   items: NavItem[];
@@ -89,60 +87,36 @@ interface RailModule {
   label: string;
   shortLabel: string;
   icon: React.ElementType;
-  groups: NavGroup[];
+  sections: ContentSection[];
 }
 
-// ─── Rail Module Definitions ───────────────────────────────────────
+// ─── Original Navigation Items (preserved exactly) ─────────────────
+// These are the EXACT same items from the original AppSidebar,
+// reorganized into the dual-panel rail structure.
 
 const RAIL_MODULES: RailModule[] = [
   {
     key: 'principal',
     label: 'Principal',
-    shortLabel: 'Princ.',
+    shortLabel: 'Principal',
     icon: LayoutDashboard,
-    groups: [
+    sections: [
       {
+        key: 'main',
         label: 'Navegação',
         items: [
           { title: 'Dashboard', url: '/dashboard', icon: LayoutDashboard },
+        ],
+      },
+      {
+        key: 'sales',
+        label: 'Vendas',
+        moduleKey: 'sales',
+        items: [
           { title: 'Leads', url: '/leads', icon: Target },
           { title: 'Contas', url: '/accounts', icon: Building2 },
           { title: 'Contatos', url: '/contacts', icon: Users },
           { title: 'Oportunidades', url: '/opportunities', icon: TrendingUp },
-        ],
-      },
-    ],
-  },
-  {
-    key: 'intelli',
-    label: 'Inteligência',
-    shortLabel: 'Intelli',
-    icon: Brain,
-    groups: [
-      {
-        label: 'IA & Agentes',
-        moduleKey: 'ai_agents',
-        items: [
-          { title: 'Agentes', url: '/ai/agents', icon: Bot },
-          { title: 'Ferramentas', url: '/ai/tools', icon: Wrench },
-          { title: 'Políticas', url: '/ai/policies', icon: Shield },
-          { title: 'Avaliações', url: '/ai/evals', icon: ClipboardList },
-          { title: 'Execuções', url: '/ai/runs', icon: Activity },
-          { title: 'Analytics IA', url: '/ai/analytics', icon: FileBarChart },
-        ],
-      },
-    ],
-  },
-  {
-    key: 'operac',
-    label: 'Operações',
-    shortLabel: 'Operac.',
-    icon: Workflow,
-    groups: [
-      {
-        label: 'Vendas Avançado',
-        moduleKey: 'sales',
-        items: [
           { title: 'Propostas', url: '/quotes', icon: FileText },
           { title: 'Contratos', url: '/contracts', icon: FileSignature },
           { title: 'CPQ', url: '/sales/cpq', icon: Settings },
@@ -152,16 +126,46 @@ const RAIL_MODULES: RailModule[] = [
           { title: 'Revenue Ops', url: '/sales/revenue-ops', icon: BarChart3 },
         ],
       },
+    ],
+  },
+  {
+    key: 'intelli',
+    label: 'Inteligência',
+    shortLabel: 'Intelli',
+    icon: Brain,
+    sections: [
       {
+        key: 'ai_agents',
+        label: 'Inteligência / IA',
+        moduleKey: 'ai_agents',
+        items: [
+          { title: 'Agentes', url: '/ai/agents', icon: Bot },
+          { title: 'Ferramentas', url: '/ai/tools', icon: Wrench },
+          { title: 'Políticas', url: '/ai/policies', icon: Shield },
+          { title: 'Avaliações', url: '/ai/evals', icon: ClipboardList },
+          { title: 'Execuções', url: '/ai/runs', icon: Activity },
+          { title: 'Analytics', url: '/ai/analytics', icon: FileBarChart },
+        ],
+      },
+    ],
+  },
+  {
+    key: 'operac',
+    label: 'Operações',
+    shortLabel: 'Operac.',
+    icon: Workflow,
+    sections: [
+      {
+        key: 'service',
         label: 'Atendimento',
         moduleKey: 'service',
         items: [
-          { title: 'Dashboard Service', url: '/service', icon: Headphones },
+          { title: 'Dashboard de Service', url: '/service', icon: Headphones },
           { title: 'Inbox Omnichannel', url: '/service/inbox', icon: Inbox },
           { title: 'Filas', url: '/service/queues', icon: Layers },
           { title: 'Qualidade & NPS', url: '/service/qa', icon: ClipboardList },
           { title: 'Social Inbox', url: '/service/social', icon: Globe },
-          { title: 'Analytics Service', url: '/service/analytics', icon: FileBarChart },
+          { title: 'Analytics', url: '/service/analytics', icon: FileBarChart },
           { title: 'WhatsApp', url: '/service/whatsapp', icon: MessageSquare },
           { title: 'Chat Widgets', url: '/service/chat-widgets', icon: Radio },
           { title: 'Telefonia', url: '/service/voice', icon: Headphones },
@@ -171,6 +175,7 @@ const RAIL_MODULES: RailModule[] = [
         ],
       },
       {
+        key: 'marketing',
         label: 'Marketing',
         moduleKey: 'marketing',
         items: [
@@ -186,6 +191,7 @@ const RAIL_MODULES: RailModule[] = [
         ],
       },
       {
+        key: 'commerce',
         label: 'Commerce',
         moduleKey: 'commerce',
         items: [
@@ -195,6 +201,7 @@ const RAIL_MODULES: RailModule[] = [
         ],
       },
       {
+        key: 'automations',
         label: 'Automações',
         moduleKey: 'automations',
         items: [
@@ -208,8 +215,29 @@ const RAIL_MODULES: RailModule[] = [
     label: 'Dados',
     shortLabel: 'Dados',
     icon: Database,
-    groups: [
+    sections: [
       {
+        key: 'governance',
+        label: 'Governança',
+        moduleKey: 'governance',
+        items: [
+          { title: 'Governança', url: '/governance', icon: Shield },
+        ],
+      },
+      {
+        key: 'itsm',
+        label: 'TI / ITSM',
+        moduleKey: 'itsm',
+        items: [
+          { title: 'Dashboard IT', url: '/it', icon: Server },
+          { title: 'Incidentes', url: '/it/incidents', icon: AlertTriangle },
+          { title: 'Mudanças', url: '/it/changes', icon: GitBranch },
+          { title: 'CMDB', url: '/it/cmdb', icon: Database },
+          { title: 'Ativos', url: '/it/assets', icon: Package },
+        ],
+      },
+      {
+        key: 'data_hub',
         label: 'Dados & Analytics',
         moduleKey: 'data_hub',
         items: [
@@ -225,24 +253,7 @@ const RAIL_MODULES: RailModule[] = [
         ],
       },
       {
-        label: 'Governança',
-        moduleKey: 'governance',
-        items: [
-          { title: 'Governança', url: '/governance', icon: Shield },
-        ],
-      },
-      {
-        label: 'TI / ITSM',
-        moduleKey: 'itsm',
-        items: [
-          { title: 'Dashboard IT', url: '/it', icon: Server },
-          { title: 'Incidentes', url: '/it/incidents', icon: AlertTriangle },
-          { title: 'Mudanças', url: '/it/changes', icon: GitBranch },
-          { title: 'CMDB', url: '/it/cmdb', icon: Database },
-          { title: 'Ativos', url: '/it/assets', icon: Package },
-        ],
-      },
-      {
+        key: 'integrations',
         label: 'Integrações',
         moduleKey: 'integrations',
         items: [
@@ -260,8 +271,9 @@ const RAIL_MODULES: RailModule[] = [
     label: 'Analytics',
     shortLabel: 'Analyt.',
     icon: BarChart3,
-    groups: [
+    sections: [
       {
+        key: 'management',
         label: 'Gestão',
         items: [
           { title: 'Produtos', url: '/products', icon: Package },
@@ -271,6 +283,7 @@ const RAIL_MODULES: RailModule[] = [
         ],
       },
       {
+        key: 'reports',
         label: 'Relatórios',
         items: [
           { title: 'Dashboards', url: '/dashboards', icon: LayoutDashboard },
@@ -285,20 +298,22 @@ const RAIL_MODULES: RailModule[] = [
     label: 'Configurações',
     shortLabel: 'Config.',
     icon: Settings,
-    groups: [
+    sections: [
       {
+        key: 'admin',
         label: 'Administração',
         items: [
           { title: 'Módulos', url: '/admin/platform/modules', icon: Package },
           { title: 'Permissões', url: '/admin/platform/permissions', icon: Shield },
           { title: 'Segurança', url: '/admin/platform/security', icon: Lock },
           { title: 'Campos Custom', url: '/admin/platform/custom-fields', icon: SlidersHorizontal },
-          { title: 'Integrações Admin', url: '/admin/platform/integrations', icon: Link },
-          { title: 'IA Admin', url: '/admin/platform/ai', icon: Bot },
+          { title: 'Integrações', url: '/admin/platform/integrations', icon: Link },
+          { title: 'IA', url: '/admin/platform/ai', icon: Bot },
           { title: 'Observabilidade', url: '/admin/platform/observability', icon: Eye },
         ],
       },
       {
+        key: 'settings',
         label: 'Preferências',
         items: [
           { title: 'Configurações', url: '/settings', icon: Settings },
@@ -306,6 +321,7 @@ const RAIL_MODULES: RailModule[] = [
         ],
       },
       {
+        key: 'portals',
         label: 'Portais',
         moduleKey: 'portals',
         items: [
@@ -317,22 +333,33 @@ const RAIL_MODULES: RailModule[] = [
   },
 ];
 
-// ─── Route-to-Rail Mapping ─────────────────────────────────────────
+// ─── Route → Rail Key Mapping ──────────────────────────────────────
+// Maps current pathname to the correct rail module
 
 const ROUTE_RAIL_MAP: { pattern: RegExp; railKey: string }[] = [
-  { pattern: /^\/(dashboard|leads|accounts|contacts|opportunities)(\/|$)/, railKey: 'principal' },
+  // Principal: dashboard + all sales core routes
+  { pattern: /^\/(dashboard)(\/|$)/, railKey: 'principal' },
+  { pattern: /^\/(leads|accounts|contacts|opportunities)(\/|$)/, railKey: 'principal' },
+  { pattern: /^\/(quotes|contracts)(\/|$)/, railKey: 'principal' },
+  { pattern: /^\/sales(\/|$)/, railKey: 'principal' },
+  // Intelli
   { pattern: /^\/ai(\/|$)/, railKey: 'intelli' },
-  { pattern: /^\/(quotes|contracts|sales)(\/|$)/, railKey: 'operac' },
-  { pattern: /^\/(tickets|service|knowledge|customer-success)(\/|$)/, railKey: 'operac' },
+  // Operac: service, marketing, commerce, automations
+  { pattern: /^\/(service|tickets|knowledge|customer-success)(\/|$)/, railKey: 'operac' },
   { pattern: /^\/(marketing)(\/|$)/, railKey: 'operac' },
   { pattern: /^\/(orders|returns|promotions)(\/|$)/, railKey: 'operac' },
   { pattern: /^\/(automations)(\/|$)/, railKey: 'operac' },
-  { pattern: /^\/(duplicates|merge-wizard|full-funnel|attribution|customer-360|data-hub)(\/|$)/, railKey: 'dados' },
+  // Dados: governance, itsm, data-hub, integrations
   { pattern: /^\/(governance)(\/|$)/, railKey: 'dados' },
   { pattern: /^\/(it)(\/|$)/, railKey: 'dados' },
+  { pattern: /^\/(duplicates|merge-wizard|full-funnel|attribution|customer-360|data-hub)(\/|$)/, railKey: 'dados' },
   { pattern: /^\/(integrations)(\/|$)/, railKey: 'dados' },
-  { pattern: /^\/(products|territories|cadences|forecast|dashboards|reports|audit-logs)(\/|$)/, railKey: 'analyt' },
-  { pattern: /^\/(admin|settings|portal|partner)(\/|$)/, railKey: 'config' },
+  // Analyt: management + reports
+  { pattern: /^\/(products|territories|cadences|forecast)(\/|$)/, railKey: 'analyt' },
+  { pattern: /^\/(dashboards|reports|audit-logs)(\/|$)/, railKey: 'analyt' },
+  // Config: admin, settings, portals
+  { pattern: /^\/(admin|settings)(\/|$)/, railKey: 'config' },
+  { pattern: /^\/(portal|partner)(\/|$)/, railKey: 'config' },
 ];
 
 function getRailKeyFromPath(pathname: string): string {
@@ -346,11 +373,10 @@ function getRailKeyFromPath(pathname: string): string {
 
 export function AppSidebar() {
   const location = useLocation();
-  const navigate = useNavigate();
   const { profile, signOut } = useAuth();
   const { isModuleEnabled, isLoading: modulesLoading } = useModuleAccess();
 
-  // Derive active rail from route
+  // Derive active rail from current route
   const activeRailFromRoute = useMemo(
     () => getRailKeyFromPath(location.pathname),
     [location.pathname]
@@ -360,10 +386,7 @@ export function AppSidebar() {
   const [searchQuery, setSearchQuery] = useState('');
 
   // Sync rail selection when route changes
-  const currentRail = activeRailFromRoute !== selectedRail ? activeRailFromRoute : selectedRail;
-
-  // Update selectedRail when route changes
-  useMemo(() => {
+  useEffect(() => {
     setSelectedRail(activeRailFromRoute);
   }, [activeRailFromRoute]);
 
@@ -387,37 +410,37 @@ export function AppSidebar() {
 
   // Get current module data
   const activeModule = useMemo(
-    () => RAIL_MODULES.find((m) => m.key === currentRail),
-    [currentRail]
+    () => RAIL_MODULES.find((m) => m.key === selectedRail),
+    [selectedRail]
   );
 
-  // Filter groups by module access
-  const visibleGroups = useMemo(() => {
+  // Filter sections by module access
+  const visibleSections = useMemo(() => {
     if (!activeModule) return [];
-    return activeModule.groups.filter((group) => {
-      if (!group.moduleKey) return true;
+    return activeModule.sections.filter((section) => {
+      if (!section.moduleKey) return true;
       if (modulesLoading) return true;
-      return isModuleEnabled(group.moduleKey);
+      return isModuleEnabled(section.moduleKey);
     });
   }, [activeModule, isModuleEnabled, modulesLoading]);
 
   // Filter items by search query
-  const filteredGroups = useMemo(() => {
-    if (!searchQuery.trim()) return visibleGroups;
+  const filteredSections = useMemo(() => {
+    if (!searchQuery.trim()) return visibleSections;
     const q = searchQuery.toLowerCase();
-    return visibleGroups
-      .map((group) => ({
-        ...group,
-        items: group.items.filter((item) =>
+    return visibleSections
+      .map((section) => ({
+        ...section,
+        items: section.items.filter((item) =>
           item.title.toLowerCase().includes(q)
         ),
       }))
-      .filter((group) => group.items.length > 0);
-  }, [visibleGroups, searchQuery]);
+      .filter((section) => section.items.length > 0);
+  }, [visibleSections, searchQuery]);
 
   return (
     <aside className="sidebar-dual-panel">
-      {/* ═══ RAIL (Left) ═══ */}
+      {/* ═══ RAIL (Left — Dark) ═══ */}
       <div className="sidebar-rail">
         {/* Logo */}
         <div className="sidebar-rail-logo">
@@ -428,11 +451,11 @@ export function AppSidebar() {
           />
         </div>
 
-        {/* Rail Items */}
+        {/* Rail Navigation Items */}
         <nav className="sidebar-rail-nav">
           {RAIL_MODULES.map((mod) => {
             const Icon = mod.icon;
-            const isRailActive = currentRail === mod.key;
+            const isRailActive = selectedRail === mod.key;
             return (
               <button
                 key={mod.key}
@@ -467,11 +490,12 @@ export function AppSidebar() {
             title="Sair"
           >
             <LogOut className="sidebar-rail-icon" />
+            <span className="sidebar-rail-label">Sair</span>
           </button>
         </div>
       </div>
 
-      {/* ═══ CONTENT PANEL (Right) ═══ */}
+      {/* ═══ CONTENT PANEL (Right — Light/Grayish White) ═══ */}
       <div className="sidebar-content-panel">
         {/* Panel Header */}
         <div className="sidebar-content-header">
@@ -490,19 +514,19 @@ export function AppSidebar() {
           </div>
         </div>
 
-        {/* Panel Content */}
+        {/* Panel Content — Scrollable */}
         <ScrollArea className="flex-1">
           <nav className="sidebar-content-nav">
-            {filteredGroups.map((group, groupIdx) => (
-              <div key={group.label + groupIdx} className="sidebar-content-group">
-                {/* Group Label — only show if multiple groups */}
-                {visibleGroups.length > 1 && (
-                  <span className="sidebar-group-label">{group.label}</span>
+            {filteredSections.map((section) => (
+              <div key={section.key} className="sidebar-content-group">
+                {/* Section label — show when multiple sections exist */}
+                {visibleSections.length > 1 && (
+                  <span className="sidebar-group-label">{section.label}</span>
                 )}
 
-                {/* Nav Items */}
+                {/* Navigation Items */}
                 <ul className="sidebar-content-items">
-                  {group.items.map((item) => {
+                  {section.items.map((item) => {
                     const Icon = item.icon;
                     const active = isActive(item.url);
                     return (
@@ -525,8 +549,8 @@ export function AppSidebar() {
               </div>
             ))}
 
-            {filteredGroups.length === 0 && searchQuery && (
-              <div className="px-4 py-8 text-center text-xs text-sidebar-foreground/40">
+            {filteredSections.length === 0 && searchQuery && (
+              <div className="sidebar-content-empty">
                 Nenhum item encontrado.
               </div>
             )}
