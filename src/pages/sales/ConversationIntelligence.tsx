@@ -16,7 +16,7 @@ import {
   Search, Filter, Mic, BarChart3, Brain, MessageSquare,
   TrendingUp, TrendingDown, AlertTriangle, Target,
   ThumbsUp, ThumbsDown, Minus, Clock, Users, Zap
-} from 'lucide-react';
+} from '@/components/icons';
 
 const statusLabels: Record<string, { label: string; variant: 'default' | 'secondary' | 'destructive' | 'outline' }> = {
   processing: { label: 'Processando', variant: 'outline' },

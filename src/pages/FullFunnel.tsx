@@ -24,7 +24,7 @@ import {
   RefreshCw,
   BarChart3,
   LineChart
-} from "lucide-react";
+} from '@/components/icons';
 import {
   AreaChart,
   Area,

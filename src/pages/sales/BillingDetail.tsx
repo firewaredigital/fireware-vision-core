@@ -13,7 +13,7 @@ import { ptBR } from 'date-fns/locale';
 import {
   ArrowLeft, CheckCircle, XCircle, Send, DollarSign, FileText,
   Building2, Calendar, Receipt
-} from 'lucide-react';
+} from '@/components/icons';
 
 const invoiceStatusConfig: Record<string, { label: string; variant: 'default' | 'secondary' | 'destructive' | 'outline' }> = {
   draft: { label: 'Rascunho', variant: 'secondary' },

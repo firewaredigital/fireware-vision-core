@@ -4,7 +4,7 @@ import {
   Minus, 
   ArrowUp, 
   AlertTriangle 
-} from 'lucide-react';
+} from '@/components/icons';
 
 type TicketPriority = 'low' | 'medium' | 'high' | 'critical';
 

@@ -30,7 +30,7 @@ import {
   Settings,
   Zap,
   Filter
-} from "lucide-react";
+} from '@/components/icons';
 
 type DuplicateStatus = "detected" | "confirmed" | "false_positive" | "merged" | "ignored";
 

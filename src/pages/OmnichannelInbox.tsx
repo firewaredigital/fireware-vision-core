@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback, useMemo } from 'react';
 
 import { TooltipProvider } from '@/components/ui/tooltip';
-import { Inbox } from 'lucide-react';
+import { Inbox } from '@/components/icons';
 import {
   useConversations,
   useConversationMessages,

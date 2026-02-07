@@ -16,7 +16,7 @@ import { ptBR } from 'date-fns/locale';
 import {
   Search, Filter, FileText, DollarSign, AlertTriangle,
   CheckCircle, Clock, XCircle, Receipt, ArrowDownRight, ArrowUpRight
-} from 'lucide-react';
+} from '@/components/icons';
 
 const invoiceStatusConfig: Record<string, { label: string; variant: 'default' | 'secondary' | 'destructive' | 'outline' }> = {
   draft: { label: 'Rascunho', variant: 'secondary' },

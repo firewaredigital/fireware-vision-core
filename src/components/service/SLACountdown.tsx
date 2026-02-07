@@ -6,7 +6,7 @@ import {
   CheckCircle2, 
   AlertTriangle,
   XCircle 
-} from 'lucide-react';
+} from '@/components/icons';
 import { differenceInMinutes, differenceInHours, differenceInSeconds, isPast, format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';

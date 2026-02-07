@@ -19,7 +19,7 @@ import {
   FileText,
   Plus,
   ArrowRight
-} from 'lucide-react';
+} from '@/components/icons';
 import { Link } from 'react-router-dom';
 import { format, subDays, startOfDay } from 'date-fns';
 import { ptBR } from 'date-fns/locale';

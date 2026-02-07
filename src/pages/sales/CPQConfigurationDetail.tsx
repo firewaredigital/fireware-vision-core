@@ -19,7 +19,7 @@ import { ptBR } from 'date-fns/locale';
 import {
   ArrowLeft, Save, CheckCircle, XCircle, Clock, ShieldCheck,
   AlertTriangle, DollarSign, FileText, History, Settings2, Package
-} from 'lucide-react';
+} from '@/components/icons';
 
 const statusConfig: Record<string, { label: string; variant: 'default' | 'secondary' | 'destructive' | 'outline'; icon: React.ElementType }> = {
   draft: { label: 'Rascunho', variant: 'secondary', icon: Clock },

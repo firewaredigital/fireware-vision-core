@@ -1,7 +1,7 @@
 import { ReactNode } from 'react';
 import { usePermissions } from '@/hooks/usePermissions';
 import { Skeleton } from '@/components/ui/skeleton';
-import { Lock } from 'lucide-react';
+import { Lock } from '@/components/icons';
 
 interface PermissionGuardProps {
   permission: string | string[];

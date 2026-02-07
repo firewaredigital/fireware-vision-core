@@ -30,7 +30,7 @@ import {
   User,
   Hash,
   ExternalLink,
-} from 'lucide-react';
+} from '@/components/icons';
 import { cn } from '@/lib/utils';
 import type { Conversation, ConversationStatus } from '@/hooks/useConversations';
 import { SLACountdown } from '@/components/service/SLACountdown';

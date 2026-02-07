@@ -15,7 +15,7 @@ import {
   Activity, AlertTriangle, RefreshCw, Star, Zap,
   DollarSign, Target, TrendingUp, Ticket, ShoppingCart,
   Mail, Phone, FileSignature, MessageSquare, StickyNote,
-} from 'lucide-react';
+} from '@/components/icons';
 import {
   AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip,
   ResponsiveContainer, PieChart as RechartsPie, Pie, Cell,

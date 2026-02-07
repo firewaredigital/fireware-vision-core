@@ -4,7 +4,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Flame } from 'lucide-react';
+import { Flame } from '@/components/icons';
 import { toast } from 'sonner';
 
 export default function PartnerLogin() {

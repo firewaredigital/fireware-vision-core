@@ -20,7 +20,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { Plus, Search, Server, Cpu, Database, Network, Globe } from 'lucide-react';
+import { Plus, Search, Server, Cpu, Database, Network, Globe } from '@/components/icons';
 import { Link } from 'react-router-dom';
 import { format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';

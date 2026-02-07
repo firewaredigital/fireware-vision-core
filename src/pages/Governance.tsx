@@ -18,7 +18,7 @@ import {
   RefreshCw,
   TrendingUp,
   TrendingDown,
-} from 'lucide-react';
+} from '@/components/icons';
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';

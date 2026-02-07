@@ -24,7 +24,7 @@ import {
   RefreshCcw,
   HelpCircle,
   Lightbulb,
-} from 'lucide-react';
+} from '@/components/icons';
 import { PortalLayout } from './PortalLayout';
 
 interface AttachedFile {

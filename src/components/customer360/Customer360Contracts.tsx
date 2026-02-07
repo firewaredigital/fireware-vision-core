@@ -6,7 +6,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
-import { FileSignature, Calendar, DollarSign, AlertTriangle } from 'lucide-react';
+import { FileSignature, Calendar, DollarSign, AlertTriangle } from '@/components/icons';
 
 interface Customer360ContractsProps {
   entityType: string;

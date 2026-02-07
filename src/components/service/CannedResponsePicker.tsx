@@ -28,7 +28,7 @@ import {
   Clock,
   Star,
   ChevronDown,
-} from 'lucide-react';
+} from '@/components/icons';
 import { cn } from '@/lib/utils';
 
 interface CannedResponse {

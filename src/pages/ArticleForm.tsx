@@ -29,7 +29,7 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { Separator } from '@/components/ui/separator';
-import { ArrowLeft, Save, Loader2, Eye, Globe, Lock, Star, Send, X } from 'lucide-react';
+import { ArrowLeft, Save, Loader2, Eye, Globe, Lock, Star, Send, X } from '@/components/icons';
 import { useToast } from '@/hooks/use-toast';
 
 const articleSchema = z.object({

@@ -34,7 +34,7 @@ import {
   User,
   BookOpen,
   HelpCircle,
-} from 'lucide-react';
+} from '@/components/icons';
 import { PortalLayout } from './PortalLayout';
 
 type TicketStatus = 'new' | 'open' | 'pending' | 'on_hold' | 'resolved' | 'closed';

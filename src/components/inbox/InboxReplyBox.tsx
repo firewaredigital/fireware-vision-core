@@ -13,7 +13,7 @@ import {
   Italic,
   Link,
   CornerDownLeft,
-} from 'lucide-react';
+} from '@/components/icons';
 import { cn } from '@/lib/utils';
 import { CannedResponsePicker } from '@/components/service/CannedResponsePicker';
 

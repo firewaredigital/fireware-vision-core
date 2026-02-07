@@ -20,7 +20,7 @@ import {
   Plus, Search, Filter, Settings2, Package, DollarSign, FileText,
   CheckCircle, AlertTriangle, Clock, XCircle, MoreHorizontal, Eye,
   Layers, ShieldCheck, Percent, Tag, ArrowUpDown
-} from 'lucide-react';
+} from '@/components/icons';
 import {
   DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu';
