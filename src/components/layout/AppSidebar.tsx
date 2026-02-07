@@ -65,7 +65,7 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { useAuth } from '@/hooks/useAuth';
 import { useModuleAccess, type ModuleKey } from '@/hooks/useModuleAccess';
 import { cn } from '@/lib/utils';
-import crPlatformLogo from '@/assets/cr-platform-logo.png';
+import sidebarFirewareIcon from '@/assets/sidebar-fireware-icon.png';
 
 // ─── Types ─────────────────────────────────────────────────────────
 
@@ -560,8 +560,8 @@ export function AppSidebar() {
         {/* Logo */}
         <div className="sidebar-rail-logo">
           <img
-            src={crPlatformLogo}
-            alt="CR Platform"
+            src={sidebarFirewareIcon}
+            alt="Fireware"
             className="h-8 w-8 object-contain"
           />
         </div>
