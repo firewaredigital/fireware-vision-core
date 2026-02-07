@@ -1,4 +1,4 @@
-
+import { ModuleHeroBanner } from '@/components/ModuleHeroBanner';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -313,25 +313,26 @@ export default function RevenueOps() {
   return (
     <>
       <div className="space-y-6">
-        {/* Header */}
-        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-          <div>
-            <h1 className="text-3xl font-bold">Revenue Operations</h1>
-            <p className="text-muted-foreground mt-1">Pipeline hygiene, performance, velocity e forecast accuracy</p>
-          </div>
-          <Select value={dateRange} onValueChange={setDateRange}>
-            <SelectTrigger className="w-40">
-              <SelectValue />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="30d">Últimos 30 dias</SelectItem>
-              <SelectItem value="60d">Últimos 60 dias</SelectItem>
-              <SelectItem value="90d">Últimos 90 dias</SelectItem>
-              <SelectItem value="180d">Últimos 180 dias</SelectItem>
-              <SelectItem value="365d">Último ano</SelectItem>
-            </SelectContent>
-          </Select>
-        </div>
+        <ModuleHeroBanner
+          module="sales"
+          title="Revenue Operations"
+          subtitle="Pipeline hygiene, performance, velocity e forecast accuracy"
+          compact
+          actions={
+            <Select value={dateRange} onValueChange={setDateRange}>
+              <SelectTrigger className="w-40">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="30d">Últimos 30 dias</SelectItem>
+                <SelectItem value="60d">Últimos 60 dias</SelectItem>
+                <SelectItem value="90d">Últimos 90 dias</SelectItem>
+                <SelectItem value="180d">Últimos 180 dias</SelectItem>
+                <SelectItem value="365d">Último ano</SelectItem>
+              </SelectContent>
+            </Select>
+          }
+        />
 
         {/* KPI Cards */}
         {isLoading ? (

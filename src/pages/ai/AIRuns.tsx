@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { ModuleHeroBanner } from '@/components/ModuleHeroBanner';
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/hooks/useAuth';
@@ -81,10 +82,12 @@ export default function AIRuns() {
   return (
     <>
       <div className="space-y-6">
-        <div>
-          <h1 className="text-3xl font-bold">Execuções de IA</h1>
-          <p className="text-muted-foreground mt-1">Histórico completo com auditoria e comprovantes</p>
-        </div>
+        <ModuleHeroBanner
+          module="ai"
+          title="Execuções de IA"
+          subtitle="Histórico completo com auditoria e comprovantes"
+          compact
+        />
 
         {/* Filters */}
         <div className="flex gap-3">

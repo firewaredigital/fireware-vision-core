@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { ModuleHeroBanner } from '@/components/ModuleHeroBanner';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 import { supabase } from '@/integrations/supabase/client';
@@ -248,15 +249,12 @@ export default function CPQConfigurations() {
 
   return (
     <div className="space-y-6">
-        {/* Header */}
-        <div className="flex items-center justify-between">
-          <div>
-            <h1 className="text-3xl font-bold tracking-tight">CPQ — Configure, Price, Quote</h1>
-            <p className="text-muted-foreground mt-1">
-              Gerencie configurações de produtos, regras de precificação e pacotes comerciais.
-            </p>
-          </div>
-        </div>
+        <ModuleHeroBanner
+          module="sales"
+          title="CPQ — Configure, Price, Quote"
+          subtitle="Gerencie configurações de produtos, regras de precificação e pacotes comerciais"
+          compact
+        />
 
         {/* KPI Cards */}
         <div className="grid gap-4 md:grid-cols-4">

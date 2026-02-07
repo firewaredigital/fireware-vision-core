@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { ModuleHeroBanner } from '@/components/ModuleHeroBanner';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/hooks/useAuth';
@@ -95,16 +96,19 @@ export default function AITools() {
   return (
     <>
       <div className="space-y-6">
-        <div className="flex items-center justify-between">
-          <div>
-            <h1 className="text-3xl font-bold">Ferramentas de IA</h1>
-            <p className="text-muted-foreground mt-1">Catálogo de ferramentas disponíveis para agentes</p>
-          </div>
-          <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
-            <DialogTrigger asChild>
-              <Button><Plus className="h-4 w-4 mr-2" />Nova Ferramenta</Button>
-            </DialogTrigger>
-            <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+        <ModuleHeroBanner
+          module="ai"
+          title="Ferramentas de IA"
+          subtitle="Catálogo de ferramentas disponíveis para agentes"
+          compact
+          actions={
+            <Button onClick={() => setDialogOpen(true)}>
+              <Plus className="h-4 w-4 mr-2" />Nova Ferramenta
+            </Button>
+          }
+        />
+        <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
+          <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
               <DialogHeader>
                 <DialogTitle>Nova Ferramenta</DialogTitle>
                 <DialogDescription>Configure uma ferramenta para uso pelos agentes de IA</DialogDescription>
@@ -173,7 +177,6 @@ export default function AITools() {
               </DialogFooter>
             </DialogContent>
           </Dialog>
-        </div>
 
         <div className="relative max-w-md">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
