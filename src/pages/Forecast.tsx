@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { ModuleHeroBanner } from '@/components/ModuleHeroBanner';
 import { useAuth } from '@/hooks/useAuth';
 import { BarChart3, Calendar, Target, TrendingUp, DollarSign, ChevronLeft, ChevronRight, Plus, Edit, Save, X } from '@/components/icons';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';

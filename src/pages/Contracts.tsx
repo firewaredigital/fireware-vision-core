@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { ModuleHeroBanner } from '@/components/ModuleHeroBanner';
 import { useNavigate, Link } from 'react-router-dom';
 import {
   Plus,

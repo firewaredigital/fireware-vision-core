@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { ModuleHeroBanner } from '@/components/ModuleHeroBanner';
 import { useNavigate } from 'react-router-dom';
 import { Map, Plus, Search, ChevronRight, ChevronDown, Edit, Trash2, Users, Building2, UserCircle } from '@/components/icons';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';

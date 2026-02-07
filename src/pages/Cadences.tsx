@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { ModuleHeroBanner } from '@/components/ModuleHeroBanner';
 import { useNavigate, Link } from 'react-router-dom';
 import { Zap, Plus, Search, Play, Pause, Trash2, Edit, Users, Mail, Phone, Linkedin, CheckSquare, Clock, MoreHorizontal, ChevronDown, ChevronUp, GripVertical } from '@/components/icons';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
