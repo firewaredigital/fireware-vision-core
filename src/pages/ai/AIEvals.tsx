@@ -15,7 +15,7 @@ import { Progress } from '@/components/ui/progress';
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { toast } from 'sonner';
 import { format } from 'date-fns';
-import { ClipboardList, Plus, Search, Loader2, Play, CheckCircle, XCircle, Bot } from 'lucide-react';
+import { ClipboardList, Plus, Search, Loader2, Play, CheckCircle, XCircle, Bot } from '@/components/icons';
 
 export default function AIEvals() {
   const { profile } = useAuth();

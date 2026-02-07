@@ -14,7 +14,7 @@ import { Switch } from '@/components/ui/switch';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { toast } from 'sonner';
-import { Shield, Plus, Search, Loader2, Lock, AlertTriangle, Filter, Gauge, CheckCircle } from 'lucide-react';
+import { Shield, Plus, Search, Loader2, Lock, AlertTriangle, Filter, Gauge, CheckCircle } from '@/components/icons';
 
 const POLICY_TYPE_CONFIG: Record<string, { label: string; icon: React.ElementType; description: string }> = {
   pii_protection: { label: 'Proteção PII', icon: Lock, description: 'Mascarar dados pessoais' },

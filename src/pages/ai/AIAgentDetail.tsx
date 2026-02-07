@@ -20,7 +20,7 @@ import {
   ArrowLeft, Bot, Brain, Save, Play, Settings, Wrench,
   Shield, Activity, Clock, Loader2, CheckCircle, XCircle,
   AlertTriangle, PauseCircle, RotateCcw
-} from 'lucide-react';
+} from '@/components/icons';
 
 export default function AIAgentDetail() {
   const { id } = useParams<{ id: string }>();

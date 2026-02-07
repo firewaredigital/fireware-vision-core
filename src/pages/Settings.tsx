@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Settings as SettingsIcon, GripVertical, Plus, Edit, Trash2, Check, X, Users, Tag, Target, Award, ChevronDown, ChevronUp, Save, UserPlus } from 'lucide-react';
+import { Settings as SettingsIcon, GripVertical, Plus, Edit, Trash2, Check, X, Users, Tag, Target, Award, ChevronDown, ChevronUp, Save, UserPlus } from '@/components/icons';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';

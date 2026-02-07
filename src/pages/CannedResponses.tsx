@@ -84,7 +84,7 @@ import {
   Check,
   X,
   Zap,
-} from 'lucide-react';
+} from '@/components/icons';
 
 interface CannedResponse {
   id: string;

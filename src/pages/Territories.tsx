@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Map, Plus, Search, ChevronRight, ChevronDown, Edit, Trash2, Users, Building2, UserCircle } from 'lucide-react';
+import { Map, Plus, Search, ChevronRight, ChevronDown, Edit, Trash2, Users, Building2, UserCircle } from '@/components/icons';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
