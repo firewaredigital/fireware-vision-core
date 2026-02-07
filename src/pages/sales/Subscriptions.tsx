@@ -14,7 +14,7 @@ import { ptBR } from 'date-fns/locale';
 import {
   Plus, Search, Filter, RefreshCw, TrendingUp, AlertTriangle,
   DollarSign, Users, Pause, Play, XCircle, Clock, CheckCircle
-} from 'lucide-react';
+} from '@/components/icons';
 
 const statusLabels: Record<string, { label: string; variant: 'default' | 'secondary' | 'destructive' | 'outline' }> = {
   trial: { label: 'Trial', variant: 'outline' },

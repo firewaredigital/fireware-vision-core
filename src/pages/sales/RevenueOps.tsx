@@ -20,7 +20,7 @@ import {
 import {
   TrendingUp, TrendingDown, DollarSign, Target, Clock, AlertTriangle,
   CheckCircle2, XCircle, BarChart3, Activity, Zap, Users, Gauge
-} from 'lucide-react';
+} from '@/components/icons';
 
 const CHART_COLORS = [
   'hsl(var(--primary))',

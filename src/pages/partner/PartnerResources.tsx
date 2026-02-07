@@ -1,7 +1,7 @@
 import { PartnerLayout } from './PartnerLayout';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { BookOpen, Gift, Calendar, CheckCircle } from 'lucide-react';
+import { BookOpen, Gift, Calendar, CheckCircle } from '@/components/icons';
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { Skeleton } from '@/components/ui/skeleton';

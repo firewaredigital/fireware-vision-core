@@ -19,7 +19,7 @@ import {
   Hash,
   Globe,
   Smartphone,
-} from 'lucide-react';
+} from '@/components/icons';
 import { formatDistanceToNow } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 import { cn } from '@/lib/utils';

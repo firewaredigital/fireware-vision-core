@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/button';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { formatDistanceToNow } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
-import { MessageSquare, Mail, Phone, AlertCircle, Globe } from 'lucide-react';
+import { MessageSquare, Mail, Phone, AlertCircle, Globe } from '@/components/icons';
 
 interface Customer360ConversationsProps {
   entityType: string;

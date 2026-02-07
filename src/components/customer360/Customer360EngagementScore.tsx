@@ -1,7 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
 import { Badge } from '@/components/ui/badge';
-import { Activity, TrendingUp, TrendingDown, Minus } from 'lucide-react';
+import { Activity, TrendingUp, TrendingDown, Minus } from '@/components/icons';
 
 interface Customer360EngagementScoreProps {
   opportunities: any[];

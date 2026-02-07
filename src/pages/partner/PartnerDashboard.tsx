@@ -1,6 +1,6 @@
 import { PartnerLayout } from './PartnerLayout';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { DollarSign, Handshake, TrendingUp, Clock, ArrowUpRight, ArrowDownRight } from 'lucide-react';
+import { DollarSign, Handshake, TrendingUp, Clock, ArrowUpRight, ArrowDownRight } from '@/components/icons';
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { Skeleton } from '@/components/ui/skeleton';

@@ -22,11 +22,11 @@ import {
   Calendar,
   RefreshCw,
   BarChart3,
-  PieChart as PieChartIcon,
+  PieChartIcon,
   ArrowUpRight,
   ArrowDownRight,
   Info
-} from "lucide-react";
+} from '@/components/icons';
 import {
   BarChart,
   Bar,

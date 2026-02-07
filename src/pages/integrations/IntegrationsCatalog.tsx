@@ -6,7 +6,7 @@ import { Input } from '@/components/ui/input';
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { Skeleton } from '@/components/ui/skeleton';
-import { Search, Plus, MessageSquare, Mail, Phone, Send, Bell, Puzzle, ExternalLink } from 'lucide-react';
+import { Search, Plus, MessageSquare, Mail, Phone, Send, Bell, Puzzle, ExternalLink } from '@/components/icons';
 import { useState } from 'react';
 
 const iconMap: Record<string, React.ElementType> = {

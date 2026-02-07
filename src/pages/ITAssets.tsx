@@ -20,7 +20,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { Plus, Search, Package, Monitor, HardDrive, Cpu, User, AlertTriangle } from 'lucide-react';
+import { Plus, Search, Package, Monitor, HardDrive, Cpu, User, AlertTriangle } from '@/components/icons';
 import { Link } from 'react-router-dom';
 import { format, differenceInDays } from 'date-fns';
 import { ptBR } from 'date-fns/locale';

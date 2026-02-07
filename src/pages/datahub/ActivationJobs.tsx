@@ -7,7 +7,7 @@ import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/hooks/useAuth';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { Plus, Zap, CheckCircle, Clock, XCircle, Pause } from 'lucide-react';
+import { Plus, Zap, CheckCircle, Clock, XCircle, Pause } from '@/components/icons';
 import { format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 

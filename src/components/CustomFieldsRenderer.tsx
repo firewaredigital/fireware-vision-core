@@ -21,7 +21,7 @@ import {
 } from '@/components/ui/accordion';
 import { Calendar } from '@/components/ui/calendar';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
-import { CalendarIcon, Save, Loader2 } from 'lucide-react';
+import { CalendarIcon, Save, Loader2 } from '@/components/icons';
 import { format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 import { cn } from '@/lib/utils';

@@ -4,7 +4,7 @@ import { ptBR } from 'date-fns/locale';
 import { 
   UserPlus, TrendingUp, FileText, Phone, Mail, Calendar, 
   CheckCircle, AlertCircle, MessageSquare, Building, Target
-} from 'lucide-react';
+} from '@/components/icons';
 import { supabase } from '@/integrations/supabase/client';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Badge } from '@/components/ui/badge';

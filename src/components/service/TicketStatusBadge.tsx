@@ -6,7 +6,7 @@ import {
   CheckCircle2, 
   XCircle,
   AlertCircle
-} from 'lucide-react';
+} from '@/components/icons';
 
 type TicketStatus = 'new' | 'open' | 'pending' | 'on_hold' | 'resolved' | 'closed';
 

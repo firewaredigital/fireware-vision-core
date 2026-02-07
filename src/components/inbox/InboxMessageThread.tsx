@@ -4,7 +4,7 @@ import { Badge } from '@/components/ui/badge';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 import { formatDistanceToNow, format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
-import { MessageSquare, User, Bot, EyeOff, CheckCheck, Check, Clock, AlertTriangle, Paperclip } from 'lucide-react';
+import { MessageSquare, User, Bot, EyeOff, CheckCheck, Check, Clock, AlertTriangle, Paperclip } from '@/components/icons';
 import { cn } from '@/lib/utils';
 import type { ConversationMessage } from '@/hooks/useConversations';
 

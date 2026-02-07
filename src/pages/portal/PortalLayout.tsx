@@ -22,7 +22,7 @@ import {
   HelpCircle,
   Home,
   Menu,
-} from 'lucide-react';
+} from '@/components/icons';
 import { useState } from 'react';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 

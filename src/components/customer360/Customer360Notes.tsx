@@ -11,7 +11,7 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { useToast } from '@/hooks/use-toast';
 import { format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
-import { StickyNote, Plus, Send, Pin, Trash2 } from 'lucide-react';
+import { StickyNote, Plus, Send, Pin, Trash2 } from '@/components/icons';
 
 interface Customer360NotesProps {
   entityType: string;

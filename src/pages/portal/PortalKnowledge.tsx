@@ -19,7 +19,7 @@ import {
   TrendingUp,
   RefreshCcw,
   HelpCircle,
-} from 'lucide-react';
+} from '@/components/icons';
 import { PortalLayout } from './PortalLayout';
 import { formatDistanceToNow } from 'date-fns';
 import { ptBR } from 'date-fns/locale';

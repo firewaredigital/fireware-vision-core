@@ -7,7 +7,7 @@ import { supabase } from '@/integrations/supabase/client';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Button } from '@/components/ui/button';
-import { ArrowLeft, UserCircle, Building2, Mail, Phone, FileText, Link as LinkIcon, Shield, Clock } from 'lucide-react';
+import { ArrowLeft, UserCircle, Building2, Mail, Phone, FileText, LinkIcon, Shield, Clock } from '@/components/icons';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';

@@ -20,7 +20,7 @@ import {
   SortDesc,
   Eye,
   EyeOff,
-} from 'lucide-react';
+} from '@/components/icons';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';

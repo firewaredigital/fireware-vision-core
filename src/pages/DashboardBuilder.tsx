@@ -2,10 +2,10 @@ import { useState, useEffect, useCallback } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import {
   ArrowLeft, Save, Plus, Trash2, Settings, Eye, RefreshCw,
-  LayoutDashboard, BarChart3, PieChart, TrendingUp, Activity,
-  Target, Gauge, Table, Grid3X3, Maximize2, Minimize2,
+  LayoutDashboard, BarChart3, PieChartIcon as PieChart, TrendingUp, Activity,
+  Target, Gauge, TableIcon as Table, Grid3x3 as Grid3X3, Maximize2, Minimize2,
   ChevronDown, GripVertical, Copy, Lock, Unlock, Share2,
-} from 'lucide-react';
+} from '@/components/icons';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';

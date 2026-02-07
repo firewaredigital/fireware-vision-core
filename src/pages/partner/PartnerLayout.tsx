@@ -3,7 +3,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
-import { Flame, Handshake, LayoutDashboard, DollarSign, BookOpen, User, LogOut, Menu } from 'lucide-react';
+import { Flame, Handshake, LayoutDashboard, DollarSign, BookOpen, User, LogOut, Menu } from '@/components/icons';
 import { useState } from 'react';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 

@@ -27,7 +27,7 @@ import {
   XCircle,
   Loader2,
   Eye
-} from "lucide-react";
+} from '@/components/icons';
 
 type MergeStatus = "pending" | "approved" | "rejected" | "in_progress" | "completed" | "failed" | "cancelled";
 

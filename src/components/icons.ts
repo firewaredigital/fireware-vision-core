@@ -309,3 +309,16 @@ export { ArrowBendDownLeft as CornerDownLeft } from '@phosphor-icons/react';
 export { Star as StarOff } from '@phosphor-icons/react';
 export { PencilSimple as Edit3 } from '@phosphor-icons/react';
 export { SidebarSimple as PanelLeft } from '@phosphor-icons/react';
+
+// ─── Network & remaining aliases ──────────────────────────────────
+export { ShareNetwork as Network } from '@phosphor-icons/react';
+export { PushPinSlash as PinOff } from '@phosphor-icons/react';
+export { SortAscending as SortAsc } from '@phosphor-icons/react';
+export { SortDescending as SortDesc } from '@phosphor-icons/react';
+export { ChartPie as PieChartIcon } from '@phosphor-icons/react';
+export { Link as LinkIcon } from '@phosphor-icons/react';
+export { DotOutline as Dot } from '@phosphor-icons/react';
+export { PuzzlePiece as Puzzle } from '@phosphor-icons/react';
+export { GitMerge } from '@phosphor-icons/react';
+export { ShieldCheck } from '@phosphor-icons/react';
+export { ArrowCounterClockwise as RefreshCcwIcon } from '@phosphor-icons/react'; // extra alias

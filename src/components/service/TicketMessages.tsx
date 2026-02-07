@@ -2,7 +2,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { formatDistanceToNow, format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
-import { MessageSquare, User, Bot, EyeOff } from 'lucide-react';
+import { MessageSquare, User, Bot, EyeOff } from '@/components/icons';
 import { cn } from '@/lib/utils';
 
 interface Message {

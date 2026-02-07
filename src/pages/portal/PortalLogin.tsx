@@ -10,7 +10,7 @@ import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { useToast } from '@/hooks/use-toast';
 import { supabase } from '@/integrations/supabase/client';
-import { Flame, Mail, Lock, Eye, EyeOff, ArrowRight, RefreshCcw, AlertCircle } from 'lucide-react';
+import { Flame, Mail, Lock, Eye, EyeOff, ArrowRight, RefreshCcw, AlertCircle } from '@/components/icons';
 
 // Schema de validação com Zod
 const loginSchema = z.object({
