@@ -6,6 +6,7 @@ import { z } from 'zod';
 import { Loader2, Eye, EyeOff } from '@/components/icons';
 import crPlatformLogo from '@/assets/cr-platform-logo.png';
 import authBg from '@/assets/auth-bg.png';
+import poweredByFireware from '@/assets/powered-by-fireware.png';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
@@ -368,9 +369,11 @@ export default function Auth() {
 
           {/* Top branding badge */}
           <div className="auth-brand-top">
-            <span className="auth-brand-name">Fireware CRM</span>
-            <span className="auth-brand-divider" />
-            <span className="auth-brand-powered">POWERED BY <span className="auth-brand-highlight">FIREWARE</span></span>
+            <img
+              src={poweredByFireware}
+              alt="Powered by Fireware"
+              className="h-6 object-contain opacity-90"
+            />
           </div>
 
           {/* Central welcome message */}
