@@ -5,7 +5,7 @@ import {
   Type, Image, Link, Minus, Square, Columns, Star, Share2,
   Play, LayoutTemplate, Code, RefreshCw, ChevronUp, ChevronDown,
   Heading1, AlignLeft, MousePointer, Video, Mail,
-} from 'lucide-react';
+} from '@/components/icons';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';

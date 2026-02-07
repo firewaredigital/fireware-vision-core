@@ -15,9 +15,10 @@ import { toast } from 'sonner';
 import { format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 import { 
-  Lock, ShieldCheck, Key, Users, AlertTriangle, 
+  Lock, Shield, Key, Users, AlertTriangle, 
   Clock, Globe, Loader2, RefreshCw, ShieldAlert
-} from 'lucide-react';
+} from '@/components/icons';
+import { ShieldCheck } from '@phosphor-icons/react';
 
 export default function PlatformSecurity() {
   const { profile } = useAuth();

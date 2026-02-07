@@ -1,5 +1,5 @@
 import { Card, CardContent } from '@/components/ui/card';
-import { DollarSign, Target, TrendingUp, Ticket, ShoppingCart, MessageSquare, FileSignature } from 'lucide-react';
+import { DollarSign, Target, TrendingUp, Ticket, ShoppingCart, MessageSquare, FileSignature } from '@/components/icons';
 
 interface Customer360StatsProps {
   metrics: {

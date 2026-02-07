@@ -25,7 +25,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import { ArrowLeft, Plus, Trash2, Package, Search } from 'lucide-react';
+import { ArrowLeft, Plus, Trash2, Package, Search } from '@/components/icons';
 import { toast } from 'sonner';
 import { CustomFieldsRenderer } from '@/components/CustomFieldsRenderer';
 import { useCustomFieldDefinitions, useCustomFieldValues, useSaveCustomFieldValues, getFieldValue } from '@/hooks/useCustomFields';

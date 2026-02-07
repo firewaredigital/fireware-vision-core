@@ -45,7 +45,7 @@ import {
   Smartphone,
   Shield,
   Activity,
-} from 'lucide-react';
+} from '@/components/icons';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import type { Database } from '@/integrations/supabase/types';
 

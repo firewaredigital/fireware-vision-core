@@ -49,7 +49,7 @@ import {
   UserPlus,
   Flag,
   Trash2
-} from 'lucide-react';
+} from '@/components/icons';
 import { formatDistanceToNow, format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 import { useToast } from '@/hooks/use-toast';

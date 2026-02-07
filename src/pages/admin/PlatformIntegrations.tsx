@@ -11,7 +11,7 @@ import {
   Link, MessageSquare, Phone, Globe, Mail,
   CheckCircle, XCircle, AlertTriangle, Clock,
   Loader2, Activity, Zap, Server
-} from 'lucide-react';
+} from '@/components/icons';
 
 // Native connectors definition
 const NATIVE_CONNECTORS = [

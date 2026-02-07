@@ -17,7 +17,7 @@ import {
   Bot, Brain, Shield, Gauge, Cpu, Zap,
   AlertTriangle, CheckCircle, Settings, Loader2,
   TrendingUp, Clock, Lock
-} from 'lucide-react';
+} from '@/components/icons';
 
 const AI_MODELS = [
   { id: 'google/gemini-3-flash-preview', name: 'Gemini 3 Flash (Preview)', tier: 'standard', speed: 'fast' },

@@ -17,7 +17,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { ArrowLeft, Percent, DollarSign, Gift, Truck } from 'lucide-react';
+import { ArrowLeft, Percent, DollarSign, Gift, Truck } from '@/components/icons';
 import { toast } from 'sonner';
 
 type PromotionType = 'percentage' | 'fixed' | 'buy_x_get_y' | 'free_shipping';

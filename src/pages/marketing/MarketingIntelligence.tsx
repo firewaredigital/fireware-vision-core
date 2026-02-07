@@ -4,7 +4,7 @@ import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/hooks/useAuth';
 import { Skeleton } from '@/components/ui/skeleton';
-import { BarChart3, TrendingUp, DollarSign, Users, Target } from 'lucide-react';
+import { BarChart3, TrendingUp, DollarSign, Users, Target } from '@/components/icons';
 
 export default function MarketingIntelligence() {
   const { profile } = useAuth();
