@@ -35,7 +35,7 @@ export function AppTopbar({ showHamburger, onHamburgerClick }: AppTopbarProps) {
       : 'Sistema';
 
   return (
-    <header className="sticky top-0 z-40 flex h-16 items-center gap-4 border-b bg-card px-6">
+    <header className="sticky top-0 z-40 flex h-16 items-center gap-4 border-b bg-card px-6 shadow-topbar">
       {/* Mobile Hamburger */}
       {showHamburger && (
         <Button
