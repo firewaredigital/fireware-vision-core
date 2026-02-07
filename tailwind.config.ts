@@ -77,6 +77,23 @@ export default {
           "5": "hsl(var(--chart-5))",
         },
       },
+      boxShadow: {
+        /* ═══ Elevation System ═══ */
+        "elevation-0": "var(--shadow-elevation-0)",
+        "elevation-1": "var(--shadow-elevation-1)",
+        "elevation-2": "var(--shadow-elevation-2)",
+        "elevation-3": "var(--shadow-elevation-3)",
+        "elevation-4": "var(--shadow-elevation-4)",
+        "elevation-5": "var(--shadow-elevation-5)",
+        /* Contextual Shadows */
+        "topbar": "var(--shadow-topbar)",
+        "sidebar": "var(--shadow-sidebar)",
+        "table": "var(--shadow-table)",
+        "button-hover": "var(--shadow-button-hover)",
+        "button-primary-hover": "var(--shadow-button-primary-hover)",
+        "input-focus": "var(--shadow-input-focus)",
+        "toast": "var(--shadow-toast)",
+      },
       borderRadius: {
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",

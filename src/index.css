@@ -62,6 +62,75 @@
     /* Radius: 12px for modern rounded feel */
     --radius: 0.75rem;
 
+    /* ═══ ELEVATION SHADOW SYSTEM ═══
+       6-level progressive depth hierarchy
+       Inspired by Material/Oracle enterprise design
+       Each level adds progressive depth perception
+    ═══════════════════════════════════ */
+
+    /* Level 0: Flat — no shadow, inline elements */
+    --shadow-elevation-0: none;
+
+    /* Level 1: Resting — cards, panels at rest */
+    --shadow-elevation-1:
+      0 1px 2px 0 rgba(0, 0, 0, 0.03),
+      0 1px 3px 0 rgba(0, 0, 0, 0.05),
+      0 2px 6px -1px rgba(0, 0, 0, 0.04);
+
+    /* Level 2: Raised — cards on hover, inputs focus, badges */
+    --shadow-elevation-2:
+      0 2px 4px -1px rgba(0, 0, 0, 0.04),
+      0 4px 8px -1px rgba(0, 0, 0, 0.06),
+      0 6px 16px -2px rgba(0, 0, 0, 0.05);
+
+    /* Level 3: Floating — popovers, dropdowns, tooltips, selects */
+    --shadow-elevation-3:
+      0 4px 6px -2px rgba(0, 0, 0, 0.05),
+      0 8px 16px -4px rgba(0, 0, 0, 0.08),
+      0 12px 28px -6px rgba(0, 0, 0, 0.06);
+
+    /* Level 4: Overlay — modals, dialogs, sheets */
+    --shadow-elevation-4:
+      0 8px 12px -4px rgba(0, 0, 0, 0.06),
+      0 16px 32px -8px rgba(0, 0, 0, 0.1),
+      0 24px 56px -12px rgba(0, 0, 0, 0.08);
+
+    /* Level 5: Supreme — top-level overlays, command palette */
+    --shadow-elevation-5:
+      0 16px 24px -8px rgba(0, 0, 0, 0.08),
+      0 24px 48px -12px rgba(0, 0, 0, 0.12),
+      0 40px 80px -20px rgba(0, 0, 0, 0.1);
+
+    /* Contextual shadows — semantic elevation for specific use cases */
+    --shadow-topbar:
+      0 1px 0 0 rgba(0, 0, 0, 0.04),
+      0 2px 6px -1px rgba(0, 0, 0, 0.06);
+
+    --shadow-sidebar:
+      2px 0 8px -2px rgba(0, 0, 0, 0.08),
+      4px 0 16px -4px rgba(0, 0, 0, 0.05);
+
+    --shadow-table:
+      0 1px 2px 0 rgba(0, 0, 0, 0.03),
+      0 1px 4px -1px rgba(0, 0, 0, 0.04);
+
+    --shadow-button-hover:
+      0 2px 4px -1px rgba(0, 0, 0, 0.08),
+      0 4px 12px -2px rgba(0, 0, 0, 0.06);
+
+    --shadow-button-primary-hover:
+      0 2px 4px -1px hsl(0 100% 50% / 0.15),
+      0 6px 16px -3px hsl(0 100% 50% / 0.2);
+
+    --shadow-input-focus:
+      0 0 0 3px hsl(0 100% 50% / 0.08),
+      0 1px 3px 0 rgba(0, 0, 0, 0.04);
+
+    --shadow-toast:
+      0 6px 12px -4px rgba(0, 0, 0, 0.08),
+      0 12px 24px -6px rgba(0, 0, 0, 0.1),
+      0 0 0 1px rgba(0, 0, 0, 0.04);
+
     /* Sidebar: Dark #212427 */
     --sidebar-background: 216 5% 14%;
     --sidebar-foreground: 0 0% 98%;
@@ -120,6 +189,63 @@
     --border: 216 5% 22%;
     --input: 216 5% 22%;
     --ring: 0 100% 50%;
+
+    /* ═══ DARK MODE ELEVATION SHADOWS ═══ */
+    --shadow-elevation-0: none;
+
+    --shadow-elevation-1:
+      0 1px 2px 0 rgba(0, 0, 0, 0.12),
+      0 1px 3px 0 rgba(0, 0, 0, 0.16),
+      0 2px 6px -1px rgba(0, 0, 0, 0.1);
+
+    --shadow-elevation-2:
+      0 2px 4px -1px rgba(0, 0, 0, 0.14),
+      0 4px 8px -1px rgba(0, 0, 0, 0.18),
+      0 6px 16px -2px rgba(0, 0, 0, 0.12);
+
+    --shadow-elevation-3:
+      0 4px 6px -2px rgba(0, 0, 0, 0.16),
+      0 8px 16px -4px rgba(0, 0, 0, 0.22),
+      0 12px 28px -6px rgba(0, 0, 0, 0.14);
+
+    --shadow-elevation-4:
+      0 8px 12px -4px rgba(0, 0, 0, 0.2),
+      0 16px 32px -8px rgba(0, 0, 0, 0.28),
+      0 24px 56px -12px rgba(0, 0, 0, 0.18);
+
+    --shadow-elevation-5:
+      0 16px 24px -8px rgba(0, 0, 0, 0.22),
+      0 24px 48px -12px rgba(0, 0, 0, 0.3),
+      0 40px 80px -20px rgba(0, 0, 0, 0.22);
+
+    --shadow-topbar:
+      0 1px 0 0 rgba(0, 0, 0, 0.2),
+      0 2px 6px -1px rgba(0, 0, 0, 0.18);
+
+    --shadow-sidebar:
+      2px 0 8px -2px rgba(0, 0, 0, 0.2),
+      4px 0 16px -4px rgba(0, 0, 0, 0.14);
+
+    --shadow-table:
+      0 1px 2px 0 rgba(0, 0, 0, 0.1),
+      0 1px 4px -1px rgba(0, 0, 0, 0.12);
+
+    --shadow-button-hover:
+      0 2px 4px -1px rgba(0, 0, 0, 0.2),
+      0 4px 12px -2px rgba(0, 0, 0, 0.16);
+
+    --shadow-button-primary-hover:
+      0 2px 4px -1px hsl(0 100% 50% / 0.2),
+      0 6px 16px -3px hsl(0 100% 50% / 0.28);
+
+    --shadow-input-focus:
+      0 0 0 3px hsl(0 100% 50% / 0.14),
+      0 1px 3px 0 rgba(0, 0, 0, 0.1);
+
+    --shadow-toast:
+      0 6px 12px -4px rgba(0, 0, 0, 0.2),
+      0 12px 24px -6px rgba(0, 0, 0, 0.24),
+      0 0 0 1px rgba(255, 255, 255, 0.06);
 
     /* Sidebar even darker */
     --sidebar-background: 220 6% 7%;
@@ -187,6 +313,7 @@
     bottom: 0;
     z-index: 45;
     width: 312px; /* 72px rail + 240px content */
+    box-shadow: var(--shadow-sidebar);
   }
 
   /* ── RAIL (Left, 72px) ── */
