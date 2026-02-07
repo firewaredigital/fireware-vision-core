@@ -87,30 +87,44 @@ interface RailModule {
   label: string;
   shortLabel: string;
   icon: React.ElementType;
+  /** If true, clicking the rail item navigates directly to this URL */
+  directUrl?: string;
   sections: ContentSection[];
 }
 
-// ─── Original Navigation Items (preserved exactly) ─────────────────
-// These are the EXACT same items from the original AppSidebar,
-// reorganized into the dual-panel rail structure.
+// ─── Rail Modules ──────────────────────────────────────────────────
+// Each rail item maps to an ACTUAL system category (Vendas, Atendimento, etc.)
+// The content panel shows the sub-items for the selected category.
 
 const RAIL_MODULES: RailModule[] = [
+  // ── Home / Dashboard ──
   {
-    key: 'principal',
-    label: 'Principal',
-    shortLabel: 'Principal',
+    key: 'home',
+    label: 'Home',
+    shortLabel: 'Home',
     icon: LayoutDashboard,
+    directUrl: '/dashboard',
     sections: [
       {
-        key: 'main',
+        key: 'home_nav',
         label: 'Navegação',
         items: [
           { title: 'Dashboard', url: '/dashboard', icon: LayoutDashboard },
         ],
       },
+    ],
+  },
+
+  // ── Vendas ──
+  {
+    key: 'vendas',
+    label: 'Vendas',
+    shortLabel: 'Vendas',
+    icon: TrendingUp,
+    sections: [
       {
-        key: 'sales',
-        label: 'Vendas',
+        key: 'vendas_core',
+        label: 'CRM',
         moduleKey: 'sales',
         items: [
           { title: 'Leads', url: '/leads', icon: Target },
@@ -119,6 +133,13 @@ const RAIL_MODULES: RailModule[] = [
           { title: 'Oportunidades', url: '/opportunities', icon: TrendingUp },
           { title: 'Propostas', url: '/quotes', icon: FileText },
           { title: 'Contratos', url: '/contracts', icon: FileSignature },
+        ],
+      },
+      {
+        key: 'vendas_advanced',
+        label: 'Avançado',
+        moduleKey: 'sales',
+        items: [
           { title: 'CPQ', url: '/sales/cpq', icon: Settings },
           { title: 'Assinaturas', url: '/sales/subscriptions', icon: RotateCcw },
           { title: 'Faturamento', url: '/sales/billing', icon: DollarSign },
@@ -128,15 +149,113 @@ const RAIL_MODULES: RailModule[] = [
       },
     ],
   },
+
+  // ── Atendimento ──
   {
-    key: 'intelli',
+    key: 'atendimento',
+    label: 'Atendimento',
+    shortLabel: 'Atendim.',
+    icon: Headphones,
+    sections: [
+      {
+        key: 'atendimento_core',
+        label: 'Central',
+        moduleKey: 'service',
+        items: [
+          { title: 'Dashboard', url: '/service', icon: Headphones },
+          { title: 'Inbox Omnichannel', url: '/service/inbox', icon: Inbox },
+          { title: 'Tickets', url: '/tickets', icon: Ticket },
+          { title: 'Filas', url: '/service/queues', icon: Layers },
+          { title: 'Qualidade & NPS', url: '/service/qa', icon: ClipboardList },
+        ],
+      },
+      {
+        key: 'atendimento_channels',
+        label: 'Canais',
+        moduleKey: 'service',
+        items: [
+          { title: 'Social Inbox', url: '/service/social', icon: Globe },
+          { title: 'WhatsApp', url: '/service/whatsapp', icon: MessageSquare },
+          { title: 'Chat Widgets', url: '/service/chat-widgets', icon: Radio },
+          { title: 'Telefonia', url: '/service/voice', icon: Headphones },
+        ],
+      },
+      {
+        key: 'atendimento_extra',
+        label: 'Mais',
+        moduleKey: 'service',
+        items: [
+          { title: 'Analytics', url: '/service/analytics', icon: FileBarChart },
+          { title: 'Base de Conhecimento', url: '/knowledge', icon: BookOpen },
+          { title: 'Customer Success', url: '/customer-success', icon: Heart },
+        ],
+      },
+    ],
+  },
+
+  // ── Marketing ──
+  {
+    key: 'marketing',
+    label: 'Marketing',
+    shortLabel: 'Market.',
+    icon: Megaphone,
+    sections: [
+      {
+        key: 'marketing_core',
+        label: 'Campanhas',
+        moduleKey: 'marketing',
+        items: [
+          { title: 'Dashboard', url: '/marketing', icon: Megaphone },
+          { title: 'Campanhas', url: '/marketing/campaigns', icon: Mail },
+          { title: 'Segmentos', url: '/marketing/segments', icon: Filter },
+          { title: 'Jornadas', url: '/marketing/journeys', icon: Route },
+        ],
+      },
+      {
+        key: 'marketing_config',
+        label: 'Configuração',
+        moduleKey: 'marketing',
+        items: [
+          { title: 'Provedores', url: '/marketing/providers', icon: Send },
+          { title: 'Preferências', url: '/marketing/preference-center', icon: SlidersHorizontal },
+          { title: 'Personalização', url: '/marketing/personalization', icon: Sparkles },
+          { title: 'Intelligence', url: '/marketing/intelligence', icon: Brain },
+          { title: 'Templates de Email', url: '/marketing/email-templates', icon: Mail },
+        ],
+      },
+    ],
+  },
+
+  // ── Commerce ──
+  {
+    key: 'commerce',
+    label: 'Commerce',
+    shortLabel: 'Comércio',
+    icon: ShoppingCart,
+    sections: [
+      {
+        key: 'commerce_core',
+        label: 'Operações',
+        moduleKey: 'commerce',
+        items: [
+          { title: 'Pedidos', url: '/orders', icon: ShoppingCart },
+          { title: 'Devoluções', url: '/returns', icon: RotateCcw },
+          { title: 'Promoções', url: '/promotions', icon: Tag },
+        ],
+      },
+    ],
+  },
+
+  // ── Inteligência / IA ──
+  {
+    key: 'ia',
     label: 'Inteligência',
-    shortLabel: 'Intelli',
+    shortLabel: 'IA',
     icon: Brain,
     sections: [
       {
-        key: 'ai_agents',
-        label: 'Inteligência / IA',
+        key: 'ia_core',
+        label: 'Agentes & Ferramentas',
         moduleKey: 'ai_agents',
         items: [
           { title: 'Agentes', url: '/ai/agents', icon: Bot },
@@ -149,84 +268,17 @@ const RAIL_MODULES: RailModule[] = [
       },
     ],
   },
+
+  // ── TI / ITSM ──
   {
-    key: 'operac',
-    label: 'Operações',
-    shortLabel: 'Operac.',
-    icon: Workflow,
+    key: 'ti',
+    label: 'TI / ITSM',
+    shortLabel: 'TI',
+    icon: Server,
     sections: [
       {
-        key: 'service',
-        label: 'Atendimento',
-        moduleKey: 'service',
-        items: [
-          { title: 'Dashboard de Service', url: '/service', icon: Headphones },
-          { title: 'Inbox Omnichannel', url: '/service/inbox', icon: Inbox },
-          { title: 'Filas', url: '/service/queues', icon: Layers },
-          { title: 'Qualidade & NPS', url: '/service/qa', icon: ClipboardList },
-          { title: 'Social Inbox', url: '/service/social', icon: Globe },
-          { title: 'Analytics', url: '/service/analytics', icon: FileBarChart },
-          { title: 'WhatsApp', url: '/service/whatsapp', icon: MessageSquare },
-          { title: 'Chat Widgets', url: '/service/chat-widgets', icon: Radio },
-          { title: 'Telefonia', url: '/service/voice', icon: Headphones },
-          { title: 'Tickets', url: '/tickets', icon: Ticket },
-          { title: 'Base de Conhecimento', url: '/knowledge', icon: BookOpen },
-          { title: 'Customer Success', url: '/customer-success', icon: Heart },
-        ],
-      },
-      {
-        key: 'marketing',
-        label: 'Marketing',
-        moduleKey: 'marketing',
-        items: [
-          { title: 'Dashboard Marketing', url: '/marketing', icon: Megaphone },
-          { title: 'Campanhas', url: '/marketing/campaigns', icon: Mail },
-          { title: 'Segmentos', url: '/marketing/segments', icon: Filter },
-          { title: 'Jornadas', url: '/marketing/journeys', icon: Route },
-          { title: 'Provedores', url: '/marketing/providers', icon: Send },
-          { title: 'Preferências', url: '/marketing/preference-center', icon: SlidersHorizontal },
-          { title: 'Personalização', url: '/marketing/personalization', icon: Sparkles },
-          { title: 'Intelligence', url: '/marketing/intelligence', icon: Brain },
-          { title: 'Templates de Email', url: '/marketing/email-templates', icon: Mail },
-        ],
-      },
-      {
-        key: 'commerce',
-        label: 'Commerce',
-        moduleKey: 'commerce',
-        items: [
-          { title: 'Pedidos', url: '/orders', icon: ShoppingCart },
-          { title: 'Devoluções', url: '/returns', icon: RotateCcw },
-          { title: 'Promoções', url: '/promotions', icon: Tag },
-        ],
-      },
-      {
-        key: 'automations',
-        label: 'Automações',
-        moduleKey: 'automations',
-        items: [
-          { title: 'Workflows', url: '/automations', icon: Workflow },
-        ],
-      },
-    ],
-  },
-  {
-    key: 'dados',
-    label: 'Dados',
-    shortLabel: 'Dados',
-    icon: Database,
-    sections: [
-      {
-        key: 'governance',
-        label: 'Governança',
-        moduleKey: 'governance',
-        items: [
-          { title: 'Governança', url: '/governance', icon: Shield },
-        ],
-      },
-      {
-        key: 'itsm',
-        label: 'TI / ITSM',
+        key: 'ti_core',
+        label: 'Gestão de TI',
         moduleKey: 'itsm',
         items: [
           { title: 'Dashboard IT', url: '/it', icon: Server },
@@ -236,9 +288,28 @@ const RAIL_MODULES: RailModule[] = [
           { title: 'Ativos', url: '/it/assets', icon: Package },
         ],
       },
+    ],
+  },
+
+  // ── Dados ──
+  // Agrupa: Governança, Data Hub, Integrações
+  {
+    key: 'dados',
+    label: 'Dados',
+    shortLabel: 'Dados',
+    icon: Database,
+    sections: [
       {
-        key: 'data_hub',
-        label: 'Dados & Analytics',
+        key: 'dados_governance',
+        label: 'Governança',
+        moduleKey: 'governance',
+        items: [
+          { title: 'Governança', url: '/governance', icon: Shield },
+        ],
+      },
+      {
+        key: 'dados_hub',
+        label: 'Data Hub',
         moduleKey: 'data_hub',
         items: [
           { title: 'Duplicatas', url: '/duplicates', icon: Copy },
@@ -253,7 +324,7 @@ const RAIL_MODULES: RailModule[] = [
         ],
       },
       {
-        key: 'integrations',
+        key: 'dados_integrations',
         label: 'Integrações',
         moduleKey: 'integrations',
         items: [
@@ -266,14 +337,17 @@ const RAIL_MODULES: RailModule[] = [
       },
     ],
   },
+
+  // ── Gestão & Analytics ──
+  // Agrupa: Gestão, Automações, Relatórios
   {
-    key: 'analyt',
-    label: 'Analytics',
-    shortLabel: 'Analyt.',
+    key: 'gestao',
+    label: 'Gestão',
+    shortLabel: 'Gestão',
     icon: BarChart3,
     sections: [
       {
-        key: 'management',
+        key: 'gestao_core',
         label: 'Gestão',
         items: [
           { title: 'Produtos', url: '/products', icon: Package },
@@ -283,7 +357,15 @@ const RAIL_MODULES: RailModule[] = [
         ],
       },
       {
-        key: 'reports',
+        key: 'gestao_automations',
+        label: 'Automações',
+        moduleKey: 'automations',
+        items: [
+          { title: 'Workflows', url: '/automations', icon: Workflow },
+        ],
+      },
+      {
+        key: 'gestao_reports',
         label: 'Relatórios',
         items: [
           { title: 'Dashboards', url: '/dashboards', icon: LayoutDashboard },
@@ -293,15 +375,18 @@ const RAIL_MODULES: RailModule[] = [
       },
     ],
   },
+
+  // ── Administração ──
+  // Agrupa: Admin Platform, Configurações, Portais
   {
-    key: 'config',
-    label: 'Configurações',
-    shortLabel: 'Config.',
+    key: 'admin',
+    label: 'Administração',
+    shortLabel: 'Admin',
     icon: Settings,
     sections: [
       {
-        key: 'admin',
-        label: 'Administração',
+        key: 'admin_platform',
+        label: 'Plataforma',
         items: [
           { title: 'Módulos', url: '/admin/platform/modules', icon: Package },
           { title: 'Permissões', url: '/admin/platform/permissions', icon: Shield },
@@ -313,7 +398,7 @@ const RAIL_MODULES: RailModule[] = [
         ],
       },
       {
-        key: 'settings',
+        key: 'admin_settings',
         label: 'Preferências',
         items: [
           { title: 'Configurações', url: '/settings', icon: Settings },
@@ -321,7 +406,7 @@ const RAIL_MODULES: RailModule[] = [
         ],
       },
       {
-        key: 'portals',
+        key: 'admin_portals',
         label: 'Portais',
         moduleKey: 'portals',
         items: [
@@ -334,39 +419,63 @@ const RAIL_MODULES: RailModule[] = [
 ];
 
 // ─── Route → Rail Key Mapping ──────────────────────────────────────
-// Maps current pathname to the correct rail module
 
 const ROUTE_RAIL_MAP: { pattern: RegExp; railKey: string }[] = [
-  // Principal: dashboard + all sales core routes
-  { pattern: /^\/(dashboard)(\/|$)/, railKey: 'principal' },
-  { pattern: /^\/(leads|accounts|contacts|opportunities)(\/|$)/, railKey: 'principal' },
-  { pattern: /^\/(quotes|contracts)(\/|$)/, railKey: 'principal' },
-  { pattern: /^\/sales(\/|$)/, railKey: 'principal' },
-  // Intelli
-  { pattern: /^\/ai(\/|$)/, railKey: 'intelli' },
-  // Operac: service, marketing, commerce, automations
-  { pattern: /^\/(service|tickets|knowledge|customer-success)(\/|$)/, railKey: 'operac' },
-  { pattern: /^\/(marketing)(\/|$)/, railKey: 'operac' },
-  { pattern: /^\/(orders|returns|promotions)(\/|$)/, railKey: 'operac' },
-  { pattern: /^\/(automations)(\/|$)/, railKey: 'operac' },
-  // Dados: governance, itsm, data-hub, integrations
+  // Home
+  { pattern: /^\/(dashboard)(\/|$)/, railKey: 'home' },
+  // Vendas
+  { pattern: /^\/(leads)(\/|$)/, railKey: 'vendas' },
+  { pattern: /^\/(accounts)(\/|$)/, railKey: 'vendas' },
+  { pattern: /^\/(contacts)(\/|$)/, railKey: 'vendas' },
+  { pattern: /^\/(opportunities)(\/|$)/, railKey: 'vendas' },
+  { pattern: /^\/(quotes)(\/|$)/, railKey: 'vendas' },
+  { pattern: /^\/(contracts)(\/|$)/, railKey: 'vendas' },
+  { pattern: /^\/sales(\/|$)/, railKey: 'vendas' },
+  // Atendimento
+  { pattern: /^\/(service)(\/|$)/, railKey: 'atendimento' },
+  { pattern: /^\/(tickets)(\/|$)/, railKey: 'atendimento' },
+  { pattern: /^\/(knowledge)(\/|$)/, railKey: 'atendimento' },
+  { pattern: /^\/(customer-success)(\/|$)/, railKey: 'atendimento' },
+  // Marketing
+  { pattern: /^\/(marketing)(\/|$)/, railKey: 'marketing' },
+  // Commerce
+  { pattern: /^\/(orders)(\/|$)/, railKey: 'commerce' },
+  { pattern: /^\/(returns)(\/|$)/, railKey: 'commerce' },
+  { pattern: /^\/(promotions)(\/|$)/, railKey: 'commerce' },
+  // IA
+  { pattern: /^\/ai(\/|$)/, railKey: 'ia' },
+  // TI
+  { pattern: /^\/(it)(\/|$)/, railKey: 'ti' },
+  // Dados
   { pattern: /^\/(governance)(\/|$)/, railKey: 'dados' },
-  { pattern: /^\/(it)(\/|$)/, railKey: 'dados' },
-  { pattern: /^\/(duplicates|merge-wizard|full-funnel|attribution|customer-360|data-hub)(\/|$)/, railKey: 'dados' },
+  { pattern: /^\/(duplicates)(\/|$)/, railKey: 'dados' },
+  { pattern: /^\/(merge-wizard)(\/|$)/, railKey: 'dados' },
+  { pattern: /^\/(full-funnel)(\/|$)/, railKey: 'dados' },
+  { pattern: /^\/(attribution)(\/|$)/, railKey: 'dados' },
+  { pattern: /^\/(customer-360)(\/|$)/, railKey: 'dados' },
+  { pattern: /^\/(data-hub)(\/|$)/, railKey: 'dados' },
   { pattern: /^\/(integrations)(\/|$)/, railKey: 'dados' },
-  // Analyt: management + reports
-  { pattern: /^\/(products|territories|cadences|forecast)(\/|$)/, railKey: 'analyt' },
-  { pattern: /^\/(dashboards|reports|audit-logs)(\/|$)/, railKey: 'analyt' },
-  // Config: admin, settings, portals
-  { pattern: /^\/(admin|settings)(\/|$)/, railKey: 'config' },
-  { pattern: /^\/(portal|partner)(\/|$)/, railKey: 'config' },
+  // Gestão
+  { pattern: /^\/(products)(\/|$)/, railKey: 'gestao' },
+  { pattern: /^\/(territories)(\/|$)/, railKey: 'gestao' },
+  { pattern: /^\/(cadences)(\/|$)/, railKey: 'gestao' },
+  { pattern: /^\/(forecast)(\/|$)/, railKey: 'gestao' },
+  { pattern: /^\/(automations)(\/|$)/, railKey: 'gestao' },
+  { pattern: /^\/(dashboards)(\/|$)/, railKey: 'gestao' },
+  { pattern: /^\/(reports)(\/|$)/, railKey: 'gestao' },
+  { pattern: /^\/(audit-logs)(\/|$)/, railKey: 'gestao' },
+  // Admin
+  { pattern: /^\/(admin)(\/|$)/, railKey: 'admin' },
+  { pattern: /^\/(settings)(\/|$)/, railKey: 'admin' },
+  { pattern: /^\/(portal)(\/|$)/, railKey: 'admin' },
+  { pattern: /^\/(partner)(\/|$)/, railKey: 'admin' },
 ];
 
 function getRailKeyFromPath(pathname: string): string {
   for (const { pattern, railKey } of ROUTE_RAIL_MAP) {
     if (pattern.test(pathname)) return railKey;
   }
-  return 'principal';
+  return 'home';
 }
 
 // ─── Component ─────────────────────────────────────────────────────
@@ -500,7 +609,7 @@ export function AppSidebar() {
         {/* Panel Header */}
         <div className="sidebar-content-header">
           <h2 className="sidebar-content-title">
-            {activeModule?.label || 'Principal'}
+            {activeModule?.label || 'Home'}
           </h2>
           <div className="sidebar-content-search">
             <Search className="sidebar-search-icon" />
