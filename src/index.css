@@ -290,29 +290,42 @@
     width: calc(100% - 12px);
   }
 
-  /* ── CONTENT PANEL (Right, 240px) ── */
+  /* ── CONTENT PANEL (Right, 240px) — Light grayish white ── */
   .sidebar-content-panel {
     display: flex;
     flex-direction: column;
     width: 240px;
     min-width: 240px;
-    background: hsl(var(--sidebar-background));
-    border-right: 1px solid hsl(var(--sidebar-border));
+    background: hsl(0 0% 97%);
+    border-right: 1px solid hsl(220 13% 90%);
     overflow: hidden;
+  }
+
+  .dark .sidebar-content-panel {
+    background: hsl(216 5% 17%);
+    border-right-color: hsl(var(--sidebar-border));
   }
 
   .sidebar-content-header {
     padding: 20px 16px 12px;
-    border-bottom: 1px solid hsl(var(--sidebar-border));
+    border-bottom: 1px solid hsl(220 13% 91%);
+  }
+
+  .dark .sidebar-content-header {
+    border-bottom-color: hsl(var(--sidebar-border));
   }
 
   .sidebar-content-title {
     font-family: 'Plus Jakarta Sans', 'Inter', system-ui, sans-serif;
     font-size: 15px;
     font-weight: 700;
-    color: hsl(var(--sidebar-foreground));
+    color: hsl(216 5% 14%);
     margin-bottom: 12px;
     letter-spacing: -0.01em;
+  }
+
+  .dark .sidebar-content-title {
+    color: hsl(var(--sidebar-foreground));
   }
 
   .sidebar-content-search {
@@ -326,30 +339,44 @@
     left: 10px;
     width: 14px;
     height: 14px;
-    color: hsl(var(--sidebar-foreground) / 0.35);
+    color: hsl(215 8% 55%);
     pointer-events: none;
+  }
+
+  .dark .sidebar-search-icon {
+    color: hsl(var(--sidebar-foreground) / 0.35);
   }
 
   .sidebar-search-input {
     width: 100%;
-    height: 32px;
+    height: 34px;
     padding: 0 10px 0 32px;
     font-size: 12px;
-    border-radius: 6px;
-    border: 1px solid hsl(var(--sidebar-border));
+    border-radius: 8px;
+    border: 1px solid hsl(220 13% 88%);
+    background: hsl(0 0% 100%);
+    color: hsl(216 5% 14%);
+    outline: none;
+    transition: border-color 200ms ease, box-shadow 200ms ease;
+  }
+
+  .dark .sidebar-search-input {
+    border-color: hsl(var(--sidebar-border));
     background: hsl(var(--sidebar-accent));
     color: hsl(var(--sidebar-foreground));
-    outline: none;
-    transition: border-color 200ms ease, background-color 200ms ease;
   }
 
   .sidebar-search-input::placeholder {
+    color: hsl(215 8% 60%);
+  }
+
+  .dark .sidebar-search-input::placeholder {
     color: hsl(var(--sidebar-foreground) / 0.35);
   }
 
   .sidebar-search-input:focus {
     border-color: hsl(var(--sidebar-primary));
-    background: hsl(var(--sidebar-accent));
+    box-shadow: 0 0 0 2px hsl(var(--sidebar-primary) / 0.1);
   }
 
   .sidebar-content-nav {
@@ -358,7 +385,7 @@
 
   .sidebar-content-group {
     padding: 0 8px;
-    margin-bottom: 4px;
+    margin-bottom: 2px;
   }
 
   .sidebar-group-label {
@@ -367,8 +394,12 @@
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.06em;
+    color: hsl(215 8% 55%);
+    padding: 12px 8px 4px;
+  }
+
+  .dark .sidebar-group-label {
     color: hsl(var(--sidebar-foreground) / 0.35);
-    padding: 10px 8px 4px;
   }
 
   .sidebar-content-items {
@@ -381,26 +412,40 @@
     display: flex;
     align-items: center;
     gap: 10px;
-    padding: 7px 10px;
-    border-radius: 6px;
+    padding: 8px 10px;
+    border-radius: 8px;
     font-size: 13px;
     font-weight: 500;
-    color: hsl(var(--sidebar-foreground) / 0.65);
+    color: hsl(216 5% 35%);
     text-decoration: none;
     transition: all 120ms ease;
     position: relative;
     cursor: pointer;
   }
 
+  .dark .sidebar-content-item {
+    color: hsl(var(--sidebar-foreground) / 0.65);
+  }
+
   .sidebar-content-item:hover {
+    background: hsl(220 14% 93%);
+    color: hsl(216 5% 14%);
+  }
+
+  .dark .sidebar-content-item:hover {
     background: hsl(var(--sidebar-accent));
     color: hsl(var(--sidebar-foreground));
   }
 
   .sidebar-content-item-active {
+    background: hsl(0 100% 50% / 0.08);
+    color: hsl(0 100% 42%);
+    font-weight: 600;
+  }
+
+  .dark .sidebar-content-item-active {
     background: hsl(var(--sidebar-accent));
     color: hsl(var(--sidebar-foreground));
-    font-weight: 600;
   }
 
   .sidebar-content-item-active::before {
@@ -412,5 +457,16 @@
     width: 3px;
     border-radius: 0 2px 2px 0;
     background: hsl(var(--sidebar-primary));
+  }
+
+  .sidebar-content-empty {
+    padding: 32px 16px;
+    text-align: center;
+    font-size: 12px;
+    color: hsl(215 8% 55%);
+  }
+
+  .dark .sidebar-content-empty {
+    color: hsl(var(--sidebar-foreground) / 0.4);
   }
 }
