@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { ModuleHeroBanner } from '@/components/ModuleHeroBanner';
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/hooks/useAuth';
@@ -143,12 +144,12 @@ export default function ConversationIntelligence() {
   return (
     <>
       <div className="space-y-6 p-6">
-        <div>
-          <h1 className="text-3xl font-bold tracking-tight">Conversation Intelligence</h1>
-          <p className="text-muted-foreground mt-1">
-            Análise de chamadas de vendas com transcrição, insights de IA e coaching.
-          </p>
-        </div>
+        <ModuleHeroBanner
+          module="sales"
+          title="Conversation Intelligence"
+          subtitle="Análise de chamadas de vendas com transcrição, insights de IA e coaching"
+          compact
+        />
 
         {/* KPIs */}
         <div className="grid gap-4 md:grid-cols-4">

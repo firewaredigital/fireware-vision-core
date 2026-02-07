@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { ModuleHeroBanner } from '@/components/ModuleHeroBanner';
 import { useQuery } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 import { supabase } from '@/integrations/supabase/client';
@@ -85,15 +86,17 @@ export default function Subscriptions() {
 
   return (
     <div className="space-y-6">
-        <div className="flex items-center justify-between">
-          <div>
-            <h1 className="text-3xl font-bold tracking-tight">Assinaturas</h1>
-            <p className="text-muted-foreground mt-1">Gerencie assinaturas recorrentes, renovações e churn.</p>
-          </div>
-          <Button onClick={() => navigate('/sales/subscriptions/new')}>
-            <Plus className="h-4 w-4 mr-2" />Nova Assinatura
-          </Button>
-        </div>
+        <ModuleHeroBanner
+          module="sales"
+          title="Assinaturas"
+          subtitle="Gerencie assinaturas recorrentes, renovações e churn"
+          compact
+          actions={
+            <Button onClick={() => navigate('/sales/subscriptions/new')}>
+              <Plus className="h-4 w-4 mr-2" />Nova Assinatura
+            </Button>
+          }
+        />
 
         {/* KPIs */}
         <div className="grid gap-4 md:grid-cols-4">

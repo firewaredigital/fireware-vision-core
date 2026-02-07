@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { ModuleHeroBanner } from '@/components/ModuleHeroBanner';
 import { useQuery } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 import { supabase } from '@/integrations/supabase/client';
@@ -112,10 +113,12 @@ export default function Billing() {
   return (
     <>
       <div className="space-y-6 p-6">
-        <div>
-          <h1 className="text-3xl font-bold tracking-tight">Faturamento & Billing</h1>
-          <p className="text-muted-foreground mt-1">Faturas, pagamentos, livro razão e cobranças automáticas.</p>
-        </div>
+        <ModuleHeroBanner
+          module="sales"
+          title="Faturamento & Billing"
+          subtitle="Faturas, pagamentos, livro razão e cobranças automáticas"
+          compact
+        />
 
         {/* KPIs */}
         <div className="grid gap-4 md:grid-cols-4">
