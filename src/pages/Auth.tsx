@@ -1,18 +1,17 @@
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import { Loader2 } from '@/components/icons';
+import { Loader2, Eye, EyeOff } from '@/components/icons';
 import firewareLogo from '@/assets/fireware-logo.png';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useToast } from '@/hooks/use-toast';
 import { useAuth } from '@/hooks/useAuth';
 
+/* ─── Validation Schemas ─── */
 const loginSchema = z.object({
   email: z.string().email('Por favor, insira um email válido'),
   password: z.string().min(6, 'A senha deve ter pelo menos 6 caracteres'),
@@ -25,19 +24,22 @@ const signupSchema = z.object({
   password: z.string().min(6, 'A senha deve ter pelo menos 6 caracteres'),
   confirmPassword: z.string(),
 }).refine((data) => data.password === data.confirmPassword, {
-  message: "As senhas não correspondem",
-  path: ["confirmPassword"],
+  message: 'As senhas não correspondem',
+  path: ['confirmPassword'],
 });
 
 type LoginFormData = z.infer<typeof loginSchema>;
 type SignupFormData = z.infer<typeof signupSchema>;
 
+/* ─── Auth Page ─── */
 export default function Auth() {
   const navigate = useNavigate();
   const { toast } = useToast();
   const { user, signIn, signUp, loading: authLoading } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
-  const [activeTab, setActiveTab] = useState('login');
+  const [mode, setMode] = useState<'login' | 'signup'>('login');
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   useEffect(() => {
     if (user && !authLoading) {
@@ -64,15 +66,12 @@ export default function Auth() {
       toast({
         variant: 'destructive',
         title: 'Falha no login',
-        description: error.message === 'Invalid login credentials' 
+        description: error.message === 'Invalid login credentials'
           ? 'Email ou senha inválidos. Tente novamente.'
           : error.message,
       });
     } else {
-      toast({
-        title: 'Bem-vindo de volta!',
-        description: 'Login realizado com sucesso.',
-      });
+      toast({ title: 'Bem-vindo de volta!', description: 'Login realizado com sucesso.' });
       navigate('/dashboard');
     }
   };
@@ -87,153 +86,144 @@ export default function Auth() {
       if (error.message.includes('already registered')) {
         message = 'Este email já está registrado. Faça login.';
       }
-      toast({
-        variant: 'destructive',
-        title: 'Falha no cadastro',
-        description: message,
-      });
+      toast({ variant: 'destructive', title: 'Falha no cadastro', description: message });
     } else {
-      toast({
-        title: 'Conta criada!',
-        description: 'Bem-vindo ao Fireware CRM.',
-      });
+      toast({ title: 'Conta criada!', description: 'Bem-vindo ao Fireware CRM.' });
       navigate('/dashboard');
     }
   };
 
+  /* ── Loading state ── */
   if (authLoading) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-background">
+      <div className="flex min-h-screen items-center justify-center" style={{ backgroundColor: 'hsl(210, 6%, 15%)' }}>
         <Loader2 className="h-8 w-8 animate-spin text-primary" />
       </div>
     );
   }
 
   return (
-    <div className="flex min-h-screen">
-      {/* Left side — Dark branding panel */}
-      <div className="hidden lg:flex lg:w-1/2 items-center justify-center p-12" style={{ backgroundColor: 'hsl(216, 5%, 14%)' }}>
-        <div className="max-w-md text-center">
-          <img
-            src={firewareLogo}
-            alt="Fireware CRM"
-            className="mx-auto mb-8 h-16 object-contain"
-          />
-          <p className="text-lg text-white/70">
-            A plataforma completa de vendas B2B projetada para equipes empresariais. 
-            Gerencie leads, feche negócios e aumente a receita.
-          </p>
-        </div>
-      </div>
-
-      {/* Right side — Auth Form on white */}
-      <div className="flex w-full lg:w-1/2 items-center justify-center p-8 bg-card">
-        <Card className="w-full max-w-md border-0 shadow-none bg-transparent">
-          <CardHeader className="text-center">
+    <div
+      className="auth-page-wrapper"
+      style={{ backgroundColor: 'hsl(210, 6%, 15%)' }}
+    >
+      {/* ═══ Central Card Container ═══ */}
+      <div className="auth-card-container">
+        {/* ─── LEFT PANEL: Form ─── */}
+        <div className="auth-form-panel">
+          {/* Logo */}
+          <div className="auth-form-logo">
             <img
               src={firewareLogo}
               alt="Fireware CRM"
-              className="mx-auto mb-4 h-10 object-contain lg:hidden"
+              className="auth-logo-img"
             />
-            <CardTitle className="text-2xl">Bem-vindo ao Fireware</CardTitle>
-            <CardDescription>
-              Entre na sua conta ou crie uma nova
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <Tabs value={activeTab} onValueChange={setActiveTab}>
-              <TabsList className="grid w-full grid-cols-2 mb-6">
-                <TabsTrigger value="login">Entrar</TabsTrigger>
-                <TabsTrigger value="signup">Cadastrar</TabsTrigger>
-              </TabsList>
+          </div>
 
-              <TabsContent value="login">
-                <Form {...loginForm}>
-                  <form onSubmit={loginForm.handleSubmit(onLogin)} className="space-y-4">
-                    <FormField
-                      control={loginForm.control}
-                      name="email"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Email</FormLabel>
-                          <FormControl>
-                            <Input 
-                              type="email" 
-                              placeholder="voce@empresa.com" 
-                              {...field} 
-                            />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                    <FormField
-                      control={loginForm.control}
-                      name="password"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Senha</FormLabel>
-                          <FormControl>
-                            <Input 
-                              type="password" 
-                              placeholder="••••••••" 
-                              {...field} 
-                            />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                    <Button type="submit" className="w-full" disabled={isLoading}>
-                      {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                      Entrar
-                    </Button>
-                  </form>
-                </Form>
-              </TabsContent>
+          {mode === 'login' ? (
+            /* ── Login Form ── */
+            <div className="auth-form-content">
+              <h2 className="auth-form-title">Entrar na sua conta</h2>
 
-              <TabsContent value="signup">
-                <Form {...signupForm}>
-                  <form onSubmit={signupForm.handleSubmit(onSignup)} className="space-y-4">
-                    <div className="grid grid-cols-2 gap-4">
-                      <FormField
-                        control={signupForm.control}
-                        name="firstName"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>Nome</FormLabel>
-                            <FormControl>
-                              <Input placeholder="João" {...field} />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                      <FormField
-                        control={signupForm.control}
-                        name="lastName"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>Sobrenome</FormLabel>
-                            <FormControl>
-                              <Input placeholder="Silva" {...field} />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                    </div>
+              <Form {...loginForm}>
+                <form onSubmit={loginForm.handleSubmit(onLogin)} className="auth-form-fields">
+                  <FormField
+                    control={loginForm.control}
+                    name="email"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="auth-label">Usuário</FormLabel>
+                        <FormControl>
+                          <Input
+                            type="email"
+                            placeholder="voce@empresa.com"
+                            className="auth-input"
+                            autoComplete="email"
+                            disabled={isLoading}
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    control={loginForm.control}
+                    name="password"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="auth-label">Senha</FormLabel>
+                        <FormControl>
+                          <div className="relative">
+                            <Input
+                              type={showPassword ? 'text' : 'password'}
+                              placeholder="••••••••"
+                              className="auth-input pr-10"
+                              autoComplete="current-password"
+                              disabled={isLoading}
+                              {...field}
+                            />
+                            <button
+                              type="button"
+                              onClick={() => setShowPassword(!showPassword)}
+                              className="auth-eye-btn"
+                              tabIndex={-1}
+                            >
+                              {showPassword ? (
+                                <EyeOff className="h-4 w-4" />
+                              ) : (
+                                <Eye className="h-4 w-4" />
+                              )}
+                            </button>
+                          </div>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <Button
+                    type="submit"
+                    className="auth-submit-btn"
+                    disabled={isLoading}
+                  >
+                    {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                    Entrar
+                  </Button>
+                </form>
+              </Form>
+
+              <div className="auth-form-footer">
+                <button
+                  type="button"
+                  onClick={() => { setMode('signup'); setShowPassword(false); }}
+                  className="auth-link"
+                >
+                  Não tem uma conta? <span className="auth-link-accent">Cadastre-se</span>
+                </button>
+              </div>
+            </div>
+          ) : (
+            /* ── Signup Form ── */
+            <div className="auth-form-content">
+              <h2 className="auth-form-title">Criar sua conta</h2>
+
+              <Form {...signupForm}>
+                <form onSubmit={signupForm.handleSubmit(onSignup)} className="auth-form-fields">
+                  <div className="grid grid-cols-2 gap-3">
                     <FormField
                       control={signupForm.control}
-                      name="email"
+                      name="firstName"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Email</FormLabel>
+                          <FormLabel className="auth-label">Nome</FormLabel>
                           <FormControl>
-                            <Input 
-                              type="email" 
-                              placeholder="voce@empresa.com" 
-                              {...field} 
+                            <Input
+                              placeholder="João"
+                              className="auth-input"
+                              disabled={isLoading}
+                              {...field}
                             />
                           </FormControl>
                           <FormMessage />
@@ -242,48 +232,154 @@ export default function Auth() {
                     />
                     <FormField
                       control={signupForm.control}
-                      name="password"
+                      name="lastName"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Senha</FormLabel>
+                          <FormLabel className="auth-label">Sobrenome</FormLabel>
                           <FormControl>
-                            <Input 
-                              type="password" 
-                              placeholder="••••••••" 
-                              {...field} 
+                            <Input
+                              placeholder="Silva"
+                              className="auth-input"
+                              disabled={isLoading}
+                              {...field}
                             />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
                       )}
                     />
-                    <FormField
-                      control={signupForm.control}
-                      name="confirmPassword"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Confirmar Senha</FormLabel>
-                          <FormControl>
-                            <Input 
-                              type="password" 
-                              placeholder="••••••••" 
-                              {...field} 
+                  </div>
+
+                  <FormField
+                    control={signupForm.control}
+                    name="email"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="auth-label">Email</FormLabel>
+                        <FormControl>
+                          <Input
+                            type="email"
+                            placeholder="voce@empresa.com"
+                            className="auth-input"
+                            autoComplete="email"
+                            disabled={isLoading}
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    control={signupForm.control}
+                    name="password"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="auth-label">Senha</FormLabel>
+                        <FormControl>
+                          <div className="relative">
+                            <Input
+                              type={showPassword ? 'text' : 'password'}
+                              placeholder="••••••••"
+                              className="auth-input pr-10"
+                              autoComplete="new-password"
+                              disabled={isLoading}
+                              {...field}
                             />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                    <Button type="submit" className="w-full" disabled={isLoading}>
-                      {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                      Criar Conta
-                    </Button>
-                  </form>
-                </Form>
-              </TabsContent>
-            </Tabs>
-          </CardContent>
-        </Card>
+                            <button
+                              type="button"
+                              onClick={() => setShowPassword(!showPassword)}
+                              className="auth-eye-btn"
+                              tabIndex={-1}
+                            >
+                              {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                            </button>
+                          </div>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    control={signupForm.control}
+                    name="confirmPassword"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="auth-label">Confirmar Senha</FormLabel>
+                        <FormControl>
+                          <div className="relative">
+                            <Input
+                              type={showConfirmPassword ? 'text' : 'password'}
+                              placeholder="••••••••"
+                              className="auth-input pr-10"
+                              autoComplete="new-password"
+                              disabled={isLoading}
+                              {...field}
+                            />
+                            <button
+                              type="button"
+                              onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                              className="auth-eye-btn"
+                              tabIndex={-1}
+                            >
+                              {showConfirmPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                            </button>
+                          </div>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <Button
+                    type="submit"
+                    className="auth-submit-btn"
+                    disabled={isLoading}
+                  >
+                    {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                    Criar Conta
+                  </Button>
+                </form>
+              </Form>
+
+              <div className="auth-form-footer">
+                <button
+                  type="button"
+                  onClick={() => { setMode('login'); setShowPassword(false); setShowConfirmPassword(false); }}
+                  className="auth-link"
+                >
+                  Já tem uma conta? <span className="auth-link-accent">Entrar</span>
+                </button>
+              </div>
+            </div>
+          )}
+        </div>
+
+        {/* ─── RIGHT PANEL: Dark branding ─── */}
+        <div className="auth-brand-panel">
+          {/* Top branding badge */}
+          <div className="auth-brand-top">
+            <span className="auth-brand-name">Fireware CRM</span>
+            <span className="auth-brand-divider" />
+            <span className="auth-brand-powered">POWERED BY <span className="auth-brand-highlight">FIREWARE</span></span>
+          </div>
+
+          {/* Central welcome message */}
+          <div className="auth-brand-center">
+            <h1 className="auth-brand-heading">
+              Bem-vindo à plataforma Fireware CRM.
+            </h1>
+          </div>
+
+          {/* Bottom tagline */}
+          <div className="auth-brand-bottom">
+            <p className="auth-brand-tagline">
+              Plataforma Integrada de CRM, Vendas e Gestão Empresarial
+            </p>
+          </div>
+        </div>
       </div>
     </div>
   );
