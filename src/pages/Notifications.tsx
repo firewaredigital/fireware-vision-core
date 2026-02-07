@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { ModuleHeroBanner } from '@/components/ModuleHeroBanner';
 import { useNavigate } from 'react-router-dom';
 import { formatDistanceToNow, format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';

@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { ModuleHeroBanner } from '@/components/ModuleHeroBanner';
 import { useNavigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
