@@ -19,7 +19,7 @@ import {
 import {
   Bot, Zap, AlertTriangle, CheckCircle2, XCircle, Clock,
   Shield, Brain, Activity, DollarSign, TrendingUp, Eye
-} from 'lucide-react';
+} from '@/components/icons';
 
 const CHART_COLORS = [
   'hsl(var(--primary))',

@@ -16,7 +16,7 @@ import { format } from 'date-fns';
 import {
   Activity, Search, Loader2, Bot, Clock, CheckCircle, XCircle,
   AlertTriangle, PauseCircle, Eye, Shield
-} from 'lucide-react';
+} from '@/components/icons';
 
 const STATUS_CONFIG: Record<string, { label: string; icon: React.ElementType; color: string }> = {
   pending: { label: 'Pendente', icon: Clock, color: 'bg-yellow-500' },

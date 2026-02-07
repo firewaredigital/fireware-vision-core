@@ -16,7 +16,7 @@ import {
   AlertTriangle, CheckCircle, Clock, Trash2, XCircle,
   Search, Database, FileText, Users, Package,
   BarChart3, ShieldAlert, ExternalLink
-} from 'lucide-react';
+} from '@/components/icons';
 
 interface ToolExecutionResult {
   status: 'success' | 'error' | 'not_found' | 'pending_approval';

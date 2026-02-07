@@ -13,7 +13,7 @@ import {
   Bot, Plus, Search, TrendingUp, Headphones, Megaphone, ShoppingCart,
   Server, Database, Shield, Wrench, Play, Settings, Activity, Loader2,
   Brain, Zap, CheckCircle, PauseCircle, AlertTriangle, Archive
-} from 'lucide-react';
+} from '@/components/icons';
 
 const AGENT_TYPE_CONFIG: Record<string, { label: string; icon: React.ElementType; color: string }> = {
   sales: { label: 'Vendas', icon: TrendingUp, color: 'text-emerald-500' },

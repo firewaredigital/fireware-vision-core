@@ -9,7 +9,7 @@ import {
   ShoppingCart, Server, Link as LinkIcon, Database,
   Ticket, DollarSign, Clock, Megaphone, Filter,
   Search, Settings, ExternalLink,
-} from 'lucide-react';
+} from '@/components/icons';
 
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';

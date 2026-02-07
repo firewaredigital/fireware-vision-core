@@ -12,7 +12,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Switch } from '@/components/ui/switch';
 import { Separator } from '@/components/ui/separator';
 import { toast } from 'sonner';
-import { ArrowLeft, Bot, Brain, Save, Loader2 } from 'lucide-react';
+import { ArrowLeft, Bot, Brain, Save, Loader2 } from '@/components/icons';
 
 const AI_MODELS = [
   { id: 'google/gemini-3-flash-preview', name: 'Gemini 3 Flash (Preview)', speed: 'Rápido', tier: 'Standard' },

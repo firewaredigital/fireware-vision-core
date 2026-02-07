@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useAuth } from '@/hooks/useAuth';
-import { BarChart3, Calendar, Target, TrendingUp, DollarSign, ChevronLeft, ChevronRight, Plus, Edit, Save, X } from 'lucide-react';
+import { BarChart3, Calendar, Target, TrendingUp, DollarSign, ChevronLeft, ChevronRight, Plus, Edit, Save, X } from '@/components/icons';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';

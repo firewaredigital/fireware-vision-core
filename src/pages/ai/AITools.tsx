@@ -17,7 +17,7 @@ import { toast } from 'sonner';
 import {
   Wrench, Plus, Search, Shield, AlertTriangle, Loader2,
   Code, Globe, Database, Zap, Workflow
-} from 'lucide-react';
+} from '@/components/icons';
 
 const TOOL_TYPE_ICONS: Record<string, React.ElementType> = {
   http_request: Globe,
