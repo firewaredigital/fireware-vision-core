@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { Loader2, Eye, EyeOff } from '@/components/icons';
-import firewareLogo from '@/assets/fireware-logo.png';
+import crPlatformLogo from '@/assets/cr-platform-logo.png';
 import authBg from '@/assets/auth-bg.png';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -119,8 +119,8 @@ export default function Auth() {
           {/* Logo */}
           <div className="auth-form-logo">
             <img
-              src={firewareLogo}
-              alt="Fireware CRM"
+              src={crPlatformLogo}
+              alt="CR Platform"
               className="auth-logo-img"
             />
           </div>
