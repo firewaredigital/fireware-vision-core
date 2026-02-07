@@ -469,4 +469,59 @@
   .dark .sidebar-content-empty {
     color: hsl(var(--sidebar-foreground) / 0.4);
   }
+
+  /* ── Content Panel Transition Animations ── */
+
+  /* Whole nav container fades in on rail switch */
+  @keyframes sidebar-content-fade-in {
+    0% {
+      opacity: 0;
+      transform: translateY(6px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .sidebar-content-enter {
+    animation: sidebar-content-fade-in 220ms ease-out both;
+  }
+
+  /* Each section group slides up with stagger */
+  @keyframes sidebar-group-slide-in {
+    0% {
+      opacity: 0;
+      transform: translateY(8px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .sidebar-group-enter {
+    animation: sidebar-group-slide-in 200ms ease-out both;
+  }
+
+  /* Each nav item fades in individually for staggered effect */
+  @keyframes sidebar-item-fade-in {
+    0% {
+      opacity: 0;
+      transform: translateX(-4px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  .sidebar-item-enter {
+    animation: sidebar-item-fade-in 180ms ease-out both;
+  }
+
+  /* Title crossfade (applied via key change) */
+  .sidebar-content-title {
+    animation: sidebar-content-fade-in 200ms ease-out both;
+  }
 }
