@@ -1,24 +1,40 @@
 import { ReactNode } from 'react';
-import { SidebarProvider, SidebarTrigger, SidebarInset } from '@/components/ui/sidebar';
-import { AppSidebar } from './AppSidebar';
+import { AppSidebar, MobileSidebar } from './AppSidebar';
 import { AppTopbar } from './AppTopbar';
+import { useIsMobile } from '@/hooks/use-mobile';
+import { useState } from 'react';
 
 interface AppLayoutProps {
   children: ReactNode;
 }
 
 export function AppLayout({ children }: AppLayoutProps) {
+  const isMobile = useIsMobile();
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
   return (
-    <SidebarProvider>
-      <div className="flex min-h-screen w-full">
-        <AppSidebar />
-        <SidebarInset className="flex flex-1 flex-col">
-          <AppTopbar />
-          <main className="flex-1 overflow-auto bg-background p-6">
-            {children}
-          </main>
-        </SidebarInset>
+    <div className="flex min-h-screen w-full">
+      {/* Desktop Sidebar — hidden on mobile */}
+      {!isMobile && <AppSidebar />}
+
+      {/* Mobile Drawer */}
+      {isMobile && (
+        <MobileSidebar
+          open={mobileMenuOpen}
+          onClose={() => setMobileMenuOpen(false)}
+        />
+      )}
+
+      {/* Main content area */}
+      <div className={`flex flex-1 flex-col min-w-0 ${!isMobile ? 'ml-[312px]' : ''}`}>
+        <AppTopbar
+          showHamburger={isMobile}
+          onHamburgerClick={() => setMobileMenuOpen((v) => !v)}
+        />
+        <main className="flex-1 overflow-auto bg-background p-6">
+          {children}
+        </main>
       </div>
-    </SidebarProvider>
+    </div>
   );
 }

@@ -1,6 +1,5 @@
-import { Plus, Moon, Sun, Monitor } from '@/components/icons';
+import { Plus, Moon, Sun, Monitor, Menu } from '@/components/icons';
 import { Button } from '@/components/ui/button';
-import { SidebarTrigger } from '@/components/ui/sidebar';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -14,7 +13,12 @@ import { GlobalSearch } from '@/components/GlobalSearch';
 import { NotificationCenter } from '@/components/NotificationCenter';
 import { useTheme } from 'next-themes';
 
-export function AppTopbar() {
+interface AppTopbarProps {
+  showHamburger?: boolean;
+  onHamburgerClick?: () => void;
+}
+
+export function AppTopbar({ showHamburger, onHamburgerClick }: AppTopbarProps) {
   const navigate = useNavigate();
   const { theme, setTheme } = useTheme();
 
@@ -32,7 +36,17 @@ export function AppTopbar() {
 
   return (
     <header className="sticky top-0 z-40 flex h-16 items-center gap-4 border-b bg-card px-6">
-      <SidebarTrigger className="-ml-2" />
+      {/* Mobile Hamburger */}
+      {showHamburger && (
+        <Button
+          variant="ghost"
+          size="icon"
+          className="-ml-2"
+          onClick={onHamburgerClick}
+        >
+          <Menu className="h-5 w-5" />
+        </Button>
+      )}
 
       {/* Global Search — centered & prominent */}
       <div className="flex-1 flex justify-center">
