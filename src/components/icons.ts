@@ -191,4 +191,5 @@ export type { IconProps } from '@phosphor-icons/react';
 
 // Compatibility type for components that used LucideIcon type
 import type { IconProps } from '@phosphor-icons/react';
-export type LucideIcon = React.ComponentType<IconProps>;
+import type { ComponentType } from 'react';
+export type LucideIcon = ComponentType<IconProps>;
