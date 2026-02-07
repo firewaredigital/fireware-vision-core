@@ -5,6 +5,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { Loader2, Eye, EyeOff } from '@/components/icons';
 import firewareLogo from '@/assets/fireware-logo.png';
+import authBg from '@/assets/auth-bg.png';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
@@ -96,17 +97,21 @@ export default function Auth() {
   /* ── Loading state ── */
   if (authLoading) {
     return (
-      <div className="flex min-h-screen items-center justify-center" style={{ backgroundColor: 'hsl(210, 6%, 15%)' }}>
+      <div className="flex min-h-screen items-center justify-center bg-[hsl(210,6%,12%)]">
         <Loader2 className="h-8 w-8 animate-spin text-primary" />
       </div>
     );
   }
 
   return (
-    <div
-      className="auth-page-wrapper"
-      style={{ backgroundColor: 'hsl(210, 6%, 15%)' }}
-    >
+    <div className="auth-page-wrapper">
+      {/* Background image with overlay */}
+      <div
+        className="auth-page-bg"
+        style={{ backgroundImage: `url(${authBg})` }}
+      />
+      <div className="auth-page-overlay" />
+
       {/* ═══ Central Card Container ═══ */}
       <div className="auth-card-container">
         {/* ─── LEFT PANEL: Form ─── */}
@@ -357,8 +362,10 @@ export default function Auth() {
           )}
         </div>
 
-        {/* ─── RIGHT PANEL: Dark branding ─── */}
+        {/* ─── RIGHT PANEL: Glassmorphism branding ─── */}
         <div className="auth-brand-panel">
+          <div className="auth-brand-glass" />
+
           {/* Top branding badge */}
           <div className="auth-brand-top">
             <span className="auth-brand-name">Fireware CRM</span>
@@ -369,8 +376,12 @@ export default function Auth() {
           {/* Central welcome message */}
           <div className="auth-brand-center">
             <h1 className="auth-brand-heading">
-              Bem-vindo à plataforma Fireware CRM.
+              Bem-vindo à plataforma<br />
+              <span className="auth-brand-heading-accent">Fireware CRM.</span>
             </h1>
+            <p className="auth-brand-subtitle">
+              Gerencie seus negócios com inteligência e precisão.
+            </p>
           </div>
 
           {/* Bottom tagline */}
@@ -378,6 +389,9 @@ export default function Auth() {
             <p className="auth-brand-tagline">
               Plataforma Integrada de CRM, Vendas e Gestão Empresarial
             </p>
+            <div className="auth-brand-dots">
+              <span /><span /><span />
+            </div>
           </div>
         </div>
       </div>
