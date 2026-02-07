@@ -28,6 +28,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/hooks/useAuth';
 import { Link } from 'react-router-dom';
+import { ModuleHeroBanner } from '@/components/ModuleHeroBanner';
 
 export default function Governance() {
   const { profile } = useAuth();
@@ -178,29 +179,28 @@ export default function Governance() {
   return (
     <>
       <div className="space-y-6">
-        {/* Header */}
-        <div className="flex items-center justify-between">
-          <div>
-            <h1 className="text-3xl font-bold tracking-tight">Governança & Compliance</h1>
-            <p className="text-muted-foreground">
-              Gerencie conformidade LGPD, auditoria e políticas de dados
-            </p>
-          </div>
-          <div className="flex gap-2">
-            <Button variant="outline" asChild>
-              <Link to="/audit-logs">
-                <FileText className="mr-2 h-4 w-4" />
-                Logs de Auditoria
-              </Link>
-            </Button>
-            <Button asChild>
-              <Link to="/governance/lgpd/new">
-                <Shield className="mr-2 h-4 w-4" />
-                Nova Solicitação LGPD
-              </Link>
-            </Button>
-          </div>
-        </div>
+        {/* Hero Banner */}
+        <ModuleHeroBanner
+          module="governance"
+          title="Governança & Compliance"
+          subtitle="Gerencie conformidade LGPD, auditoria e políticas de dados"
+          actions={
+            <div className="flex gap-2">
+              <Button variant="outline" asChild className="bg-white/10 border-white/20 text-white hover:bg-white/20">
+                <Link to="/audit-logs">
+                  <FileText className="mr-2 h-4 w-4" />
+                  Logs de Auditoria
+                </Link>
+              </Button>
+              <Button asChild className="bg-white text-foreground hover:bg-white/90">
+                <Link to="/governance/lgpd/new">
+                  <Shield className="mr-2 h-4 w-4" />
+                  Nova Solicitação LGPD
+                </Link>
+              </Button>
+            </div>
+          }
+        />
 
         {/* KPI Cards */}
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">

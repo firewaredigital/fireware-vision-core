@@ -41,6 +41,7 @@ import {
 import { useAuth } from '@/hooks/useAuth';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
+import { ModuleHeroBanner } from '@/components/ModuleHeroBanner';
 
 interface Lead {
   id: string;
@@ -138,28 +139,38 @@ export default function Leads() {
   return (
     
       <div className="space-y-6">
-        {/* Header */}
-        <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-          <div>
-            <h1 className="text-2xl font-bold tracking-tight">Leads</h1>
-            <p className="text-muted-foreground">
-              Gerencie e acompanhe seus leads de vendas
-            </p>
-          </div>
-          <div className="flex gap-2">
-            <Button variant="outline" size="sm">
-              <Upload className="mr-2 h-4 w-4" />
-              Importar
-            </Button>
-            <Button variant="outline" size="sm">
-              <Download className="mr-2 h-4 w-4" />
-              Exportar
-            </Button>
-            <Button size="sm" onClick={() => navigate('/leads/new')}>
-              <Plus className="mr-2 h-4 w-4" />
-              Novo Lead
-            </Button>
-          </div>
+        {/* Hero Banner */}
+        <ModuleHeroBanner
+          module="sales"
+          title="Leads"
+          subtitle="Gerencie e acompanhe seus leads de vendas"
+          actions={
+            <div className="flex gap-2">
+              <Button variant="outline" size="sm" className="bg-white/10 border-white/20 text-white hover:bg-white/20">
+                <Upload className="mr-2 h-4 w-4" />
+                Importar
+              </Button>
+              <Button variant="outline" size="sm" className="bg-white/10 border-white/20 text-white hover:bg-white/20">
+                <Download className="mr-2 h-4 w-4" />
+                Exportar
+              </Button>
+              <Button size="sm" onClick={() => navigate('/leads/new')} className="bg-white text-foreground hover:bg-white/90">
+                <Plus className="mr-2 h-4 w-4" />
+                Novo Lead
+              </Button>
+            </div>
+          }
+        />
+        {/* Mobile actions */}
+        <div className="flex gap-2 md:hidden">
+          <Button variant="outline" size="sm">
+            <Upload className="mr-2 h-4 w-4" />
+            Importar
+          </Button>
+          <Button size="sm" onClick={() => navigate('/leads/new')}>
+            <Plus className="mr-2 h-4 w-4" />
+            Novo Lead
+          </Button>
         </div>
 
         {/* Filters */}

@@ -14,6 +14,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import { useAuth } from '@/hooks/useAuth';
 import { useToast } from '@/hooks/use-toast';
 import { supabase } from '@/integrations/supabase/client';
+import { ModuleHeroBanner } from '@/components/ModuleHeroBanner';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { DragDropContext, Droppable, Draggable } from '@hello-pangea/dnd';
 
@@ -373,10 +374,12 @@ export default function Settings() {
   return (
     <>
       <div className="space-y-6">
-        <div>
-          <h1 className="text-2xl font-bold">Configurações</h1>
-          <p className="text-muted-foreground">Configure seu CRM</p>
-        </div>
+        <ModuleHeroBanner
+          module="admin"
+          title="Configurações"
+          subtitle="Configure seu CRM — pipeline, equipes e origens de dados"
+          compact
+        />
 
         <Tabs value={activeTab} onValueChange={setActiveTab}>
           <TabsList className="grid w-full grid-cols-4">

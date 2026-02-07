@@ -10,6 +10,7 @@ import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useAuth } from '@/hooks/useAuth';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
+import { ModuleHeroBanner } from '@/components/ModuleHeroBanner';
 import { format } from 'date-fns';
 import { Database } from '@/integrations/supabase/types';
 
@@ -109,23 +110,24 @@ export default function Opportunities() {
   return (
     
       <div className="space-y-6">
-        <div className="flex items-center justify-between">
-          <div>
-            <h1 className="text-2xl font-bold">Oportunidades</h1>
-            <p className="text-muted-foreground">Gerencie seu pipeline de vendas</p>
-          </div>
-          <div className="flex items-center gap-3">
-            <Tabs value={view} onValueChange={(v) => setView(v as 'kanban' | 'list')}>
-              <TabsList>
-                <TabsTrigger value="kanban"><LayoutGrid className="h-4 w-4 mr-1" />Kanban</TabsTrigger>
-                <TabsTrigger value="list"><List className="h-4 w-4 mr-1" />Lista</TabsTrigger>
-              </TabsList>
-            </Tabs>
-            <Button onClick={() => navigate('/opportunities/new')}>
-              <Plus className="mr-2 h-4 w-4" />Nova Oportunidade
-            </Button>
-          </div>
-        </div>
+        <ModuleHeroBanner
+          module="sales"
+          title="Oportunidades"
+          subtitle="Gerencie seu pipeline de vendas"
+          actions={
+            <div className="flex items-center gap-3">
+              <Tabs value={view} onValueChange={(v) => setView(v as 'kanban' | 'list')}>
+                <TabsList className="bg-white/10">
+                  <TabsTrigger value="kanban" className="data-[state=active]:bg-white/20 text-white"><LayoutGrid className="h-4 w-4 mr-1" />Kanban</TabsTrigger>
+                  <TabsTrigger value="list" className="data-[state=active]:bg-white/20 text-white"><List className="h-4 w-4 mr-1" />Lista</TabsTrigger>
+                </TabsList>
+              </Tabs>
+              <Button onClick={() => navigate('/opportunities/new')} className="bg-white text-foreground hover:bg-white/90">
+                <Plus className="mr-2 h-4 w-4" />Nova Oportunidade
+              </Button>
+            </div>
+          }
+        />
 
         {view === 'kanban' ? (
           <DragDropContext onDragEnd={handleDragEnd}>

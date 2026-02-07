@@ -9,6 +9,7 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSepara
 import { useAuth } from '@/hooks/useAuth';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
+import { ModuleHeroBanner } from '@/components/ModuleHeroBanner';
 
 interface Contact {
   id: string;
@@ -53,13 +54,17 @@ export default function Contacts() {
   return (
     
       <div className="space-y-6">
-        <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-          <div>
-            <h1 className="text-2xl font-bold tracking-tight">Contatos</h1>
-            <p className="text-muted-foreground">Gerencie seus relacionamentos de contato</p>
-          </div>
-          <Button size="sm" onClick={() => navigate('/contacts/new')}><Plus className="mr-2 h-4 w-4" /> Novo Contato</Button>
-        </div>
+        <ModuleHeroBanner
+          module="sales"
+          title="Contatos"
+          subtitle="Gerencie seus relacionamentos de contato"
+          compact
+          actions={
+            <Button size="sm" onClick={() => navigate('/contacts/new')} className="bg-white text-foreground hover:bg-white/90">
+              <Plus className="mr-2 h-4 w-4" /> Novo Contato
+            </Button>
+          }
+        />
 
         <div className="relative max-w-sm">
           <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />

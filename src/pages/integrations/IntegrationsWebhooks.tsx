@@ -10,6 +10,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import { Plus, Globe, CheckCircle, XCircle, ExternalLink } from '@/components/icons';
 import { format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
+import { ModuleHeroBanner } from '@/components/ModuleHeroBanner';
 
 export default function IntegrationsWebhooks() {
   const { profile } = useAuth();
@@ -30,13 +31,15 @@ export default function IntegrationsWebhooks() {
   return (
     <>
       <div className="space-y-6">
-        <div className="flex items-center justify-between">
-          <div>
-            <h1 className="text-3xl font-bold">Webhooks de Saída</h1>
-            <p className="text-muted-foreground mt-1">Endpoints configurados para receber eventos do sistema</p>
-          </div>
-          <Button className="gap-2"><Plus className="h-4 w-4" /> Novo Webhook</Button>
-        </div>
+        <ModuleHeroBanner
+          module="integrations"
+          title="Webhooks de Saída"
+          subtitle="Endpoints configurados para receber eventos do sistema"
+          compact
+          actions={
+            <Button className="gap-2 bg-white text-foreground hover:bg-white/90"><Plus className="h-4 w-4" /> Novo Webhook</Button>
+          }
+        />
 
         <Card>
           <CardContent className="p-0">

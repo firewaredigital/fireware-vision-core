@@ -14,6 +14,7 @@ import {
 import { useAuth } from '@/hooks/useAuth';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
+import { ModuleHeroBanner } from '@/components/ModuleHeroBanner';
 
 interface Account {
   id: string;
@@ -72,15 +73,17 @@ export default function Accounts() {
   return (
     
       <div className="space-y-6">
-        <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-          <div>
-            <h1 className="text-2xl font-bold tracking-tight">Contas</h1>
-            <p className="text-muted-foreground">Gerencie suas contas de clientes</p>
-          </div>
-          <Button size="sm" onClick={() => navigate('/accounts/new')}>
-            <Plus className="mr-2 h-4 w-4" /> Nova Conta
-          </Button>
-        </div>
+        <ModuleHeroBanner
+          module="sales"
+          title="Contas"
+          subtitle="Gerencie suas contas de clientes"
+          compact
+          actions={
+            <Button size="sm" onClick={() => navigate('/accounts/new')} className="bg-white text-foreground hover:bg-white/90">
+              <Plus className="mr-2 h-4 w-4" /> Nova Conta
+            </Button>
+          }
+        />
 
         <div className="relative max-w-sm">
           <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
