@@ -45,7 +45,7 @@ export default function Auth() {
 
   useEffect(() => {
     if (user && !authLoading) {
-      navigate('/dashboard');
+      navigate('/apps');
     }
   }, [user, authLoading, navigate]);
 
@@ -74,7 +74,7 @@ export default function Auth() {
       });
     } else {
       toast({ title: 'Bem-vindo de volta!', description: 'Login realizado com sucesso.' });
-      navigate('/dashboard');
+      navigate('/apps');
     }
   };
 
@@ -91,7 +91,7 @@ export default function Auth() {
       toast({ variant: 'destructive', title: 'Falha no cadastro', description: message });
     } else {
       toast({ title: 'Conta criada!', description: 'Bem-vindo ao Fireware CRM.' });
-      navigate('/dashboard');
+      navigate('/apps');
     }
   };
 

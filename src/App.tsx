@@ -4,8 +4,8 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, Navigate, useLocation } from "react-router-dom";
 import { AuthProvider } from "@/hooks/useAuth";
-import { ModuleGuard } from "@/components/guards/ModuleGuard";
-import { ProtectedLayout } from "@/components/guards/ProtectedLayout";
+import { AppProvider } from "@/hooks/useAppContext";
+import { AuthGuard } from "@/components/guards/AuthGuard";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import { QUERY_DEFAULTS } from "@/lib/queryConfig";
@@ -13,27 +13,17 @@ import { QUERY_DEFAULTS } from "@/lib/queryConfig";
 // Pages
 import NotFound from "./pages/NotFound";
 import Auth from "./pages/Auth";
-import Dashboard from "./pages/Dashboard";
-import Settings from "./pages/Settings";
-import AuditLogs from "./pages/AuditLogs";
-import Reports from "./pages/Reports";
-import CannedResponses from "./pages/CannedResponses";
-import Notifications from "./pages/Notifications";
+import AppLauncher from "./pages/AppLauncher";
 
-// Route groups
+// Route groups (with prefix support)
 import { SalesRoutes } from "./routes/SalesRoutes";
 import { ServiceRoutes } from "./routes/ServiceRoutes";
 import { MarketingRoutes } from "./routes/MarketingRoutes";
 import { CommerceRoutes } from "./routes/CommerceRoutes";
 import { ITRoutes } from "./routes/ITRoutes";
-import { DataRoutes } from "./routes/DataRoutes";
-import { AutomationRoutes } from "./routes/AutomationRoutes";
-import { GovernanceRoutes } from "./routes/GovernanceRoutes";
-import { ManagementRoutes } from "./routes/ManagementRoutes";
+import { SharedRoutes } from "./routes/SharedRoutes";
+import { RedirectRoutes } from "./routes/RedirectRoutes";
 import { PortalRoutes } from "./routes/PortalRoutes";
-import { AdminRoutes } from "./routes/AdminRoutes";
-import { AIRoutes } from "./routes/AIRoutes";
-import { IntegrationRoutes } from "./routes/IntegrationRoutes";
 import { PartnerRoutes } from "./routes/PartnerRoutes";
 
 const queryClient = new QueryClient({
@@ -54,7 +44,6 @@ const queryClient = new QueryClient({
 
 /**
  * ErrorBoundary wrapper that resets on route change.
- * Must be inside BrowserRouter to access useLocation.
  */
 function RouteAwareErrorBoundary({ children }: { children: React.ReactNode }) {
   const location = useLocation();
@@ -73,68 +62,54 @@ const App = () => (
           <Toaster />
           <Sonner />
           <BrowserRouter>
-            <RouteAwareErrorBoundary>
-              <Routes>
-                {/* Root redirect */}
-                <Route path="/" element={<Navigate to="/dashboard" replace />} />
-                
-                {/* Public routes — sem AuthGuard */}
-                <Route path="/auth" element={<Auth />} />
+            <AppProvider>
+              <RouteAwareErrorBoundary>
+                <Routes>
+                  {/* Root redirect → App Launcher */}
+                  <Route path="/" element={<Navigate to="/apps" replace />} />
+                  
+                  {/* Public routes */}
+                  <Route path="/auth" element={<Auth />} />
 
-                {/* Protected routes — todas dentro de ProtectedLayout */}
-                <Route path="/dashboard" element={
-                  <ProtectedLayout><Dashboard /></ProtectedLayout>
-                } />
+                  {/* App Launcher (protected) */}
+                  <Route path="/apps" element={<AuthGuard><AppLauncher /></AuthGuard>} />
 
-                {/* Module-guarded route groups */}
-                {SalesRoutes()}
-                {ServiceRoutes()}
-                {MarketingRoutes()}
-                {CommerceRoutes()}
-                {ITRoutes()}
-                {DataRoutes()}
-                {AutomationRoutes()}
-                {GovernanceRoutes()}
-                {AIRoutes()}
-                {IntegrationRoutes()}
+                  {/* ═══ App-specific routes with /app/{slug} prefix ═══ */}
+                  
+                  {/* CRM */}
+                  {SalesRoutes('/app/crm')}
+                  {SharedRoutes('/app/crm')}
 
-                {/* Management (always visible) */}
-                {ManagementRoutes()}
+                  {/* Service */}
+                  {ServiceRoutes('/app/service')}
+                  {SharedRoutes('/app/service')}
 
-                {/* Admin Platform */}
-                {AdminRoutes()}
+                  {/* Marketing */}
+                  {MarketingRoutes('/app/marketing')}
+                  {SharedRoutes('/app/marketing')}
 
-                {/* Portal (Public - Customer) */}
-                {PortalRoutes()}
+                  {/* Commerce */}
+                  {CommerceRoutes('/app/commerce')}
+                  {SharedRoutes('/app/commerce')}
 
-                {/* Portal (Public - Partner) */}
-                {PartnerRoutes()}
+                  {/* ITSM */}
+                  {ITRoutes('/app/itsm')}
+                  {SharedRoutes('/app/itsm')}
 
-                {/* Protected utility routes */}
-                <Route path="/reports" element={
-                  <ProtectedLayout><Reports /></ProtectedLayout>
-                } />
-                <Route path="/audit-logs" element={
-                  <ProtectedLayout><AuditLogs /></ProtectedLayout>
-                } />
-                <Route path="/notifications" element={
-                  <ProtectedLayout><Notifications /></ProtectedLayout>
-                } />
-                <Route path="/settings" element={
-                  <ProtectedLayout><Settings /></ProtectedLayout>
-                } />
-                <Route path="/settings/canned-responses" element={
-                  <ProtectedLayout>
-                    <ModuleGuard moduleKey="service">
-                      <CannedResponses />
-                    </ModuleGuard>
-                  </ProtectedLayout>
-                } />
+                  {/* ═══ Legacy redirect routes (backwards compat) ═══ */}
+                  {RedirectRoutes()}
 
-                {/* Catch-all */}
-                <Route path="*" element={<NotFound />} />
-              </Routes>
-            </RouteAwareErrorBoundary>
+                  {/* Portal (Public - Customer) */}
+                  {PortalRoutes()}
+
+                  {/* Portal (Public - Partner) */}
+                  {PartnerRoutes()}
+
+                  {/* Catch-all */}
+                  <Route path="*" element={<NotFound />} />
+                </Routes>
+              </RouteAwareErrorBoundary>
+            </AppProvider>
           </BrowserRouter>
         </TooltipProvider>
       </AuthProvider>
