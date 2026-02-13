@@ -11,7 +11,6 @@ import {
   Server,
   LogOut,
   Loader2,
-  ArrowRight,
   Search,
 } from '@/components/icons';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -32,7 +31,6 @@ export default function AppLauncher() {
   const { profile, signOut, loading: authLoading } = useAuth();
   const { availableApps, isLoading, switchApp } = useAppContext();
   const [search, setSearch] = useState('');
-  const [hoveredApp, setHoveredApp] = useState<string | null>(null);
 
   useEffect(() => {
     if (!isLoading && availableApps.length === 1) {
@@ -136,38 +134,21 @@ export default function AppLauncher() {
           {filteredApps.map((app, idx) => {
             const Icon = ICON_MAP[app.iconName] || TrendingUp;
             const isRecent = recentSlugs[0] === app.slug;
-            const isHovered = hoveredApp === app.slug;
 
             return (
               <button
                 key={app.slug}
                 onClick={() => switchApp(app.slug)}
-                onMouseEnter={() => setHoveredApp(app.slug)}
-                onMouseLeave={() => setHoveredApp(null)}
                 className="al-card"
-                style={{ animationDelay: `${idx * 50}ms` } as React.CSSProperties}
+                style={{ animationDelay: `${idx * 60}ms` } as React.CSSProperties}
               >
-                {/* Left red accent */}
-                <div className="al-card-accent" />
-
-                <div className="al-card-inner">
-                  <div className="al-card-icon">
-                    <Icon className="h-5 w-5" weight="regular" />
-                  </div>
-
-                  <div className="al-card-text">
-                    <h3 className="al-card-title">
-                      {app.name}
-                      {isRecent && <span className="al-card-tag">Recente</span>}
-                    </h3>
-                    <p className="al-card-desc">{app.description}</p>
-                  </div>
-
-                  <ArrowRight
-                    className="al-card-arrow"
-                    weight={isHovered ? 'bold' : 'regular'}
-                  />
+                <div className="al-card-icon-wrap">
+                  <Icon className="al-card-icon-svg" weight="regular" />
                 </div>
+                <span className="al-card-name">
+                  {app.name.replace('CR Platform ', '')}
+                </span>
+                {isRecent && <span className="al-card-tag">Recente</span>}
               </button>
             );
           })}
