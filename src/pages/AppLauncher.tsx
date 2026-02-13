@@ -12,7 +12,6 @@ import {
   LogOut,
   Loader2,
   ArrowRight,
-  Clock,
   Search,
 } from '@/components/icons';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -35,7 +34,6 @@ export default function AppLauncher() {
   const [search, setSearch] = useState('');
   const [hoveredApp, setHoveredApp] = useState<string | null>(null);
 
-  // Auto-redirect if only 1 app available
   useEffect(() => {
     if (!isLoading && availableApps.length === 1) {
       switchApp(availableApps[0].slug);
@@ -76,97 +74,65 @@ export default function AppLauncher() {
 
   if (authLoading || isLoading) {
     return (
-      <div className="app-launcher-wrapper">
-        <div className="flex flex-col items-center gap-5">
-          <div className="app-launcher-loading-ring">
-            <Loader2 className="h-8 w-8 animate-spin text-primary" />
-          </div>
-          <p className="text-sm text-muted-foreground animate-pulse tracking-wide">
-            Carregando plataforma...
-          </p>
+      <div className="al-wrapper al-wrapper--loading">
+        <div className="al-loading">
+          <Loader2 className="al-loading-icon" />
+          <p className="al-loading-text">Carregando...</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="app-launcher-wrapper">
-      {/* Subtle grid pattern background */}
-      <div className="app-launcher-bg-pattern" />
-
-      {/* Header */}
-      <header className="app-launcher-header">
-        <div className="app-launcher-header-inner">
-          <img
-            src={crPlatformLogo}
-            alt="CR Platform"
-            className="h-7 object-contain"
-          />
-          <div className="flex items-center gap-3">
-            <div className="text-right hidden sm:block">
-              <p className="text-[13px] font-medium text-foreground leading-tight">
-                {profile?.first_name} {profile?.last_name}
-              </p>
-              <p className="text-[11px] text-muted-foreground">{profile?.email}</p>
-            </div>
-            <Avatar className="h-9 w-9 ring-2 ring-border">
-              <AvatarImage src={profile?.avatar_url || ''} />
-              <AvatarFallback className="bg-primary text-primary-foreground text-xs font-semibold">
-                {getInitials()}
-              </AvatarFallback>
-            </Avatar>
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={signOut}
-              title="Sair"
-              className="h-9 w-9 text-muted-foreground hover:text-foreground"
-            >
-              <LogOut className="h-4 w-4" />
-            </Button>
+    <div className="al-wrapper">
+      {/* ── Topbar ── */}
+      <header className="al-topbar">
+        <img src={crPlatformLogo} alt="CR Platform" className="al-topbar-logo" />
+        <div className="al-topbar-right">
+          <div className="al-topbar-user">
+            <span className="al-topbar-user-name">
+              {profile?.first_name} {profile?.last_name}
+            </span>
+            <span className="al-topbar-user-email">{profile?.email}</span>
           </div>
+          <Avatar className="al-topbar-avatar">
+            <AvatarImage src={profile?.avatar_url || ''} />
+            <AvatarFallback className="al-topbar-avatar-fallback">
+              {getInitials()}
+            </AvatarFallback>
+          </Avatar>
+          <button onClick={signOut} className="al-topbar-logout" title="Sair">
+            <LogOut className="h-[18px] w-[18px]" />
+          </button>
         </div>
       </header>
 
-      {/* Main Content */}
-      <main className="app-launcher-main">
-        {/* Hero section */}
-        <div className="app-launcher-hero">
-          <div className="app-launcher-hero-greeting">
-            <h1 className="app-launcher-hero-title">
-              {getGreeting()},{' '}
-              <span className="text-primary">{profile?.first_name || 'Usuário'}</span>
-            </h1>
-            <p className="app-launcher-hero-subtitle">
-              Selecione um aplicativo para começar
-            </p>
-          </div>
+      {/* ── Content ── */}
+      <main className="al-content">
+        {/* Heading */}
+        <section className="al-heading">
+          <h1 className="al-heading-title">
+            {getGreeting()}, <span className="al-heading-name">{profile?.first_name || 'Usuário'}</span>
+          </h1>
+          <p className="al-heading-sub">Selecione um aplicativo para continuar</p>
+        </section>
 
-          {/* Search */}
-          {availableApps.length > 3 && (
-            <div className="app-launcher-search">
-              <Search className="app-launcher-search-icon" />
-              <input
-                type="text"
-                placeholder="Buscar aplicativos..."
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-                className="app-launcher-search-input"
-              />
-            </div>
-          )}
-        </div>
-
-        {/* Recent apps badge */}
-        {recentSlugs.length > 0 && !search && (
-          <div className="app-launcher-recent-label">
-            <Clock className="h-3.5 w-3.5" />
-            <span>Acessado recentemente</span>
+        {/* Search */}
+        {availableApps.length > 3 && (
+          <div className="al-search-wrapper">
+            <Search className="al-search-icon" />
+            <input
+              type="text"
+              placeholder="Buscar aplicativos..."
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              className="al-search-input"
+            />
           </div>
         )}
 
-        {/* App Grid */}
-        <div className="app-launcher-grid">
+        {/* Grid */}
+        <div className="al-grid">
           {filteredApps.map((app, idx) => {
             const Icon = ICON_MAP[app.iconName] || TrendingUp;
             const isRecent = recentSlugs[0] === app.slug;
@@ -178,39 +144,29 @@ export default function AppLauncher() {
                 onClick={() => switchApp(app.slug)}
                 onMouseEnter={() => setHoveredApp(app.slug)}
                 onMouseLeave={() => setHoveredApp(null)}
-                className="app-launcher-card-v2"
-                style={{
-                  animationDelay: `${idx * 60}ms`,
-                  '--app-accent': `hsl(${app.accentColor})`,
-                  '--app-accent-alpha': `hsl(${app.accentColor} / 0.1)`,
-                  '--app-accent-alpha-2': `hsl(${app.accentColor} / 0.06)`,
-                } as React.CSSProperties}
+                className="al-card"
+                style={{ animationDelay: `${idx * 50}ms` } as React.CSSProperties}
               >
-                {/* Accent top bar */}
-                <div className="app-launcher-card-accent-bar" />
+                {/* Left red accent */}
+                <div className="al-card-accent" />
 
-                {/* Card content */}
-                <div className="app-launcher-card-body">
-                  <div className="app-launcher-card-icon-wrapper">
-                    <Icon className="h-6 w-6" weight="duotone" />
+                <div className="al-card-inner">
+                  <div className="al-card-icon">
+                    <Icon className="h-5 w-5" weight="regular" />
                   </div>
 
-                  <div className="app-launcher-card-info">
-                    <div className="flex items-center gap-2">
-                      <h3 className="app-launcher-card-title">{app.name}</h3>
-                      {isRecent && (
-                        <span className="app-launcher-card-badge">Recente</span>
-                      )}
-                    </div>
-                    <p className="app-launcher-card-desc">{app.description}</p>
+                  <div className="al-card-text">
+                    <h3 className="al-card-title">
+                      {app.name}
+                      {isRecent && <span className="al-card-tag">Recente</span>}
+                    </h3>
+                    <p className="al-card-desc">{app.description}</p>
                   </div>
 
-                  <div className="app-launcher-card-arrow">
-                    <ArrowRight
-                      className="h-4 w-4"
-                      weight={isHovered ? 'bold' : 'regular'}
-                    />
-                  </div>
+                  <ArrowRight
+                    className="al-card-arrow"
+                    weight={isHovered ? 'bold' : 'regular'}
+                  />
                 </div>
               </button>
             );
@@ -218,20 +174,17 @@ export default function AppLauncher() {
         </div>
 
         {filteredApps.length === 0 && search && (
-          <div className="app-launcher-empty">
-            <Search className="h-10 w-10 text-muted-foreground/30" />
-            <p className="text-sm text-muted-foreground mt-3">
-              Nenhum app encontrado para "{search}"
-            </p>
+          <div className="al-empty">
+            <p>Nenhum aplicativo encontrado para "<strong>{search}</strong>"</p>
           </div>
         )}
 
-        {/* Powered by */}
-        <footer className="app-launcher-footer">
+        {/* Footer */}
+        <footer className="al-footer">
           <img
             src={poweredByFireware}
             alt="Powered by Fireware"
-            className="h-6 object-contain opacity-30 hover:opacity-50 transition-opacity"
+            className="al-footer-logo"
           />
         </footer>
       </main>
