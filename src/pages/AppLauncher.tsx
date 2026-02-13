@@ -143,7 +143,7 @@ export default function AppLauncher() {
                 style={{ animationDelay: `${idx * 60}ms` } as React.CSSProperties}
               >
                 <div className="al-card-icon-wrap">
-                  <Icon className="al-card-icon-svg" weight="regular" />
+                  <Icon className="al-card-icon-svg" weight="fill" />
                 </div>
                 <span className="al-card-name">
                   {app.name.replace('CR Platform ', '')}
