@@ -1163,44 +1163,355 @@
   );
 }
 
-/* ═══ App Launcher Cards ═══ */
-.app-launcher-card {
+/* ═══════════════════════════════════════════════════════════
+   APP LAUNCHER — Enterprise Design (Oracle/Tivit-inspired)
+   Sophisticated, minimal, professional aesthetic
+   ═══════════════════════════════════════════════════════════ */
+
+.app-launcher-wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  min-height: 100dvh;
+  background: hsl(var(--background));
+  position: relative;
+  overflow: hidden;
+}
+
+/* Subtle dot-grid pattern for depth */
+.app-launcher-bg-pattern {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  opacity: 0.35;
+  background-image: radial-gradient(
+    circle at 1px 1px,
+    hsl(var(--muted-foreground) / 0.08) 1px,
+    transparent 0
+  );
+  background-size: 32px 32px;
+  pointer-events: none;
+}
+
+.dark .app-launcher-bg-pattern {
+  opacity: 0.2;
+}
+
+/* ── Header ── */
+.app-launcher-header {
+  position: relative;
+  z-index: 10;
+  border-bottom: 1px solid hsl(var(--border));
+  background: hsl(var(--card) / 0.8);
+  backdrop-filter: blur(12px) saturate(1.2);
+  -webkit-backdrop-filter: blur(12px) saturate(1.2);
+}
+
+.app-launcher-header-inner {
   display: flex;
   align-items: center;
-  gap: 16px;
-  padding: 20px;
-  border-radius: 12px;
-  border: 1px solid hsl(var(--border));
-  background: hsl(var(--card));
-  cursor: pointer;
-  transition: all 200ms ease;
-  animation: appCardFadeIn 400ms ease both;
-  box-shadow: var(--shadow-elevation-1);
+  justify-content: space-between;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 14px 32px;
 }
 
-.app-launcher-card:hover {
-  box-shadow: var(--shadow-elevation-3);
-  border-color: var(--app-accent, hsl(var(--primary)));
-  transform: translateY(-2px);
-}
-
-.app-launcher-icon {
+/* ── Loading state ── */
+.app-launcher-loading-ring {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 48px;
-  height: 48px;
-  border-radius: 12px;
-  flex-shrink: 0;
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: hsl(var(--card));
+  box-shadow: var(--shadow-elevation-2);
 }
 
-@keyframes appCardFadeIn {
+/* ── Main content area ── */
+.app-launcher-main {
+  position: relative;
+  z-index: 5;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 48px 24px 32px;
+  max-width: 920px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+/* ── Hero section ── */
+.app-launcher-hero {
+  text-align: center;
+  margin-bottom: 40px;
+  width: 100%;
+}
+
+.app-launcher-hero-greeting {
+  margin-bottom: 24px;
+}
+
+.app-launcher-hero-title {
+  font-family: 'Plus Jakarta Sans', 'Inter', system-ui, sans-serif;
+  font-size: 28px;
+  font-weight: 700;
+  color: hsl(var(--foreground));
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+}
+
+.app-launcher-hero-subtitle {
+  font-size: 15px;
+  color: hsl(var(--muted-foreground));
+  margin-top: 6px;
+  letter-spacing: 0.01em;
+}
+
+/* ── Search bar ── */
+.app-launcher-search {
+  position: relative;
+  max-width: 380px;
+  margin: 0 auto;
+}
+
+.app-launcher-search-icon {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 16px;
+  height: 16px;
+  color: hsl(var(--muted-foreground) / 0.6);
+  pointer-events: none;
+}
+
+.app-launcher-search-input {
+  width: 100%;
+  height: 42px;
+  padding: 0 16px 0 40px;
+  border: 1px solid hsl(var(--border));
+  border-radius: 10px;
+  background: hsl(var(--card));
+  color: hsl(var(--foreground));
+  font-size: 13px;
+  outline: none;
+  transition: all 200ms ease;
+  box-shadow: var(--shadow-elevation-1);
+}
+
+.app-launcher-search-input::placeholder {
+  color: hsl(var(--muted-foreground) / 0.5);
+}
+
+.app-launcher-search-input:focus {
+  border-color: hsl(var(--primary) / 0.5);
+  box-shadow: var(--shadow-input-focus);
+}
+
+/* ── Recent label ── */
+.app-launcher-recent-label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: hsl(var(--muted-foreground) / 0.6);
+  margin-bottom: 16px;
+  align-self: flex-start;
+}
+
+/* ── Card grid ── */
+.app-launcher-grid {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  gap: 12px;
+  width: 100%;
+}
+
+@media (min-width: 640px) {
+  .app-launcher-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+  }
+}
+
+@media (min-width: 900px) {
+  .app-launcher-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+}
+
+/* ── Card v2 — Oracle-inspired ── */
+.app-launcher-card-v2 {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid hsl(var(--border));
+  border-radius: 12px;
+  background: hsl(var(--card));
+  cursor: pointer;
+  outline: none;
+  overflow: hidden;
+  transition: all 250ms cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: var(--shadow-elevation-1);
+  animation: appLauncherCardIn 450ms cubic-bezier(0.4, 0, 0.2, 1) both;
+}
+
+.app-launcher-card-v2:hover {
+  border-color: var(--app-accent, hsl(var(--primary)));
+  box-shadow:
+    var(--shadow-elevation-3),
+    0 0 0 1px var(--app-accent, hsl(var(--primary))) inset;
+  transform: translateY(-3px);
+}
+
+.app-launcher-card-v2:focus-visible {
+  box-shadow:
+    0 0 0 2px hsl(var(--background)),
+    0 0 0 4px var(--app-accent, hsl(var(--primary)));
+}
+
+/* Accent bar at top */
+.app-launcher-card-accent-bar {
+  height: 3px;
+  width: 100%;
+  background: linear-gradient(
+    90deg,
+    var(--app-accent, hsl(var(--primary))),
+    var(--app-accent-alpha, hsl(var(--primary) / 0.2))
+  );
+  opacity: 0;
+  transition: opacity 250ms ease;
+}
+
+.app-launcher-card-v2:hover .app-launcher-card-accent-bar {
+  opacity: 1;
+}
+
+/* Card body */
+.app-launcher-card-body {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 20px 18px;
+  flex: 1;
+}
+
+/* Icon wrapper */
+.app-launcher-card-icon-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  min-width: 44px;
+  border-radius: 10px;
+  background: var(--app-accent-alpha, hsl(var(--primary) / 0.08));
+  color: var(--app-accent, hsl(var(--primary)));
+  transition: all 250ms ease;
+}
+
+.app-launcher-card-v2:hover .app-launcher-card-icon-wrapper {
+  background: var(--app-accent, hsl(var(--primary)));
+  color: hsl(0 0% 100%);
+  box-shadow: 0 4px 12px -2px var(--app-accent-alpha, hsl(var(--primary) / 0.3));
+}
+
+/* Card text */
+.app-launcher-card-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.app-launcher-card-title {
+  font-family: 'Plus Jakarta Sans', 'Inter', system-ui, sans-serif;
+  font-size: 14px;
+  font-weight: 650;
+  color: hsl(var(--foreground));
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+  transition: color 200ms ease;
+}
+
+.app-launcher-card-v2:hover .app-launcher-card-title {
+  color: var(--app-accent, hsl(var(--primary)));
+}
+
+.app-launcher-card-desc {
+  font-size: 12px;
+  color: hsl(var(--muted-foreground));
+  line-height: 1.5;
+  margin-top: 4px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.app-launcher-card-badge {
+  display: inline-flex;
+  align-items: center;
+  font-size: 9px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 2px 7px;
+  border-radius: 4px;
+  background: hsl(var(--muted));
+  color: hsl(var(--muted-foreground));
+  white-space: nowrap;
+}
+
+/* Arrow indicator */
+.app-launcher-card-arrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  min-width: 28px;
+  border-radius: 8px;
+  color: hsl(var(--muted-foreground) / 0.3);
+  transition: all 250ms ease;
+  margin-top: 4px;
+}
+
+.app-launcher-card-v2:hover .app-launcher-card-arrow {
+  color: var(--app-accent, hsl(var(--primary)));
+  background: var(--app-accent-alpha-2, hsl(var(--primary) / 0.06));
+  transform: translateX(2px);
+}
+
+/* ── Empty state ── */
+.app-launcher-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 64px 24px;
+  width: 100%;
+}
+
+/* ── Footer ── */
+.app-launcher-footer {
+  margin-top: auto;
+  padding-top: 48px;
+  padding-bottom: 8px;
+}
+
+/* ── Card entrance animation ── */
+@keyframes appLauncherCardIn {
   from {
     opacity: 0;
-    transform: translateY(12px);
+    transform: translateY(16px) scale(0.97);
   }
   to {
     opacity: 1;
-    transform: translateY(0);
+    transform: translateY(0) scale(1);
   }
 }
