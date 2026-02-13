@@ -26,7 +26,7 @@ export const APP_DEFINITIONS: AppDefinition[] = [
   },
   {
     slug: 'service',
-    name: 'CR Platform Service',
+    name: 'CR Platform Atendimento Omnichannel',
     description: 'Tickets, Inbox Omnichannel, WhatsApp, Base de Conhecimento',
     moduleKey: 'service',
     defaultRoute: '/app/service/dashboard',
