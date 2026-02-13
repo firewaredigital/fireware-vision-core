@@ -11,6 +11,8 @@ import {
 import { useNavigate } from 'react-router-dom';
 import { GlobalSearch } from '@/components/GlobalSearch';
 import { NotificationCenter } from '@/components/NotificationCenter';
+import { AppSwitcher } from '@/components/layout/AppSwitcher';
+import { useAppContext } from '@/hooks/useAppContext';
 import { useTheme } from 'next-themes';
 
 interface AppTopbarProps {
@@ -21,6 +23,7 @@ interface AppTopbarProps {
 export function AppTopbar({ showHamburger, onHamburgerClick }: AppTopbarProps) {
   const navigate = useNavigate();
   const { theme, setTheme } = useTheme();
+  const { prefix, currentApp } = useAppContext();
 
   const themeIcon = theme === 'dark' 
     ? <Sun className="h-4 w-4" /> 
@@ -48,6 +51,19 @@ export function AppTopbar({ showHamburger, onHamburgerClick }: AppTopbarProps) {
         </Button>
       )}
 
+      {/* App name badge */}
+      {currentApp && (
+        <div className="hidden md:flex items-center gap-2">
+          <span
+            className="h-2 w-2 rounded-full shrink-0"
+            style={{ background: `hsl(${currentApp.accentColor})` }}
+          />
+          <span className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
+            {currentApp.name.replace('CR Platform ', '')}
+          </span>
+        </div>
+      )}
+
       {/* Global Search — centered & prominent */}
       <div className="flex-1 flex justify-center">
         <GlobalSearch />
@@ -65,23 +81,26 @@ export function AppTopbar({ showHamburger, onHamburgerClick }: AppTopbarProps) {
           <DropdownMenuContent align="end" className="w-48">
             <DropdownMenuLabel>Criar Rápido</DropdownMenuLabel>
             <DropdownMenuSeparator />
-            <DropdownMenuItem onClick={() => navigate('/leads/new')}>
+            <DropdownMenuItem onClick={() => navigate(`${prefix}/leads/new`)}>
               Novo Lead
             </DropdownMenuItem>
-            <DropdownMenuItem onClick={() => navigate('/accounts/new')}>
+            <DropdownMenuItem onClick={() => navigate(`${prefix}/accounts/new`)}>
               Nova Conta
             </DropdownMenuItem>
-            <DropdownMenuItem onClick={() => navigate('/contacts/new')}>
+            <DropdownMenuItem onClick={() => navigate(`${prefix}/contacts/new`)}>
               Novo Contato
             </DropdownMenuItem>
-            <DropdownMenuItem onClick={() => navigate('/opportunities/new')}>
+            <DropdownMenuItem onClick={() => navigate(`${prefix}/opportunities/new`)}>
               Nova Oportunidade
             </DropdownMenuItem>
-            <DropdownMenuItem onClick={() => navigate('/quotes/new')}>
+            <DropdownMenuItem onClick={() => navigate(`${prefix}/quotes/new`)}>
               Nova Proposta
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
+
+        {/* App Switcher (waffle) */}
+        <AppSwitcher />
 
         {/* Notifications */}
         <NotificationCenter />

@@ -18,28 +18,28 @@ import ServiceQueues from "@/pages/service/ServiceQueues";
 import SocialInbox from "@/pages/service/SocialInbox";
 import ServiceAnalytics from "@/pages/service/ServiceAnalytics";
 
-export function ServiceRoutes() {
+export function ServiceRoutes(prefix = '') {
+  const p = prefix;
   return [
-    <Route key="tickets" path="/tickets" element={<ProtectedLayout><ModuleGuard moduleKey="service"><Tickets /></ModuleGuard></ProtectedLayout>} />,
-    <Route key="tickets-new" path="/tickets/new" element={<ProtectedLayout><ModuleGuard moduleKey="service"><TicketForm /></ModuleGuard></ProtectedLayout>} />,
-    <Route key="tickets-id" path="/tickets/:id" element={<ProtectedLayout><ModuleGuard moduleKey="service"><TicketDetail /></ModuleGuard></ProtectedLayout>} />,
-    <Route key="tickets-edit" path="/tickets/:id/edit" element={<ProtectedLayout><ModuleGuard moduleKey="service"><TicketForm /></ModuleGuard></ProtectedLayout>} />,
+    <Route key={`${p}-svc-dash`} path={`${p}/dashboard`} element={<ProtectedLayout><ModuleGuard moduleKey="service"><ServiceDashboard /></ModuleGuard></ProtectedLayout>} />,
+    <Route key={`${p}-tickets`} path={`${p}/tickets`} element={<ProtectedLayout><ModuleGuard moduleKey="service"><Tickets /></ModuleGuard></ProtectedLayout>} />,
+    <Route key={`${p}-tickets-new`} path={`${p}/tickets/new`} element={<ProtectedLayout><ModuleGuard moduleKey="service"><TicketForm /></ModuleGuard></ProtectedLayout>} />,
+    <Route key={`${p}-tickets-id`} path={`${p}/tickets/:id`} element={<ProtectedLayout><ModuleGuard moduleKey="service"><TicketDetail /></ModuleGuard></ProtectedLayout>} />,
+    <Route key={`${p}-tickets-edit`} path={`${p}/tickets/:id/edit`} element={<ProtectedLayout><ModuleGuard moduleKey="service"><TicketForm /></ModuleGuard></ProtectedLayout>} />,
 
-    <Route key="knowledge" path="/knowledge" element={<ProtectedLayout><ModuleGuard moduleKey="service"><Knowledge /></ModuleGuard></ProtectedLayout>} />,
-    <Route key="knowledge-new" path="/knowledge/new" element={<ProtectedLayout><ModuleGuard moduleKey="service"><ArticleForm /></ModuleGuard></ProtectedLayout>} />,
-    <Route key="knowledge-id" path="/knowledge/:id" element={<ProtectedLayout><ModuleGuard moduleKey="service"><ArticleDetail /></ModuleGuard></ProtectedLayout>} />,
-    <Route key="knowledge-edit" path="/knowledge/:id/edit" element={<ProtectedLayout><ModuleGuard moduleKey="service"><ArticleForm /></ModuleGuard></ProtectedLayout>} />,
+    <Route key={`${p}-knowledge`} path={`${p}/knowledge`} element={<ProtectedLayout><ModuleGuard moduleKey="service"><Knowledge /></ModuleGuard></ProtectedLayout>} />,
+    <Route key={`${p}-knowledge-new`} path={`${p}/knowledge/new`} element={<ProtectedLayout><ModuleGuard moduleKey="service"><ArticleForm /></ModuleGuard></ProtectedLayout>} />,
+    <Route key={`${p}-knowledge-id`} path={`${p}/knowledge/:id`} element={<ProtectedLayout><ModuleGuard moduleKey="service"><ArticleDetail /></ModuleGuard></ProtectedLayout>} />,
+    <Route key={`${p}-knowledge-edit`} path={`${p}/knowledge/:id/edit`} element={<ProtectedLayout><ModuleGuard moduleKey="service"><ArticleForm /></ModuleGuard></ProtectedLayout>} />,
 
-    <Route key="service" path="/service" element={<ProtectedLayout><ModuleGuard moduleKey="service"><ServiceDashboard /></ModuleGuard></ProtectedLayout>} />,
-    <Route key="service-inbox" path="/service/inbox" element={<ProtectedLayout><ModuleGuard moduleKey="service"><OmnichannelInbox /></ModuleGuard></ProtectedLayout>} />,
-    <Route key="service-queues" path="/service/queues" element={<ProtectedLayout><ModuleGuard moduleKey="service"><ServiceQueues /></ModuleGuard></ProtectedLayout>} />,
-    <Route key="service-qa" path="/service/qa" element={<ProtectedLayout><ModuleGuard moduleKey="service"><QADashboard /></ModuleGuard></ProtectedLayout>} />,
-    <Route key="service-social" path="/service/social" element={<ProtectedLayout><ModuleGuard moduleKey="service"><SocialInbox /></ModuleGuard></ProtectedLayout>} />,
-    <Route key="service-analytics" path="/service/analytics" element={<ProtectedLayout><ModuleGuard moduleKey="service"><ServiceAnalytics /></ModuleGuard></ProtectedLayout>} />,
-    <Route key="service-wa" path="/service/whatsapp" element={<ProtectedLayout><ModuleGuard moduleKey="service"><WhatsAppAdmin /></ModuleGuard></ProtectedLayout>} />,
-    <Route key="service-chat" path="/service/chat-widgets" element={<ProtectedLayout><ModuleGuard moduleKey="service"><ChatWidgetsAdmin /></ModuleGuard></ProtectedLayout>} />,
-    <Route key="service-voice" path="/service/voice" element={<ProtectedLayout><ModuleGuard moduleKey="service"><VoiceAdmin /></ModuleGuard></ProtectedLayout>} />,
-
-    <Route key="cs" path="/customer-success" element={<ProtectedLayout><ModuleGuard moduleKey="service"><CustomerSuccess /></ModuleGuard></ProtectedLayout>} />,
+    <Route key={`${p}-svc-inbox`} path={`${p}/inbox`} element={<ProtectedLayout><ModuleGuard moduleKey="service"><OmnichannelInbox /></ModuleGuard></ProtectedLayout>} />,
+    <Route key={`${p}-svc-queues`} path={`${p}/queues`} element={<ProtectedLayout><ModuleGuard moduleKey="service"><ServiceQueues /></ModuleGuard></ProtectedLayout>} />,
+    <Route key={`${p}-svc-qa`} path={`${p}/qa`} element={<ProtectedLayout><ModuleGuard moduleKey="service"><QADashboard /></ModuleGuard></ProtectedLayout>} />,
+    <Route key={`${p}-svc-social`} path={`${p}/social`} element={<ProtectedLayout><ModuleGuard moduleKey="service"><SocialInbox /></ModuleGuard></ProtectedLayout>} />,
+    <Route key={`${p}-svc-analytics`} path={`${p}/analytics`} element={<ProtectedLayout><ModuleGuard moduleKey="service"><ServiceAnalytics /></ModuleGuard></ProtectedLayout>} />,
+    <Route key={`${p}-svc-wa`} path={`${p}/whatsapp`} element={<ProtectedLayout><ModuleGuard moduleKey="service"><WhatsAppAdmin /></ModuleGuard></ProtectedLayout>} />,
+    <Route key={`${p}-svc-chat`} path={`${p}/chat-widgets`} element={<ProtectedLayout><ModuleGuard moduleKey="service"><ChatWidgetsAdmin /></ModuleGuard></ProtectedLayout>} />,
+    <Route key={`${p}-svc-voice`} path={`${p}/voice`} element={<ProtectedLayout><ModuleGuard moduleKey="service"><VoiceAdmin /></ModuleGuard></ProtectedLayout>} />,
+    <Route key={`${p}-cs`} path={`${p}/customer-success`} element={<ProtectedLayout><ModuleGuard moduleKey="service"><CustomerSuccess /></ModuleGuard></ProtectedLayout>} />,
   ];
 }
