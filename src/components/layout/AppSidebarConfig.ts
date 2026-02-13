@@ -202,6 +202,7 @@ function getSharedModules(prefix: string): RailModule[] {
           items: [
             { title: 'Configurações', url: `${prefix}/settings`, icon: Settings },
             { title: 'Respostas Rápidas', url: `${prefix}/settings/canned-responses`, icon: MessageSquare },
+            { title: 'Documentação', url: `${prefix}/docs`, icon: BookOpen },
           ],
         },
       ],

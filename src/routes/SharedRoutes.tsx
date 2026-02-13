@@ -66,6 +66,10 @@ import Notifications from '@/pages/Notifications';
 import Settings from '@/pages/Settings';
 import CannedResponses from '@/pages/CannedResponses';
 
+// Documentation
+import Documentation from '@/pages/Documentation';
+import DocumentationArticle from '@/pages/DocumentationArticle';
+
 export function SharedRoutes(prefix: string) {
   const P = <ProtectedLayout>{null}</ProtectedLayout>;
   return [
@@ -138,5 +142,10 @@ export function SharedRoutes(prefix: string) {
     <Route key={`${prefix}-notifications`} path={`${prefix}/notifications`} element={<ProtectedLayout><Notifications /></ProtectedLayout>} />,
     <Route key={`${prefix}-settings`} path={`${prefix}/settings`} element={<ProtectedLayout><Settings /></ProtectedLayout>} />,
     <Route key={`${prefix}-canned`} path={`${prefix}/settings/canned-responses`} element={<ProtectedLayout><ModuleGuard moduleKey="service"><CannedResponses /></ModuleGuard></ProtectedLayout>} />,
+
+    // ─── Documentation ───
+    <Route key={`${prefix}-docs`} path={`${prefix}/docs`} element={<ProtectedLayout><Documentation /></ProtectedLayout>} />,
+    <Route key={`${prefix}-docs-cat`} path={`${prefix}/docs/:categorySlug`} element={<ProtectedLayout><Documentation /></ProtectedLayout>} />,
+    <Route key={`${prefix}-docs-article`} path={`${prefix}/docs/:categorySlug/:articleSlug`} element={<ProtectedLayout><DocumentationArticle /></ProtectedLayout>} />,
   ];
 }
