@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/hooks/useAuth';
 import { useAppContext } from '@/hooks/useAppContext';
@@ -11,6 +11,9 @@ import {
   Server,
   LogOut,
   Loader2,
+  ArrowRight,
+  Clock,
+  Search,
 } from '@/components/icons';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
@@ -29,6 +32,8 @@ export default function AppLauncher() {
   const navigate = useNavigate();
   const { profile, signOut, loading: authLoading } = useAuth();
   const { availableApps, isLoading, switchApp } = useAppContext();
+  const [search, setSearch] = useState('');
+  const [hoveredApp, setHoveredApp] = useState<string | null>(null);
 
   // Auto-redirect if only 1 app available
   useEffect(() => {
@@ -45,6 +50,16 @@ export default function AppLauncher() {
     }
   }, []);
 
+  const filteredApps = useMemo(() => {
+    if (!search.trim()) return availableApps;
+    const q = search.toLowerCase();
+    return availableApps.filter(
+      (app) =>
+        app.name.toLowerCase().includes(q) ||
+        app.description.toLowerCase().includes(q)
+    );
+  }, [availableApps, search]);
+
   const getInitials = () => {
     if (profile?.first_name && profile?.last_name) {
       return `${profile.first_name[0]}${profile.last_name[0]}`.toUpperCase();
@@ -52,95 +67,173 @@ export default function AppLauncher() {
     return profile?.email?.[0]?.toUpperCase() || 'U';
   };
 
+  const getGreeting = () => {
+    const hour = new Date().getHours();
+    if (hour < 12) return 'Bom dia';
+    if (hour < 18) return 'Boa tarde';
+    return 'Boa noite';
+  };
+
   if (authLoading || isLoading) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-background">
-        <div className="flex flex-col items-center gap-4">
-          <Loader2 className="h-10 w-10 animate-spin text-primary" />
-          <p className="text-sm text-muted-foreground animate-pulse">Carregando apps...</p>
+      <div className="app-launcher-wrapper">
+        <div className="flex flex-col items-center gap-5">
+          <div className="app-launcher-loading-ring">
+            <Loader2 className="h-8 w-8 animate-spin text-primary" />
+          </div>
+          <p className="text-sm text-muted-foreground animate-pulse tracking-wide">
+            Carregando plataforma...
+          </p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-background flex flex-col">
+    <div className="app-launcher-wrapper">
+      {/* Subtle grid pattern background */}
+      <div className="app-launcher-bg-pattern" />
+
       {/* Header */}
-      <header className="flex items-center justify-between px-6 py-4 border-b bg-card">
-        <img src={crPlatformLogo} alt="CR Platform" className="h-8 object-contain" />
-        <div className="flex items-center gap-3">
-          <div className="text-right hidden sm:block">
-            <p className="text-sm font-medium text-foreground">
-              {profile?.first_name} {profile?.last_name}
-            </p>
-            <p className="text-xs text-muted-foreground">{profile?.email}</p>
+      <header className="app-launcher-header">
+        <div className="app-launcher-header-inner">
+          <img
+            src={crPlatformLogo}
+            alt="CR Platform"
+            className="h-7 object-contain"
+          />
+          <div className="flex items-center gap-3">
+            <div className="text-right hidden sm:block">
+              <p className="text-[13px] font-medium text-foreground leading-tight">
+                {profile?.first_name} {profile?.last_name}
+              </p>
+              <p className="text-[11px] text-muted-foreground">{profile?.email}</p>
+            </div>
+            <Avatar className="h-9 w-9 ring-2 ring-border">
+              <AvatarImage src={profile?.avatar_url || ''} />
+              <AvatarFallback className="bg-primary text-primary-foreground text-xs font-semibold">
+                {getInitials()}
+              </AvatarFallback>
+            </Avatar>
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={signOut}
+              title="Sair"
+              className="h-9 w-9 text-muted-foreground hover:text-foreground"
+            >
+              <LogOut className="h-4 w-4" />
+            </Button>
           </div>
-          <Avatar className="h-9 w-9">
-            <AvatarImage src={profile?.avatar_url || ''} />
-            <AvatarFallback className="bg-primary text-primary-foreground text-xs font-semibold">
-              {getInitials()}
-            </AvatarFallback>
-          </Avatar>
-          <Button variant="ghost" size="icon" onClick={signOut} title="Sair">
-            <LogOut className="h-4 w-4" />
-          </Button>
         </div>
       </header>
 
       {/* Main Content */}
-      <main className="flex-1 flex flex-col items-center justify-center px-4 py-12">
-        <div className="text-center mb-10">
-          <h1 className="text-3xl font-bold text-foreground mb-2">
-            Escolha um aplicativo
-          </h1>
-          <p className="text-muted-foreground">
-            Selecione o app que deseja acessar
-          </p>
+      <main className="app-launcher-main">
+        {/* Hero section */}
+        <div className="app-launcher-hero">
+          <div className="app-launcher-hero-greeting">
+            <h1 className="app-launcher-hero-title">
+              {getGreeting()},{' '}
+              <span className="text-primary">{profile?.first_name || 'Usuário'}</span>
+            </h1>
+            <p className="app-launcher-hero-subtitle">
+              Selecione um aplicativo para começar
+            </p>
+          </div>
+
+          {/* Search */}
+          {availableApps.length > 3 && (
+            <div className="app-launcher-search">
+              <Search className="app-launcher-search-icon" />
+              <input
+                type="text"
+                placeholder="Buscar aplicativos..."
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                className="app-launcher-search-input"
+              />
+            </div>
+          )}
         </div>
 
+        {/* Recent apps badge */}
+        {recentSlugs.length > 0 && !search && (
+          <div className="app-launcher-recent-label">
+            <Clock className="h-3.5 w-3.5" />
+            <span>Acessado recentemente</span>
+          </div>
+        )}
+
         {/* App Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 max-w-4xl w-full">
-          {availableApps.map((app, idx) => {
+        <div className="app-launcher-grid">
+          {filteredApps.map((app, idx) => {
             const Icon = ICON_MAP[app.iconName] || TrendingUp;
             const isRecent = recentSlugs[0] === app.slug;
+            const isHovered = hoveredApp === app.slug;
+
             return (
               <button
                 key={app.slug}
                 onClick={() => switchApp(app.slug)}
-                className="app-launcher-card group"
+                onMouseEnter={() => setHoveredApp(app.slug)}
+                onMouseLeave={() => setHoveredApp(null)}
+                className="app-launcher-card-v2"
                 style={{
-                  animationDelay: `${idx * 80}ms`,
+                  animationDelay: `${idx * 60}ms`,
                   '--app-accent': `hsl(${app.accentColor})`,
+                  '--app-accent-alpha': `hsl(${app.accentColor} / 0.1)`,
+                  '--app-accent-alpha-2': `hsl(${app.accentColor} / 0.06)`,
                 } as React.CSSProperties}
               >
-                <div
-                  className="app-launcher-icon"
-                  style={{ background: `hsl(${app.accentColor} / 0.12)`, color: `hsl(${app.accentColor})` }}
-                >
-                  <Icon className="h-7 w-7" weight="duotone" />
+                {/* Accent top bar */}
+                <div className="app-launcher-card-accent-bar" />
+
+                {/* Card content */}
+                <div className="app-launcher-card-body">
+                  <div className="app-launcher-card-icon-wrapper">
+                    <Icon className="h-6 w-6" weight="duotone" />
+                  </div>
+
+                  <div className="app-launcher-card-info">
+                    <div className="flex items-center gap-2">
+                      <h3 className="app-launcher-card-title">{app.name}</h3>
+                      {isRecent && (
+                        <span className="app-launcher-card-badge">Recente</span>
+                      )}
+                    </div>
+                    <p className="app-launcher-card-desc">{app.description}</p>
+                  </div>
+
+                  <div className="app-launcher-card-arrow">
+                    <ArrowRight
+                      className="h-4 w-4"
+                      weight={isHovered ? 'bold' : 'regular'}
+                    />
+                  </div>
                 </div>
-                <div className="flex-1 text-left">
-                  <h3 className="text-sm font-semibold text-foreground group-hover:text-[var(--app-accent)] transition-colors">
-                    {app.name}
-                  </h3>
-                  <p className="text-xs text-muted-foreground mt-0.5 line-clamp-2">
-                    {app.description}
-                  </p>
-                </div>
-                {isRecent && (
-                  <span className="text-[10px] font-medium text-muted-foreground bg-muted px-2 py-0.5 rounded-full self-start">
-                    Recente
-                  </span>
-                )}
               </button>
             );
           })}
         </div>
 
+        {filteredApps.length === 0 && search && (
+          <div className="app-launcher-empty">
+            <Search className="h-10 w-10 text-muted-foreground/30" />
+            <p className="text-sm text-muted-foreground mt-3">
+              Nenhum app encontrado para "{search}"
+            </p>
+          </div>
+        )}
+
         {/* Powered by */}
-        <div className="mt-16">
-          <img src={poweredByFireware} alt="Powered by Fireware" className="h-8 object-contain opacity-40" />
-        </div>
+        <footer className="app-launcher-footer">
+          <img
+            src={poweredByFireware}
+            alt="Powered by Fireware"
+            className="h-6 object-contain opacity-30 hover:opacity-50 transition-opacity"
+          />
+        </footer>
       </main>
     </div>
   );
