@@ -81,13 +81,13 @@ export function InboxMessageThread({ messages, loading, currentUserId }: InboxMe
   return (
     <div
       ref={containerRef}
-      className="flex-1 overflow-y-auto px-4 py-3 bg-gradient-to-b from-muted/20 to-background"
+      className="flex-1 overflow-y-auto px-5 py-2 bg-gradient-to-b from-muted/20 to-background"
       style={{ scrollbarWidth: 'thin', scrollbarColor: 'hsl(var(--muted-foreground) / 0.2) transparent' }}
     >
       {groupedMessages.map(group => (
         <div key={group.date}>
           {/* Date separator - pill */}
-          <div className="flex items-center justify-center my-3">
+          <div className="flex items-center justify-center my-2">
             <div className="bg-muted/80 rounded-full px-3 py-1 shadow-sm">
               <span className="text-[10px] font-semibold tracking-wide uppercase text-muted-foreground/80">
                 {format(new Date(group.date), "dd 'de' MMMM 'de' yyyy", { locale: ptBR })}
@@ -124,7 +124,7 @@ export function InboxMessageThread({ messages, loading, currentUserId }: InboxMe
                 className={cn(
                   'flex gap-2 group animate-fade-in',
                   isAgent && isCurrentUser ? 'flex-row-reverse' : 'flex-row',
-                  isConsecutive ? 'mt-0.5' : 'mt-3'
+                  isConsecutive ? 'mt-0.5' : 'mt-2'
                 )}
               >
                 {/* Avatar */}

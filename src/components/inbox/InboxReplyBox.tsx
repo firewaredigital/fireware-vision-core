@@ -72,7 +72,7 @@ export function InboxReplyBox({
       )}
 
       {/* Textarea */}
-      <div className="px-3 pt-2 pb-1">
+      <div className="px-3 pt-1.5 pb-0.5">
         <Textarea
           ref={textareaRef}
           placeholder={isInternal ? 'Escreva uma nota interna...' : 'Digite sua resposta...'}
@@ -80,7 +80,7 @@ export function InboxReplyBox({
           onChange={(e) => setMessage(e.target.value)}
           onKeyDown={handleKeyDown}
           className={cn(
-            'min-h-[72px] max-h-[160px] resize-none border-0 shadow-none focus-visible:ring-0 p-0 text-[13px] leading-relaxed bg-transparent',
+            'min-h-[60px] max-h-[140px] resize-none border-0 shadow-none focus-visible:ring-0 p-0 text-[13px] leading-relaxed bg-transparent',
             isInternal && 'placeholder:text-amber-500/70'
           )}
           disabled={disabled || sending}
@@ -88,7 +88,7 @@ export function InboxReplyBox({
       </div>
 
       {/* Toolbar */}
-      <div className="px-3 pb-2 flex items-center justify-between">
+      <div className="px-3 pb-1.5 flex items-center justify-between">
         <div className="flex items-center gap-0.5">
           {/* Canned Response */}
           <CannedResponsePicker

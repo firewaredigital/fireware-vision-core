@@ -133,9 +133,9 @@ export function InboxContextPanel({ conversation }: InboxContextPanelProps) {
   return (
     <div className="w-[280px] bg-card flex flex-col shadow-[-2px_0_8px_-2px_rgba(0,0,0,0.06)]">
       {/* Header */}
-      <div className="p-3 flex items-center gap-2 shadow-[0_1px_4px_-1px_rgba(0,0,0,0.04)]">
-        <div className="bg-primary/10 p-1 rounded-lg">
-          <User className="h-3.5 w-3.5 text-primary" />
+      <div className="p-2.5 flex items-center gap-1.5 shadow-[0_1px_4px_-1px_rgba(0,0,0,0.04)]">
+        <div className="bg-primary/10 p-0.5 rounded-md">
+          <User className="h-3 w-3 text-primary" />
         </div>
         <h3 className="text-xs font-bold">Contexto 360</h3>
       </div>
@@ -160,7 +160,7 @@ export function InboxContextPanel({ conversation }: InboxContextPanelProps) {
           </div>
 
           {/* Contact Tab */}
-          <TabsContent value="contact" className="p-3 space-y-3 mt-0">
+          <TabsContent value="contact" className="p-2.5 space-y-2.5 mt-0">
             {/* Contact Card */}
             <div className="flex items-center gap-2.5">
               <div className="h-9 w-9 rounded-full bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center text-xs font-bold text-primary">
@@ -267,7 +267,7 @@ export function InboxContextPanel({ conversation }: InboxContextPanelProps) {
           </TabsContent>
 
           {/* History Tab */}
-          <TabsContent value="history" className="p-3 space-y-3 mt-0">
+          <TabsContent value="history" className="p-2.5 space-y-2.5 mt-0">
             {/* Recent Tickets */}
             <div className="space-y-1.5">
               <h4 className="text-[10px] font-semibold text-muted-foreground uppercase tracking-wider flex items-center gap-1">
@@ -348,7 +348,7 @@ export function InboxContextPanel({ conversation }: InboxContextPanelProps) {
           </TabsContent>
 
           {/* Deals Tab */}
-          <TabsContent value="deals" className="p-3 space-y-3 mt-0">
+          <TabsContent value="deals" className="p-2.5 space-y-2.5 mt-0">
             {/* Opportunities */}
             <div className="space-y-1.5">
               <h4 className="text-[10px] font-semibold text-muted-foreground uppercase tracking-wider flex items-center gap-1">

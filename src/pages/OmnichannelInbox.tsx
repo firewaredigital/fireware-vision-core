@@ -221,7 +221,7 @@ export default function OmnichannelInbox() {
   return (
     <>
       <TooltipProvider delayDuration={200}>
-        <div className="flex h-[calc(100vh-72px)] overflow-hidden m-2 rounded-2xl shadow-elevation-2 bg-card">
+        <div className="flex h-[calc(100vh-72px)] overflow-hidden -m-6 rounded-none bg-card">
           {/* ───── Left: Conversation List ───── */}
           <InboxConversationList
             conversations={conversations}
@@ -272,21 +272,21 @@ export default function OmnichannelInbox() {
               </>
             ) : (
               <div className="flex-1 flex items-center justify-center text-muted-foreground animate-fade-in">
-                <div className="text-center space-y-3">
-                  <div className="h-14 w-14 mx-auto rounded-2xl bg-gradient-to-br from-primary/10 to-primary/5 flex items-center justify-center">
-                    <Inbox className="h-6 w-6 text-primary/40" />
-                  </div>
-                  <div>
-                    <h3 className="text-sm font-bold text-foreground">Selecione uma conversação</h3>
-                    <p className="text-xs mt-1 text-muted-foreground">Escolha uma conversação da lista para começar o atendimento</p>
-                  </div>
-                  <div className="flex flex-wrap justify-center gap-1.5 mt-3">
-                    <kbd className="bg-muted rounded-lg px-2 py-0.5 text-[10px] font-mono border border-border/50 shadow-sm">↑↓ navegar</kbd>
-                    <kbd className="bg-muted rounded-lg px-2 py-0.5 text-[10px] font-mono border border-border/50 shadow-sm">E resolver</kbd>
-                    <kbd className="bg-muted rounded-lg px-2 py-0.5 text-[10px] font-mono border border-border/50 shadow-sm">A assumir</kbd>
-                    <kbd className="bg-muted rounded-lg px-2 py-0.5 text-[10px] font-mono border border-border/50 shadow-sm">I contexto</kbd>
-                    <kbd className="bg-muted rounded-lg px-2 py-0.5 text-[10px] font-mono border border-border/50 shadow-sm">Esc voltar</kbd>
-                  </div>
+                  <div className="text-center space-y-2">
+                    <div className="h-12 w-12 mx-auto rounded-xl bg-gradient-to-br from-primary/10 to-primary/5 flex items-center justify-center">
+                      <Inbox className="h-5 w-5 text-primary/40" />
+                    </div>
+                    <div>
+                      <h3 className="text-xs font-bold text-foreground">Selecione uma conversação</h3>
+                      <p className="text-[11px] mt-0.5 text-muted-foreground">Escolha uma conversação da lista para começar o atendimento</p>
+                    </div>
+                    <div className="flex flex-wrap justify-center gap-1 mt-2">
+                      <kbd className="bg-muted rounded-md px-1.5 py-0 text-[9px] font-mono border border-border/50">↑↓ navegar</kbd>
+                      <kbd className="bg-muted rounded-md px-1.5 py-0 text-[9px] font-mono border border-border/50">E resolver</kbd>
+                      <kbd className="bg-muted rounded-md px-1.5 py-0 text-[9px] font-mono border border-border/50">A assumir</kbd>
+                      <kbd className="bg-muted rounded-md px-1.5 py-0 text-[9px] font-mono border border-border/50">I contexto</kbd>
+                      <kbd className="bg-muted rounded-md px-1.5 py-0 text-[9px] font-mono border border-border/50">Esc voltar</kbd>
+                    </div>
                 </div>
               </div>
             )}
