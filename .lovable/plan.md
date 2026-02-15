@@ -1,170 +1,67 @@
 
-# Redesign Completo do Inbox Omnichannel — Estetica de App de Atendimento Moderno
 
-## Objetivo
-Transformar o Inbox Omnichannel em uma interface de nivel profissional inspirada em ferramentas como Intercom, Zendesk e Front, com estetica moderna, micro-interacoes sofisticadas e experiencia de uso fluida.
+# Otimizacao da Densidade Visual da Lista de Conversas — Inbox Omnichannel
 
-## Componentes a Redesenhar
+## Problema Identificado
+A barra de conversas (`InboxConversationList`) ocupa `340px` de largura e possui elementos com tamanhos excessivos que reduzem a quantidade de conversas visiveis simultaneamente. O header com busca, tabs e filtros consome muito espaco vertical, e cada item de conversa tem padding e avatares grandes demais, resultando em baixa densidade informacional.
 
-### 1. OmnichannelInbox.tsx — Layout Principal
-**Alteracoes:**
-- Substituir `h-[calc(100vh-4rem)]` por `h-[calc(100vh-72px)]` para alinhar com a nova topbar
-- Adicionar `rounded-2xl overflow-hidden shadow-elevation-2 m-3` no container principal para criar um "app-within-app" com bordas arredondadas e margem
-- O empty state central (quando nenhuma conversa esta selecionada) recebera uma ilustracao mais rica: icone maior com gradiente, atalhos de teclado estilizados com `kbd` tags em formato pill, e animacao de entrada fade-in
-- Remover bordas duras entre paineis, usar sombras sutis e `bg-background` vs `bg-card` para diferenciar zonas
+## Alteracoes Detalhadas
 
-### 2. InboxConversationList.tsx — Painel Esquerdo (Lista de Conversas)
-**Alteracoes no Header:**
-- Largura aumentada de `w-80` para `w-[340px]` para mais respiro
-- Remover `border-r`, usar sombra lateral `shadow-[2px_0_8px_-2px_rgba(0,0,0,0.06)]`
-- Header com fundo `bg-card` e padding `p-4` mais generoso
-- Titulo "Inbox" com `text-lg font-bold` e icone com fundo circular primario translucido (`bg-primary/10 p-1.5 rounded-xl`)
-- Status do agente: indicador de status com animacao `pulse` no dot verde, select com bordas pill e fundo muted
+### Arquivo: `src/components/inbox/InboxConversationList.tsx`
 
-**Alteracoes na Busca:**
-- Input de busca com estilo glass: `bg-muted/50 backdrop-blur-sm border-0 rounded-xl h-10`
-- Icone de busca com cor mais forte
-- Placeholder com texto mais descritivo
+**1. Header — Compactacao vertical**
+- Reduzir padding do container header de `p-4 space-y-3` para `p-3 space-y-2`
+- Titulo "Inbox": reduzir de `text-lg` para `text-sm`, icone de `h-4.5 w-4.5` para `h-3.5 w-3.5`, container do icone de `p-1.5 rounded-xl` para `p-1 rounded-lg`
+- Select de status do agente: manter `h-8` (ja compacto)
+- Botao refresh: manter `h-8 w-8`
 
-**Alteracoes nas Tabs de Status:**
-- Tabs pill-shaped com contadores coloridos
-- Tab ativa com fundo `bg-primary text-white` pill
-- Badge de contagem com formato circular e animacao de pulse quando > 0
+**2. Campo de Busca — Altura reduzida**
+- Input de busca: reduzir `h-10` para `h-8`, font de `text-sm` para `text-xs`
+- Icone de busca: reduzir de `h-4 w-4` para `h-3.5 w-3.5`
 
-**Alteracoes nos Filtros:**
-- Selects de canal e atribuicao com formato pill menor (`h-8 rounded-full`)
-- Fundo `bg-muted/50` e borda transparente
-- Layout em flex com gap maior
+**3. Tabs de Status — Mais compactas**
+- Reduzir `py-1.5` para `py-1` nos botoes de tab
+- Manter `text-[11px]` (ja pequeno)
+- Reduzir badge de contagem de `h-4 min-w-[16px]` para `h-3.5 min-w-[14px]` com `text-[8px]`
 
-**Alteracoes nos Itens de Conversa:**
-- Cada item com `rounded-xl mx-2 my-1` em vez de `divide-y` (cards separados ao inves de lista dividida)
-- Item selecionado: `bg-primary/8 border-l-3 border-l-primary shadow-sm` com transicao suave
-- Item com mensagens nao lidas: dot de notificacao animado com `animate-pulse` e fundo `bg-primary/5`
-- Avatar com borda colorida por canal (verde para WhatsApp, azul para email, etc.)
-- Overlay de icone de canal no avatar com fundo branco e sombra micro
-- Nome do contato com `text-sm font-semibold` para nao lidos, `font-medium` para lidos
-- Preview da mensagem com `line-clamp-1` e tipografia `text-xs text-muted-foreground`
-- Timestamp com formato relativo mais curto
-- Status dot com cores vibrantes e label em texto ao lado
-- Badge de prioridade critica com animacao `animate-pulse` e fundo vermelho translucido
-- Hover com `bg-accent/30` e sutil `translateX(2px)` para feedback direcional
-- Transicao `transition-all duration-200` em todos os estados
+**4. Filtros de Canal/Atribuicao — Mais finos**
+- Reduzir `h-8` para `h-7` nos selects de filtro
+- Manter `text-[11px]`
 
-**Alteracoes no Footer:**
-- Fundo `bg-muted/30` com bordas arredondadas superiores
-- Contador de SLA violado com cor vermelha e icone de alerta
+**5. Itens de Conversa — Compactacao significativa (maior impacto)**
+- Padding de cada item: reduzir de `p-3` para `px-2.5 py-2`
+- Avatar: reduzir de `h-10 w-10` para `h-8 w-8`
+- `ring-2` do avatar para `ring-[1.5px]`
+- Icone de canal overlay: reduzir `h-3 w-3` para `h-2.5 w-2.5` nos icones do mapa `channelIcons`, e o container overlay de `p-[3px]` para `p-[2px]`
+- Nome do contato: manter `text-sm` mas reduzir gap entre avatar e conteudo de `gap-2.5` para `gap-2`
+- Preview da mensagem: manter `text-xs`
+- Barra de status/badges: reduzir `mt-1.5` para `mt-1`, dot de status de `h-1.5 w-1.5` para `h-1 w-1`
+- Badge de unread: reduzir de `h-4 min-w-[16px] px-1 text-[9px]` para `h-3.5 min-w-[14px] px-0.5 text-[8px]`
+- Badges de prioridade: reduzir `h-4 px-1.5 text-[9px]` para `h-3.5 px-1 text-[8px]`
+- Icone SLA breached: reduzir `h-3 w-3` para `h-2.5 w-2.5`
+- Espacamento entre items: reduzir `space-y-1` para `space-y-0.5`
 
-### 3. InboxConversationHeader.tsx — Header da Conversa
-**Alteracoes:**
-- Background com `bg-card/80 backdrop-blur-xl` (efeito glass)
-- Remover `border-b`, usar `shadow-[0_1px_4px_-1px_rgba(0,0,0,0.06)]`
-- Altura aumentada para `py-3.5 px-5` para mais respiro
-- Avatar aumentado para `h-10 w-10` com ring colorido por prioridade (vermelho para critica, laranja para alta)
-- Nome do contato com `text-base font-bold`
-- Badges de canal e prioridade com formato pill, icones dentro, e cores vibrantes com fundo translucido
-- Badge de canal com cor especifica: WhatsApp (`bg-green-100 text-green-700`), Email (`bg-blue-100 text-blue-700`), Chat (`bg-purple-100 text-purple-700`)
-- Metadados (numero, email, conta) com separadores estilizados (dot com cor muted)
-- SLA Countdown com destaque visual maior: se < 30min, fundo pulsante vermelho/laranja
-- Botoes de acao "Assumir" e "Resolver" com formato pill e sombras
-- Botao "Assumir" com gradiente primario e icone animado
-- Botao "Resolver" com borda verde e hover preenchido
-- Botao de menu (...) com `rounded-full bg-muted/50 hover:bg-muted`
+**6. Skeletons de loading — Alinhamento**
+- Reduzir skeleton de avatar de `h-10 w-10` para `h-8 w-8`
+- Reduzir padding de `p-3` para `px-2.5 py-2`
 
-### 4. InboxMessageThread.tsx — Thread de Mensagens
-**Alteracoes no Layout:**
-- Fundo com gradiente sutil: `bg-gradient-to-b from-muted/20 to-background` para profundidade
-- Padding lateral `px-6` para mais respiro
-- Scrollbar estilizada ultra-fina (3px) com cor sutil
+**7. Empty state — Compactacao**
+- Reduzir icone de empty state de `h-14 w-14` para `h-10 w-10` e icone interno de `h-7 w-7` para `h-5 w-5`
+- Padding de `p-8` para `p-6`
 
-**Alteracoes no Separador de Data:**
-- Formato pill: `bg-muted/80 rounded-full px-4 py-1.5 shadow-sm`
-- Tipografia `text-[11px] font-semibold tracking-wide uppercase` com cor `text-muted-foreground/80`
+**8. Footer — Manter compacto**
+- Reduzir `py-2.5` para `py-2`
 
-**Alteracoes nas Bolhas de Mensagem:**
-- Bolha do agente (usuario atual): `bg-primary text-white rounded-2xl rounded-br-md` com sombra `shadow-sm`
-- Bolha do cliente: `bg-card border border-border/50 rounded-2xl rounded-bl-md shadow-sm`
-- Bolha do bot: `bg-gradient-to-br from-purple-50 to-purple-100/50 border border-purple-200/50 rounded-2xl rounded-bl-md`
-- Nota interna: `bg-amber-50/80 border border-amber-200/50 rounded-2xl rounded-br-md` com icone de cadeado
-- Mensagem de sistema: `bg-muted/50 rounded-full px-5 py-2 shadow-none` formato pill central
-- Padding das bolhas `px-4 py-3` para mais conforto
-- Maxima largura `max-w-[70%]` para manter proporcao elegante
-- Animacao de entrada: `animate-fade-in` com sutil `translateY(4px)` nas novas mensagens
+### Arquivo: `src/pages/OmnichannelInbox.tsx`
+- Nenhuma alteracao necessaria (o layout principal ja esta correto)
 
-**Alteracoes nos Avatares:**
-- Avatar `h-8 w-8` com ring de 2px colorido por tipo (primario para agente, muted para cliente, purple para bot)
-- Fallback com gradiente de fundo em vez de cor solida
-
-**Alteracoes no Footer da Mensagem:**
-- Timestamp sempre visivel (sem `opacity-0 group-hover`) mas com opacidade `opacity-60` constante
-- Icones de delivery status com cores mais vibrantes: read com `text-blue-500`, delivered com `text-green-500`
-- Adicionar label textual micro ao lado do icone: "Lido", "Entregue", etc.
-
-**Alteracoes nos Anexos:**
-- Card de anexo com `rounded-xl bg-card/80 backdrop-blur-sm border shadow-sm px-3 py-2`
-- Icone de arquivo com cor por tipo (PDF vermelho, imagem azul, etc.)
-- Hover com `shadow-md` e escala sutil
-
-### 5. InboxReplyBox.tsx — Caixa de Resposta
-**Alteracoes:**
-- Container com `rounded-t-2xl` (cantos superiores arredondados) e `shadow-[0_-2px_12px_-4px_rgba(0,0,0,0.08)]` (sombra para cima)
-- Remover `border-t`, usar sombra como separador
-- Padding `p-4` mais generoso
-- Nota interna: fundo `bg-amber-50/30` com borda esquerda `border-l-3 border-l-amber-400` em vez de mudar todo o background
-- Indicador de nota interna com banner animado `animate-fade-in` e icone de cadeado
-
-**Alteracoes no Textarea:**
-- Textarea com `min-h-[100px]` e `text-sm leading-relaxed`
-- Placeholder com estilo mais suave
-- Borda arredondada `rounded-xl` com fundo `bg-muted/30` sutil ao receber foco
-
-**Alteracoes na Toolbar:**
-- Botoes de formatacao com `rounded-lg` e agrupados visualmente com separador vertical mais sutil
-- Botao de resposta rapida com icone `Zap` (raio) em vez de `MessageSquare` para diferenciar
-- Botao de nota interna com toggle visual claro: quando ativo, fundo `bg-amber-100` pill com label "Interno"
-- Botao de enviar: maior (`h-9 px-5`), pill-shaped, com icone animado de envio (sutil rotacao)
-- Botao de envio nota interna: cor amber com icone de cadeado
-- Shortcut indicator `Ctrl+Enter` com estilo kbd: `bg-muted rounded-md px-1.5 py-0.5 text-[10px] font-mono border`
-
-### 6. InboxContextPanel.tsx — Painel Lateral de Contexto
-**Alteracoes:**
-- Largura aumentada de `w-72` para `w-[320px]`
-- Remover `border-l`, usar sombra esquerda `shadow-[-2px_0_8px_-2px_rgba(0,0,0,0.06)]`
-- Header com titulo "Contexto 360" e icone com fundo primario translucido
-- Tabs com estilo pill: tab ativa com `bg-primary text-white rounded-full`
-
-**Alteracoes no Tab Contato:**
-- Card de contato no topo com avatar grande (`h-12 w-12`), nome em `font-bold`, email/telefone com icones coloridos
-- Botao "Ver Contato" com estilo outline pill
-- Secao de detalhes com grid estilizado: labels em `text-[11px] uppercase tracking-wider text-muted-foreground`
-- Valores com `font-semibold`
-- Card de proprietario com avatar e info agrupados com fundo `bg-muted/50 rounded-xl p-3`
-- Tags com formato pill e cores variadas (hash para cor baseada no texto)
-
-**Alteracoes no Tab Historico:**
-- Cards de tickets/conversas com `rounded-xl border-0 bg-muted/50 p-3` em vez de `border rounded`
-- Status dot maior e com label visivel
-- Hover com `bg-accent/50 shadow-sm` e sutil elevacao
-- Separadores visuais com titulo de secao em `uppercase tracking-wider` com linha decorativa
-
-**Alteracoes no Tab Negocios:**
-- Cards de oportunidade com barra de progresso pill colorida
-- Valor monetario com `font-bold text-base` para destaque
-- Badge de estagio com cores por fase do pipeline
-
-## Resumo dos Arquivos a Editar
-
-| Arquivo | Alteracao |
-|---|---|
-| `src/pages/OmnichannelInbox.tsx` | Layout container, empty state, margens/sombras |
-| `src/components/inbox/InboxConversationList.tsx` | Largura, header, busca, tabs, items, footer |
-| `src/components/inbox/InboxConversationHeader.tsx` | Glass effect, badges coloridos, botoes pill |
-| `src/components/inbox/InboxMessageThread.tsx` | Bolhas redesenhadas, separadores pill, animacoes |
-| `src/components/inbox/InboxReplyBox.tsx` | Container arredondado, toolbar moderna, botao envio |
-| `src/components/inbox/InboxContextPanel.tsx` | Largura, tabs pill, cards modernos, detalhes |
+## Impacto Estimado
+- Cada item de conversa passara de ~72px de altura para ~56px, permitindo visualizar aproximadamente 25-30% mais conversas simultaneamente
+- O header compactado libera ~20px adicionais de espaco vertical para a lista
+- A experiencia visual permanece moderna e legivel, apenas mais densa
 
 ## Observacoes
-- Nenhuma logica de negocio, hook ou funcionalidade sera alterada
-- Todas as mudancas sao puramente visuais e de estilizacao CSS/Tailwind
-- A paleta de cores existente sera mantida integralmente
-- O sidebar dual-panel permanece inalterado
-- As alteracoes utilizam os tokens de design system ja existentes (elevation, pill, radius)
+- Nenhuma logica sera alterada, apenas classes CSS/Tailwind
+- A paleta de cores e o design system permanecem intactos
+- Apenas 1 arquivo sera editado: `src/components/inbox/InboxConversationList.tsx`
+
