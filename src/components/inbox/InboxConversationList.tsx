@@ -123,7 +123,7 @@ export function InboxConversationList({
   return (
     <div className="w-[300px] flex flex-col bg-card shadow-[2px_0_8px_-2px_rgba(0,0,0,0.06)]">
       {/* Header */}
-      <div className="p-2.5 space-y-1.5">
+      <div className="p-2 space-y-1">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-1.5">
             <div className="bg-primary/10 p-0.5 rounded-md">
@@ -165,7 +165,7 @@ export function InboxConversationList({
             placeholder="Buscar por nome, email, assunto..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="h-7 pl-8 text-[11px] bg-muted/50 border-0 rounded-xl backdrop-blur-sm"
+            className="h-6 pl-7 text-[11px] bg-muted/50 border-0 rounded-lg backdrop-blur-sm"
           />
         </div>
 
@@ -181,7 +181,7 @@ export function InboxConversationList({
               key={tab.value}
               onClick={() => onStatusFilterChange(tab.value)}
               className={cn(
-                'flex-1 flex items-center justify-center gap-0.5 rounded-full py-0.5 text-[10px] font-medium transition-all duration-200',
+                'flex-1 flex items-center justify-center gap-0.5 rounded-full py-px text-[10px] font-medium transition-all duration-200',
                 statusFilter === tab.value
                   ? 'bg-primary text-primary-foreground shadow-sm'
                   : 'text-muted-foreground hover:text-foreground hover:bg-muted/50'
@@ -203,9 +203,9 @@ export function InboxConversationList({
         </div>
 
         {/* Filters */}
-        <div className="flex gap-1.5">
+        <div className="flex gap-1">
           <Select value={channelFilter} onValueChange={onChannelFilterChange}>
-            <SelectTrigger className="h-6 text-[10px] flex-1 rounded-full bg-muted/50 border-0">
+            <SelectTrigger className="h-5 text-[9px] flex-1 rounded-full bg-muted/50 border-0">
               <SelectValue placeholder="Canal" />
             </SelectTrigger>
             <SelectContent>
@@ -220,7 +220,7 @@ export function InboxConversationList({
             </SelectContent>
           </Select>
           <Select value={ownerFilter} onValueChange={onOwnerFilterChange}>
-            <SelectTrigger className="h-6 text-[10px] flex-1 rounded-full bg-muted/50 border-0">
+            <SelectTrigger className="h-5 text-[9px] flex-1 rounded-full bg-muted/50 border-0">
               <SelectValue placeholder="Atribuição" />
             </SelectTrigger>
             <SelectContent>
@@ -237,8 +237,8 @@ export function InboxConversationList({
         {loading ? (
           <div className="p-3 space-y-2">
             {[1, 2, 3, 4, 5].map(i => (
-              <div key={i} className="animate-pulse flex gap-1.5 mx-1.5 px-2 py-1.5 rounded-xl bg-muted/30">
-                <div className="h-7 w-7 rounded-full bg-muted" />
+              <div key={i} className="animate-pulse flex gap-1.5 mx-1.5 px-2 py-1 rounded-xl bg-muted/30">
+                <div className="h-6 w-6 rounded-full bg-muted" />
                 <div className="flex-1 space-y-1.5">
                   <div className="h-2.5 bg-muted rounded-full w-3/4" />
                   <div className="h-2.5 bg-muted rounded-full w-1/2" />
@@ -266,7 +266,7 @@ export function InboxConversationList({
                     key={conv.id}
                     onClick={() => onSelect(conv)}
                     className={cn(
-                      'px-2 py-1.5 cursor-pointer rounded-xl transition-all duration-200 group',
+                      'px-2 py-1 cursor-pointer rounded-xl transition-all duration-200 group',
                       isSelected
                         ? 'bg-primary/[0.08] border-l-[3px] border-l-primary shadow-sm'
                         : 'hover:bg-accent/30 hover:translate-x-0.5 border-l-[3px] border-l-transparent',
@@ -276,11 +276,11 @@ export function InboxConversationList({
                     <div className="flex items-start gap-1.5">
                       <div className="relative">
                         <Avatar className={cn(
-                          'h-7 w-7 ring-1',
+                          'h-6 w-6 ring-1',
                         channelBorderColors[conv.channel] || 'ring-muted'
                       )}>
                         <AvatarFallback className={cn(
-                          'text-[10px] font-medium',
+                          'text-[9px] font-medium',
                           conv.priority === 'critical' && 'bg-destructive/10 text-destructive',
                           conv.priority === 'high' && 'bg-orange-100 text-orange-700 dark:bg-orange-950 dark:text-orange-400'
                         )}>
@@ -348,7 +348,7 @@ export function InboxConversationList({
       </ScrollArea>
 
       {/* Footer Stats */}
-      <div className="px-3 py-1.5 bg-muted/30 rounded-t-xl flex items-center justify-between text-[9px] text-muted-foreground">
+      <div className="px-3 py-1 bg-muted/30 flex items-center justify-between text-[9px] text-muted-foreground">
         <span className="font-medium">{filteredConversations.length} conversas</span>
         {slaBreachedCount > 0 && (
           <span className="flex items-center gap-1 text-destructive font-semibold">

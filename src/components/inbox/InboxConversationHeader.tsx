@@ -89,10 +89,10 @@ export function InboxConversationHeader({
   };
 
   return (
-    <div className="px-4 py-2 flex items-center justify-between bg-card/80 backdrop-blur-xl shadow-[0_1px_4px_-1px_rgba(0,0,0,0.06)]">
-      <div className="flex items-center gap-2.5 min-w-0">
+    <div className="px-3 py-1.5 flex items-center justify-between bg-card/80 backdrop-blur-xl shadow-[0_1px_4px_-1px_rgba(0,0,0,0.06)]">
+      <div className="flex items-center gap-2 min-w-0">
         <Avatar className={cn(
-          'h-8 w-8 ring-[1.5px]',
+          'h-7 w-7 ring-[1.5px]',
           conversation.priority === 'critical' ? 'ring-destructive' :
           conversation.priority === 'high' ? 'ring-orange-500' : 'ring-border'
         )}>
@@ -151,7 +151,7 @@ export function InboxConversationHeader({
         {!conversation.owner_id && (
           <Tooltip>
             <TooltipTrigger asChild>
-              <Button size="sm" className="h-7 text-[11px] gap-1 rounded-full px-3 shadow-sm" onClick={onAssignToMe}>
+              <Button size="sm" className="h-7 text-[11px] gap-1 rounded-full px-2.5 shadow-sm" onClick={onAssignToMe}>
                 <UserPlus className="h-3 w-3" />
                 Assumir
               </Button>
@@ -166,7 +166,7 @@ export function InboxConversationHeader({
               <Button
                 size="sm"
                 variant="outline"
-                className="h-7 text-[11px] gap-1 rounded-full px-3 border-green-300 text-green-700 hover:bg-green-50 hover:text-green-800 dark:border-green-700 dark:text-green-400 dark:hover:bg-green-950"
+                className="h-7 text-[11px] gap-1 rounded-full px-2.5 border-green-300 text-green-700 hover:bg-green-50 hover:text-green-800 dark:border-green-700 dark:text-green-400 dark:hover:bg-green-950"
                 onClick={onClose}
               >
                 <CheckCircle className="h-3 w-3" />
