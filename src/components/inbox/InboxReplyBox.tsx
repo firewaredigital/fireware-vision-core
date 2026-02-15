@@ -63,16 +63,16 @@ export function InboxReplyBox({
     )}>
       {/* Internal note indicator */}
       {isInternal && (
-        <div className="px-4 pt-3 flex items-center gap-2 animate-fade-in">
-          <Lock className="h-3.5 w-3.5 text-amber-600" />
-          <span className="text-xs font-semibold text-amber-700 dark:text-amber-400">
+        <div className="px-3 pt-2 flex items-center gap-1.5 animate-fade-in">
+          <Lock className="h-3 w-3 text-amber-600" />
+          <span className="text-[10px] font-semibold text-amber-700 dark:text-amber-400">
             Nota interna — não visível para o cliente
           </span>
         </div>
       )}
 
       {/* Textarea */}
-      <div className="px-4 pt-3 pb-1">
+      <div className="px-3 pt-2 pb-1">
         <Textarea
           ref={textareaRef}
           placeholder={isInternal ? 'Escreva uma nota interna...' : 'Digite sua resposta...'}
@@ -80,7 +80,7 @@ export function InboxReplyBox({
           onChange={(e) => setMessage(e.target.value)}
           onKeyDown={handleKeyDown}
           className={cn(
-            'min-h-[100px] max-h-[200px] resize-none border-0 shadow-none focus-visible:ring-0 p-0 text-sm leading-relaxed bg-transparent',
+            'min-h-[72px] max-h-[160px] resize-none border-0 shadow-none focus-visible:ring-0 p-0 text-[13px] leading-relaxed bg-transparent',
             isInternal && 'placeholder:text-amber-500/70'
           )}
           disabled={disabled || sending}
@@ -88,21 +88,21 @@ export function InboxReplyBox({
       </div>
 
       {/* Toolbar */}
-      <div className="px-4 pb-3 flex items-center justify-between">
+      <div className="px-3 pb-2 flex items-center justify-between">
         <div className="flex items-center gap-0.5">
           {/* Canned Response */}
           <CannedResponsePicker
             onSelect={handleCannedResponseSelect}
             contactId={contactId || undefined}
             variant="icon"
-            className="h-8 w-8 rounded-lg"
+            className="h-7 w-7 rounded-lg"
           />
 
           {/* Attachment */}
           <Tooltip>
             <TooltipTrigger asChild>
-              <Button variant="ghost" size="icon" className="h-8 w-8 rounded-lg" disabled={disabled}>
-                <Paperclip className="h-4 w-4" />
+              <Button variant="ghost" size="icon" className="h-7 w-7 rounded-lg" disabled={disabled}>
+                <Paperclip className="h-3 w-3" />
               </Button>
             </TooltipTrigger>
             <TooltipContent>Anexar arquivo</TooltipContent>
@@ -115,16 +115,16 @@ export function InboxReplyBox({
                 variant={isInternal ? 'secondary' : 'ghost'}
                 size={isInternal ? 'sm' : 'icon'}
                 className={cn(
-                  'h-8 rounded-lg transition-all',
+                  'h-7 rounded-lg transition-all',
                   isInternal
-                    ? 'bg-amber-100 dark:bg-amber-900/50 text-amber-700 dark:text-amber-300 px-3 gap-1.5 rounded-full'
-                    : 'w-8'
+                    ? 'bg-amber-100 dark:bg-amber-900/50 text-amber-700 dark:text-amber-300 px-2 gap-1 rounded-full'
+                    : 'w-7'
                 )}
                 onClick={() => setIsInternal(!isInternal)}
                 disabled={disabled}
               >
-                <Lock className="h-3.5 w-3.5" />
-                {isInternal && <span className="text-xs font-medium">Interno</span>}
+                <Lock className="h-3 w-3" />
+                {isInternal && <span className="text-[10px] font-medium">Interno</span>}
               </Button>
             </TooltipTrigger>
             <TooltipContent>
@@ -132,29 +132,29 @@ export function InboxReplyBox({
             </TooltipContent>
           </Tooltip>
 
-          <div className="h-5 w-px bg-border/50 mx-1.5" />
+          <div className="h-4 w-px bg-border/50 mx-1" />
 
           {/* Formatting */}
           <Tooltip>
             <TooltipTrigger asChild>
-              <Button variant="ghost" size="icon" className="h-8 w-8 rounded-lg" disabled={disabled}>
-                <Bold className="h-3.5 w-3.5" />
+              <Button variant="ghost" size="icon" className="h-7 w-7 rounded-lg" disabled={disabled}>
+                <Bold className="h-3 w-3" />
               </Button>
             </TooltipTrigger>
             <TooltipContent>Negrito</TooltipContent>
           </Tooltip>
           <Tooltip>
             <TooltipTrigger asChild>
-              <Button variant="ghost" size="icon" className="h-8 w-8 rounded-lg" disabled={disabled}>
-                <Italic className="h-3.5 w-3.5" />
+              <Button variant="ghost" size="icon" className="h-7 w-7 rounded-lg" disabled={disabled}>
+                <Italic className="h-3 w-3" />
               </Button>
             </TooltipTrigger>
             <TooltipContent>Itálico</TooltipContent>
           </Tooltip>
           <Tooltip>
             <TooltipTrigger asChild>
-              <Button variant="ghost" size="icon" className="h-8 w-8 rounded-lg" disabled={disabled}>
-                <Link className="h-3.5 w-3.5" />
+              <Button variant="ghost" size="icon" className="h-7 w-7 rounded-lg" disabled={disabled}>
+                <Link className="h-3 w-3" />
               </Button>
             </TooltipTrigger>
             <TooltipContent>Inserir link</TooltipContent>
@@ -162,8 +162,8 @@ export function InboxReplyBox({
         </div>
 
         {/* Send button */}
-        <div className="flex items-center gap-2.5">
-          <kbd className="bg-muted rounded-md px-1.5 py-0.5 text-[10px] font-mono border border-border/50 text-muted-foreground hidden sm:inline-flex items-center gap-0.5">
+        <div className="flex items-center gap-2">
+          <kbd className="bg-muted rounded-md px-1 py-0 text-[9px] font-mono border border-border/50 text-muted-foreground hidden sm:inline-flex items-center gap-0.5">
             Ctrl+Enter
           </kbd>
           <Button
@@ -171,16 +171,16 @@ export function InboxReplyBox({
             onClick={handleSend}
             disabled={!message.trim() || sending || disabled}
             className={cn(
-              'h-9 px-5 gap-1.5 rounded-full font-semibold shadow-sm',
+              'h-7 px-3 gap-1 rounded-full font-semibold text-[11px] shadow-sm',
               isInternal && 'bg-amber-600 hover:bg-amber-700'
             )}
           >
             {sending ? (
-              <div className="h-3.5 w-3.5 animate-spin rounded-full border-2 border-current border-t-transparent" />
+              <div className="h-3 w-3 animate-spin rounded-full border-2 border-current border-t-transparent" />
             ) : isInternal ? (
-              <Lock className="h-3.5 w-3.5" />
+              <Lock className="h-3 w-3" />
             ) : (
-              <Send className="h-3.5 w-3.5" />
+              <Send className="h-3 w-3" />
             )}
             {isInternal ? 'Nota' : 'Enviar'}
           </Button>

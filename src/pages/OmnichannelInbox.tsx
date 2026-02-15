@@ -32,13 +32,10 @@ function resolveStatusFilter(tab: string): ConversationStatus | ConversationStat
     case 'closed':
       return 'closed';
     default:
-      return undefined; // 'all'
+      return undefined;
   }
 }
 
-// ──────────────────────────────────────────────
-// Main Orchestrator
-// ──────────────────────────────────────────────
 export default function OmnichannelInbox() {
   const { profile } = useAuth();
 
@@ -224,7 +221,7 @@ export default function OmnichannelInbox() {
   return (
     <>
       <TooltipProvider delayDuration={200}>
-        <div className="flex h-[calc(100vh-72px)] overflow-hidden m-3 rounded-2xl shadow-elevation-2 bg-card">
+        <div className="flex h-[calc(100vh-72px)] overflow-hidden m-2 rounded-2xl shadow-elevation-2 bg-card">
           {/* ───── Left: Conversation List ───── */}
           <InboxConversationList
             conversations={conversations}
@@ -275,20 +272,20 @@ export default function OmnichannelInbox() {
               </>
             ) : (
               <div className="flex-1 flex items-center justify-center text-muted-foreground animate-fade-in">
-                <div className="text-center space-y-4">
-                  <div className="h-20 w-20 mx-auto rounded-2xl bg-gradient-to-br from-primary/10 to-primary/5 flex items-center justify-center">
-                    <Inbox className="h-10 w-10 text-primary/40" />
+                <div className="text-center space-y-3">
+                  <div className="h-14 w-14 mx-auto rounded-2xl bg-gradient-to-br from-primary/10 to-primary/5 flex items-center justify-center">
+                    <Inbox className="h-6 w-6 text-primary/40" />
                   </div>
                   <div>
-                    <h3 className="text-lg font-bold text-foreground">Selecione uma conversação</h3>
-                    <p className="text-sm mt-1 text-muted-foreground">Escolha uma conversação da lista para começar o atendimento</p>
+                    <h3 className="text-sm font-bold text-foreground">Selecione uma conversação</h3>
+                    <p className="text-xs mt-1 text-muted-foreground">Escolha uma conversação da lista para começar o atendimento</p>
                   </div>
-                  <div className="flex flex-wrap justify-center gap-2 mt-5">
-                    <kbd className="bg-muted rounded-lg px-2.5 py-1 text-[11px] font-mono border border-border/50 shadow-sm">↑↓ navegar</kbd>
-                    <kbd className="bg-muted rounded-lg px-2.5 py-1 text-[11px] font-mono border border-border/50 shadow-sm">E resolver</kbd>
-                    <kbd className="bg-muted rounded-lg px-2.5 py-1 text-[11px] font-mono border border-border/50 shadow-sm">A assumir</kbd>
-                    <kbd className="bg-muted rounded-lg px-2.5 py-1 text-[11px] font-mono border border-border/50 shadow-sm">I contexto</kbd>
-                    <kbd className="bg-muted rounded-lg px-2.5 py-1 text-[11px] font-mono border border-border/50 shadow-sm">Esc voltar</kbd>
+                  <div className="flex flex-wrap justify-center gap-1.5 mt-3">
+                    <kbd className="bg-muted rounded-lg px-2 py-0.5 text-[10px] font-mono border border-border/50 shadow-sm">↑↓ navegar</kbd>
+                    <kbd className="bg-muted rounded-lg px-2 py-0.5 text-[10px] font-mono border border-border/50 shadow-sm">E resolver</kbd>
+                    <kbd className="bg-muted rounded-lg px-2 py-0.5 text-[10px] font-mono border border-border/50 shadow-sm">A assumir</kbd>
+                    <kbd className="bg-muted rounded-lg px-2 py-0.5 text-[10px] font-mono border border-border/50 shadow-sm">I contexto</kbd>
+                    <kbd className="bg-muted rounded-lg px-2 py-0.5 text-[10px] font-mono border border-border/50 shadow-sm">Esc voltar</kbd>
                   </div>
                 </div>
               </div>
