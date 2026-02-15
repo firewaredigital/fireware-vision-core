@@ -225,71 +225,75 @@ export default function Dashboard() {
 
         {/* KPI Cards */}
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Pipeline Total</CardTitle>
-              <DollarSign className="h-4 w-4 text-muted-foreground" />
-            </CardHeader>
-            <CardContent>
-              {loading ? (
-                <Skeleton className="h-8 w-24" />
-              ) : (
-                <>
-                  <div className="text-2xl font-bold">{formatCurrency(stats.totalPipeline)}</div>
-                  <p className="text-xs text-muted-foreground">Valor das oportunidades abertas</p>
-                </>
-              )}
+          <Card className="relative overflow-hidden">
+            <CardContent className="p-6">
+              <div className="flex items-center gap-4">
+                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-primary/10">
+                  <DollarSign className="h-6 w-6 text-primary" />
+                </div>
+                <div className="space-y-1">
+                  <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Pipeline Total</p>
+                  {loading ? (
+                    <Skeleton className="h-8 w-24" />
+                  ) : (
+                    <p className="text-3xl font-extrabold tracking-tight">{formatCurrency(stats.totalPipeline)}</p>
+                  )}
+                </div>
+              </div>
             </CardContent>
           </Card>
 
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Leads Abertos</CardTitle>
-              <Target className="h-4 w-4 text-muted-foreground" />
-            </CardHeader>
-            <CardContent>
-              {loading ? (
-                <Skeleton className="h-8 w-16" />
-              ) : (
-                <>
-                  <div className="text-2xl font-bold">{stats.openLeads}</div>
-                  <p className="text-xs text-muted-foreground">Aguardando qualificação</p>
-                </>
-              )}
+          <Card className="relative overflow-hidden">
+            <CardContent className="p-6">
+              <div className="flex items-center gap-4">
+                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-info/10">
+                  <Target className="h-6 w-6 text-info" />
+                </div>
+                <div className="space-y-1">
+                  <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Leads Abertos</p>
+                  {loading ? (
+                    <Skeleton className="h-8 w-16" />
+                  ) : (
+                    <p className="text-3xl font-extrabold tracking-tight">{stats.openLeads}</p>
+                  )}
+                </div>
+              </div>
             </CardContent>
           </Card>
 
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Fechados Ganhos</CardTitle>
-              <TrendingUp className="h-4 w-4 text-muted-foreground" />
-            </CardHeader>
-            <CardContent>
-              {loading ? (
-                <Skeleton className="h-8 w-24" />
-              ) : (
-                <>
-                  <div className="text-2xl font-bold">{formatCurrency(stats.closedWon)}</div>
-                  <p className="text-xs text-muted-foreground">Total de negócios ganhos</p>
-                </>
-              )}
+          <Card className="relative overflow-hidden">
+            <CardContent className="p-6">
+              <div className="flex items-center gap-4">
+                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-success/10">
+                  <TrendingUp className="h-6 w-6 text-success" />
+                </div>
+                <div className="space-y-1">
+                  <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Fechados Ganhos</p>
+                  {loading ? (
+                    <Skeleton className="h-8 w-24" />
+                  ) : (
+                    <p className="text-3xl font-extrabold tracking-tight">{formatCurrency(stats.closedWon)}</p>
+                  )}
+                </div>
+              </div>
             </CardContent>
           </Card>
 
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Atividades Recentes</CardTitle>
-              <Activity className="h-4 w-4 text-muted-foreground" />
-            </CardHeader>
-            <CardContent>
-              {loading ? (
-                <Skeleton className="h-8 w-16" />
-              ) : (
-                <>
-                  <div className="text-2xl font-bold">{stats.activitiesCount}</div>
-                  <p className="text-xs text-muted-foreground">Eventos na timeline</p>
-                </>
-              )}
+          <Card className="relative overflow-hidden">
+            <CardContent className="p-6">
+              <div className="flex items-center gap-4">
+                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-warning/10">
+                  <Activity className="h-6 w-6 text-warning" />
+                </div>
+                <div className="space-y-1">
+                  <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Atividades Recentes</p>
+                  {loading ? (
+                    <Skeleton className="h-8 w-16" />
+                  ) : (
+                    <p className="text-3xl font-extrabold tracking-tight">{stats.activitiesCount}</p>
+                  )}
+                </div>
+              </div>
             </CardContent>
           </Card>
         </div>

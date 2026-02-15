@@ -85,6 +85,7 @@ export default {
         "elevation-3": "var(--shadow-elevation-3)",
         "elevation-4": "var(--shadow-elevation-4)",
         "elevation-5": "var(--shadow-elevation-5)",
+        "card-hover": "var(--shadow-card-hover)",
         /* Contextual Shadows */
         "topbar": "var(--shadow-topbar)",
         "sidebar": "var(--shadow-sidebar)",
@@ -99,6 +100,8 @@ export default {
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
         xl: "calc(var(--radius) + 4px)",
+        "2xl": "calc(var(--radius) + 8px)",
+        "pill": "var(--radius-pill)",
       },
       keyframes: {
         "accordion-down": {
