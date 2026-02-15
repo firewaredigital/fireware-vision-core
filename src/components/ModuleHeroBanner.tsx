@@ -70,8 +70,8 @@ export function ModuleHeroBanner({
 
   return (
     <div
-      className={`relative w-full overflow-hidden rounded-xl shadow-elevation-2 ${
-        compact ? 'h-[120px]' : 'h-[160px]'
+      className={`relative w-full overflow-hidden rounded-[20px] shadow-elevation-2 ${
+        compact ? 'h-[120px]' : 'h-[180px]'
       }`}
     >
       {/* Background Image */}
@@ -90,7 +90,7 @@ export function ModuleHeroBanner({
       {/* Content */}
       <div className="relative z-10 flex h-full items-center justify-between px-6 md:px-8">
         <div className="space-y-1">
-          <h1 className="text-2xl font-bold tracking-tight text-white md:text-3xl drop-shadow-md">
+          <h1 className="text-3xl font-extrabold tracking-tight text-white md:text-4xl drop-shadow-md">
             {title}
           </h1>
           {subtitle && (
