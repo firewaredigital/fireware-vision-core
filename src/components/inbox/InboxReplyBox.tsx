@@ -1,18 +1,16 @@
 import { useState, useRef, useCallback } from 'react';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
-import { Badge } from '@/components/ui/badge';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 import {
   Send,
   Paperclip,
   EyeOff,
-  MessageSquare,
   Smile,
   Bold,
   Italic,
   Link,
-  CornerDownLeft,
+  Lock,
 } from '@/components/icons';
 import { cn } from '@/lib/utils';
 import { CannedResponsePicker } from '@/components/service/CannedResponsePicker';
@@ -47,14 +45,9 @@ export function InboxReplyBox({
   }, [message, isInternal, sending, onSend]);
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
-    // Ctrl/Cmd + Enter to send
     if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
       e.preventDefault();
       handleSend();
-    }
-    // Detect shortcut patterns like /something
-    if (e.key === '/' && message === '') {
-      // Let the user type the shortcut
     }
   };
 
@@ -65,21 +58,21 @@ export function InboxReplyBox({
 
   return (
     <div className={cn(
-      'border-t bg-card',
-      isInternal && 'bg-amber-50/50 dark:bg-amber-950/10 border-t-amber-200 dark:border-t-amber-800'
+      'bg-card rounded-t-2xl shadow-[0_-2px_12px_-4px_rgba(0,0,0,0.08)]',
+      isInternal && 'border-l-[3px] border-l-amber-400'
     )}>
       {/* Internal note indicator */}
       {isInternal && (
-        <div className="px-4 pt-2 flex items-center gap-2">
-          <EyeOff className="h-3.5 w-3.5 text-amber-600" />
-          <span className="text-xs font-medium text-amber-700 dark:text-amber-400">
+        <div className="px-4 pt-3 flex items-center gap-2 animate-fade-in">
+          <Lock className="h-3.5 w-3.5 text-amber-600" />
+          <span className="text-xs font-semibold text-amber-700 dark:text-amber-400">
             Nota interna — não visível para o cliente
           </span>
         </div>
       )}
 
       {/* Textarea */}
-      <div className="px-4 pt-2 pb-1">
+      <div className="px-4 pt-3 pb-1">
         <Textarea
           ref={textareaRef}
           placeholder={isInternal ? 'Escreva uma nota interna...' : 'Digite sua resposta...'}
@@ -87,7 +80,7 @@ export function InboxReplyBox({
           onChange={(e) => setMessage(e.target.value)}
           onKeyDown={handleKeyDown}
           className={cn(
-            'min-h-[80px] max-h-[200px] resize-none border-0 shadow-none focus-visible:ring-0 p-0 text-sm',
+            'min-h-[100px] max-h-[200px] resize-none border-0 shadow-none focus-visible:ring-0 p-0 text-sm leading-relaxed bg-transparent',
             isInternal && 'placeholder:text-amber-500/70'
           )}
           disabled={disabled || sending}
@@ -95,20 +88,20 @@ export function InboxReplyBox({
       </div>
 
       {/* Toolbar */}
-      <div className="px-3 pb-2 flex items-center justify-between">
+      <div className="px-4 pb-3 flex items-center justify-between">
         <div className="flex items-center gap-0.5">
           {/* Canned Response */}
           <CannedResponsePicker
             onSelect={handleCannedResponseSelect}
             contactId={contactId || undefined}
             variant="icon"
-            className="h-8 w-8"
+            className="h-8 w-8 rounded-lg"
           />
 
           {/* Attachment */}
           <Tooltip>
             <TooltipTrigger asChild>
-              <Button variant="ghost" size="icon" className="h-8 w-8" disabled={disabled}>
+              <Button variant="ghost" size="icon" className="h-8 w-8 rounded-lg" disabled={disabled}>
                 <Paperclip className="h-4 w-4" />
               </Button>
             </TooltipTrigger>
@@ -120,12 +113,18 @@ export function InboxReplyBox({
             <TooltipTrigger asChild>
               <Button
                 variant={isInternal ? 'secondary' : 'ghost'}
-                size="icon"
-                className={cn('h-8 w-8', isInternal && 'bg-amber-100 dark:bg-amber-900 text-amber-700 dark:text-amber-300')}
+                size={isInternal ? 'sm' : 'icon'}
+                className={cn(
+                  'h-8 rounded-lg transition-all',
+                  isInternal
+                    ? 'bg-amber-100 dark:bg-amber-900/50 text-amber-700 dark:text-amber-300 px-3 gap-1.5 rounded-full'
+                    : 'w-8'
+                )}
                 onClick={() => setIsInternal(!isInternal)}
                 disabled={disabled}
               >
-                <EyeOff className="h-4 w-4" />
+                <Lock className="h-3.5 w-3.5" />
+                {isInternal && <span className="text-xs font-medium">Interno</span>}
               </Button>
             </TooltipTrigger>
             <TooltipContent>
@@ -133,12 +132,12 @@ export function InboxReplyBox({
             </TooltipContent>
           </Tooltip>
 
-          <div className="h-5 w-px bg-border mx-1" />
+          <div className="h-5 w-px bg-border/50 mx-1.5" />
 
           {/* Formatting */}
           <Tooltip>
             <TooltipTrigger asChild>
-              <Button variant="ghost" size="icon" className="h-8 w-8" disabled={disabled}>
+              <Button variant="ghost" size="icon" className="h-8 w-8 rounded-lg" disabled={disabled}>
                 <Bold className="h-3.5 w-3.5" />
               </Button>
             </TooltipTrigger>
@@ -146,7 +145,7 @@ export function InboxReplyBox({
           </Tooltip>
           <Tooltip>
             <TooltipTrigger asChild>
-              <Button variant="ghost" size="icon" className="h-8 w-8" disabled={disabled}>
+              <Button variant="ghost" size="icon" className="h-8 w-8 rounded-lg" disabled={disabled}>
                 <Italic className="h-3.5 w-3.5" />
               </Button>
             </TooltipTrigger>
@@ -154,7 +153,7 @@ export function InboxReplyBox({
           </Tooltip>
           <Tooltip>
             <TooltipTrigger asChild>
-              <Button variant="ghost" size="icon" className="h-8 w-8" disabled={disabled}>
+              <Button variant="ghost" size="icon" className="h-8 w-8 rounded-lg" disabled={disabled}>
                 <Link className="h-3.5 w-3.5" />
               </Button>
             </TooltipTrigger>
@@ -163,24 +162,23 @@ export function InboxReplyBox({
         </div>
 
         {/* Send button */}
-        <div className="flex items-center gap-2">
-          <span className="text-[10px] text-muted-foreground flex items-center gap-1">
-            <CornerDownLeft className="h-3 w-3" />
+        <div className="flex items-center gap-2.5">
+          <kbd className="bg-muted rounded-md px-1.5 py-0.5 text-[10px] font-mono border border-border/50 text-muted-foreground hidden sm:inline-flex items-center gap-0.5">
             Ctrl+Enter
-          </span>
+          </kbd>
           <Button
             size="sm"
             onClick={handleSend}
             disabled={!message.trim() || sending || disabled}
             className={cn(
-              'gap-1.5',
+              'h-9 px-5 gap-1.5 rounded-full font-semibold shadow-sm',
               isInternal && 'bg-amber-600 hover:bg-amber-700'
             )}
           >
             {sending ? (
               <div className="h-3.5 w-3.5 animate-spin rounded-full border-2 border-current border-t-transparent" />
             ) : isInternal ? (
-              <EyeOff className="h-3.5 w-3.5" />
+              <Lock className="h-3.5 w-3.5" />
             ) : (
               <Send className="h-3.5 w-3.5" />
             )}

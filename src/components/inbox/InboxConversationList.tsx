@@ -5,11 +5,9 @@ import { Button } from '@/components/ui/button';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import {
   Inbox,
   Search,
-  Filter,
   MessageSquare,
   Phone,
   Mail,
@@ -26,43 +24,36 @@ import { cn } from '@/lib/utils';
 import type { Conversation, ConversationStatus, ConversationChannel, AgentStatus } from '@/hooks/useConversations';
 
 const channelIcons: Record<string, React.ReactNode> = {
-  email: <Mail className="h-3.5 w-3.5" />,
-  chat: <MessageSquare className="h-3.5 w-3.5" />,
-  phone: <Phone className="h-3.5 w-3.5" />,
-  whatsapp: <Smartphone className="h-3.5 w-3.5 text-green-600" />,
-  sms: <MessageSquare className="h-3.5 w-3.5 text-blue-500" />,
-  social: <Globe className="h-3.5 w-3.5 text-purple-500" />,
-  portal: <User className="h-3.5 w-3.5" />,
-  internal: <Hash className="h-3.5 w-3.5" />,
+  email: <Mail className="h-3 w-3" />,
+  chat: <MessageSquare className="h-3 w-3" />,
+  phone: <Phone className="h-3 w-3" />,
+  whatsapp: <Smartphone className="h-3 w-3" />,
+  sms: <MessageSquare className="h-3 w-3" />,
+  social: <Globe className="h-3 w-3" />,
+  portal: <User className="h-3 w-3" />,
+  internal: <Hash className="h-3 w-3" />,
 };
 
-const channelLabels: Record<string, string> = {
-  email: 'Email',
-  chat: 'Chat',
-  phone: 'Telefone',
-  whatsapp: 'WhatsApp',
-  sms: 'SMS',
-  social: 'Social',
-  portal: 'Portal',
-  internal: 'Interno',
+const channelBorderColors: Record<string, string> = {
+  whatsapp: 'ring-green-500',
+  email: 'ring-blue-500',
+  chat: 'ring-purple-500',
+  phone: 'ring-gray-500',
+  sms: 'ring-sky-500',
+  social: 'ring-pink-500',
+  portal: 'ring-indigo-500',
+  internal: 'ring-gray-400',
 };
 
 const statusConfig: Record<ConversationStatus, { color: string; label: string }> = {
   open: { color: 'bg-blue-500', label: 'Aberta' },
-  waiting_customer: { color: 'bg-amber-500', label: 'Aguardando Cliente' },
-  waiting_agent: { color: 'bg-orange-500', label: 'Aguardando Agente' },
+  waiting_customer: { color: 'bg-amber-500', label: 'Aguardando' },
+  waiting_agent: { color: 'bg-orange-500', label: 'Ag. Agente' },
   bot_handling: { color: 'bg-purple-500', label: 'Bot' },
-  on_hold: { color: 'bg-gray-500', label: 'Em Espera' },
+  on_hold: { color: 'bg-gray-500', label: 'Espera' },
   snoozed: { color: 'bg-gray-400', label: 'Adiada' },
   closed: { color: 'bg-green-500', label: 'Fechada' },
   spam: { color: 'bg-red-500', label: 'Spam' },
-};
-
-const priorityConfig: Record<string, { color: string; label: string }> = {
-  low: { color: 'text-muted-foreground', label: 'Baixa' },
-  medium: { color: 'text-blue-600', label: 'Média' },
-  high: { color: 'text-orange-600', label: 'Alta' },
-  critical: { color: 'text-destructive', label: 'Crítica' },
 };
 
 interface InboxConversationListProps {
@@ -124,26 +115,28 @@ export function InboxConversationList({
     return name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
   };
 
-  // Count by status for tabs
   const openCount = conversations.filter(c => ['open', 'waiting_agent'].includes(c.status)).length;
   const waitingCount = conversations.filter(c => c.status === 'waiting_customer').length;
   const closedCount = conversations.filter(c => c.status === 'closed').length;
+  const slaBreachedCount = conversations.filter(c => c.sla_response_breached).length;
 
   return (
-    <div className="w-80 border-r flex flex-col bg-card">
+    <div className="w-[340px] flex flex-col bg-card shadow-[2px_0_8px_-2px_rgba(0,0,0,0.06)]">
       {/* Header */}
-      <div className="p-3 border-b space-y-2">
+      <div className="p-4 space-y-3">
         <div className="flex items-center justify-between">
-          <h2 className="text-base font-semibold flex items-center gap-2">
-            <Inbox className="h-4 w-4" />
-            Inbox
-          </h2>
-          <div className="flex items-center gap-1">
+          <div className="flex items-center gap-2.5">
+            <div className="bg-primary/10 p-1.5 rounded-xl">
+              <Inbox className="h-4.5 w-4.5 text-primary" />
+            </div>
+            <h2 className="text-lg font-bold">Inbox</h2>
+          </div>
+          <div className="flex items-center gap-1.5">
             <Select value={agentStatus} onValueChange={(v) => onUpdateAgentStatus(v as AgentStatus)}>
-              <SelectTrigger className="h-7 w-auto text-xs px-2 gap-1">
+              <SelectTrigger className="h-8 w-auto text-xs px-3 gap-1.5 rounded-full bg-muted/50 border-0">
                 <div className={cn(
                   'h-2 w-2 rounded-full',
-                  agentStatus === 'available' ? 'bg-green-500' :
+                  agentStatus === 'available' ? 'bg-green-500 animate-pulse' :
                   agentStatus === 'busy' ? 'bg-red-500' :
                   agentStatus === 'away' ? 'bg-amber-500' : 'bg-gray-400'
                 )} />
@@ -159,7 +152,7 @@ export function InboxConversationList({
                 <SelectItem value="after_call_work">Pós-Atendimento</SelectItem>
               </SelectContent>
             </Select>
-            <Button variant="ghost" size="icon" className="h-7 w-7" onClick={onRefresh}>
+            <Button variant="ghost" size="icon" className="h-8 w-8 rounded-xl" onClick={onRefresh}>
               <RefreshCw className="h-3.5 w-3.5" />
             </Button>
           </div>
@@ -167,35 +160,52 @@ export function InboxConversationList({
 
         {/* Search */}
         <div className="relative">
-          <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-muted-foreground" />
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground/70" />
           <Input
-            placeholder="Buscar conversas..."
+            placeholder="Buscar por nome, email, assunto..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="h-8 pl-8 text-sm"
+            className="h-10 pl-9 text-sm bg-muted/50 border-0 rounded-xl backdrop-blur-sm"
           />
         </div>
 
-        {/* Quick tabs */}
-        <Tabs value={statusFilter} onValueChange={onStatusFilterChange}>
-          <TabsList className="w-full h-8">
-            <TabsTrigger value="active" className="text-xs flex-1 h-7">
-              Ativas {openCount > 0 && <Badge variant="secondary" className="ml-1 h-4 px-1 text-[10px]">{openCount}</Badge>}
-            </TabsTrigger>
-            <TabsTrigger value="waiting" className="text-xs flex-1 h-7">
-              Aguardando {waitingCount > 0 && <Badge variant="secondary" className="ml-1 h-4 px-1 text-[10px]">{waitingCount}</Badge>}
-            </TabsTrigger>
-            <TabsTrigger value="closed" className="text-xs flex-1 h-7">
-              Fechadas
-            </TabsTrigger>
-            <TabsTrigger value="all" className="text-xs flex-1 h-7">Todas</TabsTrigger>
-          </TabsList>
-        </Tabs>
+        {/* Status Tabs - Pill shaped */}
+        <div className="flex gap-1 p-0.5 bg-muted/30 rounded-full">
+          {[
+            { value: 'active', label: 'Ativas', count: openCount },
+            { value: 'waiting', label: 'Aguardando', count: waitingCount },
+            { value: 'closed', label: 'Fechadas', count: closedCount },
+            { value: 'all', label: 'Todas', count: 0 },
+          ].map(tab => (
+            <button
+              key={tab.value}
+              onClick={() => onStatusFilterChange(tab.value)}
+              className={cn(
+                'flex-1 flex items-center justify-center gap-1 rounded-full py-1.5 text-[11px] font-medium transition-all duration-200',
+                statusFilter === tab.value
+                  ? 'bg-primary text-primary-foreground shadow-sm'
+                  : 'text-muted-foreground hover:text-foreground hover:bg-muted/50'
+              )}
+            >
+              {tab.label}
+              {tab.count > 0 && (
+                <span className={cn(
+                  'h-4 min-w-[16px] px-1 rounded-full text-[9px] font-bold flex items-center justify-center',
+                  statusFilter === tab.value
+                    ? 'bg-primary-foreground/20 text-primary-foreground'
+                    : 'bg-muted text-muted-foreground'
+                )}>
+                  {tab.count}
+                </span>
+              )}
+            </button>
+          ))}
+        </div>
 
-        {/* Additional Filters */}
-        <div className="flex gap-1.5">
+        {/* Filters */}
+        <div className="flex gap-2">
           <Select value={channelFilter} onValueChange={onChannelFilterChange}>
-            <SelectTrigger className="h-7 text-xs flex-1">
+            <SelectTrigger className="h-8 text-[11px] flex-1 rounded-full bg-muted/50 border-0">
               <SelectValue placeholder="Canal" />
             </SelectTrigger>
             <SelectContent>
@@ -210,7 +220,7 @@ export function InboxConversationList({
             </SelectContent>
           </Select>
           <Select value={ownerFilter} onValueChange={onOwnerFilterChange}>
-            <SelectTrigger className="h-7 text-xs flex-1">
+            <SelectTrigger className="h-8 text-[11px] flex-1 rounded-full bg-muted/50 border-0">
               <SelectValue placeholder="Atribuição" />
             </SelectTrigger>
             <SelectContent>
@@ -227,42 +237,50 @@ export function InboxConversationList({
         {loading ? (
           <div className="p-4 space-y-3">
             {[1, 2, 3, 4, 5].map(i => (
-              <div key={i} className="animate-pulse flex gap-3">
+              <div key={i} className="animate-pulse flex gap-3 mx-2 p-3 rounded-xl bg-muted/30">
                 <div className="h-10 w-10 rounded-full bg-muted" />
                 <div className="flex-1 space-y-2">
-                  <div className="h-3 bg-muted rounded w-3/4" />
-                  <div className="h-3 bg-muted rounded w-1/2" />
+                  <div className="h-3 bg-muted rounded-full w-3/4" />
+                  <div className="h-3 bg-muted rounded-full w-1/2" />
                 </div>
               </div>
             ))}
           </div>
         ) : filteredConversations.length === 0 ? (
-          <div className="p-6 text-center text-muted-foreground">
-            <MessageSquare className="h-10 w-10 mx-auto mb-3 opacity-30" />
+          <div className="p-8 text-center text-muted-foreground">
+            <div className="h-14 w-14 mx-auto mb-3 rounded-2xl bg-muted/50 flex items-center justify-center">
+              <MessageSquare className="h-7 w-7 opacity-30" />
+            </div>
             <p className="text-sm font-medium">Nenhuma conversação</p>
-            <p className="text-xs mt-1">Ajuste os filtros ou aguarde novas interações</p>
+            <p className="text-xs mt-1 text-muted-foreground/70">Ajuste os filtros ou aguarde novas interações</p>
           </div>
         ) : (
-          <div className="divide-y">
+          <div className="px-2 py-1 space-y-1">
             {filteredConversations.map((conv) => {
-              const priority = priorityConfig[conv.priority] || priorityConfig.medium;
               const status = statusConfig[conv.status];
+              const isSelected = selectedId === conv.id;
+              const isUnread = conv.unread_count > 0 && !isSelected;
 
               return (
                 <div
                   key={conv.id}
                   onClick={() => onSelect(conv)}
                   className={cn(
-                    'p-3 cursor-pointer hover:bg-accent/50 transition-colors',
-                    selectedId === conv.id && 'bg-accent border-l-2 border-l-primary',
-                    conv.unread_count > 0 && selectedId !== conv.id && 'bg-primary/5'
+                    'p-3 cursor-pointer rounded-xl transition-all duration-200 group',
+                    isSelected
+                      ? 'bg-primary/[0.08] border-l-[3px] border-l-primary shadow-sm'
+                      : 'hover:bg-accent/30 hover:translate-x-0.5 border-l-[3px] border-l-transparent',
+                    isUnread && 'bg-primary/5'
                   )}
                 >
                   <div className="flex items-start gap-2.5">
                     <div className="relative">
-                      <Avatar className="h-9 w-9">
+                      <Avatar className={cn(
+                        'h-10 w-10 ring-2',
+                        channelBorderColors[conv.channel] || 'ring-muted'
+                      )}>
                         <AvatarFallback className={cn(
-                          'text-xs',
+                          'text-xs font-medium',
                           conv.priority === 'critical' && 'bg-destructive/10 text-destructive',
                           conv.priority === 'high' && 'bg-orange-100 text-orange-700 dark:bg-orange-950 dark:text-orange-400'
                         )}>
@@ -270,7 +288,7 @@ export function InboxConversationList({
                         </AvatarFallback>
                       </Avatar>
                       {/* Channel icon overlay */}
-                      <div className="absolute -bottom-0.5 -right-0.5 bg-background rounded-full p-0.5 border">
+                      <div className="absolute -bottom-0.5 -right-0.5 bg-card rounded-full p-[3px] shadow-sm">
                         {channelIcons[conv.channel] || <MessageSquare className="h-2.5 w-2.5" />}
                       </div>
                     </div>
@@ -279,7 +297,7 @@ export function InboxConversationList({
                       <div className="flex items-center justify-between gap-1">
                         <span className={cn(
                           'text-sm truncate',
-                          conv.unread_count > 0 ? 'font-semibold' : 'font-medium'
+                          isUnread ? 'font-semibold text-foreground' : 'font-medium'
                         )}>
                           {getContactName(conv)}
                         </span>
@@ -291,18 +309,18 @@ export function InboxConversationList({
                       </div>
 
                       <p className={cn(
-                        'text-xs truncate mt-0.5',
-                        conv.unread_count > 0 ? 'text-foreground' : 'text-muted-foreground'
+                        'text-xs truncate mt-0.5 line-clamp-1',
+                        isUnread ? 'text-foreground font-medium' : 'text-muted-foreground'
                       )}>
                         {conv.subject || conv.summary || conv.conversation_number}
                       </p>
 
-                      <div className="flex items-center gap-1.5 mt-1">
+                      <div className="flex items-center gap-1.5 mt-1.5">
                         <div className={cn('h-1.5 w-1.5 rounded-full flex-shrink-0', status.color)} />
                         <span className="text-[10px] text-muted-foreground">{status.label}</span>
 
-                        {conv.unread_count > 0 && (
-                          <Badge variant="destructive" className="h-4 px-1 text-[9px] ml-auto">
+                        {isUnread && (
+                          <Badge variant="destructive" className="h-4 min-w-[16px] px-1 text-[9px] ml-auto animate-pulse">
                             {conv.unread_count}
                           </Badge>
                         )}
@@ -310,12 +328,12 @@ export function InboxConversationList({
                           <AlertCircle className="h-3 w-3 text-destructive flex-shrink-0" />
                         )}
                         {conv.priority === 'critical' && (
-                          <Badge variant="destructive" className="h-4 px-1 text-[9px]">
+                          <Badge variant="destructive" className="h-4 px-1.5 text-[9px] animate-pulse">
                             Crítica
                           </Badge>
                         )}
-                        {conv.priority === 'high' && (
-                          <Badge variant="outline" className="h-4 px-1 text-[9px] border-orange-300 text-orange-600">
+                        {conv.priority === 'high' && !isUnread && (
+                          <Badge variant="outline" className="h-4 px-1.5 text-[9px] border-orange-300 text-orange-600">
                             Alta
                           </Badge>
                         )}
@@ -330,9 +348,14 @@ export function InboxConversationList({
       </ScrollArea>
 
       {/* Footer Stats */}
-      <div className="border-t px-3 py-2 flex items-center justify-between text-[10px] text-muted-foreground">
-        <span>{filteredConversations.length} conversas</span>
-        <span>{conversations.filter(c => c.sla_response_breached).length} SLA violado</span>
+      <div className="px-4 py-2.5 bg-muted/30 rounded-t-xl flex items-center justify-between text-[10px] text-muted-foreground">
+        <span className="font-medium">{filteredConversations.length} conversas</span>
+        {slaBreachedCount > 0 && (
+          <span className="flex items-center gap-1 text-destructive font-semibold">
+            <AlertCircle className="h-3 w-3" />
+            {slaBreachedCount} SLA violado
+          </span>
+        )}
       </div>
     </div>
   );

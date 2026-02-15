@@ -113,7 +113,6 @@ export default function OmnichannelInbox() {
   // ── Keyboard shortcuts ──
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      // Don't trigger shortcuts when typing in inputs
       const tag = (e.target as HTMLElement)?.tagName;
       if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT') return;
 
@@ -122,7 +121,6 @@ export default function OmnichannelInbox() {
         : -1;
 
       switch (e.key) {
-        // Navigate conversations with arrow keys
         case 'ArrowDown':
         case 'j': {
           e.preventDefault();
@@ -137,9 +135,7 @@ export default function OmnichannelInbox() {
           if (conversations[prevIdx]) setSelectedConversation(conversations[prevIdx]);
           break;
         }
-        // Quick actions
         case 'e': {
-          // Resolve / close
           if (selectedConversation && selectedConversation.status !== 'closed') {
             e.preventDefault();
             actions.closeConversation(selectedConversation.id);
@@ -147,7 +143,6 @@ export default function OmnichannelInbox() {
           break;
         }
         case 'a': {
-          // Assign to me
           if (selectedConversation && !selectedConversation.owner_id) {
             e.preventDefault();
             actions.assignToMe(selectedConversation.id);
@@ -155,7 +150,6 @@ export default function OmnichannelInbox() {
           break;
         }
         case 'i': {
-          // Toggle context panel
           e.preventDefault();
           setShowContextPanel(prev => !prev);
           break;
@@ -230,7 +224,7 @@ export default function OmnichannelInbox() {
   return (
     <>
       <TooltipProvider delayDuration={200}>
-        <div className="flex h-[calc(100vh-4rem)] overflow-hidden">
+        <div className="flex h-[calc(100vh-72px)] overflow-hidden m-3 rounded-2xl shadow-elevation-2 bg-card">
           {/* ───── Left: Conversation List ───── */}
           <InboxConversationList
             conversations={conversations}
@@ -280,19 +274,21 @@ export default function OmnichannelInbox() {
                 )}
               </>
             ) : (
-              <div className="flex-1 flex items-center justify-center text-muted-foreground">
-                <div className="text-center space-y-3">
-                  <Inbox className="h-16 w-16 mx-auto opacity-20" />
-                  <div>
-                    <h3 className="text-lg font-medium">Selecione uma conversação</h3>
-                    <p className="text-sm mt-1">Escolha uma conversação da lista para começar</p>
+              <div className="flex-1 flex items-center justify-center text-muted-foreground animate-fade-in">
+                <div className="text-center space-y-4">
+                  <div className="h-20 w-20 mx-auto rounded-2xl bg-gradient-to-br from-primary/10 to-primary/5 flex items-center justify-center">
+                    <Inbox className="h-10 w-10 text-primary/40" />
                   </div>
-                  <div className="flex flex-wrap justify-center gap-3 mt-4 text-xs text-muted-foreground/70">
-                    <span className="border rounded px-2 py-1">↑↓ navegar</span>
-                    <span className="border rounded px-2 py-1">E resolver</span>
-                    <span className="border rounded px-2 py-1">A assumir</span>
-                    <span className="border rounded px-2 py-1">I contexto</span>
-                    <span className="border rounded px-2 py-1">Esc voltar</span>
+                  <div>
+                    <h3 className="text-lg font-bold text-foreground">Selecione uma conversação</h3>
+                    <p className="text-sm mt-1 text-muted-foreground">Escolha uma conversação da lista para começar o atendimento</p>
+                  </div>
+                  <div className="flex flex-wrap justify-center gap-2 mt-5">
+                    <kbd className="bg-muted rounded-lg px-2.5 py-1 text-[11px] font-mono border border-border/50 shadow-sm">↑↓ navegar</kbd>
+                    <kbd className="bg-muted rounded-lg px-2.5 py-1 text-[11px] font-mono border border-border/50 shadow-sm">E resolver</kbd>
+                    <kbd className="bg-muted rounded-lg px-2.5 py-1 text-[11px] font-mono border border-border/50 shadow-sm">A assumir</kbd>
+                    <kbd className="bg-muted rounded-lg px-2.5 py-1 text-[11px] font-mono border border-border/50 shadow-sm">I contexto</kbd>
+                    <kbd className="bg-muted rounded-lg px-2.5 py-1 text-[11px] font-mono border border-border/50 shadow-sm">Esc voltar</kbd>
                   </div>
                 </div>
               </div>
