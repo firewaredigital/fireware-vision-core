@@ -1,207 +1,170 @@
 
-# Redesign Drastico do Design System — Modernizacao Visual Completa
+# Redesign Completo do Inbox Omnichannel — Estetica de App de Atendimento Moderno
 
 ## Objetivo
-Transformar drasticamente o design visual de todos os componentes do sistema para alinhar com a estetica moderna, sofisticada e tecnologica das imagens de referencia, **mantendo a paleta de cores existente** (#FF0000 primario, #212427 dark, #F5F5F5 background) e o **layout do sidebar dual-panel** inalterado.
+Transformar o Inbox Omnichannel em uma interface de nivel profissional inspirada em ferramentas como Intercom, Zendesk e Front, com estetica moderna, micro-interacoes sofisticadas e experiencia de uso fluida.
 
-## Analise das Imagens de Referencia
+## Componentes a Redesenhar
 
-As imagens apresentam um design system com as seguintes caracteristicas visuais marcantes:
+### 1. OmnichannelInbox.tsx — Layout Principal
+**Alteracoes:**
+- Substituir `h-[calc(100vh-4rem)]` por `h-[calc(100vh-72px)]` para alinhar com a nova topbar
+- Adicionar `rounded-2xl overflow-hidden shadow-elevation-2 m-3` no container principal para criar um "app-within-app" com bordas arredondadas e margem
+- O empty state central (quando nenhuma conversa esta selecionada) recebera uma ilustracao mais rica: icone maior com gradiente, atalhos de teclado estilizados com `kbd` tags em formato pill, e animacao de entrada fade-in
+- Remover bordas duras entre paineis, usar sombras sutis e `bg-background` vs `bg-card` para diferenciar zonas
 
-1. **Cards com bordas ultra-arredondadas** (16-20px) e superficies limpas com sombras difusas
-2. **Inputs com fundo solido** (cinza claro no light, dark no dark mode) em vez de bordas finas — estilo "filled input"
-3. **Botoes com cantos completamente arredondados** (pill-shaped, border-radius ~999px) e peso visual forte
-4. **Badges/Tags com formato pill** e cores vibrantes com fundo translucido
-5. **Tabelas com linhas separadas, espacamento generoso** e avatares circulares integrados
-6. **KPI Cards com icones coloridos** e indicadores de variacao (setas verde/vermelha)
-7. **Tipografia com maior contraste** — numeros de KPIs muito grandes e boldos
-8. **Dropdowns com fundo solido escuro** (no dark mode) e itens com destaque colorido
-9. **Checkboxes e Switches com design arredondado e cores vivas**
-10. **Graficos com bordas arredondadas** nas barras e estilo clean
+### 2. InboxConversationList.tsx — Painel Esquerdo (Lista de Conversas)
+**Alteracoes no Header:**
+- Largura aumentada de `w-80` para `w-[340px]` para mais respiro
+- Remover `border-r`, usar sombra lateral `shadow-[2px_0_8px_-2px_rgba(0,0,0,0.06)]`
+- Header com fundo `bg-card` e padding `p-4` mais generoso
+- Titulo "Inbox" com `text-lg font-bold` e icone com fundo circular primario translucido (`bg-primary/10 p-1.5 rounded-xl`)
+- Status do agente: indicador de status com animacao `pulse` no dot verde, select com bordas pill e fundo muted
 
-## Plano de Implementacao Detalhado
+**Alteracoes na Busca:**
+- Input de busca com estilo glass: `bg-muted/50 backdrop-blur-sm border-0 rounded-xl h-10`
+- Icone de busca com cor mais forte
+- Placeholder com texto mais descritivo
 
-### Fase 1 — CSS Variables e Foundation (index.css)
+**Alteracoes nas Tabs de Status:**
+- Tabs pill-shaped com contadores coloridos
+- Tab ativa com fundo `bg-primary text-white` pill
+- Badge de contagem com formato circular e animacao de pulse quando > 0
 
-**Alteracoes nas CSS variables `:root`:**
-- Aumentar `--radius` de `0.75rem` para `1rem` (16px) para cards mais arredondados
-- Adicionar nova variavel `--radius-pill: 9999px` para botoes e badges pill
-- Adicionar `--radius-input: 0.75rem` para inputs com bordas mais suaves
-- Refinar `--shadow-elevation-1` com sombras mais difusas e suaves (estilo moderno)
-- Adicionar `--shadow-card-hover` com elevacao mais dramatica para efeito de profundidade
-- Alterar `--border` para um tom mais sutil (93% em vez de 90%) para bordas quase invisiveis
-- Refinar tipografia global: ajustar `body` para `font-size: 14px` com `line-height: 1.6`
+**Alteracoes nos Filtros:**
+- Selects de canal e atribuicao com formato pill menor (`h-8 rounded-full`)
+- Fundo `bg-muted/50` e borda transparente
+- Layout em flex com gap maior
 
-**Novas utility classes CSS:**
-- `.glass-surface`: Background com `backdrop-filter: blur(12px)` e borda translucida
-- `.gradient-subtle`: Gradiente sutil de fundo para cards de KPI
-- `.text-gradient-primary`: Texto com gradiente vermelho para destaques
-- `.animate-number-in`: Animacao de entrada para numeros de KPIs (contagem)
+**Alteracoes nos Itens de Conversa:**
+- Cada item com `rounded-xl mx-2 my-1` em vez de `divide-y` (cards separados ao inves de lista dividida)
+- Item selecionado: `bg-primary/8 border-l-3 border-l-primary shadow-sm` com transicao suave
+- Item com mensagens nao lidas: dot de notificacao animado com `animate-pulse` e fundo `bg-primary/5`
+- Avatar com borda colorida por canal (verde para WhatsApp, azul para email, etc.)
+- Overlay de icone de canal no avatar com fundo branco e sombra micro
+- Nome do contato com `text-sm font-semibold` para nao lidos, `font-medium` para lidos
+- Preview da mensagem com `line-clamp-1` e tipografia `text-xs text-muted-foreground`
+- Timestamp com formato relativo mais curto
+- Status dot com cores vibrantes e label em texto ao lado
+- Badge de prioridade critica com animacao `animate-pulse` e fundo vermelho translucido
+- Hover com `bg-accent/30` e sutil `translateX(2px)` para feedback direcional
+- Transicao `transition-all duration-200` em todos os estados
 
-### Fase 2 — Componentes UI Base (shadcn)
+**Alteracoes no Footer:**
+- Fundo `bg-muted/30` com bordas arredondadas superiores
+- Contador de SLA violado com cor vermelha e icone de alerta
 
-**2.1 Button (`button.tsx`)**
-- Variante `default`: border-radius `9999px` (pill), padding horizontal maior (`px-6`), peso de fonte `700`
-- Variante `outline`: pill + borda mais fina (`1px`) + hover com background sutil
-- Variante `ghost`: pill + transicao de fundo mais suave
-- Nova variante `filled`: fundo cinza solido (como os botoes "Label" da imagem) com cor de destaque
-- Aumentar altura padrao de `h-10` para `h-11` (44px)
-- Adicionar transicao `transform` no hover com sutil `scale(1.02)`
+### 3. InboxConversationHeader.tsx — Header da Conversa
+**Alteracoes:**
+- Background com `bg-card/80 backdrop-blur-xl` (efeito glass)
+- Remover `border-b`, usar `shadow-[0_1px_4px_-1px_rgba(0,0,0,0.06)]`
+- Altura aumentada para `py-3.5 px-5` para mais respiro
+- Avatar aumentado para `h-10 w-10` com ring colorido por prioridade (vermelho para critica, laranja para alta)
+- Nome do contato com `text-base font-bold`
+- Badges de canal e prioridade com formato pill, icones dentro, e cores vibrantes com fundo translucido
+- Badge de canal com cor especifica: WhatsApp (`bg-green-100 text-green-700`), Email (`bg-blue-100 text-blue-700`), Chat (`bg-purple-100 text-purple-700`)
+- Metadados (numero, email, conta) com separadores estilizados (dot com cor muted)
+- SLA Countdown com destaque visual maior: se < 30min, fundo pulsante vermelho/laranja
+- Botoes de acao "Assumir" e "Resolver" com formato pill e sombras
+- Botao "Assumir" com gradiente primario e icone animado
+- Botao "Resolver" com borda verde e hover preenchido
+- Botao de menu (...) com `rounded-full bg-muted/50 hover:bg-muted`
 
-**2.2 Input (`input.tsx`)**
-- Trocar de `bg-background` + `border` para estilo "filled": `bg-muted` sem borda visivel
-- Border-radius `12px` (rounded-xl)
-- Altura `h-12` (48px) para maior presenca
-- Placeholder com opacidade mais alta
-- Focus: borda sutil primaria + sombra `ring` mais difusa
-- Adicionar label flutuante via CSS (uppercase, 11px, tracking wide) — estilo "NAME*" da imagem
+### 4. InboxMessageThread.tsx — Thread de Mensagens
+**Alteracoes no Layout:**
+- Fundo com gradiente sutil: `bg-gradient-to-b from-muted/20 to-background` para profundidade
+- Padding lateral `px-6` para mais respiro
+- Scrollbar estilizada ultra-fina (3px) com cor sutil
 
-**2.3 Card (`card.tsx`)**
-- Aumentar border-radius para `rounded-2xl` (16px)
-- Remover borda visivel no light mode, usar apenas sombra como delimitador
-- Sombra mais difusa e suave (`0 4px 24px -4px rgba(0,0,0,0.06)`)
-- Hover com elevacao mais pronunciada e sutil `translateY(-2px)`
-- Dark mode: fundo `hsl(216 5% 14%)` com borda `1px solid hsl(216 5% 20%)`
+**Alteracoes no Separador de Data:**
+- Formato pill: `bg-muted/80 rounded-full px-4 py-1.5 shadow-sm`
+- Tipografia `text-[11px] font-semibold tracking-wide uppercase` com cor `text-muted-foreground/80`
 
-**2.4 Badge (`badge.tsx`)**
-- Border-radius `9999px` (pill-shaped)
-- Padding mais generoso `px-3 py-1`
-- Font-size `11px` com `font-weight: 600`
-- Novas variantes com cores de status: cada status com fundo translucido e texto colorido vibrante (como "Not Called" rosa, "Pending" amarelo, "Called" verde da imagem)
+**Alteracoes nas Bolhas de Mensagem:**
+- Bolha do agente (usuario atual): `bg-primary text-white rounded-2xl rounded-br-md` com sombra `shadow-sm`
+- Bolha do cliente: `bg-card border border-border/50 rounded-2xl rounded-bl-md shadow-sm`
+- Bolha do bot: `bg-gradient-to-br from-purple-50 to-purple-100/50 border border-purple-200/50 rounded-2xl rounded-bl-md`
+- Nota interna: `bg-amber-50/80 border border-amber-200/50 rounded-2xl rounded-br-md` com icone de cadeado
+- Mensagem de sistema: `bg-muted/50 rounded-full px-5 py-2 shadow-none` formato pill central
+- Padding das bolhas `px-4 py-3` para mais conforto
+- Maxima largura `max-w-[70%]` para manter proporcao elegante
+- Animacao de entrada: `animate-fade-in` com sutil `translateY(4px)` nas novas mensagens
 
-**2.5 Table (`table.tsx`)**
-- Remover borda exterior do wrapper, usar apenas sombra
-- `TableHead`: fundo `bg-muted/30` com texto uppercase `text-[11px]` e separador pontilhado entre colunas
-- `TableRow`: altura maior `min-h-[64px]`, hover com `bg-accent/50` e transicao suave
-- `TableCell`: padding `py-4 px-5` para mais respiro
-- Adicionar borda arredondada no wrapper `rounded-2xl`
+**Alteracoes nos Avatares:**
+- Avatar `h-8 w-8` com ring de 2px colorido por tipo (primario para agente, muted para cliente, purple para bot)
+- Fallback com gradiente de fundo em vez de cor solida
 
-**2.6 Select/Dropdown (`select.tsx`)**
-- Trigger com estilo filled (fundo solido) em vez de bordered
-- Border-radius `12px`
-- Content dropdown com `rounded-xl` e sombra elevation-3 mais pronunciada
-- Items com `rounded-lg` e hover com fundo accent mais visivel
-- Item selecionado com destaque colorido (fundo primario translucido)
+**Alteracoes no Footer da Mensagem:**
+- Timestamp sempre visivel (sem `opacity-0 group-hover`) mas com opacidade `opacity-60` constante
+- Icones de delivery status com cores mais vibrantes: read com `text-blue-500`, delivered com `text-green-500`
+- Adicionar label textual micro ao lado do icone: "Lido", "Entregue", etc.
 
-**2.7 Tabs (`tabs.tsx`)**
-- Remover borda inferior da lista
-- `TabsTrigger` ativo: fundo solido `bg-primary text-white rounded-full` (pill) em vez de border-bottom
-- Tabs inativos: `bg-transparent text-muted-foreground` com hover `bg-muted rounded-full`
-- Espacamento entre tabs `gap-2`
-- Transicao suave de fundo ao alternar
+**Alteracoes nos Anexos:**
+- Card de anexo com `rounded-xl bg-card/80 backdrop-blur-sm border shadow-sm px-3 py-2`
+- Icone de arquivo com cor por tipo (PDF vermelho, imagem azul, etc.)
+- Hover com `shadow-md` e escala sutil
 
-**2.8 Switch (`switch.tsx`)**
-- Aumentar para `h-7 w-13` para maior presenca visual
-- Thumb com `h-5.5 w-5.5`
-- Checked state: cor primaria (#FF0000) com sombra glow sutil
-- Unchecked: fundo mais escuro `bg-muted-foreground/20`
+### 5. InboxReplyBox.tsx — Caixa de Resposta
+**Alteracoes:**
+- Container com `rounded-t-2xl` (cantos superiores arredondados) e `shadow-[0_-2px_12px_-4px_rgba(0,0,0,0.08)]` (sombra para cima)
+- Remover `border-t`, usar sombra como separador
+- Padding `p-4` mais generoso
+- Nota interna: fundo `bg-amber-50/30` com borda esquerda `border-l-3 border-l-amber-400` em vez de mudar todo o background
+- Indicador de nota interna com banner animado `animate-fade-in` e icone de cadeado
 
-**2.9 Checkbox (`checkbox.tsx`)**
-- Border-radius `6px` (mais arredondado)
-- Tamanho `h-5 w-5` (maior)
-- Checked: fundo primario com icone branco e sombra sutil
-- Borda mais espessa `2px`
+**Alteracoes no Textarea:**
+- Textarea com `min-h-[100px]` e `text-sm leading-relaxed`
+- Placeholder com estilo mais suave
+- Borda arredondada `rounded-xl` com fundo `bg-muted/30` sutil ao receber foco
 
-**2.10 Progress (`progress.tsx`)**
-- Border-radius `9999px` (pill)
-- Altura padrao `h-2.5` (mais fina e elegante)
-- Indicador com gradiente sutil em vez de cor solida
-- Fundo da track mais sutil `bg-muted/50`
+**Alteracoes na Toolbar:**
+- Botoes de formatacao com `rounded-lg` e agrupados visualmente com separador vertical mais sutil
+- Botao de resposta rapida com icone `Zap` (raio) em vez de `MessageSquare` para diferenciar
+- Botao de nota interna com toggle visual claro: quando ativo, fundo `bg-amber-100` pill com label "Interno"
+- Botao de enviar: maior (`h-9 px-5`), pill-shaped, com icone animado de envio (sutil rotacao)
+- Botao de envio nota interna: cor amber com icone de cadeado
+- Shortcut indicator `Ctrl+Enter` com estilo kbd: `bg-muted rounded-md px-1.5 py-0.5 text-[10px] font-mono border`
 
-**2.11 Dialog/Sheet (`dialog.tsx`, `sheet.tsx`)**
-- Border-radius `24px` (ultra-arredondado)
-- Sombra mais dramatica com camadas multiplas
-- Overlay com blur mais forte `backdrop-blur-sm`
+### 6. InboxContextPanel.tsx — Painel Lateral de Contexto
+**Alteracoes:**
+- Largura aumentada de `w-72` para `w-[320px]`
+- Remover `border-l`, usar sombra esquerda `shadow-[-2px_0_8px_-2px_rgba(0,0,0,0.06)]`
+- Header com titulo "Contexto 360" e icone com fundo primario translucido
+- Tabs com estilo pill: tab ativa com `bg-primary text-white rounded-full`
 
-**2.12 Tooltip (`tooltip.tsx`)**
-- Border-radius `12px`
-- Fundo dark solido com sombra elevation-3
-- Padding mais generoso
+**Alteracoes no Tab Contato:**
+- Card de contato no topo com avatar grande (`h-12 w-12`), nome em `font-bold`, email/telefone com icones coloridos
+- Botao "Ver Contato" com estilo outline pill
+- Secao de detalhes com grid estilizado: labels em `text-[11px] uppercase tracking-wider text-muted-foreground`
+- Valores com `font-semibold`
+- Card de proprietario com avatar e info agrupados com fundo `bg-muted/50 rounded-xl p-3`
+- Tags com formato pill e cores variadas (hash para cor baseada no texto)
 
-### Fase 3 — Componentes de Pagina
+**Alteracoes no Tab Historico:**
+- Cards de tickets/conversas com `rounded-xl border-0 bg-muted/50 p-3` em vez de `border rounded`
+- Status dot maior e com label visivel
+- Hover com `bg-accent/50 shadow-sm` e sutil elevacao
+- Separadores visuais com titulo de secao em `uppercase tracking-wider` com linha decorativa
 
-**3.1 Topbar (`AppTopbar.tsx`)**
-- Remover borda inferior, usar apenas sombra ultra-sutil como separador
-- Background com `backdrop-filter: blur(12px)` para efeito glass
-- Altura aumentada para `h-[72px]` para mais respiro
-- Botoes da topbar com estilo pill
-
-**3.2 KPI Cards (Dashboard, ServiceDashboard, etc.)**
-- Layout de KPI card com icone colorido em circulo a esquerda (fundo translucido do modulo)
-- Numero principal com `text-3xl font-extrabold tracking-tight`
-- Indicador de variacao com seta e cor (verde positivo, vermelho negativo) — estilo "+12.5%" da imagem
-- Subtitulo em `text-xs text-muted-foreground uppercase tracking-wider`
-- Animacao de entrada com `transform: translateY(8px)` e fade
-- Adicionar borda esquerda colorida de 3px como accent visual
-
-**3.3 Hero Banners (`ModuleHeroBanner.tsx`)**
-- Border-radius `20px` (mais arredondado)
-- Gradiente overlay mais sofisticado com camadas multiplas
-- Tipografia do titulo com `text-4xl` e peso `800`
-- Adicionar efeito de parallax sutil no hover
-
-**3.4 Tabelas de Listagem (Leads, Contacts, etc.)**
-- Integrar avatares circulares nas linhas (como na imagem "Smart Orders")
-- Status badges com formato pill e cores vibrantes
-- Adicionar coluna de selecao com checkbox estilizado
-- Hover de linha com elevacao sutil e borda esquerda colorida
-
-### Fase 4 — Estilos Globais Adicionais (index.css)
-
-**4.1 Scrollbar redesign:**
-- Thumb com `border-radius: 9999px` e `width: 5px`
-- Cor mais sutil e aparecimento gradual no hover
-
-**4.2 Selection highlight:**
-- `::selection { background: hsl(0 100% 50% / 0.12); }`
-
-**4.3 Focus rings:**
-- Trocar ring padrao de `ring-2 ring-ring` para `ring-2 ring-primary/20` mais sutil
-
-**4.4 Transicoes globais:**
-- Adicionar `transition: all 200ms cubic-bezier(0.4, 0, 0.2, 1)` como padrao em elementos interativos
-
-**4.5 Dark mode refinements:**
-- Cards com borda `1px solid hsl(216 5% 20%)` mais visivel
-- Inputs com fundo `hsl(216 5% 17%)` (mais claro que o card)
-- Sombras com maior opacidade para profundidade
-
-### Fase 5 — Animacoes e Micro-interacoes
-
-- Cards: `hover:translateY(-2px)` com transicao `300ms ease`
-- Botoes: `active:scale(0.97)` para feedback tatil
-- Badges: `hover:shadow-sm` para leve elevacao
-- KPI numbers: animacao de contagem usando CSS `@keyframes countUp`
-- Page entrance: stagger animation nos cards de KPI (delay progressivo)
+**Alteracoes no Tab Negocios:**
+- Cards de oportunidade com barra de progresso pill colorida
+- Valor monetario com `font-bold text-base` para destaque
+- Badge de estagio com cores por fase do pipeline
 
 ## Resumo dos Arquivos a Editar
 
-| Arquivo | Tipo de Alteracao |
+| Arquivo | Alteracao |
 |---|---|
-| `src/index.css` | CSS variables, utilities, scrollbar, selection, animacoes globais |
-| `tailwind.config.ts` | Novos tokens de border-radius, sombras, keyframes |
-| `src/components/ui/button.tsx` | Pill shape, tamanhos, variantes |
-| `src/components/ui/input.tsx` | Filled style, tamanho maior |
-| `src/components/ui/card.tsx` | Radius maior, sombra difusa, sem borda |
-| `src/components/ui/badge.tsx` | Pill shape, novas variantes de cor |
-| `src/components/ui/table.tsx` | Wrapper sem borda, spacing maior, rows mais altas |
-| `src/components/ui/select.tsx` | Filled trigger, dropdown arredondado |
-| `src/components/ui/tabs.tsx` | Pill tabs com fundo solido no ativo |
-| `src/components/ui/switch.tsx` | Maior, glow no checked |
-| `src/components/ui/checkbox.tsx` | Maior, mais arredondado |
-| `src/components/ui/progress.tsx` | Pill, mais fina, gradiente |
-| `src/components/ui/dialog.tsx` | Radius ultra-arredondado |
-| `src/components/ui/sheet.tsx` | Radius ultra-arredondado |
-| `src/components/ui/tooltip.tsx` | Radius maior, estilo dark |
-| `src/components/ui/dropdown-menu.tsx` | Items arredondados, hover mais visivel |
-| `src/components/layout/AppTopbar.tsx` | Glass effect, sem borda, pill buttons |
-| `src/components/ModuleHeroBanner.tsx` | Radius maior, tipografia bolder |
-| `src/pages/Dashboard.tsx` | KPI cards redesenhados com icones coloridos e variacao |
-| `src/pages/Leads.tsx` | Tabela com avatares, badges pill |
+| `src/pages/OmnichannelInbox.tsx` | Layout container, empty state, margens/sombras |
+| `src/components/inbox/InboxConversationList.tsx` | Largura, header, busca, tabs, items, footer |
+| `src/components/inbox/InboxConversationHeader.tsx` | Glass effect, badges coloridos, botoes pill |
+| `src/components/inbox/InboxMessageThread.tsx` | Bolhas redesenhadas, separadores pill, animacoes |
+| `src/components/inbox/InboxReplyBox.tsx` | Container arredondado, toolbar moderna, botao envio |
+| `src/components/inbox/InboxContextPanel.tsx` | Largura, tabs pill, cards modernos, detalhes |
 
 ## Observacoes
-
-- O sidebar dual-panel (Rail 72px + Content Panel 240px) **nao sera alterado** em nenhum aspecto
-- A paleta de cores (#FF0000, #212427, #F5F5F5, cores semanticas) **sera preservada integralmente**
-- Todas as alteracoes sao puramente visuais/cosmeticas, sem mudanca de logica ou funcionalidade
-- A abordagem prioriza a modificacao dos componentes base (shadcn) para que as mudancas se propaguem automaticamente para todas as paginas do sistema
+- Nenhuma logica de negocio, hook ou funcionalidade sera alterada
+- Todas as mudancas sao puramente visuais e de estilizacao CSS/Tailwind
+- A paleta de cores existente sera mantida integralmente
+- O sidebar dual-panel permanece inalterado
+- As alteracoes utilizam os tokens de design system ja existentes (elevation, pill, radius)
