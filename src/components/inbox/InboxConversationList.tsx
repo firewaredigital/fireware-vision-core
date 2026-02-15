@@ -24,14 +24,14 @@ import { cn } from '@/lib/utils';
 import type { Conversation, ConversationStatus, ConversationChannel, AgentStatus } from '@/hooks/useConversations';
 
 const channelIcons: Record<string, React.ReactNode> = {
-  email: <Mail className="h-3 w-3" />,
-  chat: <MessageSquare className="h-3 w-3" />,
-  phone: <Phone className="h-3 w-3" />,
-  whatsapp: <Smartphone className="h-3 w-3" />,
-  sms: <MessageSquare className="h-3 w-3" />,
-  social: <Globe className="h-3 w-3" />,
-  portal: <User className="h-3 w-3" />,
-  internal: <Hash className="h-3 w-3" />,
+  email: <Mail className="h-2.5 w-2.5" />,
+  chat: <MessageSquare className="h-2.5 w-2.5" />,
+  phone: <Phone className="h-2.5 w-2.5" />,
+  whatsapp: <Smartphone className="h-2.5 w-2.5" />,
+  sms: <MessageSquare className="h-2.5 w-2.5" />,
+  social: <Globe className="h-2.5 w-2.5" />,
+  portal: <User className="h-2.5 w-2.5" />,
+  internal: <Hash className="h-2.5 w-2.5" />,
 };
 
 const channelBorderColors: Record<string, string> = {
@@ -123,13 +123,13 @@ export function InboxConversationList({
   return (
     <div className="w-[340px] flex flex-col bg-card shadow-[2px_0_8px_-2px_rgba(0,0,0,0.06)]">
       {/* Header */}
-      <div className="p-4 space-y-3">
+      <div className="p-3 space-y-2">
         <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2.5">
-            <div className="bg-primary/10 p-1.5 rounded-xl">
-              <Inbox className="h-4.5 w-4.5 text-primary" />
+          <div className="flex items-center gap-2">
+            <div className="bg-primary/10 p-1 rounded-lg">
+              <Inbox className="h-3.5 w-3.5 text-primary" />
             </div>
-            <h2 className="text-lg font-bold">Inbox</h2>
+            <h2 className="text-sm font-bold">Inbox</h2>
           </div>
           <div className="flex items-center gap-1.5">
             <Select value={agentStatus} onValueChange={(v) => onUpdateAgentStatus(v as AgentStatus)}>
@@ -160,12 +160,12 @@ export function InboxConversationList({
 
         {/* Search */}
         <div className="relative">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground/70" />
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-muted-foreground/70" />
           <Input
             placeholder="Buscar por nome, email, assunto..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="h-10 pl-9 text-sm bg-muted/50 border-0 rounded-xl backdrop-blur-sm"
+            className="h-8 pl-9 text-xs bg-muted/50 border-0 rounded-xl backdrop-blur-sm"
           />
         </div>
 
@@ -181,7 +181,7 @@ export function InboxConversationList({
               key={tab.value}
               onClick={() => onStatusFilterChange(tab.value)}
               className={cn(
-                'flex-1 flex items-center justify-center gap-1 rounded-full py-1.5 text-[11px] font-medium transition-all duration-200',
+                'flex-1 flex items-center justify-center gap-1 rounded-full py-1 text-[11px] font-medium transition-all duration-200',
                 statusFilter === tab.value
                   ? 'bg-primary text-primary-foreground shadow-sm'
                   : 'text-muted-foreground hover:text-foreground hover:bg-muted/50'
@@ -190,7 +190,7 @@ export function InboxConversationList({
               {tab.label}
               {tab.count > 0 && (
                 <span className={cn(
-                  'h-4 min-w-[16px] px-1 rounded-full text-[9px] font-bold flex items-center justify-center',
+                  'h-3.5 min-w-[14px] px-1 rounded-full text-[8px] font-bold flex items-center justify-center',
                   statusFilter === tab.value
                     ? 'bg-primary-foreground/20 text-primary-foreground'
                     : 'bg-muted text-muted-foreground'
@@ -205,7 +205,7 @@ export function InboxConversationList({
         {/* Filters */}
         <div className="flex gap-2">
           <Select value={channelFilter} onValueChange={onChannelFilterChange}>
-            <SelectTrigger className="h-8 text-[11px] flex-1 rounded-full bg-muted/50 border-0">
+            <SelectTrigger className="h-7 text-[11px] flex-1 rounded-full bg-muted/50 border-0">
               <SelectValue placeholder="Canal" />
             </SelectTrigger>
             <SelectContent>
@@ -220,7 +220,7 @@ export function InboxConversationList({
             </SelectContent>
           </Select>
           <Select value={ownerFilter} onValueChange={onOwnerFilterChange}>
-            <SelectTrigger className="h-8 text-[11px] flex-1 rounded-full bg-muted/50 border-0">
+            <SelectTrigger className="h-7 text-[11px] flex-1 rounded-full bg-muted/50 border-0">
               <SelectValue placeholder="Atribuição" />
             </SelectTrigger>
             <SelectContent>
@@ -237,8 +237,8 @@ export function InboxConversationList({
         {loading ? (
           <div className="p-4 space-y-3">
             {[1, 2, 3, 4, 5].map(i => (
-              <div key={i} className="animate-pulse flex gap-3 mx-2 p-3 rounded-xl bg-muted/30">
-                <div className="h-10 w-10 rounded-full bg-muted" />
+              <div key={i} className="animate-pulse flex gap-2 mx-2 px-2.5 py-2 rounded-xl bg-muted/30">
+                <div className="h-8 w-8 rounded-full bg-muted" />
                 <div className="flex-1 space-y-2">
                   <div className="h-3 bg-muted rounded-full w-3/4" />
                   <div className="h-3 bg-muted rounded-full w-1/2" />
@@ -247,36 +247,36 @@ export function InboxConversationList({
             ))}
           </div>
         ) : filteredConversations.length === 0 ? (
-          <div className="p-8 text-center text-muted-foreground">
-            <div className="h-14 w-14 mx-auto mb-3 rounded-2xl bg-muted/50 flex items-center justify-center">
-              <MessageSquare className="h-7 w-7 opacity-30" />
+          <div className="p-6 text-center text-muted-foreground">
+            <div className="h-10 w-10 mx-auto mb-3 rounded-2xl bg-muted/50 flex items-center justify-center">
+              <MessageSquare className="h-5 w-5 opacity-30" />
             </div>
             <p className="text-sm font-medium">Nenhuma conversação</p>
             <p className="text-xs mt-1 text-muted-foreground/70">Ajuste os filtros ou aguarde novas interações</p>
           </div>
         ) : (
-          <div className="px-2 py-1 space-y-1">
+          <div className="px-2 py-1 space-y-0.5">
             {filteredConversations.map((conv) => {
               const status = statusConfig[conv.status];
               const isSelected = selectedId === conv.id;
               const isUnread = conv.unread_count > 0 && !isSelected;
 
               return (
-                <div
-                  key={conv.id}
-                  onClick={() => onSelect(conv)}
-                  className={cn(
-                    'p-3 cursor-pointer rounded-xl transition-all duration-200 group',
-                    isSelected
-                      ? 'bg-primary/[0.08] border-l-[3px] border-l-primary shadow-sm'
-                      : 'hover:bg-accent/30 hover:translate-x-0.5 border-l-[3px] border-l-transparent',
-                    isUnread && 'bg-primary/5'
-                  )}
-                >
-                  <div className="flex items-start gap-2.5">
-                    <div className="relative">
-                      <Avatar className={cn(
-                        'h-10 w-10 ring-2',
+                  <div
+                    key={conv.id}
+                    onClick={() => onSelect(conv)}
+                    className={cn(
+                      'px-2.5 py-2 cursor-pointer rounded-xl transition-all duration-200 group',
+                      isSelected
+                        ? 'bg-primary/[0.08] border-l-[3px] border-l-primary shadow-sm'
+                        : 'hover:bg-accent/30 hover:translate-x-0.5 border-l-[3px] border-l-transparent',
+                      isUnread && 'bg-primary/5'
+                    )}
+                  >
+                    <div className="flex items-start gap-2">
+                      <div className="relative">
+                        <Avatar className={cn(
+                          'h-8 w-8 ring-[1.5px]',
                         channelBorderColors[conv.channel] || 'ring-muted'
                       )}>
                         <AvatarFallback className={cn(
@@ -288,7 +288,7 @@ export function InboxConversationList({
                         </AvatarFallback>
                       </Avatar>
                       {/* Channel icon overlay */}
-                      <div className="absolute -bottom-0.5 -right-0.5 bg-card rounded-full p-[3px] shadow-sm">
+                      <div className="absolute -bottom-0.5 -right-0.5 bg-card rounded-full p-[2px] shadow-sm">
                         {channelIcons[conv.channel] || <MessageSquare className="h-2.5 w-2.5" />}
                       </div>
                     </div>
@@ -315,25 +315,25 @@ export function InboxConversationList({
                         {conv.subject || conv.summary || conv.conversation_number}
                       </p>
 
-                      <div className="flex items-center gap-1.5 mt-1.5">
-                        <div className={cn('h-1.5 w-1.5 rounded-full flex-shrink-0', status.color)} />
+                      <div className="flex items-center gap-1.5 mt-1">
+                        <div className={cn('h-1 w-1 rounded-full flex-shrink-0', status.color)} />
                         <span className="text-[10px] text-muted-foreground">{status.label}</span>
 
                         {isUnread && (
-                          <Badge variant="destructive" className="h-4 min-w-[16px] px-1 text-[9px] ml-auto animate-pulse">
+                          <Badge variant="destructive" className="h-3.5 min-w-[14px] px-0.5 text-[8px] ml-auto animate-pulse">
                             {conv.unread_count}
                           </Badge>
                         )}
                         {conv.sla_response_breached && (
-                          <AlertCircle className="h-3 w-3 text-destructive flex-shrink-0" />
+                          <AlertCircle className="h-2.5 w-2.5 text-destructive flex-shrink-0" />
                         )}
                         {conv.priority === 'critical' && (
-                          <Badge variant="destructive" className="h-4 px-1.5 text-[9px] animate-pulse">
+                          <Badge variant="destructive" className="h-3.5 px-1 text-[8px] animate-pulse">
                             Crítica
                           </Badge>
                         )}
                         {conv.priority === 'high' && !isUnread && (
-                          <Badge variant="outline" className="h-4 px-1.5 text-[9px] border-orange-300 text-orange-600">
+                          <Badge variant="outline" className="h-3.5 px-1 text-[8px] border-orange-300 text-orange-600">
                             Alta
                           </Badge>
                         )}
@@ -348,7 +348,7 @@ export function InboxConversationList({
       </ScrollArea>
 
       {/* Footer Stats */}
-      <div className="px-4 py-2.5 bg-muted/30 rounded-t-xl flex items-center justify-between text-[10px] text-muted-foreground">
+      <div className="px-4 py-2 bg-muted/30 rounded-t-xl flex items-center justify-between text-[10px] text-muted-foreground">
         <span className="font-medium">{filteredConversations.length} conversas</span>
         {slaBreachedCount > 0 && (
           <span className="flex items-center gap-1 text-destructive font-semibold">
