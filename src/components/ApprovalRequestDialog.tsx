@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect , useCallback } from 'react';
 import {
   CheckCircle,
   XCircle,
@@ -109,9 +109,9 @@ export function ApprovalRequestDialog({
     if (open) {
       fetchApprovers();
     }
-  }, [open]);
+  }, [open, fetchApprovers]);
 
-  const fetchApprovers = async () => {
+  const fetchApprovers = useCallback( async () => {
     const { data } = await supabase
       .from('profiles')
       .select('id, first_name, last_name, email, role')
@@ -124,7 +124,7 @@ export function ApprovalRequestDialog({
         setSelectedApprover(data[0].id);
       }
     }
-  };
+  }, [profile?.organization_id, profile?.id]);
 
   const handleSubmit = async () => {
     if (!profile?.organization_id || !selectedApprover) return;
@@ -309,9 +309,9 @@ export function PendingApprovalsWidget() {
 
   useEffect(() => {
     fetchPendingApprovals();
-  }, [profile]);
+  }, [profile, fetchPendingApprovals]);
 
-  const fetchPendingApprovals = async () => {
+  const fetchPendingApprovals = useCallback( async () => {
     if (!profile?.id) return;
 
     const { data, error } = await supabase
@@ -334,7 +334,7 @@ export function PendingApprovalsWidget() {
       setApprovals(data as typeof approvals);
     }
     setLoading(false);
-  };
+  }, [profile?.organization_id, profile?.id]);
 
   if (loading) {
     return (

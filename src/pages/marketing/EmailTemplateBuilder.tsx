@@ -33,8 +33,8 @@ interface TemplateSection {
   id: string;
   section_type: string;
   display_order: number;
-  content: Record<string, any>;
-  styles: Record<string, any>;
+  content: Record<string, unknown>;
+  styles: Record<string, unknown>;
   is_locked: boolean;
   is_visible: boolean;
 }
@@ -98,9 +98,9 @@ export default function EmailTemplateBuilder() {
 
   useEffect(() => {
     if (id) fetchTemplate();
-  }, [id]);
+  }, [id, fetchTemplate]);
 
-  const fetchTemplate = async () => {
+  const fetchTemplate = useCallback( async () => {
     if (!id) return;
     setLoading(true);
     const [templateRes, sectionsRes] = await Promise.all([
@@ -122,14 +122,14 @@ export default function EmailTemplateBuilder() {
     });
 
     if (sectionsRes.data && sectionsRes.data.length > 0) {
-      setSections(sectionsRes.data.map((s: any) => ({
+      setSections(sectionsRes.data.map((s: unknown) => ({
         id: s.id, section_type: s.section_type, display_order: s.display_order,
         content: s.content || {}, styles: s.styles || {}, is_locked: s.is_locked || false,
         is_visible: s.is_visible !== false,
       })));
     }
     setLoading(false);
-  };
+  }, [id, toast, navigate]);
 
   const generateHtml = useCallback((): string => {
     const sectionHtml = sections.filter(s => s.is_visible).sort((a, b) => a.display_order - b.display_order).map(s => {
@@ -156,9 +156,10 @@ export default function EmailTemplateBuilder() {
             ${s.content.subtitle ? `<p style="margin:12px 0 24px;font-size:18px;color:${s.content.image ? '#eee' : '#666'};">${s.content.subtitle}</p>` : ''}
             ${s.content.button_text ? `<a href="${s.content.button_url || '#'}" style="display:inline-block;padding:14px 40px;background:#3b82f6;color:#fff;text-decoration:none;border-radius:8px;font-weight:700;">${s.content.button_text}</a>` : ''}
           </div>`;
-        case 'social':
+        case 'social': {
           const platforms = s.content.platforms || [];
-          return `<div style="padding:16px 20px;text-align:center;">${platforms.map((p: any) => `<a href="${p.url || '#'}" style="display:inline-block;margin:0 8px;color:#3b82f6;text-decoration:none;font-weight:600;">${p.name}</a>`).join('')}</div>`;
+          return `<div style="padding:16px 20px;text-align:center;">${platforms.map((p: unknown) => `<a href="${p.url || '#'}" style="display:inline-block;margin:0 8px;color:#3b82f6;text-decoration:none;font-weight:600;">${p.name}</a>`).join('')}</div>`;
+        }
         case 'footer':
           return `<div style="padding:20px;text-align:center;background:#f8f9fa;color:#999;font-size:12px;">
             <p style="margin:0;">${s.content.company_name || ''}</p>
@@ -187,19 +188,19 @@ export default function EmailTemplateBuilder() {
       const { error } = await supabase.from('email_templates').update({
         name: form.name, description: form.description || null, category: form.category,
         subject: form.subject, preview_text: form.preview_text || null, body_html: html,
-        body_json: { sections: sections.map(s => ({ section_type: s.section_type, display_order: s.display_order, content: s.content, styles: s.styles })) } as any,
+        body_json: { sections: sections.map(s => ({ section_type: s.section_type, display_order: s.display_order, content: s.content, styles: s.styles })) } as unknown,
         layout: form.layout, tags: form.tags.length > 0 ? form.tags : null,
-        is_shared: form.is_shared, variables: vars as any, updated_by: profile.id,
+        is_shared: form.is_shared, variables: vars as unknown, updated_by: profile.id,
       }).eq('id', id);
       if (error) { toast({ variant: 'destructive', title: 'Erro', description: 'Falha ao atualizar template' }); setSaving(false); return; }
     } else {
       const { data, error } = await supabase.from('email_templates').insert([{
         name: form.name, description: form.description || null, category: form.category,
         subject: form.subject, preview_text: form.preview_text || null, body_html: html,
-        body_json: { sections: sections.map(s => ({ section_type: s.section_type, display_order: s.display_order, content: s.content, styles: s.styles })) } as any,
+        body_json: { sections: sections.map(s => ({ section_type: s.section_type, display_order: s.display_order, content: s.content, styles: s.styles })) } as unknown,
         layout: form.layout, tags: form.tags.length > 0 ? form.tags : null,
         is_shared: form.is_shared, organization_id: profile.organization_id,
-        variables: vars as any, created_by: profile.id,
+        variables: vars as unknown, created_by: profile.id,
       }]).select().single();
       if (error) { toast({ variant: 'destructive', title: 'Erro', description: 'Falha ao criar template' }); setSaving(false); return; }
       savedId = data.id;
@@ -224,8 +225,8 @@ export default function EmailTemplateBuilder() {
       await supabase.from('email_template_versions').insert([{
         template_id: savedId!, organization_id: profile.organization_id,
         version_number: nextVersion, body_html: html,
-        body_json: { sections: sections.map(s => ({ section_type: s.section_type, display_order: s.display_order, content: s.content, styles: s.styles })) } as any,
-        sections: sections as any,
+        body_json: { sections: sections.map(s => ({ section_type: s.section_type, display_order: s.display_order, content: s.content, styles: s.styles })) } as unknown,
+        sections: sections as unknown,
         created_by: profile.id,
       }]);
     }
@@ -276,7 +277,7 @@ export default function EmailTemplateBuilder() {
     });
   };
 
-  const updateSectionContent = (sectionId: string, key: string, value: any) => {
+  const updateSectionContent = (sectionId: string, key: string, value: unknown) => {
     setSections(prev => prev.map(s => s.id === sectionId ? { ...s, content: { ...s.content, [key]: value } } : s));
   };
 

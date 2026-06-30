@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect , useCallback } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import {
   Plus,
@@ -93,9 +93,9 @@ export default function Products() {
     if (user) {
       fetchProducts();
     }
-  }, [user]);
+  }, [user, fetchProducts]);
 
-  const fetchProducts = async () => {
+  const fetchProducts = useCallback( async () => {
     setLoading(true);
     const { data, error } = await supabase
       .from('products')
@@ -116,7 +116,7 @@ export default function Products() {
       setCategories(uniqueCategories);
     }
     setLoading(false);
-  };
+  }, [toast]);
 
   const deleteProduct = async (id: string) => {
     const { error } = await supabase.from('products').delete().eq('id', id);

@@ -103,7 +103,7 @@ export default function QADashboard() {
         .limit(100);
 
       if (statusFilter !== 'all') {
-        query = query.eq('status', statusFilter as any);
+        query = query.eq('status', statusFilter as unknown);
       }
 
       const { data, error } = await query;
@@ -151,7 +151,7 @@ export default function QADashboard() {
         description: data.description,
         passing_score: data.passing_score,
         total_max_score: data.total_max_score,
-        criteria_definitions: data.criteria_definitions as any,
+        criteria_definitions: data.criteria_definitions as unknown,
         status: 'active',
         created_by: profile?.id,
       });
@@ -172,7 +172,7 @@ export default function QADashboard() {
         ],
       });
     },
-    onError: (error: any) => toast.error('Erro ao criar scorecard: ' + error.message),
+    onError: (error: unknown) => toast.error('Erro ao criar scorecard: ' + error.message),
   });
 
   // === COMPUTED VALUES ===
@@ -742,7 +742,7 @@ export default function QADashboard() {
                           <span className="font-medium">{criteria.length}</span>
                         </div>
                         <div className="space-y-1">
-                          {criteria.slice(0, 4).map((c: any, i: number) => (
+                          {criteria.slice(0, 4).map((c: unknown, i: number) => (
                             <div key={i} className="flex items-center justify-between text-xs">
                               <span className="truncate">{c.name}</span>
                               <span className="text-muted-foreground">Peso: {c.weight}x</span>

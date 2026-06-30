@@ -105,7 +105,7 @@ export default function CPQConfigurations() {
         .eq('organization_id', organizationId!)
         .order('created_at', { ascending: false });
 
-      if (statusFilter !== 'all') query = query.eq('status', statusFilter as any);
+      if (statusFilter !== 'all') query = query.eq('status', statusFilter as unknown);
       if (searchTerm) query = query.ilike('name', `%${searchTerm}%`);
 
       const { data, error } = await query;
@@ -186,8 +186,8 @@ export default function CPQConfigurations() {
         organization_id: organizationId!,
         name: values.name,
         description: values.description || null,
-        rule_type: values.rule_type as any,
-        action: values.action as any,
+        rule_type: values.rule_type as unknown,
+        action: values.action as unknown,
         priority: parseInt(values.priority) || 100,
         created_by: profile?.id,
       });
@@ -535,7 +535,7 @@ export default function CPQConfigurations() {
                 <TableBody>
                   {discountPolicies.length === 0 ? (
                     <TableRow><TableCell colSpan={6} className="text-center py-8 text-muted-foreground">Nenhuma política cadastrada</TableCell></TableRow>
-                  ) : discountPolicies.map((policy: any) => (
+                  ) : discountPolicies.map((policy: unknown) => (
                     <TableRow key={policy.id}>
                       <TableCell><Badge variant="outline">{policy.tier?.replace('_', ' ').toUpperCase()}</Badge></TableCell>
                       <TableCell className="font-medium">{policy.name}</TableCell>

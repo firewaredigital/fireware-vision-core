@@ -267,7 +267,7 @@ export default function ChatWidgetsAdmin() {
   };
 
   const getEventIcon = (eventType: string) => {
-    const icons: Record<string, any> = {
+    const icons: Record<string, unknown> = {
       session_started: MessageCircle,
       message_sent: MessageSquare,
       message_received: MessageSquare,

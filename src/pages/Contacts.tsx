@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect , useCallback } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { Plus, Search, MoreHorizontal, Eye, Edit, Trash2, Users } from '@/components/icons';
 import { Button } from '@/components/ui/button';
@@ -32,9 +32,9 @@ export default function Contacts() {
 
   useEffect(() => {
     if (user) fetchContacts();
-  }, [user]);
+  }, [user, fetchContacts]);
 
-  const fetchContacts = async () => {
+  const fetchContacts = useCallback( async () => {
     setLoading(true);
     const { data, error } = await supabase.from('contacts').select('*').order('last_name');
     if (error) {
@@ -43,7 +43,7 @@ export default function Contacts() {
       setContacts(data || []);
     }
     setLoading(false);
-  };
+  }, [toast]);
 
   const filteredContacts = contacts.filter((c) =>
     searchQuery === '' || `${c.first_name} ${c.last_name}`.toLowerCase().includes(searchQuery.toLowerCase())

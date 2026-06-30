@@ -98,14 +98,14 @@ export default function OmnichannelInbox() {
     if (updated) {
       setSelectedConversation(updated);
     }
-  }, [conversations, selectedConversation?.id]);
+  }, [conversations, selectedConversation?.id, selectedConversation]);
 
   // ── Mark conversation as read when selected ──
   useEffect(() => {
     if (selectedConversation && selectedConversation.unread_count > 0) {
       actions.markRead(selectedConversation.id);
     }
-  }, [selectedConversation?.id]);
+  }, [selectedConversation?.id, actions, selectedConversation]);
 
   // ── Keyboard shortcuts ──
   useEffect(() => {

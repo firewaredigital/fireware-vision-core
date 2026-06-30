@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect , useCallback } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import {
   ArrowLeft,
@@ -125,9 +125,9 @@ export default function ContactDetail() {
     if (id && user) {
       fetchContactData();
     }
-  }, [id, user]);
+  }, [id, user, fetchContactData]);
 
-  const fetchContactData = async () => {
+  const fetchContactData = useCallback( async () => {
     setLoading(true);
 
     // Fetch contact with relations
@@ -168,7 +168,7 @@ export default function ContactDetail() {
     setOpportunities(oppsData || []);
 
     setLoading(false);
-  };
+  }, [id, profile?.organization_id, profile?.id, toast, navigate]);
 
   const deleteContact = async () => {
     if (!id) return;

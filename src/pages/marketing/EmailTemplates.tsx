@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect , useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
   Plus, Search, Mail, Eye, Copy, Trash2, MoreHorizontal,
@@ -65,9 +65,9 @@ export default function EmailTemplates() {
 
   useEffect(() => {
     if (profile?.organization_id) fetchTemplates();
-  }, [profile?.organization_id]);
+  }, [profile?.organization_id, fetchTemplates]);
 
-  const fetchTemplates = async () => {
+  const fetchTemplates = useCallback( async () => {
     if (!profile?.organization_id) return;
     setLoading(true);
     const { data } = await supabase
@@ -77,7 +77,7 @@ export default function EmailTemplates() {
       .order('updated_at', { ascending: false });
     if (data) setTemplates(data as EmailTemplate[]);
     setLoading(false);
-  };
+  }, [profile?.organization_id, profile?.id]);
 
   const handleClone = async (templateId: string) => {
     const template = templates.find(t => t.id === templateId);

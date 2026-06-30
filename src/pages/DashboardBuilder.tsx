@@ -98,11 +98,11 @@ interface DashboardWidget {
   width: number;
   height: number;
   data_source: string;
-  query_config: Record<string, any>;
-  chart_config: Record<string, any>;
+  query_config: Record<string, unknown>;
+  chart_config: Record<string, unknown>;
   date_range: string;
   is_visible: boolean;
-  cached_data: any;
+  cached_data: unknown;
 }
 
 interface DashboardForm {
@@ -142,9 +142,9 @@ export default function DashboardBuilder() {
 
   useEffect(() => {
     if (id) fetchDashboard();
-  }, [id]);
+  }, [id, fetchDashboard]);
 
-  const fetchDashboard = async () => {
+  const fetchDashboard = useCallback( async () => {
     if (!id) return;
     setLoading(true);
     const [dashRes, widgetsRes] = await Promise.all([
@@ -166,12 +166,12 @@ export default function DashboardBuilder() {
     });
 
     if (widgetsRes.data) {
-      setWidgets(widgetsRes.data.map((w: any) => ({
+      setWidgets(widgetsRes.data.map((w: unknown) => ({
         ...w, query_config: w.query_config || {}, chart_config: w.chart_config || {},
       })));
     }
     setLoading(false);
-  };
+  }, [id, toast, navigate]);
 
   const handleSave = async () => {
     if (!profile?.organization_id || !form.name) return;
@@ -181,7 +181,7 @@ export default function DashboardBuilder() {
     if (id) {
       const { error } = await supabase.from('dashboards').update({
         name: form.name, description: form.description || null,
-        module: form.module as any, visibility: form.visibility as any,
+        module: form.module as unknown, visibility: form.visibility as unknown,
         default_date_range: form.default_date_range, auto_refresh_seconds: form.auto_refresh_seconds,
         is_favorite: form.is_favorite,
       }).eq('id', id);
@@ -189,7 +189,7 @@ export default function DashboardBuilder() {
     } else {
       const { data, error } = await supabase.from('dashboards').insert([{
         name: form.name, description: form.description || null,
-        module: form.module as any, visibility: form.visibility as any,
+        module: form.module as unknown, visibility: form.visibility as unknown,
         default_date_range: form.default_date_range, auto_refresh_seconds: form.auto_refresh_seconds,
         is_favorite: form.is_favorite, organization_id: profile.organization_id,
         created_by: profile.id,
@@ -214,11 +214,11 @@ export default function DashboardBuilder() {
         const wData = {
           dashboard_id: savedId!, organization_id: profile.organization_id,
           name: widget.name, description: widget.description || null,
-          widget_type: widget.widget_type as any,
+          widget_type: widget.widget_type as unknown,
           position_x: widget.position_x, position_y: widget.position_y,
           width: widget.width, height: widget.height,
-          data_source: widget.data_source, query_config: widget.query_config as any,
-          chart_config: widget.chart_config as any, date_range: widget.date_range,
+          data_source: widget.data_source, query_config: widget.query_config as unknown,
+          chart_config: widget.chart_config as unknown, date_range: widget.date_range,
           is_visible: widget.is_visible, display_order: idx,
         };
 

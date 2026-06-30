@@ -115,7 +115,7 @@ export default function ITIncidentForm() {
         throw new Error('Organização não encontrada');
       }
 
-      const incidentData: any = {
+      const incidentData: unknown = {
         ...formData,
         organization_id: profile.organization_id,
         assigned_to: assignedTo || null,

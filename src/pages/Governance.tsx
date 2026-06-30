@@ -119,9 +119,9 @@ export default function Governance() {
   // Calculate LGPD metrics
   const lgpdMetrics = {
     total: lgpdRequests.length,
-    pending: lgpdRequests.filter((r: any) => ['received', 'verified', 'processing'].includes(r.status)).length,
-    completed: lgpdRequests.filter((r: any) => r.status === 'completed').length,
-    overdue: lgpdRequests.filter((r: any) => {
+    pending: lgpdRequests.filter((r: unknown) => ['received', 'verified', 'processing'].includes(r.status)).length,
+    completed: lgpdRequests.filter((r: unknown) => r.status === 'completed').length,
+    overdue: lgpdRequests.filter((r: unknown) => {
       if (['completed', 'denied'].includes(r.status)) return false;
       return new Date(r.deadline) < new Date();
     }).length,
@@ -315,7 +315,7 @@ export default function Governance() {
                 </CardHeader>
                 <CardContent>
                   <div className="space-y-3">
-                    {lgpdRequests.slice(0, 5).map((request: any) => (
+                    {lgpdRequests.slice(0, 5).map((request: unknown) => (
                       <div
                         key={request.id}
                         className="flex items-center justify-between rounded-lg border p-3"
@@ -355,7 +355,7 @@ export default function Governance() {
               </CardHeader>
               <CardContent>
                 <div className="grid gap-4 md:grid-cols-3">
-                  {retentionPolicies.filter((p: any) => p.is_active).slice(0, 3).map((policy: any) => (
+                  {retentionPolicies.filter((p: unknown) => p.is_active).slice(0, 3).map((policy: unknown) => (
                     <div key={policy.id} className="rounded-lg border p-4 space-y-2">
                       <div className="flex items-center justify-between">
                         <h4 className="font-medium">{policy.name}</h4>
@@ -397,7 +397,7 @@ export default function Governance() {
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
-                  {lgpdRequests.map((request: any) => (
+                  {lgpdRequests.map((request: unknown) => (
                     <div
                       key={request.id}
                       className="flex items-center justify-between rounded-lg border p-4"
@@ -464,7 +464,7 @@ export default function Governance() {
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
-                  {retentionPolicies.map((policy: any) => (
+                  {retentionPolicies.map((policy: unknown) => (
                     <div
                       key={policy.id}
                       className="flex items-center justify-between rounded-lg border p-4"

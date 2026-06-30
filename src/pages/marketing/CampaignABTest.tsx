@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect , useCallback } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import {
   ArrowLeft, Plus, Trash2, Award, BarChart3, Send, RefreshCw,
@@ -94,9 +94,9 @@ export default function CampaignABTest() {
 
   useEffect(() => {
     if (campaignId) fetchData();
-  }, [campaignId]);
+  }, [campaignId, fetchData]);
 
-  const fetchData = async () => {
+  const fetchData = useCallback( async () => {
     if (!campaignId) return;
     setLoading(true);
 
@@ -112,7 +112,7 @@ export default function CampaignABTest() {
     }
     if (variantsRes.data) setVariants(variantsRes.data as ABVariant[]);
     setLoading(false);
-  };
+  }, [id, campaignId]);
 
   const addVariant = async () => {
     if (!campaignId || !profile?.organization_id || variants.length >= 5) return;
@@ -156,7 +156,7 @@ export default function CampaignABTest() {
     }
   };
 
-  const updateVariant = async (variantId: string, field: string, value: any) => {
+  const updateVariant = async (variantId: string, field: string, value: unknown) => {
     setVariants(prev => prev.map(v => v.id === variantId ? { ...v, [field]: value } : v));
     await supabase.from('campaign_ab_variants').update({ [field]: value }).eq('id', variantId);
   };

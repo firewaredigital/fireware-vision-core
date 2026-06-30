@@ -364,7 +364,7 @@ export function LeadConversionWizard({
       setStep(3);
       onConverted();
 
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error('Error converting lead:', error);
       toast({
         variant: 'destructive',

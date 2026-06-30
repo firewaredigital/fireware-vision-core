@@ -296,7 +296,7 @@ export default function WhatsAppAdmin() {
   };
 
   const getStatusBadge = (status: string) => {
-    const statusConfig: Record<string, { variant: 'default' | 'secondary' | 'destructive' | 'outline'; icon: any }> = {
+    const statusConfig: Record<string, { variant: 'default' | 'secondary' | 'destructive' | 'outline'; icon: unknown }> = {
       active: { variant: 'default', icon: CheckCircle },
       connected: { variant: 'default', icon: CheckCircle },
       pending: { variant: 'secondary', icon: Clock },

@@ -4,10 +4,10 @@ import { Badge } from '@/components/ui/badge';
 import { Activity, TrendingUp, TrendingDown, Minus } from '@/components/icons';
 
 interface Customer360EngagementScoreProps {
-  opportunities: any[];
-  tickets: any[];
-  orders: any[];
-  activities: any[];
+  opportunities: unknown[];
+  tickets: unknown[];
+  orders: unknown[];
+  activities: unknown[];
   conversations: number;
   contracts: number;
 }

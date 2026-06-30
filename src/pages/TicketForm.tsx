@@ -81,11 +81,11 @@ export default function TicketForm() {
   const { data: customFieldDefs = [] } = useCustomFieldDefinitions('ticket');
   const { data: customFieldValuesData = [] } = useCustomFieldValues('ticket', id);
   const saveCustomFields = useSaveCustomFieldValues();
-  const [customFieldValues, setCustomFieldValues] = useState<Record<string, any>>({});
+  const [customFieldValues, setCustomFieldValues] = useState<Record<string, unknown>>({});
 
   useEffect(() => {
     if (customFieldDefs.length > 0) {
-      const values: Record<string, any> = {};
+      const values: Record<string, unknown> = {};
       customFieldDefs.forEach(def => {
         const fieldValue = customFieldValuesData.find(v => v.field_definition_id === def.id);
         values[def.id] = getFieldValue(def, fieldValue);
@@ -306,7 +306,7 @@ export default function TicketForm() {
       });
       navigate(`/tickets/${ticketId}`);
     },
-    onError: (error: any) => {
+    onError: (error: unknown) => {
       toast({
         title: 'Erro ao salvar',
         description: error.message,

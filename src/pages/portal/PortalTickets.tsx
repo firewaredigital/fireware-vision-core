@@ -39,7 +39,7 @@ import { PortalLayout } from './PortalLayout';
 
 type TicketStatus = 'new' | 'open' | 'pending' | 'on_hold' | 'resolved' | 'closed';
 
-const statusConfig: Record<TicketStatus, { label: string; icon: any; color: string }> = {
+const statusConfig: Record<TicketStatus, { label: string; icon: unknown; color: string }> = {
   new: { label: 'Novo', icon: AlertCircle, color: 'bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400' },
   open: { label: 'Em Andamento', icon: Clock, color: 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400' },
   pending: { label: 'Aguardando', icon: Clock, color: 'bg-orange-100 text-orange-800 dark:bg-orange-900/30 dark:text-orange-400' },

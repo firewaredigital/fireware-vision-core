@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect , useCallback } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import {
   ArrowLeft,
@@ -156,9 +156,9 @@ export default function AccountDetail() {
     if (id && user) {
       fetchAccountData();
     }
-  }, [id, user]);
+  }, [id, user, fetchAccountData]);
 
-  const fetchAccountData = async () => {
+  const fetchAccountData = useCallback( async () => {
     setLoading(true);
 
     // Fetch account with relations
@@ -224,7 +224,7 @@ export default function AccountDetail() {
     setQuotes(quotesData || []);
 
     setLoading(false);
-  };
+  }, [id, profile?.organization_id, profile?.id, toast, navigate]);
 
   const deleteAccount = async () => {
     if (!id) return;

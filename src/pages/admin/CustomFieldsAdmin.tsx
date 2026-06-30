@@ -182,7 +182,7 @@ export default function CustomFieldsAdmin() {
         .replace(/[^a-z0-9]+/g, '_')
         .replace(/^_|_$/g, '');
 
-    const validationRules: any = {};
+    const validationRules: unknown = {};
     if (formState.validation_min) validationRules.min = Number(formState.validation_min);
     if (formState.validation_max) validationRules.max = Number(formState.validation_max);
     if (formState.validation_min_length) validationRules.min_length = Number(formState.validation_min_length);
@@ -203,7 +203,7 @@ export default function CustomFieldsAdmin() {
       validation_rules: Object.keys(validationRules).length > 0 ? validationRules : {},
       display_order: formState.id ? undefined : activeFields.length,
       is_active: true,
-    } as any, {
+    } as unknown, {
       onSuccess: () => setDialogOpen(false),
     });
   };

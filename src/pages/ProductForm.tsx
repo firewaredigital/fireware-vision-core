@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect , useCallback } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -90,7 +90,7 @@ export default function ProductForm() {
     if (id && user) {
       fetchProduct();
     }
-  }, [id, user]);
+  }, [id, user, fetchProduct]);
 
   const fetchCategories = async () => {
     const { data } = await supabase
@@ -104,7 +104,7 @@ export default function ProductForm() {
     }
   };
 
-  const fetchProduct = async () => {
+  const fetchProduct = useCallback( async () => {
     setFetchingProduct(true);
     const { data, error } = await supabase
       .from('products')
@@ -138,7 +138,7 @@ export default function ProductForm() {
       }
     }
     setFetchingProduct(false);
-  };
+  }, [id, toast, existingCategories, form, navigate]);
 
   const onSubmit = async (data: ProductFormData) => {
     if (!profile?.organization_id) {
@@ -188,7 +188,7 @@ export default function ProductForm() {
       }
 
       navigate('/products');
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error('Error saving product:', error);
       toast({
         variant: 'destructive',

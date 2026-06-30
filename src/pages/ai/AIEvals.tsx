@@ -75,7 +75,7 @@ export default function AIEvals() {
       toast.success('Suite de avaliação criada');
       setDialogOpen(false);
     },
-    onError: (err: any) => toast.error(err.message),
+    onError: (err: unknown) => toast.error(err.message),
   });
 
   const filtered = (evals || []).filter(e =>
@@ -169,7 +169,7 @@ export default function AIEvals() {
                     <CardDescription>
                       <div className="flex items-center gap-1">
                         <Bot className="h-3 w-3" />
-                        {(ev.ai_agents as any)?.name || 'N/A'}
+                        {(ev.ai_agents as unknown)?.name || 'N/A'}
                       </div>
                     </CardDescription>
                   </CardHeader>

@@ -60,7 +60,9 @@ export function AppProvider({ children }: { children: ReactNode }) {
         const recent: string[] = JSON.parse(localStorage.getItem(RECENT_APPS_KEY) || '[]');
         const updated = [slug, ...recent.filter((s) => s !== slug)].slice(0, 5);
         localStorage.setItem(RECENT_APPS_KEY, JSON.stringify(updated));
-      } catch {}
+      } catch (e) {
+        // ignore
+      }
       navigate(app.defaultRoute);
     },
     [navigate]

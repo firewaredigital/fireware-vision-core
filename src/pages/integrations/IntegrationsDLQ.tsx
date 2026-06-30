@@ -40,7 +40,7 @@ export default function IntegrationsDLQ() {
   const handleRetry = async (id: string) => {
     const { error } = await supabase
       .from('dlq_messages')
-      .update({ status: 'retrying' as any, last_retry_at: new Date().toISOString() })
+      .update({ status: 'retrying' as unknown, last_retry_at: new Date().toISOString() })
       .eq('id', id);
     if (error) {
       toast.error('Erro ao retentar');
@@ -54,7 +54,7 @@ export default function IntegrationsDLQ() {
     const { error } = await supabase
       .from('dlq_messages')
       .update({
-        status: 'manually_resolved' as any,
+        status: 'manually_resolved' as unknown,
         resolved_at: new Date().toISOString(),
         resolved_by: profile?.id,
       })

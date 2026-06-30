@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect , useCallback } from 'react';
 import { ModuleHeroBanner } from '@/components/ModuleHeroBanner';
 import { useNavigate } from 'react-router-dom';
 import {
@@ -160,7 +160,7 @@ export default function Reports() {
     if (user && profile) {
       fetchAllData();
     }
-  }, [user, profile, dateRange, customDateFrom, customDateTo]);
+  }, [user, profile, dateRange, customDateFrom, customDateTo, fetchAllData]);
 
   const getDateRange = (): { from: Date; to: Date } => {
     const now = new Date();
@@ -188,7 +188,7 @@ export default function Reports() {
     }
   };
 
-  const fetchAllData = async () => {
+  const fetchAllData = useCallback( async () => {
     if (!profile?.organization_id) return;
     
     setLoading(true);
@@ -401,7 +401,7 @@ export default function Reports() {
     }
     
     setLoading(false);
-  };
+  }, [id, profile?.organization_id, profile?.id, toast, getDateRange]);
 
   const handleExportPipeline = () => {
     exportToCSV(pipelineData, 'pipeline_report', [

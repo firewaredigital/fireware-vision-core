@@ -1,0 +1,728 @@
+
+/home/gustavo-saraiva/Documents/FIREWARE/LABS/kortexone-workspace/Fireware Vision CRM/fireware-vision-core/src/components/ActivitiesWidget.tsx
+  162:9  warning  The 'fetchActivities' function makes the dependencies of useEffect Hook (at line 160) change on every render. To fix this, wrap the definition of 'fetchActivities' in its own useCallback() Hook  react-hooks/exhaustive-deps
+
+/home/gustavo-saraiva/Documents/FIREWARE/LABS/kortexone-workspace/Fireware Vision CRM/fireware-vision-core/src/components/ApprovalRequestDialog.tsx
+  114:9  warning  The 'fetchApprovers' function makes the dependencies of useEffect Hook (at line 112) change on every render. Move it inside the useEffect callback. Alternatively, wrap the definition of 'fetchApprovers' in its own useCallback() Hook                react-hooks/exhaustive-deps
+  314:9  warning  The 'fetchPendingApprovals' function makes the dependencies of useEffect Hook (at line 312) change on every render. Move it inside the useEffect callback. Alternatively, wrap the definition of 'fetchPendingApprovals' in its own useCallback() Hook  react-hooks/exhaustive-deps
+
+/home/gustavo-saraiva/Documents/FIREWARE/LABS/kortexone-workspace/Fireware Vision CRM/fireware-vision-core/src/components/AttachmentsWidget.tsx
+  114:9  warning  The 'fetchAttachments' function makes the dependencies of useEffect Hook (at line 112) change on every render. To fix this, wrap the definition of 'fetchAttachments' in its own useCallback() Hook  react-hooks/exhaustive-deps
+
+/home/gustavo-saraiva/Documents/FIREWARE/LABS/kortexone-workspace/Fireware Vision CRM/fireware-vision-core/src/components/CSVImportDialog.tsx
+  339:29  error    Unnecessary escape character: \+                                                                                                no-useless-escape
+  339:31  error    Unnecessary escape character: \(                                                                                                no-useless-escape
+  339:33  error    Unnecessary escape character: \)                                                                                                no-useless-escape
+  339:35  error    Unnecessary escape character: \.                                                                                                no-useless-escape
+  841:23  warning  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+
+/home/gustavo-saraiva/Documents/FIREWARE/LABS/kortexone-workspace/Fireware Vision CRM/fireware-vision-core/src/components/ChangeHistory.tsx
+  56:13  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/home/gustavo-saraiva/Documents/FIREWARE/LABS/kortexone-workspace/Fireware Vision CRM/fireware-vision-core/src/components/CustomFieldsRenderer.tsx
+   55:26  error    Unexpected any. Specify a different type                                                                                                  @typescript-eslint/no-explicit-any
+   56:37  error    Unexpected any. Specify a different type                                                                                                  @typescript-eslint/no-explicit-any
+   92:65  error    Unexpected any. Specify a different type                                                                                                  @typescript-eslint/no-explicit-any
+  100:37  error    Unexpected any. Specify a different type                                                                                                  @typescript-eslint/no-explicit-any
+  115:19  warning  React Hook useEffect has a complex expression in the dependency array. Extract it to a separate variable so it can be statically checked  react-hooks/exhaustive-deps
+  117:48  error    Unexpected any. Specify a different type                                                                                                  @typescript-eslint/no-explicit-any
+  205:43  error    Unexpected any. Specify a different type                                                                                                  @typescript-eslint/no-explicit-any
+  264:10  error    Unexpected any. Specify a different type                                                                                                  @typescript-eslint/no-explicit-any
+  265:21  error    Unexpected any. Specify a different type                                                                                                  @typescript-eslint/no-explicit-any
+  327:36  error    Unexpected any. Specify a different type                                                                                                  @typescript-eslint/no-explicit-any
+  340:34  error    Unexpected any. Specify a different type                                                                                                  @typescript-eslint/no-explicit-any
+  404:64  error    Unexpected any. Specify a different type                                                                                                  @typescript-eslint/no-explicit-any
+  419:40  error    Unexpected any. Specify a different type                                                                                                  @typescript-eslint/no-explicit-any
+  426:44  error    Unexpected any. Specify a different type                                                                                                  @typescript-eslint/no-explicit-any
+
+/home/gustavo-saraiva/Documents/FIREWARE/LABS/kortexone-workspace/Fireware Vision CRM/fireware-vision-core/src/components/LeadConversionWizard.tsx
+  367:21  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/home/gustavo-saraiva/Documents/FIREWARE/LABS/kortexone-workspace/Fireware Vision CRM/fireware-vision-core/src/components/LeadRoutingRules.tsx
+  208:9  warning  The 'fetchRules' function makes the dependencies of useEffect Hook (at line 206) change on every render. To fix this, wrap the definition of 'fetchRules' in its own useCallback() Hook  react-hooks/exhaustive-deps
+
+/home/gustavo-saraiva/Documents/FIREWARE/LABS/kortexone-workspace/Fireware Vision CRM/fireware-vision-core/src/components/NotesWidget.tsx
+  71:9  warning  The 'fetchNotes' function makes the dependencies of useEffect Hook (at line 69) change on every render. To fix this, wrap the definition of 'fetchNotes' in its own useCallback() Hook  react-hooks/exhaustive-deps
+
+/home/gustavo-saraiva/Documents/FIREWARE/LABS/kortexone-workspace/Fireware Vision CRM/fireware-vision-core/src/components/StaleDealAlerts.tsx
+  882:9  warning  The 'checkStaleness' function makes the dependencies of useEffect Hook (at line 880) change on every render. Move it inside the useEffect callback. Alternatively, wrap the definition of 'checkStaleness' in its own useCallback() Hook  react-hooks/exhaustive-deps
+
+/home/gustavo-saraiva/Documents/FIREWARE/LABS/kortexone-workspace/Fireware Vision CRM/fireware-vision-core/src/components/customer360/Customer360Contracts.tsx
+  77:37  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/home/gustavo-saraiva/Documents/FIREWARE/LABS/kortexone-workspace/Fireware Vision CRM/fireware-vision-core/src/components/customer360/Customer360Conversations.tsx
+   54:54  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   55:56  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   76:47  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   88:49  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  103:61  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/home/gustavo-saraiva/Documents/FIREWARE/LABS/kortexone-workspace/Fireware Vision CRM/fireware-vision-core/src/components/customer360/Customer360EngagementScore.tsx
+   7:18  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   8:12  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   9:11  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  10:15  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/home/gustavo-saraiva/Documents/FIREWARE/LABS/kortexone-workspace/Fireware Vision CRM/fireware-vision-core/src/components/customer360/Customer360Header.tsx
+  12:11  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  13:16  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/home/gustavo-saraiva/Documents/FIREWARE/LABS/kortexone-workspace/Fireware Vision CRM/fireware-vision-core/src/components/customer360/Customer360Notes.tsx
+   58:75  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  135:31  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/home/gustavo-saraiva/Documents/FIREWARE/LABS/kortexone-workspace/Fireware Vision CRM/fireware-vision-core/src/components/guards/ModuleGuard.tsx
+  56:17  warning  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+
+/home/gustavo-saraiva/Documents/FIREWARE/LABS/kortexone-workspace/Fireware Vision CRM/fireware-vision-core/src/components/guards/PermissionGuard.tsx
+  60:17  warning  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+
+/home/gustavo-saraiva/Documents/FIREWARE/LABS/kortexone-workspace/Fireware Vision CRM/fireware-vision-core/src/components/inbox/InboxMessageThread.tsx
+  210:46  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/home/gustavo-saraiva/Documents/FIREWARE/LABS/kortexone-workspace/Fireware Vision CRM/fireware-vision-core/src/components/ui/badge.tsx
+  32:17  warning  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+
+/home/gustavo-saraiva/Documents/FIREWARE/LABS/kortexone-workspace/Fireware Vision CRM/fireware-vision-core/src/components/ui/button.tsx
+  47:18  warning  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+
+/home/gustavo-saraiva/Documents/FIREWARE/LABS/kortexone-workspace/Fireware Vision CRM/fireware-vision-core/src/components/ui/command.tsx
+  24:11  error  An interface declaring no members is equivalent to its supertype  @typescript-eslint/no-empty-object-type
+
+/home/gustavo-saraiva/Documents/FIREWARE/LABS/kortexone-workspace/Fireware Vision CRM/fireware-vision-core/src/components/ui/form.tsx
+  129:10  warning  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+
+/home/gustavo-saraiva/Documents/FIREWARE/LABS/kortexone-workspace/Fireware Vision CRM/fireware-vision-core/src/components/ui/navigation-menu.tsx
+  111:3  warning  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+
+/home/gustavo-saraiva/Documents/FIREWARE/LABS/kortexone-workspace/Fireware Vision CRM/fireware-vision-core/src/components/ui/sidebar.tsx
+  636:3  warning  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+
+/home/gustavo-saraiva/Documents/FIREWARE/LABS/kortexone-workspace/Fireware Vision CRM/fireware-vision-core/src/components/ui/sonner.tsx
+  27:19  warning  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+
+/home/gustavo-saraiva/Documents/FIREWARE/LABS/kortexone-workspace/Fireware Vision CRM/fireware-vision-core/src/components/ui/textarea.tsx
+  5:18  error  An interface declaring no members is equivalent to its supertype  @typescript-eslint/no-empty-object-type
+
+/home/gustavo-saraiva/Documents/FIREWARE/LABS/kortexone-workspace/Fireware Vision CRM/fireware-vision-core/src/components/ui/toggle.tsx
+  37:18  warning  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+
+/home/gustavo-saraiva/Documents/FIREWARE/LABS/kortexone-workspace/Fireware Vision CRM/fireware-vision-core/src/hooks/useAppContext.tsx
+  63:15  error    Empty block statement                                                                                                           no-empty
+  77:17  warning  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+
+/home/gustavo-saraiva/Documents/FIREWARE/LABS/kortexone-workspace/Fireware Vision CRM/fireware-vision-core/src/hooks/useAuth.tsx
+  155:17  warning  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+
+/home/gustavo-saraiva/Documents/FIREWARE/LABS/kortexone-workspace/Fireware Vision CRM/fireware-vision-core/src/hooks/useConversations.ts
+  61:16  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/home/gustavo-saraiva/Documents/FIREWARE/LABS/kortexone-workspace/Fireware Vision CRM/fireware-vision-core/src/hooks/useCustomFields.ts
+   52:15  error  Unexpected any. Specify a different type        @typescript-eslint/no-explicit-any
+   58:96  error  Unexpected any. Specify a different type        @typescript-eslint/no-explicit-any
+   79:70  error  Unexpected any. Specify a different type        @typescript-eslint/no-explicit-any
+   85:25  error  Unexpected any. Specify a different type        @typescript-eslint/no-explicit-any
+  117:10  error  Unexpected any. Specify a different type        @typescript-eslint/no-explicit-any
+  266:30  error  Unexpected any. Specify a different type        @typescript-eslint/no-explicit-any
+  273:26  error  Use the rest parameters instead of 'arguments'  prefer-rest-params
+  291:28  error  Unexpected any. Specify a different type        @typescript-eslint/no-explicit-any
+  303:22  error  Unexpected any. Specify a different type        @typescript-eslint/no-explicit-any
+  332:30  error  Unexpected any. Specify a different type        @typescript-eslint/no-explicit-any
+  339:30  error  Unexpected any. Specify a different type        @typescript-eslint/no-explicit-any
+  348:22  error  Unexpected any. Specify a different type        @typescript-eslint/no-explicit-any
+  375:22  error  Unexpected any. Specify a different type        @typescript-eslint/no-explicit-any
+
+/home/gustavo-saraiva/Documents/FIREWARE/LABS/kortexone-workspace/Fireware Vision CRM/fireware-vision-core/src/hooks/useSendMessage.ts
+  42:31  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  59:43  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/home/gustavo-saraiva/Documents/FIREWARE/LABS/kortexone-workspace/Fireware Vision CRM/fireware-vision-core/src/pages/AccountDetail.tsx
+  161:9  warning  The 'fetchAccountData' function makes the dependencies of useEffect Hook (at line 159) change on every render. Move it inside the useEffect callback. Alternatively, wrap the definition of 'fetchAccountData' in its own useCallback() Hook  react-hooks/exhaustive-deps
+
+/home/gustavo-saraiva/Documents/FIREWARE/LABS/kortexone-workspace/Fireware Vision CRM/fireware-vision-core/src/pages/AccountForm.tsx
+  119:77  error    Unexpected any. Specify a different type                                                                                                                                                                                                          @typescript-eslint/no-explicit-any
+  123:36  error    Unexpected any. Specify a different type                                                                                                                                                                                                          @typescript-eslint/no-explicit-any
+  167:9   warning  The 'fetchReferenceData' function makes the dependencies of useEffect Hook (at line 165) change on every render. Move it inside the useEffect callback. Alternatively, wrap the definition of 'fetchReferenceData' in its own useCallback() Hook  react-hooks/exhaustive-deps
+  192:9   warning  The 'fetchAccount' function makes the dependencies of useEffect Hook (at line 165) change on every render. Move it inside the useEffect callback. Alternatively, wrap the definition of 'fetchAccount' in its own useCallback() Hook              react-hooks/exhaustive-deps
+
+/home/gustavo-saraiva/Documents/FIREWARE/LABS/kortexone-workspace/Fireware Vision CRM/fireware-vision-core/src/pages/Accounts.tsx
+  43:9  warning  The 'fetchAccounts' function makes the dependencies of useEffect Hook (at line 41) change on every render. To fix this, wrap the definition of 'fetchAccounts' in its own useCallback() Hook  react-hooks/exhaustive-deps
+
+/home/gustavo-saraiva/Documents/FIREWARE/LABS/kortexone-workspace/Fireware Vision CRM/fireware-vision-core/src/pages/ArticleDetail.tsx
+  120:22  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  141:22  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/home/gustavo-saraiva/Documents/FIREWARE/LABS/kortexone-workspace/Fireware Vision CRM/fireware-vision-core/src/pages/ArticleForm.tsx
+  214:22  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/home/gustavo-saraiva/Documents/FIREWARE/LABS/kortexone-workspace/Fireware Vision CRM/fireware-vision-core/src/pages/AuditLogs.tsx
+  171:9  warning  The 'fetchLogs' function makes the dependencies of useEffect Hook (at line 169) change on every render. To fix this, wrap the definition of 'fetchLogs' in its own useCallback() Hook  react-hooks/exhaustive-deps
+
+/home/gustavo-saraiva/Documents/FIREWARE/LABS/kortexone-workspace/Fireware Vision CRM/fireware-vision-core/src/pages/Automations.tsx
+  175:6   warning  React Hook useCallback has unnecessary dependencies: 'id' and 'profile.id'. Either exclude them or remove the dependency array. Outer scope values like 'id' aren't valid dependencies because mutating them doesn't re-render the component  react-hooks/exhaustive-deps
+  177:9   warning  The 'fetchRuns' function makes the dependencies of useEffect Hook (at line 160) change on every render. Move it inside the useEffect callback. Alternatively, wrap the definition of 'fetchRuns' in its own useCallback() Hook                react-hooks/exhaustive-deps
+  203:51  error    Unexpected any. Specify a different type                                                                                                                                                                                                      @typescript-eslint/no-explicit-any
+  268:48  error    Unexpected any. Specify a different type                                                                                                                                                                                                      @typescript-eslint/no-explicit-any
+
+/home/gustavo-saraiva/Documents/FIREWARE/LABS/kortexone-workspace/Fireware Vision CRM/fireware-vision-core/src/pages/CMDB.tsx
+  48:51  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  51:52  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  54:62  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/home/gustavo-saraiva/Documents/FIREWARE/LABS/kortexone-workspace/Fireware Vision CRM/fireware-vision-core/src/pages/Cadences.tsx
+   60:55  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  237:22  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  321:22  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  384:22  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  400:34  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/home/gustavo-saraiva/Documents/FIREWARE/LABS/kortexone-workspace/Fireware Vision CRM/fireware-vision-core/src/pages/CampaignForm.tsx
+  125:6   warning  React Hook useCallback has unnecessary dependencies: 'id' and 'profile.id'. Either exclude them or remove the dependency array                                                                                                          react-hooks/exhaustive-deps
+  127:9   warning  The 'fetchCampaign' function makes the dependencies of useEffect Hook (at line 110) change on every render. Move it inside the useEffect callback. Alternatively, wrap the definition of 'fetchCampaign' in its own useCallback() Hook  react-hooks/exhaustive-deps
+  177:26  error    Unexpected any. Specify a different type                                                                                                                                                                                                @typescript-eslint/no-explicit-any
+  192:84  error    Unexpected any. Specify a different type                                                                                                                                                                                                @typescript-eslint/no-explicit-any
+
+/home/gustavo-saraiva/Documents/FIREWARE/LABS/kortexone-workspace/Fireware Vision CRM/fireware-vision-core/src/pages/CannedResponses.tsx
+  101:14  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  270:22  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/home/gustavo-saraiva/Documents/FIREWARE/LABS/kortexone-workspace/Fireware Vision CRM/fireware-vision-core/src/pages/ContactDetail.tsx
+  130:9  warning  The 'fetchContactData' function makes the dependencies of useEffect Hook (at line 128) change on every render. Move it inside the useEffect callback. Alternatively, wrap the definition of 'fetchContactData' in its own useCallback() Hook  react-hooks/exhaustive-deps
+
+/home/gustavo-saraiva/Documents/FIREWARE/LABS/kortexone-workspace/Fireware Vision CRM/fireware-vision-core/src/pages/ContactForm.tsx
+  110:77  error    Unexpected any. Specify a different type                                                                                                                                                                                              @typescript-eslint/no-explicit-any
+  114:36  error    Unexpected any. Specify a different type                                                                                                                                                                                              @typescript-eslint/no-explicit-any
+  177:9   warning  The 'fetchContact' function makes the dependencies of useEffect Hook (at line 158) change on every render. Move it inside the useEffect callback. Alternatively, wrap the definition of 'fetchContact' in its own useCallback() Hook  react-hooks/exhaustive-deps
+
+/home/gustavo-saraiva/Documents/FIREWARE/LABS/kortexone-workspace/Fireware Vision CRM/fireware-vision-core/src/pages/Contacts.tsx
+  37:9  warning  The 'fetchContacts' function makes the dependencies of useEffect Hook (at line 35) change on every render. Move it inside the useEffect callback. Alternatively, wrap the definition of 'fetchContacts' in its own useCallback() Hook  react-hooks/exhaustive-deps
+
+/home/gustavo-saraiva/Documents/FIREWARE/LABS/kortexone-workspace/Fireware Vision CRM/fireware-vision-core/src/pages/ContractDetail.tsx
+  179:9  warning  The 'fetchContract' function makes the dependencies of useEffect Hook (at line 177) change on every render. To fix this, wrap the definition of 'fetchContract' in its own useCallback() Hook  react-hooks/exhaustive-deps
+
+/home/gustavo-saraiva/Documents/FIREWARE/LABS/kortexone-workspace/Fireware Vision CRM/fireware-vision-core/src/pages/ContractForm.tsx
+  155:9  warning  The 'fetchContract' function makes the dependencies of useEffect Hook (at line 113) change on every render. Move it inside the useEffect callback. Alternatively, wrap the definition of 'fetchContract' in its own useCallback() Hook  react-hooks/exhaustive-deps
+
+/home/gustavo-saraiva/Documents/FIREWARE/LABS/kortexone-workspace/Fireware Vision CRM/fireware-vision-core/src/pages/Contracts.tsx
+  157:9  warning  The 'fetchContracts' function makes the dependencies of useEffect Hook (at line 155) change on every render. To fix this, wrap the definition of 'fetchContracts' in its own useCallback() Hook  react-hooks/exhaustive-deps
+
+/home/gustavo-saraiva/Documents/FIREWARE/LABS/kortexone-workspace/Fireware Vision CRM/fireware-vision-core/src/pages/Customer360.tsx
+   48:22   error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   60:22   error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  154:22   error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  173:44   error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  173:102  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  174:44   error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  174:126  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  176:48   error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  177:37   error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  179:48   error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  181:43   error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  184:36   error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  190:17   error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  191:46   error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  199:83   error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  315:65   error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  346:51   error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  362:49   error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  389:44   error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  418:41   error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  447:39   error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  492:45   error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  529:51   error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/home/gustavo-saraiva/Documents/FIREWARE/LABS/kortexone-workspace/Fireware Vision CRM/fireware-vision-core/src/pages/CustomerSuccess.tsx
+   95:49  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   97:37  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   98:38  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  261:35  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  263:37  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  285:46  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  305:63  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  347:41  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  347:77  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  388:46  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  457:45  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  518:49  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/home/gustavo-saraiva/Documents/FIREWARE/LABS/kortexone-workspace/Fireware Vision CRM/fireware-vision-core/src/pages/DashboardBuilder.tsx
+  101:32  error    Unexpected any. Specify a different type                                                                                                                                                                                                  @typescript-eslint/no-explicit-any
+  102:32  error    Unexpected any. Specify a different type                                                                                                                                                                                                  @typescript-eslint/no-explicit-any
+  105:16  error    Unexpected any. Specify a different type                                                                                                                                                                                                  @typescript-eslint/no-explicit-any
+  147:9   warning  The 'fetchDashboard' function makes the dependencies of useEffect Hook (at line 145) change on every render. Move it inside the useEffect callback. Alternatively, wrap the definition of 'fetchDashboard' in its own useCallback() Hook  react-hooks/exhaustive-deps
+  169:42  error    Unexpected any. Specify a different type                                                                                                                                                                                                  @typescript-eslint/no-explicit-any
+  184:32  error    Unexpected any. Specify a different type                                                                                                                                                                                                  @typescript-eslint/no-explicit-any
+  184:68  error    Unexpected any. Specify a different type                                                                                                                                                                                                  @typescript-eslint/no-explicit-any
+  192:32  error    Unexpected any. Specify a different type                                                                                                                                                                                                  @typescript-eslint/no-explicit-any
+  192:68  error    Unexpected any. Specify a different type                                                                                                                                                                                                  @typescript-eslint/no-explicit-any
+  217:46  error    Unexpected any. Specify a different type                                                                                                                                                                                                  @typescript-eslint/no-explicit-any
+  220:81  error    Unexpected any. Specify a different type                                                                                                                                                                                                  @typescript-eslint/no-explicit-any
+  221:48  error    Unexpected any. Specify a different type                                                                                                                                                                                                  @typescript-eslint/no-explicit-any
+
+/home/gustavo-saraiva/Documents/FIREWARE/LABS/kortexone-workspace/Fireware Vision CRM/fireware-vision-core/src/pages/Dashboards.tsx
+  67:9  warning  The 'fetchDashboards' function makes the dependencies of useEffect Hook (at line 65) change on every render. To fix this, wrap the definition of 'fetchDashboards' in its own useCallback() Hook  react-hooks/exhaustive-deps
+
+/home/gustavo-saraiva/Documents/FIREWARE/LABS/kortexone-workspace/Fireware Vision CRM/fireware-vision-core/src/pages/Duplicates.tsx
+  108:52  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  113:30  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  126:30  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/home/gustavo-saraiva/Documents/FIREWARE/LABS/kortexone-workspace/Fireware Vision CRM/fireware-vision-core/src/pages/Forecast.tsx
+  280:22  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/home/gustavo-saraiva/Documents/FIREWARE/LABS/kortexone-workspace/Fireware Vision CRM/fireware-vision-core/src/pages/Governance.tsx
+  122:38  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  123:40  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  124:38  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  318:61  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  358:49  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  358:95  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  400:47  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  467:51  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/home/gustavo-saraiva/Documents/FIREWARE/LABS/kortexone-workspace/Fireware Vision CRM/fireware-vision-core/src/pages/ITAssets.tsx
+  46:54  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  49:52  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/home/gustavo-saraiva/Documents/FIREWARE/LABS/kortexone-workspace/Fireware Vision CRM/fireware-vision-core/src/pages/ITChangeForm.tsx
+  110:25  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/home/gustavo-saraiva/Documents/FIREWARE/LABS/kortexone-workspace/Fireware Vision CRM/fireware-vision-core/src/pages/ITChanges.tsx
+  47:52  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  50:55  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/home/gustavo-saraiva/Documents/FIREWARE/LABS/kortexone-workspace/Fireware Vision CRM/fireware-vision-core/src/pages/ITIncidentDetail.tsx
+  121:40  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/home/gustavo-saraiva/Documents/FIREWARE/LABS/kortexone-workspace/Fireware Vision CRM/fireware-vision-core/src/pages/ITIncidentForm.tsx
+  118:27  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/home/gustavo-saraiva/Documents/FIREWARE/LABS/kortexone-workspace/Fireware Vision CRM/fireware-vision-core/src/pages/ITIncidents.tsx
+  47:52  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  50:56  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/home/gustavo-saraiva/Documents/FIREWARE/LABS/kortexone-workspace/Fireware Vision CRM/fireware-vision-core/src/pages/JourneyBuilder.tsx
+  176:9   warning  The 'fetchSegments' function makes the dependencies of useEffect Hook (at line 174) change on every render. Move it inside the useEffect callback. Alternatively, wrap the definition of 'fetchSegments' in its own useCallback() Hook  react-hooks/exhaustive-deps
+  191:9   warning  The 'fetchJourney' function makes the dependencies of useEffect Hook (at line 174) change on every render. Move it inside the useEffect callback. Alternatively, wrap the definition of 'fetchJourney' in its own useCallback() Hook    react-hooks/exhaustive-deps
+  214:9   warning  The 'fetchSteps' function makes the dependencies of useEffect Hook (at line 174) change on every render. Move it inside the useEffect callback. Alternatively, wrap the definition of 'fetchSteps' in its own useCallback() Hook        react-hooks/exhaustive-deps
+  239:49  error    Unexpected any. Specify a different type                                                                                                                                                                                                @typescript-eslint/no-explicit-any
+  324:23  error    Unexpected any. Specify a different type                                                                                                                                                                                                @typescript-eslint/no-explicit-any
+  326:23  error    Unexpected any. Specify a different type                                                                                                                                                                                                @typescript-eslint/no-explicit-any
+  350:32  error    Unexpected any. Specify a different type                                                                                                                                                                                                @typescript-eslint/no-explicit-any
+  353:40  error    Unexpected any. Specify a different type                                                                                                                                                                                                @typescript-eslint/no-explicit-any
+  817:54  error    Unexpected any. Specify a different type                                                                                                                                                                                                @typescript-eslint/no-explicit-any
+  828:54  error    Unexpected any. Specify a different type                                                                                                                                                                                                @typescript-eslint/no-explicit-any
+
+/home/gustavo-saraiva/Documents/FIREWARE/LABS/kortexone-workspace/Fireware Vision CRM/fireware-vision-core/src/pages/Knowledge.tsx
+  104:42  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/home/gustavo-saraiva/Documents/FIREWARE/LABS/kortexone-workspace/Fireware Vision CRM/fireware-vision-core/src/pages/LGPDRequestForm.tsx
+  123:31  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  128:40  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  186:25  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/home/gustavo-saraiva/Documents/FIREWARE/LABS/kortexone-workspace/Fireware Vision CRM/fireware-vision-core/src/pages/LeadDetail.tsx
+  93:9  warning  The 'fetchLead' function makes the dependencies of useEffect Hook (at line 91) change on every render. To fix this, wrap the definition of 'fetchLead' in its own useCallback() Hook  react-hooks/exhaustive-deps
+
+/home/gustavo-saraiva/Documents/FIREWARE/LABS/kortexone-workspace/Fireware Vision CRM/fireware-vision-core/src/pages/LeadForm.tsx
+   67:77  error    Unexpected any. Specify a different type                                                                                                                                                                                        @typescript-eslint/no-explicit-any
+   71:36  error    Unexpected any. Specify a different type                                                                                                                                                                                        @typescript-eslint/no-explicit-any
+  112:9   warning  The 'fetchLead' function makes the dependencies of useEffect Hook (at line 110) change on every render. Move it inside the useEffect callback. Alternatively, wrap the definition of 'fetchLead' in its own useCallback() Hook  react-hooks/exhaustive-deps
+
+/home/gustavo-saraiva/Documents/FIREWARE/LABS/kortexone-workspace/Fireware Vision CRM/fireware-vision-core/src/pages/Leads.tsx
+  85:9  warning  The 'fetchLeads' function makes the dependencies of useEffect Hook (at line 83) change on every render. To fix this, wrap the definition of 'fetchLeads' in its own useCallback() Hook  react-hooks/exhaustive-deps
+
+/home/gustavo-saraiva/Documents/FIREWARE/LABS/kortexone-workspace/Fireware Vision CRM/fireware-vision-core/src/pages/Marketing.tsx
+  160:9  warning  The 'fetchData' function makes the dependencies of useEffect Hook (at line 158) change on every render. Move it inside the useEffect callback. Alternatively, wrap the definition of 'fetchData' in its own useCallback() Hook  react-hooks/exhaustive-deps
+
+/home/gustavo-saraiva/Documents/FIREWARE/LABS/kortexone-workspace/Fireware Vision CRM/fireware-vision-core/src/pages/MergeWizard.tsx
+   41:34  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   59:18  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  206:40  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  304:35  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/home/gustavo-saraiva/Documents/FIREWARE/LABS/kortexone-workspace/Fireware Vision CRM/fireware-vision-core/src/pages/OpportunityForm.tsx
+  53:77  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  57:36  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/home/gustavo-saraiva/Documents/FIREWARE/LABS/kortexone-workspace/Fireware Vision CRM/fireware-vision-core/src/pages/OrderDetail.tsx
+  187:35  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/home/gustavo-saraiva/Documents/FIREWARE/LABS/kortexone-workspace/Fireware Vision CRM/fireware-vision-core/src/pages/OrderForm.tsx
+   74:77  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   84:37  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  177:62  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  216:29  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  232:66  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/home/gustavo-saraiva/Documents/FIREWARE/LABS/kortexone-workspace/Fireware Vision CRM/fireware-vision-core/src/pages/Orders.tsx
+  84:52  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  87:61  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/home/gustavo-saraiva/Documents/FIREWARE/LABS/kortexone-workspace/Fireware Vision CRM/fireware-vision-core/src/pages/ProductDetail.tsx
+   79:9   warning  The 'fetchProduct' function makes the dependencies of useEffect Hook (at line 77) change on every render. To fix this, wrap the definition of 'fetchProduct' in its own useCallback() Hook  react-hooks/exhaustive-deps
+  113:37  error    Unexpected any. Specify a different type                                                                                                                                                    @typescript-eslint/no-explicit-any
+
+/home/gustavo-saraiva/Documents/FIREWARE/LABS/kortexone-workspace/Fireware Vision CRM/fireware-vision-core/src/pages/ProductForm.tsx
+  107:9   warning  The 'fetchProduct' function makes the dependencies of useEffect Hook (at line 93) change on every render. Move it inside the useEffect callback. Alternatively, wrap the definition of 'fetchProduct' in its own useCallback() Hook  react-hooks/exhaustive-deps
+  191:21  error    Unexpected any. Specify a different type                                                                                                                                                                                             @typescript-eslint/no-explicit-any
+
+/home/gustavo-saraiva/Documents/FIREWARE/LABS/kortexone-workspace/Fireware Vision CRM/fireware-vision-core/src/pages/Products.tsx
+  98:9  warning  The 'fetchProducts' function makes the dependencies of useEffect Hook (at line 96) change on every render. To fix this, wrap the definition of 'fetchProducts' in its own useCallback() Hook  react-hooks/exhaustive-deps
+
+/home/gustavo-saraiva/Documents/FIREWARE/LABS/kortexone-workspace/Fireware Vision CRM/fireware-vision-core/src/pages/Promotions.tsx
+   69:48  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  123:34  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  137:29  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  142:32  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/home/gustavo-saraiva/Documents/FIREWARE/LABS/kortexone-workspace/Fireware Vision CRM/fireware-vision-core/src/pages/QuoteDetail.tsx
+  179:6  warning  React Hook useCallback has a missing dependency: 'toast'. Either include it or remove the dependency array                                                                                                                        react-hooks/exhaustive-deps
+  181:9  warning  The 'fetchItems' function makes the dependencies of useEffect Hook (at line 151) change on every render. Move it inside the useEffect callback. Alternatively, wrap the definition of 'fetchItems' in its own useCallback() Hook  react-hooks/exhaustive-deps
+
+/home/gustavo-saraiva/Documents/FIREWARE/LABS/kortexone-workspace/Fireware Vision CRM/fireware-vision-core/src/pages/QuoteForm.tsx
+  207:9   warning  The 'fetchQuote' function makes the dependencies of useEffect Hook (at line 174) change on every render. Move it inside the useEffect callback. Alternatively, wrap the definition of 'fetchQuote' in its own useCallback() Hook  react-hooks/exhaustive-deps
+  306:70  error    Unexpected any. Specify a different type                                                                                                                                                                                          @typescript-eslint/no-explicit-any
+  468:21  error    Unexpected any. Specify a different type                                                                                                                                                                                          @typescript-eslint/no-explicit-any
+
+/home/gustavo-saraiva/Documents/FIREWARE/LABS/kortexone-workspace/Fireware Vision CRM/fireware-vision-core/src/pages/Quotes.tsx
+  135:9  warning  The 'fetchQuotes' function makes the dependencies of useEffect Hook (at line 133) change on every render. To fix this, wrap the definition of 'fetchQuotes' in its own useCallback() Hook  react-hooks/exhaustive-deps
+
+/home/gustavo-saraiva/Documents/FIREWARE/LABS/kortexone-workspace/Fireware Vision CRM/fireware-vision-core/src/pages/Reports.tsx
+  191:9  warning  The 'fetchAllData' function makes the dependencies of useEffect Hook (at line 163) change on every render. To fix this, wrap the definition of 'fetchAllData' in its own useCallback() Hook  react-hooks/exhaustive-deps
+
+/home/gustavo-saraiva/Documents/FIREWARE/LABS/kortexone-workspace/Fireware Vision CRM/fireware-vision-core/src/pages/Returns.tsx
+  78:52  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/home/gustavo-saraiva/Documents/FIREWARE/LABS/kortexone-workspace/Fireware Vision CRM/fireware-vision-core/src/pages/SegmentForm.tsx
+  136:9   warning  The 'fetchSegment' function makes the dependencies of useEffect Hook (at line 134) change on every render. Move it inside the useEffect callback. Alternatively, wrap the definition of 'fetchSegment' in its own useCallback() Hook  react-hooks/exhaustive-deps
+  228:32  error    Unexpected any. Specify a different type                                                                                                                                                                                              @typescript-eslint/no-explicit-any
+
+/home/gustavo-saraiva/Documents/FIREWARE/LABS/kortexone-workspace/Fireware Vision CRM/fireware-vision-core/src/pages/ServiceDashboard.tsx
+  518:77  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/home/gustavo-saraiva/Documents/FIREWARE/LABS/kortexone-workspace/Fireware Vision CRM/fireware-vision-core/src/pages/Settings.tsx
+  219:22  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  262:22  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  293:22  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  324:22  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  337:22  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  340:40  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/home/gustavo-saraiva/Documents/FIREWARE/LABS/kortexone-workspace/Fireware Vision CRM/fireware-vision-core/src/pages/Territories.tsx
+   23:13  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  202:22  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  227:22  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/home/gustavo-saraiva/Documents/FIREWARE/LABS/kortexone-workspace/Fireware Vision CRM/fireware-vision-core/src/pages/TicketDetail.tsx
+  222:22  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  265:22  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/home/gustavo-saraiva/Documents/FIREWARE/LABS/kortexone-workspace/Fireware Vision CRM/fireware-vision-core/src/pages/TicketForm.tsx
+   84:77  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   88:36  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  309:22  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/home/gustavo-saraiva/Documents/FIREWARE/LABS/kortexone-workspace/Fireware Vision CRM/fireware-vision-core/src/pages/WorkflowBuilder.tsx
+  186:6   warning  React Hook useCallback has a missing dependency: 'toast'. Either include it or remove the dependency array                                                                                                                        react-hooks/exhaustive-deps
+  188:9   warning  The 'fetchSteps' function makes the dependencies of useEffect Hook (at line 163) change on every render. Move it inside the useEffect callback. Alternatively, wrap the definition of 'fetchSteps' in its own useCallback() Hook  react-hooks/exhaustive-deps
+  212:48  error    Unexpected any. Specify a different type                                                                                                                                                                                          @typescript-eslint/no-explicit-any
+  214:60  error    Unexpected any. Specify a different type                                                                                                                                                                                          @typescript-eslint/no-explicit-any
+  272:23  error    Unexpected any. Specify a different type                                                                                                                                                                                          @typescript-eslint/no-explicit-any
+  274:23  error    Unexpected any. Specify a different type                                                                                                                                                                                          @typescript-eslint/no-explicit-any
+  298:32  error    Unexpected any. Specify a different type                                                                                                                                                                                          @typescript-eslint/no-explicit-any
+  299:40  error    Unexpected any. Specify a different type                                                                                                                                                                                          @typescript-eslint/no-explicit-any
+  737:52  error    Unexpected any. Specify a different type                                                                                                                                                                                          @typescript-eslint/no-explicit-any
+  751:54  error    Unexpected any. Specify a different type                                                                                                                                                                                          @typescript-eslint/no-explicit-any
+  761:54  error    Unexpected any. Specify a different type                                                                                                                                                                                          @typescript-eslint/no-explicit-any
+  777:54  error    Unexpected any. Specify a different type                                                                                                                                                                                          @typescript-eslint/no-explicit-any
+  788:54  error    Unexpected any. Specify a different type                                                                                                                                                                                          @typescript-eslint/no-explicit-any
+
+/home/gustavo-saraiva/Documents/FIREWARE/LABS/kortexone-workspace/Fireware Vision CRM/fireware-vision-core/src/pages/admin/CustomFieldsAdmin.tsx
+  185:28  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  206:10  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/home/gustavo-saraiva/Documents/FIREWARE/LABS/kortexone-workspace/Fireware Vision CRM/fireware-vision-core/src/pages/admin/PlatformModules.tsx
+  129:16  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/home/gustavo-saraiva/Documents/FIREWARE/LABS/kortexone-workspace/Fireware Vision CRM/fireware-vision-core/src/pages/ai/AIAgentDetail.tsx
+  105:40  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  113:20  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  142:45  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  253:39  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  255:79  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  256:80  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  258:61  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  259:48  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  262:55  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  295:42  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  297:82  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  298:83  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  299:58  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  300:58  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  334:39  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  380:41  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/home/gustavo-saraiva/Documents/FIREWARE/LABS/kortexone-workspace/Fireware Vision CRM/fireware-vision-core/src/pages/ai/AIAgentForm.tsx
+  70:42  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  90:19  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/home/gustavo-saraiva/Documents/FIREWARE/LABS/kortexone-workspace/Fireware Vision CRM/fireware-vision-core/src/pages/ai/AIAgentPlayground.tsx
+  114:92  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  127:31  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  160:35  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  175:45  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  296:19  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  335:42  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/home/gustavo-saraiva/Documents/FIREWARE/LABS/kortexone-workspace/Fireware Vision CRM/fireware-vision-core/src/pages/ai/AIAgents.tsx
+  233:68  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/home/gustavo-saraiva/Documents/FIREWARE/LABS/kortexone-workspace/Fireware Vision CRM/fireware-vision-core/src/pages/ai/AIEvals.tsx
+   78:20  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  172:43  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/home/gustavo-saraiva/Documents/FIREWARE/LABS/kortexone-workspace/Fireware Vision CRM/fireware-vision-core/src/pages/ai/AIPolicies.tsx
+  63:42  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  75:20  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/home/gustavo-saraiva/Documents/FIREWARE/LABS/kortexone-workspace/Fireware Vision CRM/fireware-vision-core/src/pages/ai/AIRuns.tsx
+   50:52  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   75:41  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   76:40  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  143:56  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  144:57  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  198:52  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  234:59  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/home/gustavo-saraiva/Documents/FIREWARE/LABS/kortexone-workspace/Fireware Vision CRM/fireware-vision-core/src/pages/ai/AITools.tsx
+  76:38  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  76:74  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  89:20  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/home/gustavo-saraiva/Documents/FIREWARE/LABS/kortexone-workspace/Fireware Vision CRM/fireware-vision-core/src/pages/datahub/EventSchemas.tsx
+  17:56  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/home/gustavo-saraiva/Documents/FIREWARE/LABS/kortexone-workspace/Fireware Vision CRM/fireware-vision-core/src/pages/integrations/IntegrationsDLQ.tsx
+  43:39  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  57:40  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/home/gustavo-saraiva/Documents/FIREWARE/LABS/kortexone-workspace/Fireware Vision CRM/fireware-vision-core/src/pages/marketing/CampaignABTest.tsx
+   99:9   warning  The 'fetchData' function makes the dependencies of useEffect Hook (at line 97) change on every render. To fix this, wrap the definition of 'fetchData' in its own useCallback() Hook  react-hooks/exhaustive-deps
+  159:73  error    Unexpected any. Specify a different type                                                                                                                                              @typescript-eslint/no-explicit-any
+
+/home/gustavo-saraiva/Documents/FIREWARE/LABS/kortexone-workspace/Fireware Vision CRM/fireware-vision-core/src/pages/marketing/EmailTemplateBuilder.tsx
+   36:27   error    Unexpected any. Specify a different type                                                                                                                                                                                                @typescript-eslint/no-explicit-any
+   37:26   error    Unexpected any. Specify a different type                                                                                                                                                                                                @typescript-eslint/no-explicit-any
+  103:9    warning  The 'fetchTemplate' function makes the dependencies of useEffect Hook (at line 101) change on every render. Move it inside the useEffect callback. Alternatively, wrap the definition of 'fetchTemplate' in its own useCallback() Hook  react-hooks/exhaustive-deps
+  125:44   error    Unexpected any. Specify a different type                                                                                                                                                                                                @typescript-eslint/no-explicit-any
+  160:11   error    Unexpected lexical declaration in case block                                                                                                                                                                                            no-case-declarations
+  161:89   error    Unexpected any. Specify a different type                                                                                                                                                                                                @typescript-eslint/no-explicit-any
+  190:161  error    Unexpected any. Specify a different type                                                                                                                                                                                                @typescript-eslint/no-explicit-any
+  192:55   error    Unexpected any. Specify a different type                                                                                                                                                                                                @typescript-eslint/no-explicit-any
+  199:161  error    Unexpected any. Specify a different type                                                                                                                                                                                                @typescript-eslint/no-explicit-any
+  202:28   error    Unexpected any. Specify a different type                                                                                                                                                                                                @typescript-eslint/no-explicit-any
+  227:161  error    Unexpected any. Specify a different type                                                                                                                                                                                                @typescript-eslint/no-explicit-any
+  228:31   error    Unexpected any. Specify a different type                                                                                                                                                                                                @typescript-eslint/no-explicit-any
+  279:72   error    Unexpected any. Specify a different type                                                                                                                                                                                                @typescript-eslint/no-explicit-any
+
+/home/gustavo-saraiva/Documents/FIREWARE/LABS/kortexone-workspace/Fireware Vision CRM/fireware-vision-core/src/pages/marketing/EmailTemplates.tsx
+  70:9  warning  The 'fetchTemplates' function makes the dependencies of useEffect Hook (at line 68) change on every render. To fix this, wrap the definition of 'fetchTemplates' in its own useCallback() Hook  react-hooks/exhaustive-deps
+
+/home/gustavo-saraiva/Documents/FIREWARE/LABS/kortexone-workspace/Fireware Vision CRM/fireware-vision-core/src/pages/partner/PartnerCommissions.tsx
+   53:52  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  143:53  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/home/gustavo-saraiva/Documents/FIREWARE/LABS/kortexone-workspace/Fireware Vision CRM/fireware-vision-core/src/pages/partner/PartnerDeals.tsx
+  58:52  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  61:53  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/home/gustavo-saraiva/Documents/FIREWARE/LABS/kortexone-workspace/Fireware Vision CRM/fireware-vision-core/src/pages/portal/PortalInvoices.tsx
+  97:47  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/home/gustavo-saraiva/Documents/FIREWARE/LABS/kortexone-workspace/Fireware Vision CRM/fireware-vision-core/src/pages/portal/PortalOrders.tsx
+   47:54  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   98:57  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  158:50  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  158:69  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/home/gustavo-saraiva/Documents/FIREWARE/LABS/kortexone-workspace/Fireware Vision CRM/fireware-vision-core/src/pages/portal/PortalPreferences.tsx
+  81:42  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  98:61  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/home/gustavo-saraiva/Documents/FIREWARE/LABS/kortexone-workspace/Fireware Vision CRM/fireware-vision-core/src/pages/portal/PortalReturns.tsx
+  206:49  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/home/gustavo-saraiva/Documents/FIREWARE/LABS/kortexone-workspace/Fireware Vision CRM/fireware-vision-core/src/pages/portal/PortalTicketDetail.tsx
+  36:65  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/home/gustavo-saraiva/Documents/FIREWARE/LABS/kortexone-workspace/Fireware Vision CRM/fireware-vision-core/src/pages/portal/PortalTickets.tsx
+  42:65  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/home/gustavo-saraiva/Documents/FIREWARE/LABS/kortexone-workspace/Fireware Vision CRM/fireware-vision-core/src/pages/sales/Billing.tsx
+   63:78  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  106:56  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  107:41  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  107:92  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  108:44  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  108:98  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  109:53  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  214:42  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  254:49  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  298:47  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/home/gustavo-saraiva/Documents/FIREWARE/LABS/kortexone-workspace/Fireware Vision CRM/fireware-vision-core/src/pages/sales/BillingDetail.tsx
+   82:40  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  223:42  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  301:39  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/home/gustavo-saraiva/Documents/FIREWARE/LABS/kortexone-workspace/Fireware Vision CRM/fireware-vision-core/src/pages/sales/CPQConfigurationDetail.tsx
+   40:44   error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   71:47   error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  123:40   error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  237:100  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  241:138  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  246:121  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  251:150  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  255:148  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  308:88   error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  310:50   error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  310:67   error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  347:49   error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/home/gustavo-saraiva/Documents/FIREWARE/LABS/kortexone-workspace/Fireware Vision CRM/fireware-vision-core/src/pages/sales/CPQConfigurations.tsx
+  108:78  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  189:40  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  190:34  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  538:53  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/home/gustavo-saraiva/Documents/FIREWARE/LABS/kortexone-workspace/Fireware Vision CRM/fireware-vision-core/src/pages/sales/ConversationIntelligence.tsx
+   77:78  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  125:42  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  127:49  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  130:49  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  132:75  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  246:44  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  331:46  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  379:43  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/home/gustavo-saraiva/Documents/FIREWARE/LABS/kortexone-workspace/Fireware Vision CRM/fireware-vision-core/src/pages/sales/Subscriptions.tsx
+   59:78  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   70:47  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   71:50  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   79:44  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   80:49  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  192:43  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/home/gustavo-saraiva/Documents/FIREWARE/LABS/kortexone-workspace/Fireware Vision CRM/fireware-vision-core/src/pages/service/ChatWidgetsAdmin.tsx
+  270:33  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/home/gustavo-saraiva/Documents/FIREWARE/LABS/kortexone-workspace/Fireware Vision CRM/fireware-vision-core/src/pages/service/QADashboard.tsx
+  106:52  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  154:60  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  175:22  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  745:57  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/home/gustavo-saraiva/Documents/FIREWARE/LABS/kortexone-workspace/Fireware Vision CRM/fireware-vision-core/src/pages/service/ServiceQueues.tsx
+   42:54  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  141:48  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  163:18  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  179:18  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  193:18  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  207:18  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/home/gustavo-saraiva/Documents/FIREWARE/LABS/kortexone-workspace/Fireware Vision CRM/fireware-vision-core/src/pages/service/SocialInbox.tsx
+   72:58  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  122:58  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  144:56  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  147:58  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  162:36  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  182:18  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  211:18  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/home/gustavo-saraiva/Documents/FIREWARE/LABS/kortexone-workspace/Fireware Vision CRM/fireware-vision-core/src/pages/service/VoiceAdmin.tsx
+  262:110  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/home/gustavo-saraiva/Documents/FIREWARE/LABS/kortexone-workspace/Fireware Vision CRM/fireware-vision-core/src/pages/service/WhatsAppAdmin.tsx
+  299:110  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/home/gustavo-saraiva/Documents/FIREWARE/LABS/kortexone-workspace/Fireware Vision CRM/fireware-vision-core/supabase/functions/ai-agent-execute/index.ts
+    59:88  error  Unnecessary escape character: \/                        no-useless-escape
+   122:13  error  Unexpected any. Specify a different type                @typescript-eslint/no-explicit-any
+   188:17  error  Unexpected any. Specify a different type                @typescript-eslint/no-explicit-any
+   199:13  error  Unexpected any. Specify a different type                @typescript-eslint/no-explicit-any
+   228:40  error  Unexpected any. Specify a different type                @typescript-eslint/no-explicit-any
+   253:13  error  Unexpected any. Specify a different type                @typescript-eslint/no-explicit-any
+   283:42  error  Unexpected any. Specify a different type                @typescript-eslint/no-explicit-any
+   294:42  error  Unexpected any. Specify a different type                @typescript-eslint/no-explicit-any
+   316:13  error  Unexpected any. Specify a different type                @typescript-eslint/no-explicit-any
+   340:40  error  Unexpected any. Specify a different type                @typescript-eslint/no-explicit-any
+   363:13  error  Unexpected any. Specify a different type                @typescript-eslint/no-explicit-any
+   411:13  error  Unexpected any. Specify a different type                @typescript-eslint/no-explicit-any
+   463:13  error  Unexpected any. Specify a different type                @typescript-eslint/no-explicit-any
+   498:13  error  Unexpected any. Specify a different type                @typescript-eslint/no-explicit-any
+   560:13  error  Unexpected any. Specify a different type                @typescript-eslint/no-explicit-any
+   615:13  error  Unexpected any. Specify a different type                @typescript-eslint/no-explicit-any
+   640:40  error  Unexpected any. Specify a different type                @typescript-eslint/no-explicit-any
+   663:13  error  Unexpected any. Specify a different type                @typescript-eslint/no-explicit-any
+   708:13  error  Unexpected any. Specify a different type                @typescript-eslint/no-explicit-any
+   752:13  error  Unexpected any. Specify a different type                @typescript-eslint/no-explicit-any
+   797:13  error  Unexpected any. Specify a different type                @typescript-eslint/no-explicit-any
+   820:40  error  Unexpected any. Specify a different type                @typescript-eslint/no-explicit-any
+   832:55  error  Unexpected any. Specify a different type                @typescript-eslint/no-explicit-any
+   845:13  error  Unexpected any. Specify a different type                @typescript-eslint/no-explicit-any
+   860:19  error  Unexpected any. Specify a different type                @typescript-eslint/no-explicit-any
+   891:13  error  Unexpected any. Specify a different type                @typescript-eslint/no-explicit-any
+   925:13  error  Unexpected any. Specify a different type                @typescript-eslint/no-explicit-any
+   967:13  error  Unexpected any. Specify a different type                @typescript-eslint/no-explicit-any
+  1002:36  error  Unexpected any. Specify a different type                @typescript-eslint/no-explicit-any
+  1022:13  error  Unexpected any. Specify a different type                @typescript-eslint/no-explicit-any
+  1045:32  error  Unexpected any. Specify a different type                @typescript-eslint/no-explicit-any
+  1057:13  error  Unexpected any. Specify a different type                @typescript-eslint/no-explicit-any
+  1100:13  error  Unexpected any. Specify a different type                @typescript-eslint/no-explicit-any
+  1141:13  error  Unexpected any. Specify a different type                @typescript-eslint/no-explicit-any
+  1166:32  error  Unexpected any. Specify a different type                @typescript-eslint/no-explicit-any
+  1178:13  error  Unexpected any. Specify a different type                @typescript-eslint/no-explicit-any
+  1190:19  error  Unexpected any. Specify a different type                @typescript-eslint/no-explicit-any
+  1211:39  error  Unexpected any. Specify a different type                @typescript-eslint/no-explicit-any
+  1228:39  error  Unexpected any. Specify a different type                @typescript-eslint/no-explicit-any
+  1250:39  error  Unexpected any. Specify a different type                @typescript-eslint/no-explicit-any
+  1272:13  error  Unexpected any. Specify a different type                @typescript-eslint/no-explicit-any
+  1313:13  error  Unexpected any. Specify a different type                @typescript-eslint/no-explicit-any
+  1353:13  error  Unexpected any. Specify a different type                @typescript-eslint/no-explicit-any
+  1374:72  error  Unexpected any. Specify a different type                @typescript-eslint/no-explicit-any
+  1437:13  error  Unexpected any. Specify a different type                @typescript-eslint/no-explicit-any
+  1649:20  error  Unexpected any. Specify a different type                @typescript-eslint/no-explicit-any
+  1650:17  error  Unexpected any. Specify a different type                @typescript-eslint/no-explicit-any
+  1670:20  error  Unexpected any. Specify a different type                @typescript-eslint/no-explicit-any
+  1671:17  error  Unexpected any. Specify a different type                @typescript-eslint/no-explicit-any
+  1703:44  error  Unexpected any. Specify a different type                @typescript-eslint/no-explicit-any
+  1768:55  error  Unexpected any. Specify a different type                @typescript-eslint/no-explicit-any
+  1852:9   error  'toolResults' is never reassigned. Use 'const' instead  prefer-const
+  1988:18  error  Unexpected any. Specify a different type                @typescript-eslint/no-explicit-any
+
+/home/gustavo-saraiva/Documents/FIREWARE/LABS/kortexone-workspace/Fireware Vision CRM/fireware-vision-core/supabase/functions/journey-processor/index.ts
+   63:7  error  Unexpected lexical declaration in case block  no-case-declarations
+  436:9  error  Unexpected lexical declaration in case block  no-case-declarations
+  473:9  error  Unexpected lexical declaration in case block  no-case-declarations
+  474:9  error  Unexpected lexical declaration in case block  no-case-declarations
+  476:9  error  Unexpected lexical declaration in case block  no-case-declarations
+  492:9  error  Unexpected lexical declaration in case block  no-case-declarations
+  493:9  error  Unexpected lexical declaration in case block  no-case-declarations
+  494:9  error  Unexpected lexical declaration in case block  no-case-declarations
+  515:9  error  Unexpected lexical declaration in case block  no-case-declarations
+  516:9  error  Unexpected lexical declaration in case block  no-case-declarations
+  517:9  error  Unexpected lexical declaration in case block  no-case-declarations
+  518:9  error  Unexpected lexical declaration in case block  no-case-declarations
+
+/home/gustavo-saraiva/Documents/FIREWARE/LABS/kortexone-workspace/Fireware Vision CRM/fireware-vision-core/supabase/functions/whatsapp-webhook/index.ts
+  212:19  error  'contentType' is never reassigned. Use 'const' instead  prefer-const
+  213:19  error  'mediaUrl' is never reassigned. Use 'const' instead     prefer-const
+  257:19  error  Unexpected lexical declaration in case block            no-case-declarations
+
+/home/gustavo-saraiva/Documents/FIREWARE/LABS/kortexone-workspace/Fireware Vision CRM/fireware-vision-core/tailwind.config.ts
+  142:13  error  A `require()` style import is forbidden  @typescript-eslint/no-require-imports
+
+✖ 466 problems (408 errors, 58 warnings)
+  3 errors and 0 warnings potentially fixable with the `--fix` option.
+

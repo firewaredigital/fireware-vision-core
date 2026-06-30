@@ -207,7 +207,7 @@ export function InboxMessageThread({ messages, loading, currentUserId }: InboxMe
                     {/* Attachments */}
                     {msg.attachments && Array.isArray(msg.attachments) && msg.attachments.length > 0 && (
                       <div className="mt-2 flex flex-wrap gap-1">
-                        {(msg.attachments as any[]).map((att, i) => (
+                        {(msg.attachments as unknown[]).map((att, i) => (
                           <a
                             key={i}
                             href={att.url}

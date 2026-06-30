@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect , useCallback } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import {
   ArrowLeft,
@@ -107,9 +107,9 @@ export default function CampaignForm() {
     if (id) {
       fetchCampaign();
     }
-  }, [id]);
+  }, [id, fetchCampaign, fetchSegments]);
 
-  const fetchSegments = async () => {
+  const fetchSegments = useCallback(async () => {
     if (!profile?.organization_id) return;
 
     const { data } = await supabase
@@ -122,9 +122,9 @@ export default function CampaignForm() {
     if (data) {
       setSegments(data);
     }
-  };
+  }, [profile?.id, profile.organization_id]);
 
-  const fetchCampaign = async () => {
+  const fetchCampaign = useCallback( async () => {
     if (!id) return;
 
     setLoading(true);
@@ -164,7 +164,7 @@ export default function CampaignForm() {
       is_ab_test: data.is_ab_test || false,
     });
     setLoading(false);
-  };
+  }, [id, toast, navigate]);
 
   const handleSave = async (asDraft = true) => {
     if (!profile?.organization_id || !form.name) return;
@@ -174,7 +174,7 @@ export default function CampaignForm() {
     const campaignData = {
       name: form.name,
       description: form.description || null,
-      type: form.type as any,
+      type: form.type as unknown,
       subject: form.subject || null,
       preview_text: form.preview_text || null,
       content: form.content || null,
@@ -189,7 +189,7 @@ export default function CampaignForm() {
       utm_content: form.utm_content || null,
       scheduled_at: form.scheduled_at ? new Date(form.scheduled_at).toISOString() : null,
       is_ab_test: form.is_ab_test,
-      status: (asDraft ? 'draft' : (form.scheduled_at ? 'scheduled' : 'draft')) as any,
+      status: (asDraft ? 'draft' : (form.scheduled_at ? 'scheduled' : 'draft')) as unknown,
       organization_id: profile.organization_id,
       created_by: profile.id,
     };

@@ -877,9 +877,9 @@ export function StaleIndicator({
 
   useEffect(() => {
     checkStaleness();
-  }, [opportunityId]);
+  }, [opportunityId, checkStaleness]);
 
-  const checkStaleness = async () => {
+  const checkStaleness = useCallback( async () => {
     const [activitiesResult, oppResult] = await Promise.all([
       supabase
         .from('activities')
@@ -901,7 +901,7 @@ export function StaleIndicator({
         setDaysSinceActivity(days);
       }
     }
-  };
+  }, [opportunityId, id, thresholdDays]);
 
   if (daysSinceActivity === null) return null;
 

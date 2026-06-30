@@ -49,13 +49,13 @@ export interface CustomFieldValue {
   value_number: number | null;
   value_date: string | null;
   value_boolean: boolean | null;
-  value_json: any | null;
+  value_json: unknown | null;
   created_at: string;
   updated_at: string;
 }
 
 // Get the raw value from a custom field value record based on field type
-export function getFieldValue(fieldDef: CustomFieldDefinition, fieldValue?: CustomFieldValue): any {
+export function getFieldValue(fieldDef: CustomFieldDefinition, fieldValue?: CustomFieldValue): unknown {
   if (!fieldValue) return fieldDef.default_value ?? null;
 
   switch (fieldDef.field_type) {
@@ -76,13 +76,13 @@ export function getFieldValue(fieldDef: CustomFieldDefinition, fieldValue?: Cust
 }
 
 // Prepare value for saving based on field type
-function prepareValueForSave(fieldDef: CustomFieldDefinition, value: any) {
+function prepareValueForSave(fieldDef: CustomFieldDefinition, value: unknown) {
   const base = {
     value_text: null as string | null,
     value_number: null as number | null,
     value_date: null as string | null,
     value_boolean: null as boolean | null,
-    value_json: null as any,
+    value_json: null as unknown,
   };
 
   if (value === null || value === undefined || value === '') return base;
@@ -114,7 +114,7 @@ function prepareValueForSave(fieldDef: CustomFieldDefinition, value: any) {
 // Validate a field value based on definition rules
 export function validateFieldValue(
   fieldDef: CustomFieldDefinition,
-  value: any
+  value: unknown
 ): string | null {
   if (fieldDef.is_required && (value === null || value === undefined || value === '')) {
     return `${fieldDef.field_label} é obrigatório`;
@@ -260,17 +260,18 @@ export function useSaveCustomFieldValues() {
       entityType,
       entityId,
       values,
+      definitions,
     }: {
       entityType: CustomFieldEntityType;
       entityId: string;
-      values: Record<string, any>;
+      values: Record<string, unknown>;
       definitions: CustomFieldDefinition[];
     }) => {
       if (!profile?.organization_id) throw new Error('Organization not found');
 
       // For each field definition with a value, upsert
       const upserts = Object.entries(values).map(([fieldDefId, value]) => {
-        const fieldDef = arguments[0].definitions.find((d: CustomFieldDefinition) => d.id === fieldDefId);
+        const fieldDef = definitions.find((d: CustomFieldDefinition) => d.id === fieldDefId);
         if (!fieldDef) return null;
 
         const prepared = prepareValueForSave(fieldDef, value);
@@ -288,7 +289,7 @@ export function useSaveCustomFieldValues() {
 
       const { error } = await supabase
         .from('custom_field_values')
-        .upsert(upserts as any[], {
+        .upsert(upserts as unknown[], {
           onConflict: 'field_definition_id,entity_id',
         });
 
@@ -300,7 +301,7 @@ export function useSaveCustomFieldValues() {
       });
       toast({ title: 'Campos personalizados salvos' });
     },
-    onError: (error: any) => {
+    onError: (error: unknown) => {
       toast({
         variant: 'destructive',
         title: 'Erro ao salvar campos personalizados',
@@ -329,14 +330,14 @@ export function useSaveCustomFieldDefinition() {
         // Update
         const { error } = await supabase
           .from('custom_field_definitions')
-          .update(payload as any)
+          .update(payload as unknown)
           .eq('id', definition.id);
         if (error) throw error;
       } else {
         // Insert
         const { error } = await supabase
           .from('custom_field_definitions')
-          .insert(payload as any);
+          .insert(payload as unknown);
         if (error) throw error;
       }
     },
@@ -345,7 +346,7 @@ export function useSaveCustomFieldDefinition() {
       queryClient.invalidateQueries({ queryKey: ['custom-field-definitions-all'] });
       toast({ title: 'Campo personalizado salvo' });
     },
-    onError: (error: any) => {
+    onError: (error: unknown) => {
       toast({
         variant: 'destructive',
         title: 'Erro ao salvar campo',
@@ -372,7 +373,7 @@ export function useDeleteCustomFieldDefinition() {
       queryClient.invalidateQueries({ queryKey: ['custom-field-definitions-all'] });
       toast({ title: 'Campo desativado' });
     },
-    onError: (error: any) => {
+    onError: (error: unknown) => {
       toast({
         variant: 'destructive',
         title: 'Erro ao desativar campo',

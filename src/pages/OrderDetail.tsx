@@ -184,7 +184,7 @@ export default function OrderDetail() {
     }).format(value);
   };
 
-  const formatAddress = (address: any) => {
+  const formatAddress = (address: unknown) => {
     if (!address) return '-';
     return `${address.street || ''}, ${address.number || ''} - ${address.city || ''}, ${address.state || ''} - ${address.zip_code || ''}`;
   };

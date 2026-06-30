@@ -53,7 +53,7 @@ interface ChangeRecord {
     new_value: string | null;
     field_label: string;
   }>;
-  metadata: any;
+  metadata: unknown;
   total_count: number;
 }
 

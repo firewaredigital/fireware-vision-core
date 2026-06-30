@@ -120,12 +120,12 @@ export default function LGPDRequestForm() {
   useEffect(() => {
     if (request) {
       form.reset({
-        type: request.type as any,
+        type: request.type as unknown,
         requester_email: request.requester_email,
         requester_name: request.requester_name || '',
         requester_document: request.requester_document || '',
         request_details: request.request_details || '',
-        priority: (request.priority as any) || 'normal',
+        priority: (request.priority as unknown) || 'normal',
       });
     }
   }, [request, form]);
@@ -183,7 +183,7 @@ export default function LGPDRequestForm() {
     mutationFn: async (newStatus: string) => {
       if (!id) return;
       
-      const updateData: any = { status: newStatus };
+      const updateData: unknown = { status: newStatus };
       
       if (newStatus === 'completed') {
         updateData.completed_at = new Date().toISOString();

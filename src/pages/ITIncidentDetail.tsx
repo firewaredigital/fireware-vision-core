@@ -118,7 +118,7 @@ export default function ITIncidentDetail() {
     mutationFn: async (newStatus: string) => {
       const { error } = await supabase
         .from('it_incidents')
-        .update({ status: newStatus as any })
+        .update({ status: newStatus as unknown })
         .eq('id', id);
 
       if (error) throw error;

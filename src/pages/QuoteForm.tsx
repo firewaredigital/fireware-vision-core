@@ -159,7 +159,7 @@ export default function QuoteForm() {
     if (!id) {
       generateQuoteNumber();
     }
-  }, []);
+  }, [id]);
 
   useEffect(() => {
     if (selectedAccountId) {
@@ -171,7 +171,7 @@ export default function QuoteForm() {
     if (id && user) {
       fetchQuote();
     }
-  }, [id, user]);
+  }, [id, user, fetchQuote]);
 
   const generateQuoteNumber = () => {
     const timestamp = Date.now().toString(36).toUpperCase();
@@ -204,7 +204,7 @@ export default function QuoteForm() {
     if (data) setProducts(data);
   };
 
-  const fetchQuote = async () => {
+  const fetchQuote = useCallback( async () => {
     setFetchingQuote(true);
     
     // Fetch quote
@@ -264,7 +264,7 @@ export default function QuoteForm() {
     }
 
     setFetchingQuote(false);
-  };
+  }, [id, toast, form]);
 
   // Add product to quote
   const addProduct = (product: Product) => {
@@ -303,7 +303,7 @@ export default function QuoteForm() {
   };
 
   // Update item
-  const updateItem = (itemId: string, field: keyof QuoteItem, value: any) => {
+  const updateItem = (itemId: string, field: keyof QuoteItem, value: unknown) => {
     setItems(items.map(item => {
       if (item.id !== itemId) return item;
 
@@ -465,7 +465,7 @@ export default function QuoteForm() {
       });
 
       navigate(`/quotes/${quoteId}`);
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error('Error saving quote:', error);
       toast({
         variant: 'destructive',

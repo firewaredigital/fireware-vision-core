@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect , useCallback } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -64,11 +64,11 @@ export default function LeadForm() {
   const { data: customFieldDefs = [] } = useCustomFieldDefinitions('lead');
   const { data: customFieldValuesData = [] } = useCustomFieldValues('lead', id);
   const saveCustomFields = useSaveCustomFieldValues();
-  const [customFieldValues, setCustomFieldValues] = useState<Record<string, any>>({});
+  const [customFieldValues, setCustomFieldValues] = useState<Record<string, unknown>>({});
 
   useEffect(() => {
     if (customFieldDefs.length > 0) {
-      const values: Record<string, any> = {};
+      const values: Record<string, unknown> = {};
       customFieldDefs.forEach(def => {
         const fieldValue = customFieldValuesData.find(v => v.field_definition_id === def.id);
         values[def.id] = getFieldValue(def, fieldValue);
@@ -107,9 +107,9 @@ export default function LeadForm() {
       setIsEditing(true);
       fetchLead();
     }
-  }, [id, user]);
+  }, [id, user, fetchLead]);
 
-  const fetchLead = async () => {
+  const fetchLead = useCallback( async () => {
     const { data, error } = await supabase.from('leads').select('*').eq('id', id).single();
 
     if (error) {
@@ -141,7 +141,7 @@ export default function LeadForm() {
         description: data.description || '',
       });
     }
-  };
+  }, [id, toast, form]);
 
   const onSubmit = async (data: LeadFormData) => {
     if (!profile?.organization_id) {

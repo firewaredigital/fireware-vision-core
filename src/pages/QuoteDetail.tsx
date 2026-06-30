@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect , useCallback } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import {
   ArrowLeft,
@@ -148,9 +148,9 @@ export default function QuoteDetail() {
       fetchQuote();
       fetchItems();
     }
-  }, [id, user]);
+  }, [id, user, fetchItems, fetchQuote]);
 
-  const fetchQuote = async () => {
+  const fetchQuote = useCallback(async () => {
     setLoading(true);
     const { data, error } = await supabase
       .from('quotes')
@@ -176,9 +176,9 @@ export default function QuoteDetail() {
       setQuote(data);
     }
     setLoading(false);
-  };
+  }, [id, profile?.id, navigate, toast]);
 
-  const fetchItems = async () => {
+  const fetchItems = useCallback( async () => {
     const { data } = await supabase
       .from('quote_items')
       .select(`
@@ -189,7 +189,7 @@ export default function QuoteDetail() {
       .order('sort_order');
 
     if (data) setItems(data);
-  };
+  }, [id]);
 
   const deleteQuote = async () => {
     if (!id) return;

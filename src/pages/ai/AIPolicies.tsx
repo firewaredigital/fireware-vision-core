@@ -60,7 +60,7 @@ export default function AIPolicies() {
       
       const { error } = await supabase.from('ai_policies').insert({
         organization_id: orgId, name: form.name, description: form.description || null,
-        policy_type: form.policy_type as any, rules: parsedRules,
+        policy_type: form.policy_type as unknown, rules: parsedRules,
         actions_on_violation: form.actions_on_violation,
         priority: form.priority, is_active: form.is_active,
         scope: form.scope || null, created_by: profile?.id,
@@ -72,7 +72,7 @@ export default function AIPolicies() {
       toast.success('Política criada');
       setDialogOpen(false);
     },
-    onError: (err: any) => toast.error(err.message),
+    onError: (err: unknown) => toast.error(err.message),
   });
 
   const togglePolicy = useMutation({

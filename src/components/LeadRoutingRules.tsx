@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect , useCallback } from 'react';
 import {
   Plus,
   Trash2,
@@ -203,9 +203,9 @@ export function LeadRoutingRules() {
     fetchUsers();
     fetchTeams();
     fetchTerritories();
-  }, [profile?.organization_id]);
+  }, [profile?.organization_id, fetchRules]);
 
-  const fetchRules = async () => {
+  const fetchRules = useCallback( async () => {
     if (!profile?.organization_id) return;
 
     setLoading(true);
@@ -219,7 +219,7 @@ export function LeadRoutingRules() {
       setRules(data as unknown as RoutingRule[]);
     }
     setLoading(false);
-  };
+  }, [profile?.organization_id, profile?.id]);
 
   const fetchUsers = async () => {
     const { data } = await supabase

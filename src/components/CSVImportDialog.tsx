@@ -336,7 +336,7 @@ export function CSVImportDialog({
               }
               break;
             case 'phone':
-              if (!/^[\d\s\-\+\(\)\.]+$/.test(value)) {
+              if (!/^[\d\s\-+().]+$/.test(value)) {
                 errors.push({
                   row: rowIndex + 2,
                   column: mapping.csvColumn,

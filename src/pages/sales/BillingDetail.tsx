@@ -79,7 +79,7 @@ export default function BillingDetail() {
     mutationFn: async (newStatus: string) => {
       const { error } = await supabase
         .from('invoices')
-        .update({ status: newStatus as any })
+        .update({ status: newStatus as unknown })
         .eq('id', id!);
       if (error) throw error;
     },
@@ -220,7 +220,7 @@ export default function BillingDetail() {
                   <TableBody>
                     {items.length === 0 ? (
                       <TableRow><TableCell colSpan={6} className="text-center py-4 text-muted-foreground">Nenhum item</TableCell></TableRow>
-                    ) : items.map((item: any) => (
+                    ) : items.map((item: unknown) => (
                       <TableRow key={item.id}>
                         <TableCell>
                           <p className="font-medium">{item.description}</p>
@@ -298,7 +298,7 @@ export default function BillingDetail() {
                   <p className="text-sm text-muted-foreground text-center py-4">Nenhum pagamento registrado</p>
                 ) : (
                   <div className="space-y-3">
-                    {payments.map((p: any) => (
+                    {payments.map((p: unknown) => (
                       <div key={p.id} className="flex items-center justify-between py-2 border-b last:border-0">
                         <div>
                           <p className="text-sm font-medium">{p.description}</p>

@@ -74,7 +74,7 @@ export default function ConversationIntelligence() {
         .eq('organization_id', organizationId!)
         .order('recorded_at', { ascending: false });
 
-      if (statusFilter !== 'all') query = query.eq('status', statusFilter as any);
+      if (statusFilter !== 'all') query = query.eq('status', statusFilter as unknown);
       if (searchTerm) query = query.ilike('title', `%${searchTerm}%`);
 
       const { data, error } = await query;
@@ -122,14 +122,14 @@ export default function ConversationIntelligence() {
   });
 
   // KPIs
-  const analyzed = recordings.filter((r: any) => r.status === 'analyzed');
+  const analyzed = recordings.filter((r: unknown) => r.status === 'analyzed');
   const avgScore = analyzed.length > 0 
-    ? Math.round(analyzed.reduce((s: number, r: any) => s + (r.call_score || 0), 0) / analyzed.length) 
+    ? Math.round(analyzed.reduce((s: number, r: unknown) => s + (r.call_score || 0), 0) / analyzed.length) 
     : 0;
   const avgEngagement = analyzed.length > 0
-    ? Math.round(analyzed.reduce((s: number, r: any) => s + (r.engagement_score || 0), 0) / analyzed.length)
+    ? Math.round(analyzed.reduce((s: number, r: unknown) => s + (r.engagement_score || 0), 0) / analyzed.length)
     : 0;
-  const insightsByType = insights.reduce((acc: Record<string, number>, i: any) => {
+  const insightsByType = insights.reduce((acc: Record<string, number>, i: unknown) => {
     acc[i.insight_type] = (acc[i.insight_type] || 0) + 1;
     return acc;
   }, {});
@@ -243,7 +243,7 @@ export default function ConversationIntelligence() {
                     <TableRow><TableCell colSpan={8} className="text-center py-8 text-muted-foreground">Carregando...</TableCell></TableRow>
                   ) : recordings.length === 0 ? (
                     <TableRow><TableCell colSpan={8} className="text-center py-8 text-muted-foreground">Nenhuma gravação encontrada</TableCell></TableRow>
-                  ) : recordings.map((rec: any) => {
+                  ) : recordings.map((rec: unknown) => {
                     const st = statusLabels[rec.status] || statusLabels.processing;
                     const sent = rec.overall_sentiment ? sentimentIcons[rec.overall_sentiment] : null;
                     return (
@@ -328,7 +328,7 @@ export default function ConversationIntelligence() {
                 <TableBody>
                   {insights.length === 0 ? (
                     <TableRow><TableCell colSpan={6} className="text-center py-8 text-muted-foreground">Nenhum insight encontrado</TableCell></TableRow>
-                  ) : insights.map((insight: any) => {
+                  ) : insights.map((insight: unknown) => {
                     const cfg = insightTypeLabels[insight.insight_type] || { label: insight.insight_type, color: '' };
                     return (
                       <TableRow key={insight.id}>
@@ -376,7 +376,7 @@ export default function ConversationIntelligence() {
               </Card>
             ) : (
               <div className="space-y-3">
-                {coachingNotes.map((note: any) => (
+                {coachingNotes.map((note: unknown) => (
                   <Card key={note.id}>
                     <CardContent className="pt-4">
                       <div className="flex items-start justify-between">

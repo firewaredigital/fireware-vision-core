@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect , useCallback } from 'react';
 import { ModuleHeroBanner } from '@/components/ModuleHeroBanner';
 import { useNavigate, Link } from 'react-router-dom';
 import {
@@ -152,9 +152,9 @@ export default function Contracts() {
     if (user) {
       fetchContracts();
     }
-  }, [user]);
+  }, [user, fetchContracts]);
 
-  const fetchContracts = async () => {
+  const fetchContracts = useCallback( async () => {
     setLoading(true);
     const { data, error } = await supabase
       .from('contracts')
@@ -187,7 +187,7 @@ export default function Contracts() {
       setContracts((data || []) as Contract[]);
     }
     setLoading(false);
-  };
+  }, [profile?.organization_id, toast]);
 
   const deleteContract = async (id: string) => {
     const { error } = await supabase.from('contracts').delete().eq('id', id);

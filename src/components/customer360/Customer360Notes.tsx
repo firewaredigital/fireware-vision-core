@@ -55,7 +55,7 @@ export function Customer360Notes({ entityType, entityId }: Customer360NotesProps
         owner_id: profile.id,
         [filterColumn]: entityId,
       };
-      const { error } = await supabase.from('notes').insert(insertData as any);
+      const { error } = await supabase.from('notes').insert(insertData as unknown);
       if (error) throw error;
     },
     onSuccess: () => {
@@ -132,7 +132,7 @@ export function Customer360Notes({ entityType, entityId }: Customer360NotesProps
 
         <ScrollArea className="h-[400px]">
           <div className="space-y-3">
-            {notes.map((note: any) => (
+            {notes.map((note: unknown) => (
               <div
                 key={note.id}
                 className={`p-4 border rounded-lg ${note.is_pinned ? 'border-primary/50 bg-primary/5' : ''}`}

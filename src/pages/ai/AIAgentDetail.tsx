@@ -102,7 +102,7 @@ export default function AIAgentDetail() {
     mutationFn: async (newStatus: string) => {
       const { error } = await supabase
         .from('ai_agents')
-        .update({ status: newStatus as any, updated_by: profile?.id })
+        .update({ status: newStatus as unknown, updated_by: profile?.id })
         .eq('id', id!);
       if (error) throw error;
     },
@@ -110,7 +110,7 @@ export default function AIAgentDetail() {
       queryClient.invalidateQueries({ queryKey: ['ai-agent', id] });
       toast.success('Status atualizado');
     },
-    onError: (err: any) => toast.error(err.message),
+    onError: (err: unknown) => toast.error(err.message),
   });
 
   const statusColor = (s: string) => {
@@ -139,7 +139,7 @@ export default function AIAgentDetail() {
     );
   }
 
-  const modelConfig = agent.model_config as any;
+  const modelConfig = agent.model_config as unknown;
 
   return (
     <>
@@ -250,16 +250,16 @@ export default function AIAgentDetail() {
                       </TableRow>
                     </TableHeader>
                     <TableBody>
-                      {tools.map((at: any) => (
+                      {tools.map((at: unknown) => (
                         <TableRow key={at.id}>
-                          <TableCell className="font-medium">{(at.ai_tools as any)?.name || 'N/A'}</TableCell>
-                          <TableCell><Badge variant="outline">{(at.ai_tools as any)?.tool_type}</Badge></TableCell>
+                          <TableCell className="font-medium">{(at.ai_tools as unknown)?.name || 'N/A'}</TableCell>
+                          <TableCell><Badge variant="outline">{(at.ai_tools as unknown)?.tool_type}</Badge></TableCell>
                           <TableCell>
-                            <Badge variant={(at.ai_tools as any)?.risk_level === 'critical' ? 'destructive' : 'secondary'}>
-                              {(at.ai_tools as any)?.risk_level}
+                            <Badge variant={(at.ai_tools as unknown)?.risk_level === 'critical' ? 'destructive' : 'secondary'}>
+                              {(at.ai_tools as unknown)?.risk_level}
                             </Badge>
                           </TableCell>
-                          <TableCell>{(at.ai_tools as any)?.requires_approval ? 'Sim' : 'Não'}</TableCell>
+                          <TableCell>{(at.ai_tools as unknown)?.requires_approval ? 'Sim' : 'Não'}</TableCell>
                           <TableCell>{at.is_enabled ? <CheckCircle className="h-4 w-4 text-green-500" /> : <XCircle className="h-4 w-4 text-red-500" />}</TableCell>
                         </TableRow>
                       ))}
@@ -292,12 +292,12 @@ export default function AIAgentDetail() {
                       </TableRow>
                     </TableHeader>
                     <TableBody>
-                      {policies.map((ap: any) => (
+                      {policies.map((ap: unknown) => (
                         <TableRow key={ap.id}>
-                          <TableCell className="font-medium">{(ap.ai_policies as any)?.name || 'N/A'}</TableCell>
-                          <TableCell><Badge variant="outline">{(ap.ai_policies as any)?.policy_type}</Badge></TableCell>
-                          <TableCell>{(ap.ai_policies as any)?.actions_on_violation}</TableCell>
-                          <TableCell>{(ap.ai_policies as any)?.priority}</TableCell>
+                          <TableCell className="font-medium">{(ap.ai_policies as unknown)?.name || 'N/A'}</TableCell>
+                          <TableCell><Badge variant="outline">{(ap.ai_policies as unknown)?.policy_type}</Badge></TableCell>
+                          <TableCell>{(ap.ai_policies as unknown)?.actions_on_violation}</TableCell>
+                          <TableCell>{(ap.ai_policies as unknown)?.priority}</TableCell>
                           <TableCell>{ap.is_active ? <CheckCircle className="h-4 w-4 text-green-500" /> : <XCircle className="h-4 w-4 text-red-500" />}</TableCell>
                         </TableRow>
                       ))}
@@ -331,7 +331,7 @@ export default function AIAgentDetail() {
                       </TableRow>
                     </TableHeader>
                     <TableBody>
-                      {runs.map((run: any) => {
+                      {runs.map((run: unknown) => {
                         const duration = run.started_at && run.completed_at
                           ? Math.round((new Date(run.completed_at).getTime() - new Date(run.started_at).getTime()) / 1000)
                           : null;
@@ -377,7 +377,7 @@ export default function AIAgentDetail() {
                       </TableRow>
                     </TableHeader>
                     <TableBody>
-                      {versions.map((v: any) => (
+                      {versions.map((v: unknown) => (
                         <TableRow key={v.id}>
                           <TableCell className="font-medium">v{v.version_number}</TableCell>
                           <TableCell className="text-sm">{v.changelog || '-'}</TableCell>

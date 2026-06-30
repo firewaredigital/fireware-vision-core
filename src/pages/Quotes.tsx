@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect , useCallback } from 'react';
 import { ModuleHeroBanner } from '@/components/ModuleHeroBanner';
 import { useNavigate, Link } from 'react-router-dom';
 import {
@@ -130,9 +130,9 @@ export default function Quotes() {
     if (user) {
       fetchQuotes();
     }
-  }, [user]);
+  }, [user, fetchQuotes]);
 
-  const fetchQuotes = async () => {
+  const fetchQuotes = useCallback( async () => {
     setLoading(true);
     const { data, error } = await supabase
       .from('quotes')
@@ -163,7 +163,7 @@ export default function Quotes() {
       setQuotes(data || []);
     }
     setLoading(false);
-  };
+  }, [profile?.organization_id, toast]);
 
   const deleteQuote = async (id: string) => {
     // First delete quote items

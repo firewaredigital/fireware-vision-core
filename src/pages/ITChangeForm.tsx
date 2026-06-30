@@ -107,7 +107,7 @@ export default function ITChangeForm() {
         throw new Error('Organização não encontrada');
       }
 
-      const changeData: any = {
+      const changeData: unknown = {
         ...formData,
         organization_id: profile.organization_id,
         assigned_to: assignedTo || null,

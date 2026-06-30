@@ -230,7 +230,7 @@ export default function AIAgents() {
                     </CardDescription>
                     <div className="flex items-center justify-between mt-4">
                       <span className="text-xs text-muted-foreground">
-                        v{agent.version} • {(agent.model_config as any)?.model?.split('/').pop() || 'gemini'}
+                        v{agent.version} • {(agent.model_config as unknown)?.model?.split('/').pop() || 'gemini'}
                       </span>
                       <div className="flex gap-1">
                         <Button variant="ghost" size="icon" className="h-8 w-8" onClick={(e) => { e.stopPropagation(); navigate(`/ai/agents/${agent.id}/test`); }}>

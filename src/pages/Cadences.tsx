@@ -57,7 +57,7 @@ interface CadenceEnrollment {
   contact?: { first_name: string; last_name: string; email: string | null } | null;
 }
 
-const stepTypeConfig: Record<CadenceStepType, { icon: any; label: string; color: string }> = {
+const stepTypeConfig: Record<CadenceStepType, { icon: unknown; label: string; color: string }> = {
   email: { icon: Mail, label: 'Email', color: 'bg-blue-100 text-blue-800' },
   call: { icon: Phone, label: 'Ligação', color: 'bg-green-100 text-green-800' },
   linkedin: { icon: Linkedin, label: 'LinkedIn', color: 'bg-sky-100 text-sky-800' },
@@ -234,7 +234,7 @@ export default function Cadences() {
         description: 'Alterações salvas com sucesso.'
       });
     },
-    onError: (error: any) => {
+    onError: (error: unknown) => {
       toast({
         title: 'Erro',
         description: error.message,
@@ -318,7 +318,7 @@ export default function Cadences() {
         description: 'Alterações salvas com sucesso.'
       });
     },
-    onError: (error: any) => {
+    onError: (error: unknown) => {
       toast({
         title: 'Erro',
         description: error.message,
@@ -381,7 +381,7 @@ export default function Cadences() {
   // Update enrollment status
   const updateEnrollmentMutation = useMutation({
     mutationFn: async ({ id, status }: { id: string; status: string }) => {
-      const updates: any = { status };
+      const updates: unknown = { status };
       if (status === 'completed') updates.completed_at = new Date().toISOString();
       if (status === 'paused') updates.paused_at = new Date().toISOString();
       
@@ -397,7 +397,7 @@ export default function Cadences() {
     }
   });
 
-  const handleDragEnd = (result: any) => {
+  const handleDragEnd = (result: unknown) => {
     if (!result.destination) return;
 
     const items = Array.from(steps);

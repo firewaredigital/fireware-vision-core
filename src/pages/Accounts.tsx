@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect , useCallback } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { Plus, Search, MoreHorizontal, Eye, Edit, Trash2, Building2 } from '@/components/icons';
 import { Button } from '@/components/ui/button';
@@ -38,9 +38,9 @@ export default function Accounts() {
 
   useEffect(() => {
     if (user) fetchAccounts();
-  }, [user]);
+  }, [user, fetchAccounts]);
 
-  const fetchAccounts = async () => {
+  const fetchAccounts = useCallback( async () => {
     setLoading(true);
     const { data, error } = await supabase.from('accounts').select('*').order('name');
     if (error) {
@@ -49,7 +49,7 @@ export default function Accounts() {
       setAccounts(data || []);
     }
     setLoading(false);
-  };
+  }, [toast]);
 
   const deleteAccount = async (id: string) => {
     const { error } = await supabase.from('accounts').delete().eq('id', id);

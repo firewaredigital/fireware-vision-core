@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect , useCallback } from 'react';
 import { Plus, Pin, PinOff, Edit, Trash2, FileText, MoreHorizontal } from '@/components/icons';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -66,9 +66,9 @@ export function NotesWidget({
 
   useEffect(() => {
     fetchNotes();
-  }, [accountId, contactId, leadId, opportunityId]);
+  }, [accountId, contactId, leadId, opportunityId, fetchNotes]);
 
-  const fetchNotes = async () => {
+  const fetchNotes = useCallback( async () => {
     setLoading(true);
     let query = supabase
       .from('notes')
@@ -92,7 +92,7 @@ export function NotesWidget({
       setNotes(data || []);
     }
     setLoading(false);
-  };
+  }, [accountId, contactId, leadId, opportunityId, profile?.organization_id]);
 
   const handleSave = async () => {
     if (!noteContent.trim()) return;

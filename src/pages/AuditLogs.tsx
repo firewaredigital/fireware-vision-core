@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect , useCallback } from 'react';
 import { ModuleHeroBanner } from '@/components/ModuleHeroBanner';
 import { useNavigate } from 'react-router-dom';
 import {
@@ -166,9 +166,9 @@ export default function AuditLogs() {
     if (user && profile) {
       fetchLogs();
     }
-  }, [user, profile, debouncedSearch, entityFilter, actionFilter, dateRange, customDateFrom, customDateTo, page]);
+  }, [user, profile, debouncedSearch, entityFilter, actionFilter, dateRange, customDateFrom, customDateTo, page, fetchLogs]);
 
-  const fetchLogs = async () => {
+  const fetchLogs = useCallback( async () => {
     if (!profile?.organization_id) return;
     
     // Check if user has permission (admin or manager)
@@ -247,7 +247,7 @@ export default function AuditLogs() {
       setTotalCount(count || 0);
     }
     setLoading(false);
-  };
+  }, [id, profile?.organization_id, profile?.id, user?.id, toast, actionFilter, customDateFrom, customDateTo, dateRange, debouncedSearch, entityFilter, navigate, page, profile.role]);
 
   const handleExport = async () => {
     if (logs.length === 0) {

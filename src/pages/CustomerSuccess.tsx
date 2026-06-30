@@ -92,10 +92,10 @@ export default function CustomerSuccess() {
   // Calculate metrics
   const metrics = {
     avgScore: healthScores.length > 0 
-      ? Math.round(healthScores.reduce((sum, h: any) => sum + h.score, 0) / healthScores.length)
+      ? Math.round(healthScores.reduce((sum, h: unknown) => sum + h.score, 0) / healthScores.length)
       : 0,
-    atRisk: healthScores.filter((h: any) => h.risk_level === 'high' || h.risk_level === 'critical').length,
-    healthy: healthScores.filter((h: any) => h.risk_level === 'low').length,
+    atRisk: healthScores.filter((h: unknown) => h.risk_level === 'high' || h.risk_level === 'critical').length,
+    healthy: healthScores.filter((h: unknown) => h.risk_level === 'low').length,
     activePlaybooks: enrollments.length,
   };
 
@@ -258,9 +258,9 @@ export default function CustomerSuccess() {
                 <CardContent>
                   <div className="space-y-3">
                     {healthScores
-                      .filter((h: any) => h.risk_level === 'high' || h.risk_level === 'critical')
+                      .filter((h: unknown) => h.risk_level === 'high' || h.risk_level === 'critical')
                       .slice(0, 5)
-                      .map((health: any) => (
+                      .map((health: unknown) => (
                         <div
                           key={health.id}
                           className="flex items-center justify-between rounded-lg border p-3"
@@ -282,7 +282,7 @@ export default function CustomerSuccess() {
                           </div>
                         </div>
                       ))}
-                    {healthScores.filter((h: any) => h.risk_level === 'high' || h.risk_level === 'critical').length === 0 && (
+                    {healthScores.filter((h: unknown) => h.risk_level === 'high' || h.risk_level === 'critical').length === 0 && (
                       <p className="text-center text-sm text-muted-foreground py-4">
                         Nenhum cliente em risco 🎉
                       </p>
@@ -302,7 +302,7 @@ export default function CustomerSuccess() {
                 </CardHeader>
                 <CardContent>
                   <div className="space-y-3">
-                    {enrollments.slice(0, 5).map((enrollment: any) => (
+                    {enrollments.slice(0, 5).map((enrollment: unknown) => (
                       <div
                         key={enrollment.id}
                         className="flex items-center justify-between rounded-lg border p-3"
@@ -344,7 +344,7 @@ export default function CustomerSuccess() {
               </CardHeader>
               <CardContent>
                 <div className="grid gap-4 md:grid-cols-3 lg:grid-cols-4">
-                  {playbooks.filter((p: any) => p.is_active).map((playbook: any) => (
+                  {playbooks.filter((p: unknown) => p.is_active).map((playbook: unknown) => (
                     <div key={playbook.id} className="rounded-lg border p-4 space-y-2">
                       <div className="flex items-center justify-between">
                         {getPlaybookTypeBadge(playbook.type)}
@@ -385,7 +385,7 @@ export default function CustomerSuccess() {
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
-                  {healthScores.map((health: any) => (
+                  {healthScores.map((health: unknown) => (
                     <div
                       key={health.id}
                       className="flex items-center justify-between rounded-lg border p-4"
@@ -454,7 +454,7 @@ export default function CustomerSuccess() {
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
-                  {playbooks.map((playbook: any) => (
+                  {playbooks.map((playbook: unknown) => (
                     <div
                       key={playbook.id}
                       className="flex items-center justify-between rounded-lg border p-4"
@@ -515,7 +515,7 @@ export default function CustomerSuccess() {
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
-                  {enrollments.map((enrollment: any) => (
+                  {enrollments.map((enrollment: unknown) => (
                     <div
                       key={enrollment.id}
                       className="flex items-center justify-between rounded-lg border p-4"

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect , useCallback } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { ArrowLeft, Save, RefreshCw } from '@/components/icons';
 import { Button } from '@/components/ui/button';
@@ -110,7 +110,7 @@ export default function ContractForm() {
         fetchContract();
       }
     }
-  }, [user, id]);
+  }, [user, id, fetchContract]);
 
   useEffect(() => {
     if (form.account_id) {
@@ -152,7 +152,7 @@ export default function ContractForm() {
     if (data) setQuotes(data);
   };
 
-  const fetchContract = async () => {
+  const fetchContract = useCallback( async () => {
     setLoading(true);
     const { data, error } = await supabase
       .from('contracts')
@@ -189,7 +189,7 @@ export default function ContractForm() {
       });
     }
     setLoading(false);
-  };
+  }, [id, toast, navigate]);
 
   const handleQuoteSelect = (quoteId: string) => {
     const quote = quotes.find(q => q.id === quoteId);

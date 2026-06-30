@@ -78,7 +78,7 @@ export default function PortalPreferences() {
       
       const payload = {
         contact_id: contactId,
-        channel_preferences: channels as any,
+        channel_preferences: channels as unknown,
         frequency_limit: frequency,
         global_optout: globalOptout,
         updated_at: new Date().toISOString(),
@@ -95,7 +95,7 @@ export default function PortalPreferences() {
         // Need organization_id for insert - get from session
         const { error } = await supabase
           .from('contact_preferences')
-          .insert({ ...payload, organization_id: orgId } as any);
+          .insert({ ...payload, organization_id: orgId } as unknown);
         if (error) throw error;
       }
     },

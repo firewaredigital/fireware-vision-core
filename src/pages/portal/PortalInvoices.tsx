@@ -94,7 +94,7 @@ export default function PortalInvoices() {
                 </TableHeader>
                 <TableBody>
                   {payments.map((p) => {
-                    const order = p.orders as any;
+                    const order = p.orders as unknown;
                     return (
                       <TableRow key={p.id}>
                         <TableCell className="font-mono text-sm">{p.payment_number || p.transaction_id || '—'}</TableCell>

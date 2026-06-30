@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect , useCallback } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import {
   ArrowLeft,
@@ -88,9 +88,9 @@ export default function LeadDetail() {
     if (id && user) {
       fetchLead();
     }
-  }, [id, user]);
+  }, [id, user, fetchLead]);
 
-  const fetchLead = async () => {
+  const fetchLead = useCallback( async () => {
     setLoading(true);
     const { data, error } = await supabase
       .from('leads')
@@ -110,7 +110,7 @@ export default function LeadDetail() {
       setLead(data);
     }
     setLoading(false);
-  };
+  }, [id, toast, navigate]);
 
   const deleteLead = async () => {
     if (!id) return;

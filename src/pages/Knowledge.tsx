@@ -101,7 +101,7 @@ export default function Knowledge() {
       
       // Fetch authors separately
       const articlesWithAuthors = await Promise.all(
-        (data || []).map(async (article: any) => {
+        (data || []).map(async (article: unknown) => {
           const { data: authorData } = await supabase
             .from('knowledge_articles')
             .select('author_id')

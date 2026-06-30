@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect , useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
   Plus,
@@ -155,9 +155,9 @@ export default function Marketing() {
     if (profile?.organization_id) {
       fetchData();
     }
-  }, [profile?.organization_id]);
+  }, [profile?.organization_id, fetchData]);
 
-  const fetchData = async () => {
+  const fetchData = useCallback( async () => {
     if (!profile?.organization_id) return;
 
     setLoading(true);
@@ -196,7 +196,7 @@ export default function Marketing() {
     }
 
     setLoading(false);
-  };
+  }, [profile?.organization_id, profile?.id]);
 
   // Stats
   const activeCampaigns = campaigns.filter(c => c.status === 'active' || c.status === 'sending').length;

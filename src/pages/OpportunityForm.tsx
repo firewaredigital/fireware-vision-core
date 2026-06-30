@@ -50,11 +50,11 @@ export default function OpportunityForm() {
   const { data: customFieldDefs = [] } = useCustomFieldDefinitions('opportunity');
   const { data: customFieldValuesData = [] } = useCustomFieldValues('opportunity', id && id !== 'new' ? id : undefined);
   const saveCustomFields = useSaveCustomFieldValues();
-  const [customFieldValues, setCustomFieldValues] = useState<Record<string, any>>({});
+  const [customFieldValues, setCustomFieldValues] = useState<Record<string, unknown>>({});
 
   useEffect(() => {
     if (customFieldDefs.length > 0) {
-      const values: Record<string, any> = {};
+      const values: Record<string, unknown> = {};
       customFieldDefs.forEach(def => {
         const fieldValue = customFieldValuesData.find(v => v.field_definition_id === def.id);
         values[def.id] = getFieldValue(def, fieldValue);

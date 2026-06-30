@@ -66,7 +66,7 @@ export default function Promotions() {
         query = query.or(`name.ilike.%${search}%,code.ilike.%${search}%`);
       }
       if (typeFilter !== 'all') {
-        query = query.eq('type', typeFilter as any);
+        query = query.eq('type', typeFilter as unknown);
       }
       if (statusFilter === 'active') {
         query = query.eq('is_active', true);
@@ -120,7 +120,7 @@ export default function Promotions() {
     }).format(value);
   };
 
-  const formatDiscount = (promo: any) => {
+  const formatDiscount = (promo: unknown) => {
     const type = promo.type as PromotionType;
     if (type === 'percentage') {
       return `${promo.value}%`;
@@ -134,12 +134,12 @@ export default function Promotions() {
     return 'Frete Grátis';
   };
 
-  const isExpired = (promo: any) => {
+  const isExpired = (promo: unknown) => {
     if (!promo.end_date) return false;
     return new Date(promo.end_date) < new Date();
   };
 
-  const isNotStarted = (promo: any) => {
+  const isNotStarted = (promo: unknown) => {
     if (!promo.start_date) return false;
     return new Date(promo.start_date) > new Date();
   };

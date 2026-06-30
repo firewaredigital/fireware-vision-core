@@ -71,7 +71,7 @@ export default function OrderForm() {
 
   const [items, setItems] = useState<OrderItem[]>([]);
   const [productSearch, setProductSearch] = useState('');
-  const [customFieldValues, setCustomFieldValues] = useState<Record<string, any>>({});
+  const [customFieldValues, setCustomFieldValues] = useState<Record<string, unknown>>({});
 
   // Custom Fields
   const { data: customFieldDefs = [] } = useCustomFieldDefinitions('order');
@@ -81,7 +81,7 @@ export default function OrderForm() {
   // Initialize custom field values when editing
   useEffect(() => {
     if (isEditing && customFieldDefs.length > 0 && existingCustomValues.length > 0) {
-      const initial: Record<string, any> = {};
+      const initial: Record<string, unknown> = {};
       customFieldDefs.forEach((def) => {
         const fieldValue = existingCustomValues.find((v) => v.field_definition_id === def.id);
         initial[def.id] = getFieldValue(def, fieldValue);
@@ -174,7 +174,7 @@ export default function OrderForm() {
   // Load existing data
   useEffect(() => {
     if (existingOrder) {
-      const shippingAddr = existingOrder.shipping_address as any || {};
+      const shippingAddr = existingOrder.shipping_address as unknown || {};
       setFormData({
         account_id: existingOrder.account_id || '',
         contact_id: existingOrder.contact_id || '',
@@ -213,7 +213,7 @@ export default function OrderForm() {
     }
   }, [existingItems]);
 
-  const addItem = (product: any) => {
+  const addItem = (product: unknown) => {
     const newItem: OrderItem = {
       id: crypto.randomUUID(),
       product_id: product.id,
@@ -229,7 +229,7 @@ export default function OrderForm() {
     setProductSearch('');
   };
 
-  const updateItem = (id: string, field: keyof OrderItem, value: any) => {
+  const updateItem = (id: string, field: keyof OrderItem, value: unknown) => {
     setItems(items.map(item => {
       if (item.id === id) {
         const updated = { ...item, [field]: value };

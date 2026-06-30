@@ -69,7 +69,7 @@ export default function SocialInbox() {
   const [directionFilter, setDirectionFilter] = useState('all');
   const [sentimentFilter, setSentimentFilter] = useState('all');
   const [showConnectDialog, setShowConnectDialog] = useState(false);
-  const [selectedMessage, setSelectedMessage] = useState<any>(null);
+  const [selectedMessage, setSelectedMessage] = useState<unknown>(null);
   const [replyContent, setReplyContent] = useState('');
 
   // New account form
@@ -119,7 +119,7 @@ export default function SocialInbox() {
       }
 
       if (directionFilter !== 'all') {
-        query = query.eq('direction', directionFilter as any);
+        query = query.eq('direction', directionFilter as unknown);
       }
 
       const { data, error } = await query;
@@ -141,10 +141,10 @@ export default function SocialInbox() {
         .limit(100);
 
       if (platformFilter !== 'all') {
-        query = query.eq('platform', platformFilter as any);
+        query = query.eq('platform', platformFilter as unknown);
       }
       if (sentimentFilter !== 'all') {
-        query = query.eq('sentiment', sentimentFilter as any);
+        query = query.eq('sentiment', sentimentFilter as unknown);
       }
 
       const { data, error } = await query;
@@ -159,7 +159,7 @@ export default function SocialInbox() {
     mutationFn: async (data: typeof newAccount) => {
       const { error } = await supabase.from('social_accounts').insert({
         organization_id: profile?.organization_id,
-        platform: data.platform as any,
+        platform: data.platform as unknown,
         account_name: data.account_name,
         account_handle: data.account_handle || null,
         status: 'connected',
@@ -179,7 +179,7 @@ export default function SocialInbox() {
         auto_import_messages: true, auto_import_mentions: true, auto_create_conversations: true,
       });
     },
-    onError: (e: any) => toast.error('Erro: ' + e.message),
+    onError: (e: unknown) => toast.error('Erro: ' + e.message),
   });
 
   const markAsReadMutation = useMutation({
@@ -208,7 +208,7 @@ export default function SocialInbox() {
       queryClient.invalidateQueries({ queryKey: ['social-mentions'] });
       toast.success('Menção revisada');
     },
-    onError: (e: any) => toast.error('Erro: ' + e.message),
+    onError: (e: unknown) => toast.error('Erro: ' + e.message),
   });
 
   // === COMPUTED ===

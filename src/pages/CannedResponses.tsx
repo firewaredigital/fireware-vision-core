@@ -98,7 +98,7 @@ interface CannedResponse {
   usage_count: number;
   tags: string[] | null;
   language: string;
-  variables: any[];
+  variables: unknown[];
   owner_id: string | null;
   created_at: string;
   updated_at: string;
@@ -267,7 +267,7 @@ export default function CannedResponses() {
         description: 'A resposta rápida foi salva com sucesso.',
       });
     },
-    onError: (error: any) => {
+    onError: (error: unknown) => {
       toast({
         title: 'Erro ao salvar',
         description: error.message,

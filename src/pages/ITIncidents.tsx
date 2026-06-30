@@ -44,10 +44,10 @@ export default function ITIncidents() {
         .order('created_at', { ascending: false });
 
       if (statusFilter !== 'all') {
-        query = query.eq('status', statusFilter as any);
+        query = query.eq('status', statusFilter as unknown);
       }
       if (priorityFilter !== 'all') {
-        query = query.eq('priority', priorityFilter as any);
+        query = query.eq('priority', priorityFilter as unknown);
       }
 
       const { data, error } = await query;

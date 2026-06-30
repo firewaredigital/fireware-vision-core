@@ -56,7 +56,7 @@ interface ToolExecutionResult {
 
 const PII_PATTERNS = [
   { name: 'cpf', regex: /\b\d{3}\.?\d{3}\.?\d{3}-?\d{2}\b/g, mask: '***.***.***-**' },
-  { name: 'cnpj', regex: /\b\d{2}\.?\d{3}\.?\d{3}\/?\d{4}-?\d{2}\b/g, mask: '**.***.***\/****-**' },
+  { name: 'cnpj', regex: /\b\d{2}\.?\d{3}\.?\d{3}\/?\d{4}-?\d{2}\b/g, mask: '**.***.***/****-**' },
   { name: 'email', regex: /\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b/g, mask: '***@***.***' },
   { name: 'phone_br', regex: /\b(?:\+55\s?)?(?:\(?\d{2}\)?\s?)?\d{4,5}-?\d{4}\b/g, mask: '(**) *****-****' },
   { name: 'credit_card', regex: /\b\d{4}[\s-]?\d{4}[\s-]?\d{4}[\s-]?\d{4}\b/g, mask: '**** **** **** ****' },
@@ -119,7 +119,7 @@ function validatePolicies(
 // ──────────────────────────────────────────────
 
 async function executeToolReal(
-  supabase: any,
+  supabase: unknown,
   toolDef: ToolDef,
   toolName: string,
   args: Record<string, unknown>,
@@ -185,7 +185,7 @@ async function executeToolReal(
         // Fall back to generic execution based on tool_type
         return await execGenericTool(supabase, toolDef, args, orgId);
     }
-  } catch (err: any) {
+  } catch (err: unknown) {
     console.error(`[ToolExecutor] Error in ${toolName}:`, err);
     return {
       status: 'error',
@@ -196,7 +196,7 @@ async function executeToolReal(
 
 // ── search_knowledge_base ──
 async function execSearchKnowledgeBase(
-  supabase: any,
+  supabase: unknown,
   args: Record<string, unknown>,
   orgId: string
 ): Promise<ToolExecutionResult> {
@@ -225,7 +225,7 @@ async function execSearchKnowledgeBase(
   if (error) throw error;
 
   // Truncate content for response
-  const results = (data || []).map((a: any) => ({
+  const results = (data || []).map((a: unknown) => ({
     id: a.id,
     title: a.title,
     category: a.category,
@@ -250,7 +250,7 @@ async function execSearchKnowledgeBase(
 
 // ── get_customer_info ──
 async function execGetCustomerInfo(
-  supabase: any,
+  supabase: unknown,
   args: Record<string, unknown>,
   orgId: string
 ): Promise<ToolExecutionResult> {
@@ -280,7 +280,7 @@ async function execGetCustomerInfo(
   return {
     status: totalFound > 0 ? 'success' : 'not_found',
     data: {
-      contacts: (contacts || []).map((c: any) => ({
+      contacts: (contacts || []).map((c: unknown) => ({
         id: c.id,
         name: `${c.first_name || ''} ${c.last_name || ''}`.trim(),
         email: c.email,
@@ -291,7 +291,7 @@ async function execGetCustomerInfo(
         status: c.status,
         lead_score: c.lead_score,
       })),
-      accounts: (accounts || []).map((a: any) => ({
+      accounts: (accounts || []).map((a: unknown) => ({
         id: a.id,
         name: a.name,
         email: a.email,
@@ -313,7 +313,7 @@ async function execGetCustomerInfo(
 
 // ── search_contacts ──
 async function execSearchContacts(
-  supabase: any,
+  supabase: unknown,
   args: Record<string, unknown>,
   orgId: string
 ): Promise<ToolExecutionResult> {
@@ -337,7 +337,7 @@ async function execSearchContacts(
   const { data, error } = await dbQuery;
   if (error) throw error;
 
-  const results = (data || []).map((c: any) => ({
+  const results = (data || []).map((c: unknown) => ({
     id: c.id,
     name: `${c.first_name || ''} ${c.last_name || ''}`.trim(),
     email: c.email,
@@ -360,7 +360,7 @@ async function execSearchContacts(
 
 // ── get_contact_info ──
 async function execGetContactInfo(
-  supabase: any,
+  supabase: unknown,
   args: Record<string, unknown>,
   orgId: string
 ): Promise<ToolExecutionResult> {
@@ -408,7 +408,7 @@ async function execGetContactInfo(
 
 // ── get_account_info ──
 async function execGetAccountInfo(
-  supabase: any,
+  supabase: unknown,
   args: Record<string, unknown>,
   orgId: string
 ): Promise<ToolExecutionResult> {
@@ -460,7 +460,7 @@ async function execGetAccountInfo(
 
 // ── search_accounts ──
 async function execSearchAccounts(
-  supabase: any,
+  supabase: unknown,
   args: Record<string, unknown>,
   orgId: string
 ): Promise<ToolExecutionResult> {
@@ -495,7 +495,7 @@ async function execSearchAccounts(
 
 // ── create_ticket ──
 async function execCreateTicket(
-  supabase: any,
+  supabase: unknown,
   args: Record<string, unknown>,
   orgId: string,
   userId: string
@@ -557,7 +557,7 @@ async function execCreateTicket(
 
 // ── get_ticket_info ──
 async function execGetTicketInfo(
-  supabase: any,
+  supabase: unknown,
   args: Record<string, unknown>,
   orgId: string
 ): Promise<ToolExecutionResult> {
@@ -612,7 +612,7 @@ async function execGetTicketInfo(
 
 // ── search_tickets ──
 async function execSearchTickets(
-  supabase: any,
+  supabase: unknown,
   args: Record<string, unknown>,
   orgId: string
 ): Promise<ToolExecutionResult> {
@@ -637,7 +637,7 @@ async function execSearchTickets(
   const { data, error } = await dbQuery;
   if (error) throw error;
 
-  const results = (data || []).map((t: any) => ({
+  const results = (data || []).map((t: unknown) => ({
     id: t.id,
     ticket_number: t.ticket_number,
     subject: t.subject,
@@ -660,7 +660,7 @@ async function execSearchTickets(
 
 // ── update_ticket ──
 async function execUpdateTicket(
-  supabase: any,
+  supabase: unknown,
   args: Record<string, unknown>,
   orgId: string
 ): Promise<ToolExecutionResult> {
@@ -705,7 +705,7 @@ async function execUpdateTicket(
 
 // ── update_opportunity ──
 async function execUpdateOpportunity(
-  supabase: any,
+  supabase: unknown,
   args: Record<string, unknown>,
   orgId: string
 ): Promise<ToolExecutionResult> {
@@ -749,7 +749,7 @@ async function execUpdateOpportunity(
 
 // ── get_opportunity_info ──
 async function execGetOpportunityInfo(
-  supabase: any,
+  supabase: unknown,
   args: Record<string, unknown>,
   orgId: string
 ): Promise<ToolExecutionResult> {
@@ -794,7 +794,7 @@ async function execGetOpportunityInfo(
 
 // ── list_opportunities ──
 async function execListOpportunities(
-  supabase: any,
+  supabase: unknown,
   args: Record<string, unknown>,
   orgId: string
 ): Promise<ToolExecutionResult> {
@@ -817,7 +817,7 @@ async function execListOpportunities(
   const { data, error } = await dbQuery;
   if (error) throw error;
 
-  const results = (data || []).map((o: any) => ({
+  const results = (data || []).map((o: unknown) => ({
     id: o.id,
     name: o.name,
     amount: o.amount,
@@ -829,7 +829,7 @@ async function execListOpportunities(
     owner: o.profiles ? `${o.profiles.first_name} ${o.profiles.last_name}` : null,
   }));
 
-  const totalAmount = results.reduce((sum: number, o: any) => sum + (o.amount || 0), 0);
+  const totalAmount = results.reduce((sum: number, o: unknown) => sum + (o.amount || 0), 0);
 
   return {
     status: 'success',
@@ -842,7 +842,7 @@ async function execListOpportunities(
 
 // ── create_activity ──
 async function execCreateActivity(
-  supabase: any,
+  supabase: unknown,
   args: Record<string, unknown>,
   orgId: string,
   userId: string
@@ -857,7 +857,7 @@ async function execCreateActivity(
     organization_id: orgId,
     owner_id: args.owner_id || userId,
     subject,
-    type: type as any,
+    type: type as unknown,
     description: args.description || null,
     status: args.status || 'pending',
     priority: args.priority || 'medium',
@@ -888,7 +888,7 @@ async function execCreateActivity(
 
 // ── search_products ──
 async function execSearchProducts(
-  supabase: any,
+  supabase: unknown,
   args: Record<string, unknown>,
   orgId: string
 ): Promise<ToolExecutionResult> {
@@ -922,7 +922,7 @@ async function execSearchProducts(
 
 // ── get_product_info ──
 async function execGetProductInfo(
-  supabase: any,
+  supabase: unknown,
   args: Record<string, unknown>,
   orgId: string
 ): Promise<ToolExecutionResult> {
@@ -964,7 +964,7 @@ async function execGetProductInfo(
 
 // ── get_order_info ──
 async function execGetOrderInfo(
-  supabase: any,
+  supabase: unknown,
   args: Record<string, unknown>,
   orgId: string
 ): Promise<ToolExecutionResult> {
@@ -999,7 +999,7 @@ async function execGetOrderInfo(
       currency: data.currency,
       account: data.accounts?.name || null,
       contact: data.contacts ? `${data.contacts.first_name} ${data.contacts.last_name}` : null,
-      items: (items || []).map((i: any) => ({
+      items: (items || []).map((i: unknown) => ({
         product: i.products?.name || 'N/A',
         sku: i.products?.sku || 'N/A',
         quantity: i.quantity,
@@ -1019,7 +1019,7 @@ async function execGetOrderInfo(
 
 // ── search_orders ──
 async function execSearchOrders(
-  supabase: any,
+  supabase: unknown,
   args: Record<string, unknown>,
   orgId: string
 ): Promise<ToolExecutionResult> {
@@ -1042,7 +1042,7 @@ async function execSearchOrders(
 
   return {
     status: 'success',
-    data: (data || []).map((o: any) => ({
+    data: (data || []).map((o: unknown) => ({
       ...o,
       account: o.accounts?.name || null,
     })),
@@ -1054,7 +1054,7 @@ async function execSearchOrders(
 
 // ── create_lead ──
 async function execCreateLead(
-  supabase: any,
+  supabase: unknown,
   args: Record<string, unknown>,
   orgId: string,
   userId: string
@@ -1097,7 +1097,7 @@ async function execCreateLead(
 
 // ── get_lead_info ──
 async function execGetLeadInfo(
-  supabase: any,
+  supabase: unknown,
   args: Record<string, unknown>,
   orgId: string
 ): Promise<ToolExecutionResult> {
@@ -1138,7 +1138,7 @@ async function execGetLeadInfo(
 
 // ── search_leads ──
 async function execSearchLeads(
-  supabase: any,
+  supabase: unknown,
   args: Record<string, unknown>,
   orgId: string
 ): Promise<ToolExecutionResult> {
@@ -1163,7 +1163,7 @@ async function execSearchLeads(
 
   return {
     status: 'success',
-    data: (data || []).map((l: any) => ({
+    data: (data || []).map((l: unknown) => ({
       ...l,
       name: `${l.first_name} ${l.last_name || ''}`.trim(),
     })),
@@ -1175,7 +1175,7 @@ async function execSearchLeads(
 
 // ── detect_duplicates ──
 async function execDetectDuplicates(
-  supabase: any,
+  supabase: unknown,
   args: Record<string, unknown>,
   orgId: string
 ): Promise<ToolExecutionResult> {
@@ -1187,7 +1187,7 @@ async function execDetectDuplicates(
     return { status: 'error', message: 'Informe "name" ou "email" para detectar duplicatas' };
   }
 
-  let duplicates: any[] = [];
+  let duplicates: unknown[] = [];
 
   if (entityType === 'contact' || entityType === 'contacts') {
     let query = supabase
@@ -1208,7 +1208,7 @@ async function execDetectDuplicates(
     }
 
     const { data } = await query;
-    duplicates = (data || []).map((c: any) => ({
+    duplicates = (data || []).map((c: unknown) => ({
       id: c.id,
       type: 'contact',
       name: `${c.first_name} ${c.last_name}`,
@@ -1225,7 +1225,7 @@ async function execDetectDuplicates(
       .or(`name.ilike.%${searchName}%,email.ilike.%${searchName}%`)
       .limit(10);
 
-    duplicates = (data || []).map((a: any) => ({
+    duplicates = (data || []).map((a: unknown) => ({
       id: a.id,
       type: 'account',
       name: a.name,
@@ -1247,7 +1247,7 @@ async function execDetectDuplicates(
     }
 
     const { data } = await query;
-    duplicates = (data || []).map((l: any) => ({
+    duplicates = (data || []).map((l: unknown) => ({
       id: l.id,
       type: 'lead',
       name: `${l.first_name} ${l.last_name || ''}`.trim(),
@@ -1269,7 +1269,7 @@ async function execDetectDuplicates(
 
 // ── get_contract_info ──
 async function execGetContractInfo(
-  supabase: any,
+  supabase: unknown,
   args: Record<string, unknown>,
   orgId: string
 ): Promise<ToolExecutionResult> {
@@ -1310,7 +1310,7 @@ async function execGetContractInfo(
 
 // ── create_note ──
 async function execCreateNote(
-  supabase: any,
+  supabase: unknown,
   args: Record<string, unknown>,
   orgId: string,
   userId: string
@@ -1350,7 +1350,7 @@ async function execCreateNote(
 
 // ── get_dashboard_metrics ──
 async function execGetDashboardMetrics(
-  supabase: any,
+  supabase: unknown,
   args: Record<string, unknown>,
   orgId: string
 ): Promise<ToolExecutionResult> {
@@ -1371,7 +1371,7 @@ async function execGetDashboardMetrics(
       supabase.from('opportunities').select('amount, stage, status').eq('organization_id', orgId).eq('status', 'open'),
     ]);
 
-    const pipelineValue = (pipelineData || []).reduce((sum: number, o: any) => sum + (o.amount || 0), 0);
+    const pipelineValue = (pipelineData || []).reduce((sum: number, o: unknown) => sum + (o.amount || 0), 0);
     const stageDistribution: Record<string, number> = {};
     for (const o of (pipelineData || [])) {
       stageDistribution[o.stage] = (stageDistribution[o.stage] || 0) + 1;
@@ -1434,7 +1434,7 @@ async function execGetDashboardMetrics(
 
 // ── Generic tool executor (database_query, rpc_call, etc.) ──
 async function execGenericTool(
-  supabase: any,
+  supabase: unknown,
   toolDef: ToolDef,
   args: Record<string, unknown>,
   orgId: string
@@ -1646,8 +1646,8 @@ Deno.serve(async (req: Request) => {
       .eq('is_enabled', true);
 
     const tools: ToolDef[] = (agentTools || [])
-      .filter((at: any) => at.ai_tools)
-      .map((at: any) => ({
+      .filter((at: unknown) => at.ai_tools)
+      .map((at: unknown) => ({
         id: at.ai_tools.id,
         name: at.ai_tools.name,
         description: at.ai_tools.description,
@@ -1667,8 +1667,8 @@ Deno.serve(async (req: Request) => {
       .eq('is_active', true);
 
     const policies: PolicyDef[] = (agentPolicies || [])
-      .filter((ap: any) => ap.ai_policies?.is_active)
-      .map((ap: any) => ap.ai_policies);
+      .filter((ap: unknown) => ap.ai_policies?.is_active)
+      .map((ap: unknown) => ap.ai_policies);
 
     // ── 4. PII Masking ──
     const piiResult = maskPII(message);
@@ -1700,7 +1700,7 @@ Deno.serve(async (req: Request) => {
         },
         status: 'running',
         started_at: new Date().toISOString(),
-        model_used: (agent.model_config as any)?.model || 'google/gemini-3-flash-preview',
+        model_used: (agent.model_config as unknown)?.model || 'google/gemini-3-flash-preview',
         correlation_id: conversation_id || null,
       })
       .select()
@@ -1765,7 +1765,7 @@ Deno.serve(async (req: Request) => {
       { role: 'user', content: processedMessage },
     ];
 
-    const modelConfig = (agent.model_config || {}) as any;
+    const modelConfig = (agent.model_config || {}) as unknown;
     const model = modelConfig.model || 'google/gemini-3-flash-preview';
     const temperature = modelConfig.temperature ?? 0.7;
     const maxTokens = modelConfig.max_tokens ?? 4096;
@@ -1849,7 +1849,7 @@ Deno.serve(async (req: Request) => {
     });
 
     // ── 13. Process tool calls with REAL execution ──
-    let toolResults: Array<{ tool_name: string; result: ToolExecutionResult }> = [];
+    const toolResults: Array<{ tool_name: string; result: ToolExecutionResult }> = [];
     let requiresApproval = false;
 
     if (responseMessage?.tool_calls && responseMessage.tool_calls.length > 0) {
@@ -1985,7 +1985,7 @@ Deno.serve(async (req: Request) => {
           role: 'tool' as const,
           content: JSON.stringify(tr.result),
           tool_call_id: responseMessage.tool_calls.find(
-            (tc: any) => tc.function?.name === tr.tool_name
+            (tc: unknown) => tc.function?.name === tr.tool_name
           )?.id || tr.tool_name,
         }));
 

@@ -55,10 +55,10 @@ export default function PartnerDeals() {
         .order('submitted_at', { ascending: false });
 
       if (statusFilter !== 'all') {
-        query = query.eq('status', statusFilter as any);
+        query = query.eq('status', statusFilter as unknown);
       }
       if (typeFilter !== 'all') {
-        query = query.eq('deal_type', typeFilter as any);
+        query = query.eq('deal_type', typeFilter as unknown);
       }
 
       const { data, error } = await query;

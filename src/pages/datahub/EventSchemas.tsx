@@ -14,7 +14,7 @@ import { ModuleHeroBanner } from '@/components/ModuleHeroBanner';
 
 export default function EventSchemas() {
   const { profile } = useAuth();
-  const [selectedSchema, setSelectedSchema] = useState<any>(null);
+  const [selectedSchema, setSelectedSchema] = useState<unknown>(null);
 
   const { data: schemas, isLoading } = useQuery({
     queryKey: ['event-schemas', profile?.organization_id],

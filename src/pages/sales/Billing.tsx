@@ -60,7 +60,7 @@ export default function Billing() {
         .eq('organization_id', organizationId!)
         .order('created_at', { ascending: false });
 
-      if (statusFilter !== 'all') query = query.eq('status', statusFilter as any);
+      if (statusFilter !== 'all') query = query.eq('status', statusFilter as unknown);
       if (searchTerm) query = query.or(`invoice_number.ilike.%${searchTerm}%,billing_name.ilike.%${searchTerm}%`);
 
       const { data, error } = await query;
@@ -103,10 +103,10 @@ export default function Billing() {
   });
 
   // KPIs
-  const totalInvoiced = invoices.reduce((s: number, i: any) => s + (i.total || 0), 0);
-  const totalPaid = invoices.filter((i: any) => i.status === 'paid').reduce((s: number, i: any) => s + (i.total || 0), 0);
-  const totalOverdue = invoices.filter((i: any) => i.status === 'overdue').reduce((s: number, i: any) => s + (i.amount_due || 0), 0);
-  const pendingDunning = dunningAttempts.filter((d: any) => d.status === 'pending' || d.status === 'sent').length;
+  const totalInvoiced = invoices.reduce((s: number, i: unknown) => s + (i.total || 0), 0);
+  const totalPaid = invoices.filter((i: unknown) => i.status === 'paid').reduce((s: number, i: unknown) => s + (i.total || 0), 0);
+  const totalOverdue = invoices.filter((i: unknown) => i.status === 'overdue').reduce((s: number, i: unknown) => s + (i.amount_due || 0), 0);
+  const pendingDunning = dunningAttempts.filter((d: unknown) => d.status === 'pending' || d.status === 'sent').length;
 
   const fmt = (v: number) => new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(v);
 
@@ -211,7 +211,7 @@ export default function Billing() {
                     <TableRow><TableCell colSpan={8} className="text-center py-8 text-muted-foreground">Carregando...</TableCell></TableRow>
                   ) : invoices.length === 0 ? (
                     <TableRow><TableCell colSpan={8} className="text-center py-8 text-muted-foreground">Nenhuma fatura encontrada</TableCell></TableRow>
-                  ) : invoices.map((inv: any) => {
+                  ) : invoices.map((inv: unknown) => {
                     const st = invoiceStatusConfig[inv.status] || invoiceStatusConfig.draft;
                     return (
                       <TableRow key={inv.id} className="cursor-pointer hover:bg-muted/50" onClick={() => navigate(`/sales/billing/${inv.id}`)}>
@@ -251,7 +251,7 @@ export default function Billing() {
                     <TableRow><TableCell colSpan={7} className="text-center py-8 text-muted-foreground">Carregando...</TableCell></TableRow>
                   ) : ledgerEntries.length === 0 ? (
                     <TableRow><TableCell colSpan={7} className="text-center py-8 text-muted-foreground">Nenhuma entrada</TableCell></TableRow>
-                  ) : ledgerEntries.map((entry: any) => {
+                  ) : ledgerEntries.map((entry: unknown) => {
                     const lt = ledgerTypeLabels[entry.entry_type] || ledgerTypeLabels.adjustment;
                     const LTIcon = lt.icon;
                     return (
@@ -295,7 +295,7 @@ export default function Billing() {
                 <TableBody>
                   {dunningAttempts.length === 0 ? (
                     <TableRow><TableCell colSpan={7} className="text-center py-8 text-muted-foreground">Nenhuma cobrança registrada</TableCell></TableRow>
-                  ) : dunningAttempts.map((d: any) => (
+                  ) : dunningAttempts.map((d: unknown) => (
                     <TableRow key={d.id}>
                       <TableCell className="font-mono text-sm">{d.invoices?.invoice_number || '—'}</TableCell>
                       <TableCell className="font-medium">{d.accounts?.name || '—'}</TableCell>

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect , useCallback } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import {
   ArrowLeft,
@@ -174,9 +174,9 @@ export default function ContractDetail() {
     if (id && user) {
       fetchContract();
     }
-  }, [id, user]);
+  }, [id, user, fetchContract]);
 
-  const fetchContract = async () => {
+  const fetchContract = useCallback( async () => {
     setLoading(true);
     const { data, error } = await supabase
       .from('contracts')
@@ -203,7 +203,7 @@ export default function ContractDetail() {
       setContract(data as Contract);
     }
     setLoading(false);
-  };
+  }, [id, profile?.organization_id, profile?.id, toast, navigate]);
 
   const deleteContract = async () => {
     if (!id) return;

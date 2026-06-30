@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect , useCallback } from 'react';
 import { ModuleHeroBanner } from '@/components/ModuleHeroBanner';
 import { useNavigate } from 'react-router-dom';
 import {
@@ -157,9 +157,9 @@ export default function Automations() {
       fetchWorkflows();
       fetchRuns();
     }
-  }, [profile?.organization_id]);
+  }, [profile?.organization_id, fetchRuns, fetchWorkflows]);
 
-  const fetchWorkflows = async () => {
+  const fetchWorkflows = useCallback(async () => {
     if (!profile?.organization_id) return;
 
     const { data, error } = await supabase
@@ -172,9 +172,9 @@ export default function Automations() {
       setWorkflows(data as Workflow[]);
     }
     setLoading(false);
-  };
+  }, [profile?.id, profile.organization_id]);
 
-  const fetchRuns = async () => {
+  const fetchRuns = useCallback( async () => {
     if (!profile?.organization_id) return;
 
     const { data, error } = await supabase
@@ -190,7 +190,7 @@ export default function Automations() {
     if (!error && data) {
       setRuns(data as unknown as WorkflowRun[]);
     }
-  };
+  }, [profile?.organization_id, profile?.id]);
 
   const handleCreateWorkflow = async () => {
     if (!profile?.organization_id || !newWorkflow.name) return;
@@ -200,7 +200,7 @@ export default function Automations() {
       .insert([{
         name: newWorkflow.name,
         description: newWorkflow.description || null,
-        trigger_type: newWorkflow.trigger_type as any,
+        trigger_type: newWorkflow.trigger_type as unknown,
         trigger_entity: newWorkflow.trigger_entity,
         organization_id: profile.organization_id,
         created_by: profile.id,
@@ -265,7 +265,7 @@ export default function Automations() {
       .insert([{
         name: `${workflow.name} (Cópia)`,
         description: workflow.description,
-        trigger_type: workflow.trigger_type as any,
+        trigger_type: workflow.trigger_type as unknown,
         trigger_entity: workflow.trigger_entity,
         organization_id: profile.organization_id,
         created_by: profile.id,

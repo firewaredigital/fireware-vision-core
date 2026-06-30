@@ -44,7 +44,7 @@ export default function PortalOrders() {
   const session = getPortalSession();
   const accountId = session?.account_id;
   const orgId = session?.organization_id;
-  const [selectedOrder, setSelectedOrder] = useState<any>(null);
+  const [selectedOrder, setSelectedOrder] = useState<unknown>(null);
 
   const { data: orders, isLoading } = useQuery({
     queryKey: ['portal-orders', accountId],
@@ -95,7 +95,7 @@ export default function PortalOrders() {
                       <TableCell className="text-sm text-muted-foreground">
                         {format(new Date(order.created_at), 'dd/MM/yyyy', { locale: ptBR })}
                       </TableCell>
-                      <TableCell>{(order.order_items as any[])?.length ?? 0}</TableCell>
+                      <TableCell>{(order.order_items as unknown[])?.length ?? 0}</TableCell>
                       <TableCell className="font-semibold">{formatCurrency(Number(order.grand_total))}</TableCell>
                       <TableCell>
                         <Badge variant={STATUS_VARIANT[order.status ?? 'pending'] || 'outline'}>
@@ -155,7 +155,7 @@ export default function PortalOrders() {
               <div>
                 <h4 className="font-medium mb-2">Itens</h4>
                 <div className="space-y-2">
-                  {(selectedOrder.order_items as any[])?.map((item: any) => (
+                  {(selectedOrder.order_items as unknown[])?.map((item: unknown) => (
                     <div key={item.id} className="flex justify-between text-sm">
                       <span>{item.quantity}x {item.name}</span>
                       <span className="font-medium">{formatCurrency(Number(item.total))}</span>

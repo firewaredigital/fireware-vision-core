@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect , useCallback } from 'react';
 import { useParams, useNavigate, useSearchParams } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -116,11 +116,11 @@ export default function AccountForm() {
   const { data: customFieldDefs = [] } = useCustomFieldDefinitions('account');
   const { data: customFieldValuesData = [] } = useCustomFieldValues('account', id);
   const saveCustomFields = useSaveCustomFieldValues();
-  const [customFieldValues, setCustomFieldValues] = useState<Record<string, any>>({});
+  const [customFieldValues, setCustomFieldValues] = useState<Record<string, unknown>>({});
 
   useEffect(() => {
     if (customFieldDefs.length > 0) {
-      const values: Record<string, any> = {};
+      const values: Record<string, unknown> = {};
       customFieldDefs.forEach(def => {
         const fieldValue = customFieldValuesData.find(v => v.field_definition_id === def.id);
         values[def.id] = getFieldValue(def, fieldValue);
@@ -162,9 +162,9 @@ export default function AccountForm() {
         fetchAccount();
       }
     }
-  }, [user, id]);
+  }, [user, id, fetchAccount, fetchReferenceData, isEditing]);
 
-  const fetchReferenceData = async () => {
+  const fetchReferenceData = useCallback( async () => {
     // Fetch accounts for parent selection (excluding current if editing)
     const accountsQuery = supabase.from('accounts').select('id, name').order('name');
     if (id) {
@@ -187,9 +187,9 @@ export default function AccountForm() {
       .eq('is_active', true)
       .order('first_name');
     setUsers(usersData || []);
-  };
+  }, [id, profile?.organization_id]);
 
-  const fetchAccount = async () => {
+  const fetchAccount = useCallback( async () => {
     setLoading(true);
     const { data, error } = await supabase
       .from('accounts')
@@ -227,7 +227,7 @@ export default function AccountForm() {
       setTags(data.tags || []);
     }
     setLoading(false);
-  };
+  }, [id, toast, form]);
 
   const onSubmit = async (data: AccountFormData) => {
     setSaving(true);

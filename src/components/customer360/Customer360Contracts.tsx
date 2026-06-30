@@ -74,7 +74,7 @@ export function Customer360Contracts({ entityType, entityId }: Customer360Contra
       </CardHeader>
       <CardContent>
         <div className="space-y-3">
-          {contracts.map((contract: any) => (
+          {contracts.map((contract: unknown) => (
             <div
               key={contract.id}
               className="p-4 border rounded-lg hover:bg-muted/50 cursor-pointer transition-colors"

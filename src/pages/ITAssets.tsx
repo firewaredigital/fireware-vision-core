@@ -43,10 +43,10 @@ export default function ITAssets() {
         .order('created_at', { ascending: false });
 
       if (typeFilter !== 'all') {
-        query = query.eq('asset_type', typeFilter as any);
+        query = query.eq('asset_type', typeFilter as unknown);
       }
       if (statusFilter !== 'all') {
-        query = query.eq('status', statusFilter as any);
+        query = query.eq('status', statusFilter as unknown);
       }
 
       const { data, error } = await query;

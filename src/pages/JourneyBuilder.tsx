@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect , useCallback } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import {
   ArrowLeft,
@@ -171,9 +171,9 @@ export default function JourneyBuilder() {
       });
       setLoading(false);
     }
-  }, [id]);
+  }, [id, fetchJourney, fetchSegments, fetchSteps, isNew]);
 
-  const fetchSegments = async () => {
+  const fetchSegments = useCallback( async () => {
     if (!profile?.organization_id) return;
 
     const { data } = await supabase
@@ -186,9 +186,9 @@ export default function JourneyBuilder() {
     if (data) {
       setSegments(data);
     }
-  };
+  }, [profile?.organization_id, profile?.id]);
 
-  const fetchJourney = async () => {
+  const fetchJourney = useCallback( async () => {
     if (!id) return;
 
     const { data, error } = await supabase
@@ -209,9 +209,9 @@ export default function JourneyBuilder() {
 
     setJourney(data as unknown as Journey);
     setLoading(false);
-  };
+  }, [id, toast, navigate]);
 
-  const fetchSteps = async () => {
+  const fetchSteps = useCallback( async () => {
     if (!id || isNew) return;
 
     const { data } = await supabase
@@ -223,7 +223,7 @@ export default function JourneyBuilder() {
     if (data) {
       setSteps(data as unknown as JourneyStep[]);
     }
-  };
+  }, [id, isNew]);
 
   const handleSave = async () => {
     if (!profile?.organization_id || !journey?.name) return;
@@ -236,7 +236,7 @@ export default function JourneyBuilder() {
       trigger_type: journey.trigger_type,
       trigger_segment_id: journey.trigger_segment_id || null,
       trigger_event_name: journey.trigger_event_name || null,
-      trigger_config: journey.trigger_config as any,
+      trigger_config: journey.trigger_config as unknown,
       allow_reentry: journey.allow_reentry,
       reentry_wait_days: journey.reentry_wait_days,
       goal_type: journey.goal_type || null,
@@ -321,9 +321,9 @@ export default function JourneyBuilder() {
         journey_id: journey.id,
         step_key: stepKey,
         step_order: stepOrder,
-        type: type as any,
+        type: type as unknown,
         name: stepConfig.label,
-        config: {} as any,
+        config: {} as unknown,
         is_entry_point: steps.length === 0,
         position_x: 100,
         position_y: stepOrder * 120,
@@ -347,10 +347,10 @@ export default function JourneyBuilder() {
       .update({
         name: step.name,
         description: step.description,
-        config: step.config as any,
+        config: step.config as unknown,
         wait_duration_value: step.wait_duration_value,
         wait_duration_unit: step.wait_duration_unit,
-        conditions: step.conditions as any,
+        conditions: step.conditions as unknown,
       })
       .eq('id', step.id);
 
@@ -814,7 +814,7 @@ export default function JourneyBuilder() {
                   <div className="space-y-2">
                     <Label>Assunto do Email</Label>
                     <Input
-                      value={(selectedStep.config as any).subject || ''}
+                      value={(selectedStep.config as unknown).subject || ''}
                       onChange={(e) => setSelectedStep({
                         ...selectedStep,
                         config: { ...selectedStep.config, subject: e.target.value }
@@ -825,7 +825,7 @@ export default function JourneyBuilder() {
                   <div className="space-y-2">
                     <Label>Conteúdo</Label>
                     <Textarea
-                      value={(selectedStep.config as any).content || ''}
+                      value={(selectedStep.config as unknown).content || ''}
                       onChange={(e) => setSelectedStep({
                         ...selectedStep,
                         config: { ...selectedStep.config, content: e.target.value }

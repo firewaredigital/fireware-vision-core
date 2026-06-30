@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect , useCallback } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import {
   ArrowLeft,
@@ -74,9 +74,9 @@ export default function ProductDetail() {
       fetchProduct();
       fetchQuoteUsage();
     }
-  }, [id, user]);
+  }, [id, user, fetchProduct, fetchQuoteUsage]);
 
-  const fetchProduct = async () => {
+  const fetchProduct = useCallback( async () => {
     setLoading(true);
     const { data, error } = await supabase
       .from('products')
@@ -96,9 +96,9 @@ export default function ProductDetail() {
       setProduct(data);
     }
     setLoading(false);
-  };
+  }, [id, toast, navigate]);
 
-  const fetchQuoteUsage = async () => {
+  const fetchQuoteUsage = useCallback(async () => {
     const { data, error } = await supabase
       .from('quote_items')
       .select(`
@@ -110,7 +110,7 @@ export default function ProductDetail() {
       .eq('product_id', id);
 
     if (!error && data) {
-      const usage = data.map((item: any) => ({
+      const usage = data.map((item: unknown) => ({
         quote_id: item.quote_id,
         quote_name: item.quotes.name,
         quantity: item.quantity,
@@ -125,7 +125,7 @@ export default function ProductDetail() {
         totalRevenue: usage.reduce((sum, u) => sum + u.total, 0),
       });
     }
-  };
+  }, [id]);
 
   const deleteProduct = async () => {
     if (!id) return;

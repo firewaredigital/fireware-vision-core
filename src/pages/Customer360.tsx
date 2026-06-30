@@ -45,7 +45,7 @@ export default function Customer360() {
     queryFn: async () => {
       const { data, error } = await supabase.from(tableName).select('*').eq('id', id).single();
       if (error) throw error;
-      return data as any;
+      return data as unknown;
     },
     enabled: !!id,
   });
@@ -57,7 +57,7 @@ export default function Customer360() {
       if (entityType !== 'account') return [];
       const { data, error } = await supabase.from('contacts').select('*').eq('account_id', id).order('created_at', { ascending: false });
       if (error) throw error;
-      return data as any[];
+      return data as unknown[];
     },
     enabled: entityType === 'account' && !!id,
   });
@@ -151,7 +151,7 @@ export default function Customer360() {
       if (entityType !== 'account') return null;
       const { data, error } = await supabase.from('customer_health_scores').select('*').eq('account_id', id).order('calculated_at', { ascending: false }).limit(1).single();
       if (error && error.code !== 'PGRST116') throw error;
-      return data as any;
+      return data as unknown;
     },
     enabled: entityType === 'account' && !!id,
   });
@@ -170,25 +170,25 @@ export default function Customer360() {
 
   // Calculate metrics
   const metrics = {
-    totalRevenue: opportunities.filter((o: any) => o.stage === 'closed_won').reduce((sum: number, o: any) => sum + (o.amount || 0), 0),
-    openPipeline: opportunities.filter((o: any) => !['closed_won', 'closed_lost'].includes(o.stage)).reduce((sum: number, o: any) => sum + (o.amount || 0), 0),
+    totalRevenue: opportunities.filter((o: unknown) => o.stage === 'closed_won').reduce((sum: number, o: unknown) => sum + (o.amount || 0), 0),
+    openPipeline: opportunities.filter((o: unknown) => !['closed_won', 'closed_lost'].includes(o.stage)).reduce((sum: number, o: unknown) => sum + (o.amount || 0), 0),
     totalOpportunities: opportunities.length,
-    wonOpportunities: opportunities.filter((o: any) => o.stage === 'closed_won').length,
-    openTickets: tickets.filter((t: any) => !['resolved', 'closed'].includes(t.status)).length,
+    wonOpportunities: opportunities.filter((o: unknown) => o.stage === 'closed_won').length,
+    openTickets: tickets.filter((t: unknown) => !['resolved', 'closed'].includes(t.status)).length,
     totalOrders: orders.length,
-    orderValue: orders.reduce((sum: number, o: any) => sum + (o.grand_total || 0), 0),
+    orderValue: orders.reduce((sum: number, o: unknown) => sum + (o.grand_total || 0), 0),
     activities: activities.length,
-    activeContracts: contracts.filter((c: any) => c.status === 'active').length,
+    activeContracts: contracts.filter((c: unknown) => c.status === 'active').length,
     totalConversations: conversationsData.length,
     winRate: opportunities.length > 0
-      ? ((opportunities.filter((o: any) => o.stage === 'closed_won').length / opportunities.length) * 100).toFixed(0)
+      ? ((opportunities.filter((o: unknown) => o.stage === 'closed_won').length / opportunities.length) * 100).toFixed(0)
       : '0',
   };
 
   // Chart data
   const revenueByMonth = opportunities
-    .filter((o: any) => o.stage === 'closed_won' && o.close_date)
-    .reduce((acc: Record<string, number>, o: any) => {
+    .filter((o: unknown) => o.stage === 'closed_won' && o.close_date)
+    .reduce((acc: Record<string, number>, o: unknown) => {
       const month = format(new Date(o.close_date!), 'MMM/yy', { locale: ptBR });
       acc[month] = (acc[month] || 0) + (o.amount || 0);
       return acc;
@@ -196,7 +196,7 @@ export default function Customer360() {
 
   const revenueChartData = Object.entries(revenueByMonth).map(([month, value]) => ({ month, value }));
 
-  const opportunityStages = opportunities.reduce((acc: Record<string, number>, o: any) => {
+  const opportunityStages = opportunities.reduce((acc: Record<string, number>, o: unknown) => {
     acc[o.stage] = (acc[o.stage] || 0) + 1;
     return acc;
   }, {});
@@ -312,7 +312,7 @@ export default function Customer360() {
                   <CardContent>
                     <ScrollArea className="h-[300px]">
                       <div className="space-y-4">
-                        {activities.slice(0, 10).map((activity: any) => (
+                        {activities.slice(0, 10).map((activity: unknown) => (
                           <div key={activity.id} className="flex items-start gap-3">
                             <div className="w-8 h-8 rounded-full bg-muted flex items-center justify-center">
                               <Activity className="h-4 w-4" />
@@ -343,7 +343,7 @@ export default function Customer360() {
                   orders={orders}
                   activities={activities}
                   conversations={conversationsData.length}
-                  contracts={contracts.filter((c: any) => c.status === 'active').length}
+                  contracts={contracts.filter((c: unknown) => c.status === 'active').length}
                 />
               </div>
             </div>
@@ -359,7 +359,7 @@ export default function Customer360() {
               <CardContent>
                 <ScrollArea className="h-[500px]">
                   <div className="space-y-4">
-                    {timelineEvents.map((event: any) => (
+                    {timelineEvents.map((event: unknown) => (
                       <div key={event.id} className="p-3 border rounded-lg">
                         <p className="font-medium">{event.title}</p>
                         <p className="text-sm text-muted-foreground">{event.description}</p>
@@ -386,7 +386,7 @@ export default function Customer360() {
               </CardHeader>
               <CardContent>
                 <div className="space-y-3">
-                  {opportunities.map((opp: any) => (
+                  {opportunities.map((opp: unknown) => (
                     <div key={opp.id} className="p-4 border rounded-lg hover:bg-muted/50 cursor-pointer" onClick={() => navigate(`/opportunities/${opp.id}`)}>
                       <div className="flex items-center justify-between">
                         <div>
@@ -415,7 +415,7 @@ export default function Customer360() {
               </CardHeader>
               <CardContent>
                 <div className="space-y-3">
-                  {tickets.map((ticket: any) => (
+                  {tickets.map((ticket: unknown) => (
                     <div key={ticket.id} className="p-4 border rounded-lg hover:bg-muted/50 cursor-pointer" onClick={() => navigate(`/tickets/${ticket.id}`)}>
                       <div className="flex items-center justify-between">
                         <div>
@@ -444,7 +444,7 @@ export default function Customer360() {
               </CardHeader>
               <CardContent>
                 <div className="space-y-3">
-                  {orders.map((order: any) => (
+                  {orders.map((order: unknown) => (
                     <div key={order.id} className="p-4 border rounded-lg hover:bg-muted/50 cursor-pointer" onClick={() => navigate(`/orders/${order.id}`)}>
                       <div className="flex items-center justify-between">
                         <div>
@@ -489,7 +489,7 @@ export default function Customer360() {
                 </CardHeader>
                 <CardContent>
                   <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-                    {contacts.map((contact: any) => (
+                    {contacts.map((contact: unknown) => (
                       <div key={contact.id} className="p-4 border rounded-lg hover:bg-muted/50 cursor-pointer" onClick={() => navigate(`/contacts/${contact.id}`)}>
                         <div className="flex items-center gap-3">
                           <Avatar>
@@ -526,7 +526,7 @@ export default function Customer360() {
               <CardContent>
                 <ScrollArea className="h-[400px]">
                   <div className="space-y-3">
-                    {behavioralEvents.map((event: any) => (
+                    {behavioralEvents.map((event: unknown) => (
                       <div key={event.id} className="flex items-start gap-3 p-3 border rounded-lg">
                         <div className="w-10 h-10 rounded-full bg-muted flex items-center justify-center">
                           <Zap className="h-5 w-5" />

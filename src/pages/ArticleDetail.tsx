@@ -117,7 +117,7 @@ export default function ArticleDetail() {
   // Update article status
   const updateStatusMutation = useMutation({
     mutationFn: async (newStatus: ArticleStatus) => {
-      const updates: any = { status: newStatus };
+      const updates: unknown = { status: newStatus };
       
       if (newStatus === 'published' && !article?.published_at) {
         updates.published_at = new Date().toISOString();
@@ -138,7 +138,7 @@ export default function ArticleDetail() {
         description: 'O artigo foi atualizado com sucesso.',
       });
     },
-    onError: (error: any) => {
+    onError: (error: unknown) => {
       toast({
         title: 'Erro',
         description: error.message,

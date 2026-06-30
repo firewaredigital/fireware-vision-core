@@ -515,7 +515,7 @@ export default function ServiceDashboard() {
                           <span className="text-xs font-mono text-muted-foreground">
                             {ticket.ticket_number}
                           </span>
-                          <TicketPriorityBadge priority={ticket.priority as any} size="sm" />
+                          <TicketPriorityBadge priority={ticket.priority as unknown} size="sm" />
                         </div>
                       </div>
                       {(ticket.sla_first_response_breached || ticket.sla_resolution_breached) && (

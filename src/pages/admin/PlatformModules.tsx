@@ -126,7 +126,7 @@ export default function PlatformModules() {
             created_by: profile?.id,
             updated_by: profile?.id,
             ...updates,
-          } as any);
+          } as unknown);
         if (error) throw error;
       }
     },

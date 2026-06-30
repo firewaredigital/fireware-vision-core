@@ -39,7 +39,7 @@ export default function ServiceQueues() {
   const queryClient = useQueryClient();
   const [showCreateDialog, setShowCreateDialog] = useState(false);
   const [showMembersDialog, setShowMembersDialog] = useState(false);
-  const [selectedQueue, setSelectedQueue] = useState<any>(null);
+  const [selectedQueue, setSelectedQueue] = useState<unknown>(null);
   const [searchQuery, setSearchQuery] = useState('');
 
   // Form state
@@ -138,7 +138,7 @@ export default function ServiceQueues() {
         organization_id: profile?.organization_id,
         name: data.name,
         description: data.description || null,
-        routing_method: data.routing_method as any,
+        routing_method: data.routing_method as unknown,
         priority: data.priority,
         max_capacity: data.max_capacity,
         skills_required: data.skills_required ? data.skills_required.split(',').map(s => s.trim()) : [],
@@ -160,7 +160,7 @@ export default function ServiceQueues() {
         auto_accept_delay_seconds: 30, wrap_up_time_seconds: 60, is_default: false,
       });
     },
-    onError: (e: any) => toast.error('Erro: ' + e.message),
+    onError: (e: unknown) => toast.error('Erro: ' + e.message),
   });
 
   const addMemberMutation = useMutation({
@@ -176,7 +176,7 @@ export default function ServiceQueues() {
       queryClient.invalidateQueries({ queryKey: ['queue-members'] });
       toast.success('Membro adicionado');
     },
-    onError: (e: any) => toast.error('Erro: ' + e.message),
+    onError: (e: unknown) => toast.error('Erro: ' + e.message),
   });
 
   const removeMemberMutation = useMutation({
@@ -190,7 +190,7 @@ export default function ServiceQueues() {
       queryClient.invalidateQueries({ queryKey: ['queue-members'] });
       toast.success('Membro removido');
     },
-    onError: (e: any) => toast.error('Erro: ' + e.message),
+    onError: (e: unknown) => toast.error('Erro: ' + e.message),
   });
 
   const toggleQueueActiveMutation = useMutation({
@@ -204,7 +204,7 @@ export default function ServiceQueues() {
       queryClient.invalidateQueries({ queryKey: ['routing-queues'] });
       toast.success('Status da fila atualizado');
     },
-    onError: (e: any) => toast.error('Erro: ' + e.message),
+    onError: (e: unknown) => toast.error('Erro: ' + e.message),
   });
 
   // === COMPUTED ===

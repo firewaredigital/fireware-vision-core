@@ -111,7 +111,7 @@ function ToolDataDisplay({ data, entityType }: { data: unknown; entityType?: str
     if (data.length === 0) return <p className="text-xs text-muted-foreground mt-1">Nenhum resultado</p>;
 
     const items = data.slice(0, 5);
-    const keys = Object.keys(items[0] || {}).filter(k => k !== 'id' && typeof (items[0] as any)[k] !== 'object').slice(0, 4);
+    const keys = Object.keys(items[0] || {}).filter(k => k !== 'id' && typeof (items[0] as unknown)[k] !== 'object').slice(0, 4);
 
     return (
       <div className="mt-2 overflow-x-auto">
@@ -124,7 +124,7 @@ function ToolDataDisplay({ data, entityType }: { data: unknown; entityType?: str
             </tr>
           </thead>
           <tbody>
-            {items.map((item: any, i: number) => (
+            {items.map((item: unknown, i: number) => (
               <tr key={i} className="border-b last:border-0">
                 {keys.map(k => (
                   <td key={k} className="py-1 px-2 truncate max-w-[200px]">{formatValue(item[k])}</td>
@@ -157,7 +157,7 @@ function ToolDataDisplay({ data, entityType }: { data: unknown; entityType?: str
         </div>
       )}
       {arrayKeys.map(k => {
-        const arr = dataObj[k] as any[];
+        const arr = dataObj[k] as unknown[];
         if (!arr || arr.length === 0) return null;
         const itemKeys = Object.keys(arr[0] || {}).filter(ik => ik !== 'id' && typeof arr[0][ik] !== 'object').slice(0, 4);
         return (
@@ -172,7 +172,7 @@ function ToolDataDisplay({ data, entityType }: { data: unknown; entityType?: str
                 </tr>
               </thead>
               <tbody>
-                {arr.slice(0, 3).map((item: any, i: number) => (
+                {arr.slice(0, 3).map((item: unknown, i: number) => (
                   <tr key={i} className="border-b last:border-0">
                     {itemKeys.map(ik => (
                       <td key={ik} className="py-1 px-2 truncate max-w-[180px]">{formatValue(item[ik])}</td>
@@ -293,7 +293,7 @@ export default function AIAgentPlayground() {
         pii_detected: data.pii_detected,
         requires_approval: data.requires_approval,
       }]);
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error('AI execution error:', err);
       toast.error('Erro na execução: ' + (err.message || 'Erro desconhecido'));
       setMessages(prev => [...prev, {
@@ -332,7 +332,7 @@ export default function AIAgentPlayground() {
                 <h1 className="text-xl font-bold">Playground: {agent?.name || '...'}</h1>
               </div>
               <p className="text-sm text-muted-foreground">
-                {(agent?.model_config as any)?.model || 'gemini-3-flash-preview'}
+                {(agent?.model_config as unknown)?.model || 'gemini-3-flash-preview'}
                 {toolsCount ? ` • ${toolsCount} ferramenta(s)` : ''}
                 {conversationId && ' • Conversa ativa'}
               </p>

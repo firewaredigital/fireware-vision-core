@@ -1,0 +1,147 @@
+
+/home/gustavo-saraiva/Documents/FIREWARE/LABS/kortexone-workspace/Fireware Vision CRM/fireware-vision-core/src/components/ActivitiesWidget.tsx
+  186:6  warning  React Hook useCallback has unnecessary dependencies: 'id', 'profile.id', and 'profile.organization_id'. Either exclude them or remove the dependency array. Outer scope values like 'id' aren't valid dependencies because mutating them doesn't re-render the component  react-hooks/exhaustive-deps
+
+/home/gustavo-saraiva/Documents/FIREWARE/LABS/kortexone-workspace/Fireware Vision CRM/fireware-vision-core/src/components/ApprovalRequestDialog.tsx
+  127:6  warning  React Hook useCallback has unnecessary dependencies: 'id' and 'profile.organization_id'. Either exclude them or remove the dependency array. Outer scope values like 'id' aren't valid dependencies because mutating them doesn't re-render the component  react-hooks/exhaustive-deps
+  337:6  warning  React Hook useCallback has unnecessary dependencies: 'id' and 'profile.organization_id'. Either exclude them or remove the dependency array. Outer scope values like 'id' aren't valid dependencies because mutating them doesn't re-render the component  react-hooks/exhaustive-deps
+
+/home/gustavo-saraiva/Documents/FIREWARE/LABS/kortexone-workspace/Fireware Vision CRM/fireware-vision-core/src/components/AttachmentsWidget.tsx
+  132:6  warning  React Hook useCallback has unnecessary dependencies: 'id', 'profile.id', and 'profile.organization_id'. Either exclude them or remove the dependency array. Outer scope values like 'id' aren't valid dependencies because mutating them doesn't re-render the component  react-hooks/exhaustive-deps
+
+/home/gustavo-saraiva/Documents/FIREWARE/LABS/kortexone-workspace/Fireware Vision CRM/fireware-vision-core/src/components/CSVImportDialog.tsx
+  841:23  warning  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+
+/home/gustavo-saraiva/Documents/FIREWARE/LABS/kortexone-workspace/Fireware Vision CRM/fireware-vision-core/src/components/CustomFieldsRenderer.tsx
+  115:19  warning  React Hook useEffect has a complex expression in the dependency array. Extract it to a separate variable so it can be statically checked  react-hooks/exhaustive-deps
+
+/home/gustavo-saraiva/Documents/FIREWARE/LABS/kortexone-workspace/Fireware Vision CRM/fireware-vision-core/src/components/LeadRoutingRules.tsx
+  222:6  warning  React Hook useCallback has unnecessary dependencies: 'id' and 'profile.id'. Either exclude them or remove the dependency array. Outer scope values like 'id' aren't valid dependencies because mutating them doesn't re-render the component  react-hooks/exhaustive-deps
+
+/home/gustavo-saraiva/Documents/FIREWARE/LABS/kortexone-workspace/Fireware Vision CRM/fireware-vision-core/src/components/NotesWidget.tsx
+  95:6  warning  React Hook useCallback has unnecessary dependencies: 'id', 'profile.id', and 'profile.organization_id'. Either exclude them or remove the dependency array. Outer scope values like 'id' aren't valid dependencies because mutating them doesn't re-render the component  react-hooks/exhaustive-deps
+
+/home/gustavo-saraiva/Documents/FIREWARE/LABS/kortexone-workspace/Fireware Vision CRM/fireware-vision-core/src/components/StaleDealAlerts.tsx
+  904:6  warning  React Hook useCallback has a missing dependency: 'thresholdDays'. Either include it or remove the dependency array. Outer scope values like 'id' aren't valid dependencies because mutating them doesn't re-render the component  react-hooks/exhaustive-deps
+
+/home/gustavo-saraiva/Documents/FIREWARE/LABS/kortexone-workspace/Fireware Vision CRM/fireware-vision-core/src/components/guards/ModuleGuard.tsx
+  56:17  warning  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+
+/home/gustavo-saraiva/Documents/FIREWARE/LABS/kortexone-workspace/Fireware Vision CRM/fireware-vision-core/src/components/guards/PermissionGuard.tsx
+  60:17  warning  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+
+/home/gustavo-saraiva/Documents/FIREWARE/LABS/kortexone-workspace/Fireware Vision CRM/fireware-vision-core/src/components/ui/badge.tsx
+  32:17  warning  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+
+/home/gustavo-saraiva/Documents/FIREWARE/LABS/kortexone-workspace/Fireware Vision CRM/fireware-vision-core/src/components/ui/button.tsx
+  47:18  warning  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+
+/home/gustavo-saraiva/Documents/FIREWARE/LABS/kortexone-workspace/Fireware Vision CRM/fireware-vision-core/src/components/ui/form.tsx
+  129:10  warning  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+
+/home/gustavo-saraiva/Documents/FIREWARE/LABS/kortexone-workspace/Fireware Vision CRM/fireware-vision-core/src/components/ui/navigation-menu.tsx
+  111:3  warning  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+
+/home/gustavo-saraiva/Documents/FIREWARE/LABS/kortexone-workspace/Fireware Vision CRM/fireware-vision-core/src/components/ui/sidebar.tsx
+  636:3  warning  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+
+/home/gustavo-saraiva/Documents/FIREWARE/LABS/kortexone-workspace/Fireware Vision CRM/fireware-vision-core/src/components/ui/sonner.tsx
+  27:19  warning  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+
+/home/gustavo-saraiva/Documents/FIREWARE/LABS/kortexone-workspace/Fireware Vision CRM/fireware-vision-core/src/components/ui/toggle.tsx
+  37:18  warning  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+
+/home/gustavo-saraiva/Documents/FIREWARE/LABS/kortexone-workspace/Fireware Vision CRM/fireware-vision-core/src/hooks/useAppContext.tsx
+  79:17  warning  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+
+/home/gustavo-saraiva/Documents/FIREWARE/LABS/kortexone-workspace/Fireware Vision CRM/fireware-vision-core/src/hooks/useAuth.tsx
+  155:17  warning  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+
+/home/gustavo-saraiva/Documents/FIREWARE/LABS/kortexone-workspace/Fireware Vision CRM/fireware-vision-core/src/pages/AccountDetail.tsx
+  227:6  warning  React Hook useCallback has a missing dependency: 'navigate'. Either include it or remove the dependency array. Outer scope values like 'profile.organization_id' aren't valid dependencies because mutating them doesn't re-render the component  react-hooks/exhaustive-deps
+
+/home/gustavo-saraiva/Documents/FIREWARE/LABS/kortexone-workspace/Fireware Vision CRM/fireware-vision-core/src/pages/AccountForm.tsx
+  190:6  warning  React Hook useCallback has unnecessary dependencies: 'profile.id', 'profile.organization_id', and 'user.id'. Either exclude them or remove the dependency array. Outer scope values like 'profile.organization_id' aren't valid dependencies because mutating them doesn't re-render the component  react-hooks/exhaustive-deps
+  230:6  warning  React Hook useCallback has missing dependencies: 'form' and 'navigate'. Either include them or remove the dependency array                                                                                                                                                                          react-hooks/exhaustive-deps
+
+/home/gustavo-saraiva/Documents/FIREWARE/LABS/kortexone-workspace/Fireware Vision CRM/fireware-vision-core/src/pages/AuditLogs.tsx
+  250:6  warning  React Hook useCallback has missing dependencies: 'actionFilter', 'customDateFrom', 'customDateTo', 'dateRange', 'debouncedSearch', 'entityFilter', 'navigate', 'page', and 'profile.role'. Either include them or remove the dependency array. Outer scope values like 'id' aren't valid dependencies because mutating them doesn't re-render the component  react-hooks/exhaustive-deps
+
+/home/gustavo-saraiva/Documents/FIREWARE/LABS/kortexone-workspace/Fireware Vision CRM/fireware-vision-core/src/pages/Automations.tsx
+  175:6  warning  React Hook useCallback has unnecessary dependencies: 'id' and 'profile.id'. Either exclude them or remove the dependency array. Outer scope values like 'id' aren't valid dependencies because mutating them doesn't re-render the component  react-hooks/exhaustive-deps
+  193:6  warning  React Hook useCallback has unnecessary dependencies: 'id' and 'profile.id'. Either exclude them or remove the dependency array. Outer scope values like 'id' aren't valid dependencies because mutating them doesn't re-render the component  react-hooks/exhaustive-deps
+
+/home/gustavo-saraiva/Documents/FIREWARE/LABS/kortexone-workspace/Fireware Vision CRM/fireware-vision-core/src/pages/CampaignForm.tsx
+  125:6  warning  React Hook useCallback has unnecessary dependencies: 'id' and 'profile.id'. Either exclude them or remove the dependency array  react-hooks/exhaustive-deps
+  167:6  warning  React Hook useCallback has a missing dependency: 'navigate'. Either include it or remove the dependency array                   react-hooks/exhaustive-deps
+
+/home/gustavo-saraiva/Documents/FIREWARE/LABS/kortexone-workspace/Fireware Vision CRM/fireware-vision-core/src/pages/ContactDetail.tsx
+  171:6  warning  React Hook useCallback has a missing dependency: 'navigate'. Either include it or remove the dependency array. Outer scope values like 'profile.organization_id' aren't valid dependencies because mutating them doesn't re-render the component  react-hooks/exhaustive-deps
+
+/home/gustavo-saraiva/Documents/FIREWARE/LABS/kortexone-workspace/Fireware Vision CRM/fireware-vision-core/src/pages/ContactForm.tsx
+  216:6  warning  React Hook useCallback has missing dependencies: 'form' and 'navigate'. Either include them or remove the dependency array  react-hooks/exhaustive-deps
+
+/home/gustavo-saraiva/Documents/FIREWARE/LABS/kortexone-workspace/Fireware Vision CRM/fireware-vision-core/src/pages/ContractDetail.tsx
+  206:6  warning  React Hook useCallback has a missing dependency: 'navigate'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+
+/home/gustavo-saraiva/Documents/FIREWARE/LABS/kortexone-workspace/Fireware Vision CRM/fireware-vision-core/src/pages/ContractForm.tsx
+  192:6  warning  React Hook useCallback has a missing dependency: 'navigate'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+
+/home/gustavo-saraiva/Documents/FIREWARE/LABS/kortexone-workspace/Fireware Vision CRM/fireware-vision-core/src/pages/Contracts.tsx
+  190:6  warning  React Hook useCallback has unnecessary dependencies: 'id', 'profile.id', and 'profile.organization_id'. Either exclude them or remove the dependency array. Outer scope values like 'id' aren't valid dependencies because mutating them doesn't re-render the component  react-hooks/exhaustive-deps
+
+/home/gustavo-saraiva/Documents/FIREWARE/LABS/kortexone-workspace/Fireware Vision CRM/fireware-vision-core/src/pages/DashboardBuilder.tsx
+  174:6  warning  React Hook useCallback has a missing dependency: 'navigate'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+
+/home/gustavo-saraiva/Documents/FIREWARE/LABS/kortexone-workspace/Fireware Vision CRM/fireware-vision-core/src/pages/Dashboards.tsx
+  78:6  warning  React Hook useCallback has unnecessary dependencies: 'id' and 'profile.id'. Either exclude them or remove the dependency array. Outer scope values like 'id' aren't valid dependencies because mutating them doesn't re-render the component  react-hooks/exhaustive-deps
+
+/home/gustavo-saraiva/Documents/FIREWARE/LABS/kortexone-workspace/Fireware Vision CRM/fireware-vision-core/src/pages/JourneyBuilder.tsx
+  189:6  warning  React Hook useCallback has unnecessary dependencies: 'id' and 'profile.id'. Either exclude them or remove the dependency array  react-hooks/exhaustive-deps
+  212:6  warning  React Hook useCallback has a missing dependency: 'navigate'. Either include it or remove the dependency array                   react-hooks/exhaustive-deps
+  226:6  warning  React Hook useCallback has a missing dependency: 'isNew'. Either include it or remove the dependency array                      react-hooks/exhaustive-deps
+
+/home/gustavo-saraiva/Documents/FIREWARE/LABS/kortexone-workspace/Fireware Vision CRM/fireware-vision-core/src/pages/LeadDetail.tsx
+  113:6  warning  React Hook useCallback has a missing dependency: 'navigate'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+
+/home/gustavo-saraiva/Documents/FIREWARE/LABS/kortexone-workspace/Fireware Vision CRM/fireware-vision-core/src/pages/LeadForm.tsx
+  144:6  warning  React Hook useCallback has missing dependencies: 'form' and 'navigate'. Either include them or remove the dependency array  react-hooks/exhaustive-deps
+
+/home/gustavo-saraiva/Documents/FIREWARE/LABS/kortexone-workspace/Fireware Vision CRM/fireware-vision-core/src/pages/Marketing.tsx
+  199:6  warning  React Hook useCallback has unnecessary dependencies: 'id' and 'profile.id'. Either exclude them or remove the dependency array. Outer scope values like 'id' aren't valid dependencies because mutating them doesn't re-render the component  react-hooks/exhaustive-deps
+
+/home/gustavo-saraiva/Documents/FIREWARE/LABS/kortexone-workspace/Fireware Vision CRM/fireware-vision-core/src/pages/ProductDetail.tsx
+  99:6  warning  React Hook useCallback has a missing dependency: 'navigate'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+
+/home/gustavo-saraiva/Documents/FIREWARE/LABS/kortexone-workspace/Fireware Vision CRM/fireware-vision-core/src/pages/ProductForm.tsx
+  141:6  warning  React Hook useCallback has missing dependencies: 'existingCategories', 'form', and 'navigate'. Either include them or remove the dependency array  react-hooks/exhaustive-deps
+
+/home/gustavo-saraiva/Documents/FIREWARE/LABS/kortexone-workspace/Fireware Vision CRM/fireware-vision-core/src/pages/QuoteDetail.tsx
+  179:6  warning  React Hook useCallback has a missing dependency: 'toast'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+
+/home/gustavo-saraiva/Documents/FIREWARE/LABS/kortexone-workspace/Fireware Vision CRM/fireware-vision-core/src/pages/QuoteForm.tsx
+  267:6  warning  React Hook useCallback has missing dependencies: 'form' and 'navigate'. Either include them or remove the dependency array  react-hooks/exhaustive-deps
+
+/home/gustavo-saraiva/Documents/FIREWARE/LABS/kortexone-workspace/Fireware Vision CRM/fireware-vision-core/src/pages/Quotes.tsx
+  166:6  warning  React Hook useCallback has unnecessary dependencies: 'id', 'profile.id', and 'profile.organization_id'. Either exclude them or remove the dependency array. Outer scope values like 'id' aren't valid dependencies because mutating them doesn't re-render the component  react-hooks/exhaustive-deps
+
+/home/gustavo-saraiva/Documents/FIREWARE/LABS/kortexone-workspace/Fireware Vision CRM/fireware-vision-core/src/pages/Reports.tsx
+  404:6  warning  React Hook useCallback has a missing dependency: 'getDateRange'. Either include it or remove the dependency array. Outer scope values like 'id' aren't valid dependencies because mutating them doesn't re-render the component  react-hooks/exhaustive-deps
+
+/home/gustavo-saraiva/Documents/FIREWARE/LABS/kortexone-workspace/Fireware Vision CRM/fireware-vision-core/src/pages/SegmentForm.tsx
+  169:6  warning  React Hook useCallback has a missing dependency: 'navigate'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+
+/home/gustavo-saraiva/Documents/FIREWARE/LABS/kortexone-workspace/Fireware Vision CRM/fireware-vision-core/src/pages/WorkflowBuilder.tsx
+  186:6  warning  React Hook useCallback has a missing dependency: 'toast'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+
+/home/gustavo-saraiva/Documents/FIREWARE/LABS/kortexone-workspace/Fireware Vision CRM/fireware-vision-core/src/pages/marketing/CampaignABTest.tsx
+  115:6  warning  React Hook useCallback has a missing dependency: 'campaignId'. Either include it or remove the dependency array. Outer scope values like 'id' aren't valid dependencies because mutating them doesn't re-render the component  react-hooks/exhaustive-deps
+
+/home/gustavo-saraiva/Documents/FIREWARE/LABS/kortexone-workspace/Fireware Vision CRM/fireware-vision-core/src/pages/marketing/EmailTemplateBuilder.tsx
+  132:6  warning  React Hook useCallback has a missing dependency: 'navigate'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+
+/home/gustavo-saraiva/Documents/FIREWARE/LABS/kortexone-workspace/Fireware Vision CRM/fireware-vision-core/src/pages/marketing/EmailTemplates.tsx
+  80:6  warning  React Hook useCallback has unnecessary dependencies: 'id' and 'profile.id'. Either exclude them or remove the dependency array. Outer scope values like 'id' aren't valid dependencies because mutating them doesn't re-render the component  react-hooks/exhaustive-deps
+
+✖ 52 problems (0 errors, 52 warnings)
+

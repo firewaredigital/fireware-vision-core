@@ -259,7 +259,7 @@ export default function VoiceAdmin() {
   };
 
   const getCallStatusBadge = (status: string) => {
-    const statusConfig: Record<string, { variant: 'default' | 'secondary' | 'destructive' | 'outline'; icon: any; label: string }> = {
+    const statusConfig: Record<string, { variant: 'default' | 'secondary' | 'destructive' | 'outline'; icon: unknown; label: string }> = {
       initiated: { variant: 'secondary', icon: Clock, label: 'Iniciada' },
       ringing: { variant: 'secondary', icon: PhoneCall, label: 'Tocando' },
       in_progress: { variant: 'default', icon: Phone, label: 'Em Andamento' },

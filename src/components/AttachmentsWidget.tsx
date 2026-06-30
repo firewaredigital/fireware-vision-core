@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef , useCallback } from 'react';
 import {
   Upload,
   File,
@@ -109,9 +109,9 @@ export function AttachmentsWidget({
 
   useEffect(() => {
     fetchAttachments();
-  }, [entityType, entityId]);
+  }, [entityType, entityId, fetchAttachments]);
 
-  const fetchAttachments = async () => {
+  const fetchAttachments = useCallback( async () => {
     setLoading(true);
     const { data, error } = await supabase
       .from('attachments')
@@ -129,7 +129,7 @@ export function AttachmentsWidget({
       setAttachments(data || []);
     }
     setLoading(false);
-  };
+  }, [entityId, entityType, profile?.organization_id]);
 
   const handleDrag = (e: React.DragEvent) => {
     e.preventDefault();

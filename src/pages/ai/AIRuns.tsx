@@ -47,7 +47,7 @@ export default function AIRuns() {
         .limit(100);
       
       if (statusFilter !== 'all') {
-        query = query.eq('status', statusFilter as any);
+        query = query.eq('status', statusFilter as unknown);
       }
       
       const { data, error } = await query;
@@ -72,8 +72,8 @@ export default function AIRuns() {
 
   const filtered = (runs || []).filter(r => {
     if (search) {
-      const agentName = (r.ai_agents as any)?.name?.toLowerCase() || '';
-      const userEmail = (r.profiles as any)?.email?.toLowerCase() || '';
+      const agentName = (r.ai_agents as unknown)?.name?.toLowerCase() || '';
+      const userEmail = (r.profiles as unknown)?.email?.toLowerCase() || '';
       if (!agentName.includes(search.toLowerCase()) && !userEmail.includes(search.toLowerCase())) return false;
     }
     return true;
@@ -140,8 +140,8 @@ export default function AIRuns() {
                     const duration = run.started_at && run.completed_at
                       ? Math.round((new Date(run.completed_at).getTime() - new Date(run.started_at).getTime()) / 1000)
                       : null;
-                    const agentData = run.ai_agents as any;
-                    const profileData = run.profiles as any;
+                    const agentData = run.ai_agents as unknown;
+                    const profileData = run.profiles as unknown;
 
                     return (
                       <TableRow key={run.id}>
@@ -195,7 +195,7 @@ export default function AIRuns() {
                       Steps ({runDetails.steps.length})
                     </h3>
                     <div className="space-y-2">
-                      {runDetails.steps.map((step: any) => (
+                      {runDetails.steps.map((step: unknown) => (
                         <Card key={step.id}>
                           <CardContent className="py-3 px-4">
                             <div className="flex items-center justify-between">
@@ -231,7 +231,7 @@ export default function AIRuns() {
                       {runDetails.receipts.length === 0 ? (
                         <p className="text-sm text-muted-foreground">Nenhum comprovante gerado</p>
                       ) : (
-                        runDetails.receipts.map((receipt: any) => (
+                        runDetails.receipts.map((receipt: unknown) => (
                           <Card key={receipt.id}>
                             <CardContent className="py-3 px-4">
                               <div className="flex items-center justify-between">

@@ -56,7 +56,7 @@ export default function Subscriptions() {
         .eq('organization_id', organizationId!)
         .order('created_at', { ascending: false });
 
-      if (statusFilter !== 'all') query = query.eq('status', statusFilter as any);
+      if (statusFilter !== 'all') query = query.eq('status', statusFilter as unknown);
       if (searchTerm) query = query.or(`plan_name.ilike.%${searchTerm}%,subscription_number.ilike.%${searchTerm}%`);
 
       const { data, error } = await query;
@@ -67,8 +67,8 @@ export default function Subscriptions() {
   });
 
   // KPIs
-  const activeSubs = subscriptions.filter((s: any) => s.status === 'active');
-  const mrr = activeSubs.reduce((sum: number, s: any) => {
+  const activeSubs = subscriptions.filter((s: unknown) => s.status === 'active');
+  const mrr = activeSubs.reduce((sum: number, s: unknown) => {
     const monthly = s.billing_interval === 'monthly' ? s.total_recurring :
       s.billing_interval === 'quarterly' ? s.total_recurring / 3 :
       s.billing_interval === 'semi_annual' ? s.total_recurring / 6 :
@@ -76,8 +76,8 @@ export default function Subscriptions() {
       s.total_recurring;
     return sum + monthly;
   }, 0);
-  const pastDue = subscriptions.filter((s: any) => s.status === 'past_due').length;
-  const renewingSoon = subscriptions.filter((s: any) => {
+  const pastDue = subscriptions.filter((s: unknown) => s.status === 'past_due').length;
+  const renewingSoon = subscriptions.filter((s: unknown) => {
     if (s.status !== 'active' || !s.current_period_end) return false;
     return differenceInDays(new Date(s.current_period_end), new Date()) <= 30;
   }).length;
@@ -189,7 +189,7 @@ export default function Subscriptions() {
                 <TableRow><TableCell colSpan={8} className="text-center py-8 text-muted-foreground">Carregando...</TableCell></TableRow>
               ) : subscriptions.length === 0 ? (
                 <TableRow><TableCell colSpan={8} className="text-center py-8 text-muted-foreground">Nenhuma assinatura encontrada</TableCell></TableRow>
-              ) : subscriptions.map((sub: any) => {
+              ) : subscriptions.map((sub: unknown) => {
                 const st = statusLabels[sub.status] || statusLabels.active;
                 return (
                   <TableRow key={sub.id} className="cursor-pointer hover:bg-muted/50">

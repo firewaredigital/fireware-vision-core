@@ -51,8 +51,8 @@ export function Customer360Conversations({ entityType, entityId }: Customer360Co
     enabled: !!entityId,
   });
 
-  const openConversations = conversations.filter((c: any) => c.status !== 'closed');
-  const closedConversations = conversations.filter((c: any) => c.status === 'closed');
+  const openConversations = conversations.filter((c: unknown) => c.status !== 'closed');
+  const closedConversations = conversations.filter((c: unknown) => c.status === 'closed');
 
   return (
     <Card>
@@ -73,7 +73,7 @@ export function Customer360Conversations({ entityType, entityId }: Customer360Co
                 Abertas ({openConversations.length})
               </h4>
               <div className="space-y-2">
-                {openConversations.map((conv: any) => (
+                {openConversations.map((conv: unknown) => (
                   <ConversationItem key={conv.id} conversation={conv} />
                 ))}
               </div>
@@ -85,7 +85,7 @@ export function Customer360Conversations({ entityType, entityId }: Customer360Co
                 Fechadas ({closedConversations.length})
               </h4>
               <div className="space-y-2">
-                {closedConversations.map((conv: any) => (
+                {closedConversations.map((conv: unknown) => (
                   <ConversationItem key={conv.id} conversation={conv} />
                 ))}
               </div>
@@ -100,7 +100,7 @@ export function Customer360Conversations({ entityType, entityId }: Customer360Co
   );
 }
 
-function ConversationItem({ conversation }: { conversation: any }) {
+function ConversationItem({ conversation }: { conversation: unknown }) {
   return (
     <div className="p-3 border rounded-lg hover:bg-muted/50 transition-colors">
       <div className="flex items-center justify-between">

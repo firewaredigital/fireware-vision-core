@@ -58,7 +58,7 @@ export interface ConversationMessage {
   content: string | null;
   content_html: string | null;
   content_type: string;
-  attachments: any[];
+  attachments: unknown[];
   delivery_status: string;
   is_internal: boolean;
   created_at: string;

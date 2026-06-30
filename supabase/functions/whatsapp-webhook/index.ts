@@ -209,8 +209,8 @@ serve(async (req) => {
               
               // Create conversation message
               let messageContent = '';
-              let contentType = message.type;
-              let mediaUrl = null;
+              const contentType = message.type;
+              const mediaUrl = null;
               let mediaMimeType = null;
               let mediaId = null;
               let caption = null;
@@ -253,10 +253,11 @@ serve(async (req) => {
                 case 'contacts':
                   messageContent = '[Contato]';
                   break;
-                case 'interactive':
+                case 'interactive': {
                   const reply = message.interactive?.button_reply || message.interactive?.list_reply;
                   messageContent = reply?.title || '[Resposta interativa]';
                   break;
+                }
                 case 'button':
                   messageContent = message.button?.text || '[Botão]';
                   break;

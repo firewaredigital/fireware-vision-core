@@ -45,13 +45,13 @@ export default function CMDB() {
         .order('name');
 
       if (typeFilter !== 'all') {
-        query = query.eq('ci_type', typeFilter as any);
+        query = query.eq('ci_type', typeFilter as unknown);
       }
       if (statusFilter !== 'all') {
-        query = query.eq('status', statusFilter as any);
+        query = query.eq('status', statusFilter as unknown);
       }
       if (environmentFilter !== 'all') {
-        query = query.eq('environment', environmentFilter as any);
+        query = query.eq('environment', environmentFilter as unknown);
       }
 
       const { data, error } = await query;

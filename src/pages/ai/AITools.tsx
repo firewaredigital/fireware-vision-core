@@ -73,7 +73,7 @@ export default function AITools() {
       const { error } = await supabase.from('ai_tools').insert({
         organization_id: orgId,
         name: form.name, description: form.description || null,
-        tool_type: form.tool_type as any, risk_level: form.risk_level as any,
+        tool_type: form.tool_type as unknown, risk_level: form.risk_level as unknown,
         requires_approval: form.requires_approval,
         parameters_schema: parsedParams, action_config: parsedConfig,
         category: form.category || null, created_by: profile?.id,
@@ -86,7 +86,7 @@ export default function AITools() {
       setDialogOpen(false);
       setForm({ name: '', description: '', tool_type: 'rpc_call', risk_level: 'low', requires_approval: false, parameters_schema: '{\n  "type": "object",\n  "properties": {}\n}', action_config: '{}', category: '' });
     },
-    onError: (err: any) => toast.error(err.message),
+    onError: (err: unknown) => toast.error(err.message),
   });
 
   const filtered = (tools || []).filter(t =>

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect , useCallback } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import {
   ArrowLeft,
@@ -131,9 +131,9 @@ export default function SegmentForm() {
     if (id) {
       fetchSegment();
     }
-  }, [id]);
+  }, [id, fetchSegment]);
 
-  const fetchSegment = async () => {
+  const fetchSegment = useCallback( async () => {
     if (!id) return;
 
     setLoading(true);
@@ -166,7 +166,7 @@ export default function SegmentForm() {
     });
     setEstimatedCount(data.member_count);
     setLoading(false);
-  };
+  }, [id, toast, navigate]);
 
   const addFilter = () => {
     const newFilter: SegmentFilter = {
@@ -225,7 +225,7 @@ export default function SegmentForm() {
       description: form.description || null,
       type: form.type,
       entity_type: form.entity_type,
-      filters: form.filters as any,
+      filters: form.filters as unknown,
       filter_logic: form.filter_logic,
       auto_refresh: form.auto_refresh,
       refresh_interval_hours: form.refresh_interval_hours,

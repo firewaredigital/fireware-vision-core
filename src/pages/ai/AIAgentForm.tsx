@@ -67,7 +67,7 @@ export default function AIAgentForm() {
           organization_id: profile.organization_id,
           name: form.name,
           description: form.description || null,
-          agent_type: form.agent_type as any,
+          agent_type: form.agent_type as unknown,
           system_prompt: form.system_prompt || null,
           model_config: {
             model: form.model,
@@ -87,7 +87,7 @@ export default function AIAgentForm() {
       if (error) throw error;
       toast.success('Agente criado com sucesso');
       navigate(`/ai/agents/${data.id}`);
-    } catch (err: any) {
+    } catch (err: unknown) {
       toast.error('Erro ao criar agente: ' + err.message);
     } finally {
       setSaving(false);

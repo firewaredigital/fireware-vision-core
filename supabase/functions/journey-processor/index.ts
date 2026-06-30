@@ -58,10 +58,11 @@ function evaluateCondition(
       return context['email_opened'] === true;
     case 'has_clicked_email':
       return context['email_clicked'] === true;
-    case 'days_since_last_activity':
+    case 'days_since_last_activity': {
       if (!context['last_activity_at']) return false;
       const daysSince = (Date.now() - new Date(context['last_activity_at'] as string).getTime()) / (1000 * 60 * 60 * 24);
       return daysSince > (value as number);
+    }
     default:
       console.warn(`[journey-processor] Unknown operator: ${operator}`);
       return false;
@@ -432,7 +433,7 @@ Deno.serve(async (req) => {
         nextStepId = currentStep.next_step_id;
         break;
 
-      case 'wait':
+      case 'wait': {
         const waitUntil = calculateWaitUntil(stepConfig);
         if (new Date() < waitUntil) {
           // Still waiting
@@ -468,8 +469,9 @@ Deno.serve(async (req) => {
         nextStepId = currentStep.next_step_id;
         stepResult = { success: true, output: { waited_until: waitUntil.toISOString() } };
         break;
+      }
 
-      case 'condition':
+      case 'condition': {
         const conditions = (stepConfig.conditions as Record<string, unknown>[]) || [];
         const conditionLogic = (stepConfig.logic as string) || 'and';
 
@@ -486,8 +488,9 @@ Deno.serve(async (req) => {
           output: { condition_met: conditionMet, branch: conditionMet ? 'true' : 'false' },
         };
         break;
+      }
 
-      case 'split':
+      case 'split': {
         // A/B split based on percentage
         const splitPercentage = (stepConfig.percentage as number) || 50;
         const random = Math.random() * 100;
@@ -499,6 +502,7 @@ Deno.serve(async (req) => {
           output: { group: isGroupA ? 'A' : 'B', random_value: random, threshold: splitPercentage },
         };
         break;
+      }
 
       case 'tag':
         stepResult = await executeTagStep(supabase, currentStep, journeyRun, journeyRun.organization_id);
@@ -510,7 +514,7 @@ Deno.serve(async (req) => {
         nextStepId = currentStep.next_step_id;
         break;
 
-      case 'update_field':
+      case 'update_field': {
         // Update a field on the entity
         const entityType = stepConfig.entity_type as string || 'contact';
         const entityId = runMetadata['entity_id'] as string;
@@ -527,6 +531,7 @@ Deno.serve(async (req) => {
         stepResult = { success: true, output: { entity_type: entityType, field: fieldName, value: fieldValue } };
         nextStepId = currentStep.next_step_id;
         break;
+      }
 
       case 'end':
         runStatus = 'completed';

@@ -39,7 +39,7 @@ export function useSendMessage() {
 
       const { data: message, error: msgError } = await supabase
         .from('conversation_messages')
-        .insert(insertData as any)
+        .insert(insertData as unknown)
         .select()
         .single();
 
@@ -56,7 +56,7 @@ export function useSendMessage() {
         if (conv) {
           // Dispatch based on channel - this calls the send-message edge function
           const channel = conv.channel as string;
-          const contact = conv.contact as any;
+          const contact = conv.contact as unknown;
 
           if (channel === 'whatsapp' && contact?.phone) {
             // Route through WhatsApp sender

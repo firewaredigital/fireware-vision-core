@@ -216,7 +216,7 @@ export default function Settings() {
       setStageForm({ name: '', probability: 0, is_closed: false, is_won: false });
       toast({ title: 'Estágio salvo' });
     },
-    onError: (error: any) => toast({ title: 'Erro', description: error.message, variant: 'destructive' })
+    onError: (error: unknown) => toast({ title: 'Erro', description: error.message, variant: 'destructive' })
   });
 
   const deleteStage = useMutation({
@@ -259,7 +259,7 @@ export default function Settings() {
       setReasonForm({ name: '', type: 'win' });
       toast({ title: 'Motivo salvo' });
     },
-    onError: (error: any) => toast({ title: 'Erro', description: error.message, variant: 'destructive' })
+    onError: (error: unknown) => toast({ title: 'Erro', description: error.message, variant: 'destructive' })
   });
 
   const toggleReason = useMutation({
@@ -290,7 +290,7 @@ export default function Settings() {
       setSourceForm({ name: '' });
       toast({ title: 'Fonte salva' });
     },
-    onError: (error: any) => toast({ title: 'Erro', description: error.message, variant: 'destructive' })
+    onError: (error: unknown) => toast({ title: 'Erro', description: error.message, variant: 'destructive' })
   });
 
   const toggleSource = useMutation({
@@ -321,7 +321,7 @@ export default function Settings() {
       setTeamForm({ name: '', description: '' });
       toast({ title: 'Equipe salva' });
     },
-    onError: (error: any) => toast({ title: 'Erro', description: error.message, variant: 'destructive' })
+    onError: (error: unknown) => toast({ title: 'Erro', description: error.message, variant: 'destructive' })
   });
 
   // Member mutations
@@ -334,10 +334,10 @@ export default function Settings() {
       queryClient.invalidateQueries({ queryKey: ['team-members-settings'] });
       toast({ title: 'Membro atualizado' });
     },
-    onError: (error: any) => toast({ title: 'Erro', description: error.message, variant: 'destructive' })
+    onError: (error: unknown) => toast({ title: 'Erro', description: error.message, variant: 'destructive' })
   });
 
-  const handleDragEndStages = (result: any) => {
+  const handleDragEndStages = (result: unknown) => {
     if (!result.destination) return;
     const items = Array.from(stages);
     const [reorderedItem] = items.splice(result.source.index, 1);

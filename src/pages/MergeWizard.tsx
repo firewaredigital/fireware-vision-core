@@ -38,7 +38,7 @@ interface MergeRequest {
   source_ids: string[];
   target_id: string;
   merge_rules: Record<string, string>;
-  preview_result: Record<string, any>;
+  preview_result: Record<string, unknown>;
   status: MergeStatus;
   requires_approval: boolean;
   requested_by: string | null;
@@ -56,7 +56,7 @@ interface MergeRequest {
 
 interface EntityData {
   id: string;
-  [key: string]: any;
+  [key: string]: unknown;
 }
 
 const statusConfig: Record<MergeStatus, { label: string; color: string; icon: React.ElementType }> = {
@@ -170,7 +170,7 @@ export default function MergeWizard() {
       });
       setMergeRules(initialRules);
     }
-  }, [targetEntity, mergeRequest]);
+  }, [targetEntity, mergeRequest, mergeRules]);
 
   // Update merge request
   const updateMergeMutation = useMutation({
@@ -203,7 +203,7 @@ export default function MergeWizard() {
 
       // Build merged data
       const allEntities = [targetEntity, ...sourceEntities];
-      const mergedData: Record<string, any> = {};
+      const mergedData: Record<string, unknown> = {};
       const fields = entityFields[mergeRequest.entity_type] || [];
 
       fields.forEach(field => {
@@ -301,7 +301,7 @@ export default function MergeWizard() {
   // Generate preview of merged result
   const generatePreview = () => {
     if (!targetEntity) return {};
-    const preview: Record<string, any> = {};
+    const preview: Record<string, unknown> = {};
     fields.forEach(field => {
       const rule = mergeRules[field] || "target";
       if (rule === "target") {

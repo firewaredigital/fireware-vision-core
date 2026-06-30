@@ -203,7 +203,7 @@ export default function PortalReturns() {
                 </TableHeader>
                 <TableBody>
                   {returns.map((ret) => {
-                    const order = ret.orders as any;
+                    const order = ret.orders as unknown;
                     return (
                       <TableRow key={ret.id}>
                         <TableCell className="font-mono font-medium">{ret.return_number}</TableCell>

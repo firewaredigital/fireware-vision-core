@@ -160,9 +160,9 @@ export default function WorkflowBuilder() {
       fetchWorkflow();
       fetchSteps();
     }
-  }, [id]);
+  }, [id, fetchSteps, fetchWorkflow]);
 
-  const fetchWorkflow = async () => {
+  const fetchWorkflow = useCallback(async () => {
     if (!id) return;
 
     const { data, error } = await supabase
@@ -183,9 +183,9 @@ export default function WorkflowBuilder() {
 
     setWorkflow(data as unknown as Workflow);
     setLoading(false);
-  };
+  }, [id, navigate, toast]);
 
-  const fetchSteps = async () => {
+  const fetchSteps = useCallback( async () => {
     if (!id) return;
 
     const { data, error } = await supabase
@@ -197,7 +197,7 @@ export default function WorkflowBuilder() {
     if (!error && data) {
       setSteps(data as unknown as WorkflowStep[]);
     }
-  };
+  }, [id]);
 
   const handleSaveWorkflow = async () => {
     if (!workflow) return;
@@ -209,9 +209,9 @@ export default function WorkflowBuilder() {
       .update({
         name: workflow.name,
         description: workflow.description,
-        trigger_type: workflow.trigger_type as any,
+        trigger_type: workflow.trigger_type as unknown,
         trigger_entity: workflow.trigger_entity,
-        trigger_conditions: workflow.trigger_conditions as any,
+        trigger_conditions: workflow.trigger_conditions as unknown,
         trigger_fields: workflow.trigger_fields,
         retry_on_failure: workflow.retry_on_failure,
         max_retries: workflow.max_retries,
@@ -269,9 +269,9 @@ export default function WorkflowBuilder() {
         workflow_id: workflow.id,
         step_order: stepOrder,
         step_key: stepKey,
-        type: type as any,
+        type: type as unknown,
         name: stepConfig.label,
-        config: {} as any,
+        config: {} as unknown,
         is_entry_point: steps.length === 0,
         position_x: 100,
         position_y: stepOrder * 120,
@@ -295,8 +295,8 @@ export default function WorkflowBuilder() {
       .update({
         name: step.name,
         description: step.description,
-        config: step.config as any,
-        conditions: step.conditions as any,
+        config: step.config as unknown,
+        conditions: step.conditions as unknown,
         next_step_on_success: step.next_step_on_success,
         next_step_on_failure: step.next_step_on_failure,
         continue_on_error: step.continue_on_error,
@@ -734,7 +734,7 @@ export default function WorkflowBuilder() {
                   <Label>Tempo de Espera (minutos)</Label>
                   <Input
                     type="number"
-                    value={(selectedStep.config as any).delay_minutes || 0}
+                    value={(selectedStep.config as unknown).delay_minutes || 0}
                     onChange={(e) => setSelectedStep({
                       ...selectedStep,
                       config: { ...selectedStep.config, delay_minutes: parseInt(e.target.value) || 0 }
@@ -748,7 +748,7 @@ export default function WorkflowBuilder() {
                   <div className="space-y-2">
                     <Label>Título</Label>
                     <Input
-                      value={(selectedStep.config as any).title || ''}
+                      value={(selectedStep.config as unknown).title || ''}
                       onChange={(e) => setSelectedStep({
                         ...selectedStep,
                         config: { ...selectedStep.config, title: e.target.value }
@@ -758,7 +758,7 @@ export default function WorkflowBuilder() {
                   <div className="space-y-2">
                     <Label>Mensagem</Label>
                     <Textarea
-                      value={(selectedStep.config as any).message || ''}
+                      value={(selectedStep.config as unknown).message || ''}
                       onChange={(e) => setSelectedStep({
                         ...selectedStep,
                         config: { ...selectedStep.config, message: e.target.value }
@@ -774,7 +774,7 @@ export default function WorkflowBuilder() {
                   <div className="space-y-2">
                     <Label>Campo</Label>
                     <Input
-                      value={(selectedStep.config as any).field || ''}
+                      value={(selectedStep.config as unknown).field || ''}
                       onChange={(e) => setSelectedStep({
                         ...selectedStep,
                         config: { ...selectedStep.config, field: e.target.value }
@@ -785,7 +785,7 @@ export default function WorkflowBuilder() {
                   <div className="space-y-2">
                     <Label>Novo Valor</Label>
                     <Input
-                      value={(selectedStep.config as any).value || ''}
+                      value={(selectedStep.config as unknown).value || ''}
                       onChange={(e) => setSelectedStep({
                         ...selectedStep,
                         config: { ...selectedStep.config, value: e.target.value }

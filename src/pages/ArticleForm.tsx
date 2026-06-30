@@ -211,7 +211,7 @@ export default function ArticleForm() {
       });
       navigate(`/knowledge/${articleId}`);
     },
-    onError: (error: any) => {
+    onError: (error: unknown) => {
       toast({
         title: 'Erro ao salvar',
         description: error.message,

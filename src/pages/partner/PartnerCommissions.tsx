@@ -50,7 +50,7 @@ export default function PartnerCommissions() {
         .order('calculated_at', { ascending: false });
 
       if (statusFilter !== 'all') {
-        query = query.eq('status', statusFilter as any);
+        query = query.eq('status', statusFilter as unknown);
       }
 
       const { data, error } = await query;
@@ -140,7 +140,7 @@ export default function PartnerCommissions() {
                 </TableHeader>
                 <TableBody>
                   {commissions.map((c) => {
-                    const deal = c.partner_deals as any;
+                    const deal = c.partner_deals as unknown;
                     return (
                       <TableRow key={c.id}>
                         <TableCell className="font-medium">

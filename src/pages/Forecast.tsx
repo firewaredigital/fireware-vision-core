@@ -277,7 +277,7 @@ export default function Forecast() {
         description: 'As alterações foram salvas com sucesso.'
       });
     },
-    onError: (error: any) => {
+    onError: (error: unknown) => {
       toast({
         title: 'Erro',
         description: error.message,

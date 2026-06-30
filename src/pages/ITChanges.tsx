@@ -44,10 +44,10 @@ export default function ITChanges() {
         .order('created_at', { ascending: false });
 
       if (statusFilter !== 'all') {
-        query = query.eq('status', statusFilter as any);
+        query = query.eq('status', statusFilter as unknown);
       }
       if (typeFilter !== 'all') {
-        query = query.eq('change_type', typeFilter as any);
+        query = query.eq('change_type', typeFilter as unknown);
       }
 
       const { data, error } = await query;

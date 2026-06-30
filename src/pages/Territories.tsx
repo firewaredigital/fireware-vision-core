@@ -20,7 +20,7 @@ interface Territory {
   name: string;
   description: string | null;
   region: string | null;
-  criteria: any;
+  criteria: unknown;
   parent_territory_id: string | null;
   owner_id: string | null;
   organization_id: string;
@@ -199,7 +199,7 @@ export default function Territories() {
         description: 'Alterações salvas com sucesso.'
       });
     },
-    onError: (error: any) => {
+    onError: (error: unknown) => {
       toast({
         title: 'Erro',
         description: error.message,
@@ -224,7 +224,7 @@ export default function Territories() {
         description: 'Território foi removido.'
       });
     },
-    onError: (error: any) => {
+    onError: (error: unknown) => {
       toast({
         title: 'Erro',
         description: error.message,

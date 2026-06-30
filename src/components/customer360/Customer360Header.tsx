@@ -9,8 +9,8 @@ import { ArrowLeft, Mail, Phone } from '@/components/icons';
 interface Customer360HeaderProps {
   entityType: string;
   entityName: string;
-  entity: any;
-  healthScore: any;
+  entity: unknown;
+  healthScore: unknown;
 }
 
 export function Customer360Header({ entityType, entityName, entity, healthScore }: Customer360HeaderProps) {

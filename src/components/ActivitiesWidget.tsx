@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect , useCallback } from 'react';
 import {
   Plus,
   Phone,
@@ -157,9 +157,9 @@ export function ActivitiesWidget({
 
   useEffect(() => {
     fetchActivities();
-  }, [accountId, contactId, leadId, opportunityId]);
+  }, [accountId, contactId, leadId, opportunityId, fetchActivities]);
 
-  const fetchActivities = async () => {
+  const fetchActivities = useCallback( async () => {
     setLoading(true);
     let query = supabase
       .from('activities')
@@ -183,7 +183,7 @@ export function ActivitiesWidget({
       setActivities(data || []);
     }
     setLoading(false);
-  };
+  }, [accountId, contactId, leadId, opportunityId, profile?.organization_id]);
 
   const resetForm = () => {
     setFormData({

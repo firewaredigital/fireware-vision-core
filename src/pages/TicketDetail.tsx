@@ -219,7 +219,7 @@ export default function TicketDetail() {
         description: 'As alterações foram salvas com sucesso.',
       });
     },
-    onError: (error: any) => {
+    onError: (error: unknown) => {
       toast({
         title: 'Erro ao atualizar',
         description: error.message,
@@ -262,7 +262,7 @@ export default function TicketDetail() {
         title: isInternalNote ? 'Nota interna adicionada' : 'Mensagem enviada',
       });
     },
-    onError: (error: any) => {
+    onError: (error: unknown) => {
       toast({
         title: 'Erro ao enviar mensagem',
         description: error.message,

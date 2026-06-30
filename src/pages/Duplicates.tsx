@@ -105,12 +105,12 @@ export default function Duplicates() {
       }
 
       if (statusFilter !== "all") {
-        query = query.eq("status", statusFilter as any);
+        query = query.eq("status", statusFilter as unknown);
       }
 
       const { data, error } = await query;
       if (error) throw error;
-      return (data || []) as any[];
+      return (data || []) as unknown[];
     },
   });
 
@@ -123,7 +123,7 @@ export default function Duplicates() {
         .select("*")
         .order("priority", { ascending: true });
       if (error) throw error;
-      return (data || []) as any[];
+      return (data || []) as unknown[];
     },
   });
 

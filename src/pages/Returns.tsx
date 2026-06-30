@@ -75,7 +75,7 @@ export default function Returns() {
         query = query.or(`return_number.ilike.%${search}%`);
       }
       if (statusFilter !== 'all') {
-        query = query.eq('status', statusFilter as any);
+        query = query.eq('status', statusFilter as unknown);
       }
 
       const { data, error } = await query.limit(100);

@@ -37,7 +37,7 @@ export default function CPQConfigurationDetail() {
   const organizationId = profile?.organization_id;
 
   const [isEditing, setIsEditing] = useState(false);
-  const [editData, setEditData] = useState<any>({});
+  const [editData, setEditData] = useState<unknown>({});
 
   const { data: config, isLoading } = useQuery({
     queryKey: ['cpq-config', id],
@@ -68,7 +68,7 @@ export default function CPQConfigurationDetail() {
   });
 
   const updateConfig = useMutation({
-    mutationFn: async (values: Record<string, any>) => {
+    mutationFn: async (values: Record<string, unknown>) => {
       const { error } = await supabase
         .from('cpq_product_configurations')
         .update({ ...values, updated_by: profile?.id })
@@ -120,7 +120,7 @@ export default function CPQConfigurationDetail() {
     mutationFn: async (newStatus: string) => {
       const { error } = await supabase
         .from('cpq_product_configurations')
-        .update({ status: newStatus as any, updated_by: profile?.id })
+        .update({ status: newStatus as unknown, updated_by: profile?.id })
         .eq('id', id!);
       if (error) throw error;
     },
@@ -234,25 +234,25 @@ export default function CPQConfigurationDetail() {
                     <div className="grid grid-cols-2 gap-4">
                       <div>
                         <Label>Nome</Label>
-                        <Input value={editData.name || config.name} onChange={e => setEditData((p: any) => ({ ...p, name: e.target.value }))} />
+                        <Input value={editData.name || config.name} onChange={e => setEditData((p: unknown) => ({ ...p, name: e.target.value }))} />
                       </div>
                       <div>
                         <Label>Preço Base</Label>
-                        <Input type="number" step="0.01" value={editData.base_price ?? config.base_price} onChange={e => setEditData((p: any) => ({ ...p, base_price: parseFloat(e.target.value) }))} />
+                        <Input type="number" step="0.01" value={editData.base_price ?? config.base_price} onChange={e => setEditData((p: unknown) => ({ ...p, base_price: parseFloat(e.target.value) }))} />
                       </div>
                     </div>
                     <div>
                       <Label>Descrição</Label>
-                      <Textarea value={editData.description ?? config.description ?? ''} onChange={e => setEditData((p: any) => ({ ...p, description: e.target.value }))} />
+                      <Textarea value={editData.description ?? config.description ?? ''} onChange={e => setEditData((p: unknown) => ({ ...p, description: e.target.value }))} />
                     </div>
                     <div className="grid grid-cols-2 gap-4">
                       <div>
                         <Label>Desconto (%)</Label>
-                        <Input type="number" step="0.01" value={editData.discount_percent ?? config.discount_percent} onChange={e => setEditData((p: any) => ({ ...p, discount_percent: parseFloat(e.target.value) }))} />
+                        <Input type="number" step="0.01" value={editData.discount_percent ?? config.discount_percent} onChange={e => setEditData((p: unknown) => ({ ...p, discount_percent: parseFloat(e.target.value) }))} />
                       </div>
                       <div>
                         <Label>Desconto (R$)</Label>
-                        <Input type="number" step="0.01" value={editData.discount_amount ?? config.discount_amount} onChange={e => setEditData((p: any) => ({ ...p, discount_amount: parseFloat(e.target.value) }))} />
+                        <Input type="number" step="0.01" value={editData.discount_amount ?? config.discount_amount} onChange={e => setEditData((p: unknown) => ({ ...p, discount_amount: parseFloat(e.target.value) }))} />
                       </div>
                     </div>
                     <div className="flex gap-2">
@@ -305,9 +305,9 @@ export default function CPQConfigurationDetail() {
                 <CardDescription>Opções e componentes incluídos nesta configuração.</CardDescription>
               </CardHeader>
               <CardContent>
-                {Array.isArray(config.selected_options) && (config.selected_options as any[]).length > 0 ? (
+                {Array.isArray(config.selected_options) && (config.selected_options as unknown[]).length > 0 ? (
                   <div className="space-y-2">
-                    {(config.selected_options as any[]).map((opt: any, i: number) => (
+                    {(config.selected_options as unknown[]).map((opt: unknown, i: number) => (
                       <div key={i} className="flex items-center justify-between p-3 border rounded-lg">
                         <div>
                           <p className="font-medium">{opt.name || `Opção ${i + 1}`}</p>
@@ -344,7 +344,7 @@ export default function CPQConfigurationDetail() {
                   <TableBody>
                     {calculations.length === 0 ? (
                       <TableRow><TableCell colSpan={5} className="text-center py-8 text-muted-foreground">Nenhum cálculo registrado</TableCell></TableRow>
-                    ) : calculations.map((calc: any) => (
+                    ) : calculations.map((calc: unknown) => (
                       <TableRow key={calc.id}>
                         <TableCell className="text-sm">{format(new Date(calc.created_at), "dd/MM/yy HH:mm", { locale: ptBR })}</TableCell>
                         <TableCell><Badge variant="outline">{calc.calculation_type}</Badge></TableCell>

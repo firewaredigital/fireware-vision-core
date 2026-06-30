@@ -52,8 +52,8 @@ interface AutonomousProps {
 interface ControlledProps {
   entityType: CustomFieldEntityType;
   definitions: CustomFieldDefinition[];
-  values: Record<string, any>;
-  onChange: (values: Record<string, any>) => void;
+  values: Record<string, unknown>;
+  onChange: (values: Record<string, unknown>) => void;
   readOnly?: boolean;
   compact?: boolean;
   className?: string;
@@ -89,7 +89,7 @@ export function CustomFieldsRenderer(props: CustomFieldsRendererProps) {
   const definitions: CustomFieldDefinition[] = controlled ? props.definitions : autoDefs;
   const entityId = controlled ? undefined : props.entityId;
 
-  const [fieldValues, setFieldValues] = useState<Record<string, any>>({});
+  const [fieldValues, setFieldValues] = useState<Record<string, unknown>>({});
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [isDirty, setIsDirty] = useState(false);
 
@@ -97,7 +97,7 @@ export function CustomFieldsRenderer(props: CustomFieldsRendererProps) {
   useEffect(() => {
     if (controlled) return;
     if (autoDefs.length > 0) {
-      const initial: Record<string, any> = {};
+      const initial: Record<string, unknown> = {};
       autoDefs.forEach((def) => {
         const fieldValue = autoValues.find((v) => v.field_definition_id === def.id);
         initial[def.id] = getFieldValue(def, fieldValue);
@@ -112,9 +112,9 @@ export function CustomFieldsRenderer(props: CustomFieldsRendererProps) {
     if (controlled) {
       setFieldValues(props.values);
     }
-  }, [controlled, controlled ? props.values : null]);
+  }, [controlled, controlled ? props.values : null, props.values]);
 
-  const updateValue = (fieldId: string, value: any) => {
+  const updateValue = (fieldId: string, value: unknown) => {
     if (controlled) {
       props.onChange({ ...props.values, [fieldId]: value });
     } else {
@@ -202,7 +202,7 @@ export function CustomFieldsRenderer(props: CustomFieldsRendererProps) {
         {def.description && (
           <p className="text-xs text-muted-foreground">{def.description}</p>
         )}
-        {renderFieldInput(def, value, (v: any) => updateValue(def.id, v))}
+        {renderFieldInput(def, value, (v: unknown) => updateValue(def.id, v))}
         {error && <p className="text-xs text-destructive">{error}</p>}
       </div>
     );
@@ -261,8 +261,8 @@ export function CustomFieldsRenderer(props: CustomFieldsRendererProps) {
 
 function renderFieldInput(
   def: CustomFieldDefinition,
-  value: any,
-  onChange: (value: any) => void
+  value: unknown,
+  onChange: (value: unknown) => void
 ) {
   switch (def.field_type) {
     case 'text':
@@ -324,7 +324,7 @@ function renderFieldInput(
             <SelectValue placeholder={def.placeholder || 'Selecione...'} />
           </SelectTrigger>
           <SelectContent>
-            {def.options.map((opt: any) => (
+            {def.options.map((opt: unknown) => (
               <SelectItem key={opt.value} value={opt.value}>
                 {opt.label}
               </SelectItem>
@@ -337,7 +337,7 @@ function renderFieldInput(
       const selected: string[] = Array.isArray(value) ? value : [];
       return (
         <div className="flex flex-wrap gap-2">
-          {def.options.map((opt: any) => {
+          {def.options.map((opt: unknown) => {
             const isSelected = selected.includes(opt.value);
             return (
               <Badge
@@ -401,7 +401,7 @@ function renderFieldInput(
   }
 }
 
-function formatDisplayValue(def: CustomFieldDefinition, value: any): string {
+function formatDisplayValue(def: CustomFieldDefinition, value: unknown): string {
   if (value === null || value === undefined || value === '') return '—';
 
   switch (def.field_type) {
@@ -416,14 +416,14 @@ function formatDisplayValue(def: CustomFieldDefinition, value: any): string {
     case 'decimal':
       return Number(value).toLocaleString('pt-BR', { minimumFractionDigits: 2 });
     case 'select': {
-      const opt = def.options.find((o: any) => o.value === value);
+      const opt = def.options.find((o: unknown) => o.value === value);
       return opt?.label || value;
     }
     case 'multiselect': {
       if (!Array.isArray(value)) return '—';
       return value
         .map((v: string) => {
-          const opt = def.options.find((o: any) => o.value === v);
+          const opt = def.options.find((o: unknown) => o.value === v);
           return opt?.label || v;
         })
         .join(', ');

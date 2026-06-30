@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect , useCallback } from 'react';
 import { ModuleHeroBanner } from '@/components/ModuleHeroBanner';
 import { useNavigate } from 'react-router-dom';
 import {
@@ -62,9 +62,9 @@ export default function Dashboards() {
 
   useEffect(() => {
     if (profile?.organization_id) fetchDashboards();
-  }, [profile?.organization_id]);
+  }, [profile?.organization_id, fetchDashboards]);
 
-  const fetchDashboards = async () => {
+  const fetchDashboards = useCallback( async () => {
     if (!profile?.organization_id) return;
     setLoading(true);
     const { data } = await supabase
@@ -75,7 +75,7 @@ export default function Dashboards() {
       .order('updated_at', { ascending: false });
     if (data) setDashboards(data as Dashboard[]);
     setLoading(false);
-  };
+  }, [profile?.organization_id, profile?.id]);
 
   const toggleFavorite = async (dashboardId: string, current: boolean) => {
     await supabase.from('dashboards').update({ is_favorite: !current }).eq('id', dashboardId);
