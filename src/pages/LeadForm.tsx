@@ -102,12 +102,7 @@ export default function LeadForm() {
   });
 
 
-  useEffect(() => {
-    if (id && user) {
-      setIsEditing(true);
-      fetchLead();
-    }
-  }, [id, user, fetchLead]);
+  
 
   const fetchLead = useCallback( async () => {
     const { data, error } = await supabase.from('leads').select('*').eq('id', id).single();
@@ -142,6 +137,13 @@ export default function LeadForm() {
       });
     }
   }, [id, toast, form]);
+
+  useEffect(() => {
+    if (id && user) {
+      setIsEditing(true);
+      fetchLead();
+    }
+  }, [id, user, fetchLead]);
 
   const onSubmit = async (data: LeadFormData) => {
     if (!profile?.organization_id) {

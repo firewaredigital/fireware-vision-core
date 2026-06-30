@@ -127,11 +127,7 @@ export default function SegmentForm() {
   const [estimatedCount, setEstimatedCount] = useState<number | null>(null);
   const isEditing = Boolean(id);
 
-  useEffect(() => {
-    if (id) {
-      fetchSegment();
-    }
-  }, [id, fetchSegment]);
+  
 
   const fetchSegment = useCallback( async () => {
     if (!id) return;
@@ -167,6 +163,12 @@ export default function SegmentForm() {
     setEstimatedCount(data.member_count);
     setLoading(false);
   }, [id, toast, navigate]);
+
+  useEffect(() => {
+    if (id) {
+      fetchSegment();
+    }
+  }, [id, fetchSegment]);
 
   const addFilter = () => {
     const newFilter: SegmentFilter = {

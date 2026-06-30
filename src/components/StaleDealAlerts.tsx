@@ -875,9 +875,7 @@ export function StaleIndicator({
 }) {
   const [daysSinceActivity, setDaysSinceActivity] = useState<number | null>(null);
 
-  useEffect(() => {
-    checkStaleness();
-  }, [opportunityId, checkStaleness]);
+  
 
   const checkStaleness = useCallback( async () => {
     const [activitiesResult, oppResult] = await Promise.all([
@@ -902,6 +900,10 @@ export function StaleIndicator({
       }
     }
   }, [opportunityId, id, thresholdDays]);
+
+  useEffect(() => {
+    checkStaleness();
+  }, [opportunityId, checkStaleness]);
 
   if (daysSinceActivity === null) return null;
 

@@ -69,12 +69,7 @@ export default function ProductDetail() {
   });
 
 
-  useEffect(() => {
-    if (id && user) {
-      fetchProduct();
-      fetchQuoteUsage();
-    }
-  }, [id, user, fetchProduct, fetchQuoteUsage]);
+  
 
   const fetchProduct = useCallback( async () => {
     setLoading(true);
@@ -126,6 +121,13 @@ export default function ProductDetail() {
       });
     }
   }, [id]);
+
+  useEffect(() => {
+    if (id && user) {
+      fetchProduct();
+      fetchQuoteUsage();
+    }
+  }, [id, user, fetchProduct, fetchQuoteUsage]);
 
   const deleteProduct = async () => {
     if (!id) return;

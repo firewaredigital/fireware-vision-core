@@ -148,14 +148,7 @@ export default function ContactForm() {
   });
 
 
-  useEffect(() => {
-    if (user) {
-      fetchReferenceData();
-      if (isEditing) {
-        fetchContact();
-      }
-    }
-  }, [user, id, fetchContact, isEditing]);
+  
 
   const fetchReferenceData = async () => {
     // Fetch accounts
@@ -214,6 +207,15 @@ export default function ContactForm() {
     }
     setLoading(false);
   }, [id, toast, form]);
+
+  useEffect(() => {
+    if (user) {
+      fetchReferenceData();
+      if (isEditing) {
+        fetchContact();
+      }
+    }
+  }, [user, id, fetchContact, isEditing]);
 
   const onSubmit = async (data: ContactFormData) => {
     setSaving(true);

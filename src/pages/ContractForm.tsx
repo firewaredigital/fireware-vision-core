@@ -101,16 +101,7 @@ export default function ContractForm() {
 
   const isEditing = !!id;
 
-  useEffect(() => {
-    if (user) {
-      fetchAccounts();
-      fetchOpportunities();
-      fetchQuotes();
-      if (id) {
-        fetchContract();
-      }
-    }
-  }, [user, id, fetchContract]);
+  
 
   useEffect(() => {
     if (form.account_id) {
@@ -190,6 +181,17 @@ export default function ContractForm() {
     }
     setLoading(false);
   }, [id, toast, navigate]);
+
+  useEffect(() => {
+    if (user) {
+      fetchAccounts();
+      fetchOpportunities();
+      fetchQuotes();
+      if (id) {
+        fetchContract();
+      }
+    }
+  }, [user, id, fetchContract]);
 
   const handleQuoteSelect = (quoteId: string) => {
     const quote = quotes.find(q => q.id === quoteId);

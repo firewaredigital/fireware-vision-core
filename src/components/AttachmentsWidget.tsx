@@ -107,9 +107,7 @@ export function AttachmentsWidget({
   const [deleteAttachmentId, setDeleteAttachmentId] = useState<string | null>(null);
   const [dragActive, setDragActive] = useState(false);
 
-  useEffect(() => {
-    fetchAttachments();
-  }, [entityType, entityId, fetchAttachments]);
+  
 
   const fetchAttachments = useCallback( async () => {
     setLoading(true);
@@ -130,6 +128,10 @@ export function AttachmentsWidget({
     }
     setLoading(false);
   }, [entityId, entityType, profile?.organization_id]);
+
+  useEffect(() => {
+    fetchAttachments();
+  }, [entityType, entityId, fetchAttachments]);
 
   const handleDrag = (e: React.DragEvent) => {
     e.preventDefault();

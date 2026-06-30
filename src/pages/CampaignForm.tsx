@@ -102,12 +102,7 @@ export default function CampaignForm() {
   const [saving, setSaving] = useState(false);
   const isEditing = Boolean(id);
 
-  useEffect(() => {
-    fetchSegments();
-    if (id) {
-      fetchCampaign();
-    }
-  }, [id, fetchCampaign, fetchSegments]);
+  
 
   const fetchSegments = useCallback(async () => {
     if (!profile?.organization_id) return;
@@ -165,6 +160,13 @@ export default function CampaignForm() {
     });
     setLoading(false);
   }, [id, toast, navigate]);
+
+  useEffect(() => {
+    fetchSegments();
+    if (id) {
+      fetchCampaign();
+    }
+  }, [id, fetchCampaign, fetchSegments]);
 
   const handleSave = async (asDraft = true) => {
     if (!profile?.organization_id || !form.name) return;

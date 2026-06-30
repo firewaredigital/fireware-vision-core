@@ -144,34 +144,7 @@ export default function JourneyBuilder() {
   const [stepToDelete, setStepToDelete] = useState<JourneyStep | null>(null);
   const isNew = id === 'new';
 
-  useEffect(() => {
-    fetchSegments();
-    if (!isNew && id) {
-      fetchJourney();
-      fetchSteps();
-    } else {
-      setJourney({
-        id: '',
-        name: '',
-        description: null,
-        status: 'draft',
-        trigger_type: 'segment_entry',
-        trigger_segment_id: null,
-        trigger_event_name: null,
-        trigger_config: {},
-        allow_reentry: false,
-        reentry_wait_days: 30,
-        goal_type: null,
-        entry_count: 0,
-        active_count: 0,
-        completed_count: 0,
-        goal_achieved_count: 0,
-        conversion_rate: null,
-        created_at: new Date().toISOString(),
-      });
-      setLoading(false);
-    }
-  }, [id, fetchJourney, fetchSegments, fetchSteps, isNew]);
+  
 
   const fetchSegments = useCallback( async () => {
     if (!profile?.organization_id) return;
@@ -224,6 +197,35 @@ export default function JourneyBuilder() {
       setSteps(data as unknown as JourneyStep[]);
     }
   }, [id, isNew]);
+
+  useEffect(() => {
+    fetchSegments();
+    if (!isNew && id) {
+      fetchJourney();
+      fetchSteps();
+    } else {
+      setJourney({
+        id: '',
+        name: '',
+        description: null,
+        status: 'draft',
+        trigger_type: 'segment_entry',
+        trigger_segment_id: null,
+        trigger_event_name: null,
+        trigger_config: {},
+        allow_reentry: false,
+        reentry_wait_days: 30,
+        goal_type: null,
+        entry_count: 0,
+        active_count: 0,
+        completed_count: 0,
+        goal_achieved_count: 0,
+        conversion_rate: null,
+        created_at: new Date().toISOString(),
+      });
+      setLoading(false);
+    }
+  }, [id, fetchJourney, fetchSegments, fetchSteps, isNew]);
 
   const handleSave = async () => {
     if (!profile?.organization_id || !journey?.name) return;

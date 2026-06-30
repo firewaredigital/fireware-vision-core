@@ -143,12 +143,7 @@ export default function QuoteDetail() {
   const [items, setItems] = useState<QuoteItem[]>([]);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    if (id && user) {
-      fetchQuote();
-      fetchItems();
-    }
-  }, [id, user, fetchItems, fetchQuote]);
+  
 
   const fetchQuote = useCallback(async () => {
     setLoading(true);
@@ -190,6 +185,13 @@ export default function QuoteDetail() {
 
     if (data) setItems(data);
   }, [id]);
+
+  useEffect(() => {
+    if (id && user) {
+      fetchQuote();
+      fetchItems();
+    }
+  }, [id, user, fetchItems, fetchQuote]);
 
   const deleteQuote = async () => {
     if (!id) return;

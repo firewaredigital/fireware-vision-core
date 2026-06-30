@@ -152,11 +152,7 @@ export default function AccountDetail() {
   const [loading, setLoading] = useState(true);
 
 
-  useEffect(() => {
-    if (id && user) {
-      fetchAccountData();
-    }
-  }, [id, user, fetchAccountData]);
+  
 
   const fetchAccountData = useCallback( async () => {
     setLoading(true);
@@ -225,6 +221,12 @@ export default function AccountDetail() {
 
     setLoading(false);
   }, [id, profile?.organization_id, profile?.id, toast, navigate]);
+
+  useEffect(() => {
+    if (id && user) {
+      fetchAccountData();
+    }
+  }, [id, user, fetchAccountData]);
 
   const deleteAccount = async () => {
     if (!id) return;

@@ -30,9 +30,7 @@ export default function Contacts() {
   const [searchQuery, setSearchQuery] = useState('');
 
 
-  useEffect(() => {
-    if (user) fetchContacts();
-  }, [user, fetchContacts]);
+  
 
   const fetchContacts = useCallback( async () => {
     setLoading(true);
@@ -44,6 +42,10 @@ export default function Contacts() {
     }
     setLoading(false);
   }, [toast]);
+
+  useEffect(() => {
+    if (user) fetchContacts();
+  }, [user, fetchContacts]);
 
   const filteredContacts = contacts.filter((c) =>
     searchQuery === '' || `${c.first_name} ${c.last_name}`.toLowerCase().includes(searchQuery.toLowerCase())

@@ -140,9 +140,7 @@ export default function DashboardBuilder() {
   const [addWidgetOpen, setAddWidgetOpen] = useState(false);
   const [previewMode, setPreviewMode] = useState(false);
 
-  useEffect(() => {
-    if (id) fetchDashboard();
-  }, [id, fetchDashboard]);
+  
 
   const fetchDashboard = useCallback( async () => {
     if (!id) return;
@@ -172,6 +170,10 @@ export default function DashboardBuilder() {
     }
     setLoading(false);
   }, [id, toast, navigate]);
+
+  useEffect(() => {
+    if (id) fetchDashboard();
+  }, [id, fetchDashboard]);
 
   const handleSave = async () => {
     if (!profile?.organization_id || !form.name) return;

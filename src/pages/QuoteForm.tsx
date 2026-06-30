@@ -167,11 +167,7 @@ export default function QuoteForm() {
     }
   }, [selectedAccountId]);
 
-  useEffect(() => {
-    if (id && user) {
-      fetchQuote();
-    }
-  }, [id, user, fetchQuote]);
+  
 
   const generateQuoteNumber = () => {
     const timestamp = Date.now().toString(36).toUpperCase();
@@ -265,6 +261,12 @@ export default function QuoteForm() {
 
     setFetchingQuote(false);
   }, [id, toast, form]);
+
+  useEffect(() => {
+    if (id && user) {
+      fetchQuote();
+    }
+  }, [id, user, fetchQuote]);
 
   // Add product to quote
   const addProduct = (product: Product) => {

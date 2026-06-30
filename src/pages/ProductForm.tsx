@@ -86,11 +86,7 @@ export default function ProductForm() {
     fetchCategories();
   }, []);
 
-  useEffect(() => {
-    if (id && user) {
-      fetchProduct();
-    }
-  }, [id, user, fetchProduct]);
+  
 
   const fetchCategories = async () => {
     const { data } = await supabase
@@ -139,6 +135,12 @@ export default function ProductForm() {
     }
     setFetchingProduct(false);
   }, [id, toast, existingCategories, form, navigate]);
+
+  useEffect(() => {
+    if (id && user) {
+      fetchProduct();
+    }
+  }, [id, user, fetchProduct]);
 
   const onSubmit = async (data: ProductFormData) => {
     if (!profile?.organization_id) {

@@ -170,11 +170,7 @@ export default function ContractDetail() {
   const [contract, setContract] = useState<Contract | null>(null);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    if (id && user) {
-      fetchContract();
-    }
-  }, [id, user, fetchContract]);
+  
 
   const fetchContract = useCallback( async () => {
     setLoading(true);
@@ -204,6 +200,12 @@ export default function ContractDetail() {
     }
     setLoading(false);
   }, [id, profile?.organization_id, profile?.id, toast, navigate]);
+
+  useEffect(() => {
+    if (id && user) {
+      fetchContract();
+    }
+  }, [id, user, fetchContract]);
 
   const deleteContract = async () => {
     if (!id) return;

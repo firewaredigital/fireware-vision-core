@@ -64,9 +64,7 @@ export function NotesWidget({
   const [noteContent, setNoteContent] = useState('');
   const [saving, setSaving] = useState(false);
 
-  useEffect(() => {
-    fetchNotes();
-  }, [accountId, contactId, leadId, opportunityId, fetchNotes]);
+  
 
   const fetchNotes = useCallback( async () => {
     setLoading(true);
@@ -93,6 +91,10 @@ export function NotesWidget({
     }
     setLoading(false);
   }, [accountId, contactId, leadId, opportunityId, profile?.organization_id]);
+
+  useEffect(() => {
+    fetchNotes();
+  }, [accountId, contactId, leadId, opportunityId, fetchNotes]);
 
   const handleSave = async () => {
     if (!noteContent.trim()) return;

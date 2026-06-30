@@ -126,11 +126,7 @@ export default function Quotes() {
   const [statusFilter, setStatusFilter] = useState<string>('all');
   const [deleteQuoteId, setDeleteQuoteId] = useState<string | null>(null);
 
-  useEffect(() => {
-    if (user) {
-      fetchQuotes();
-    }
-  }, [user, fetchQuotes]);
+  
 
   const fetchQuotes = useCallback( async () => {
     setLoading(true);
@@ -164,6 +160,12 @@ export default function Quotes() {
     }
     setLoading(false);
   }, [profile?.organization_id, toast]);
+
+  useEffect(() => {
+    if (user) {
+      fetchQuotes();
+    }
+  }, [user, fetchQuotes]);
 
   const deleteQuote = async (id: string) => {
     // First delete quote items

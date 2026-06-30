@@ -155,12 +155,7 @@ export default function WorkflowBuilder() {
   const [stepToDelete, setStepToDelete] = useState<WorkflowStep | null>(null);
   const [addStepDialogOpen, setAddStepDialogOpen] = useState(false);
 
-  useEffect(() => {
-    if (id) {
-      fetchWorkflow();
-      fetchSteps();
-    }
-  }, [id, fetchSteps, fetchWorkflow]);
+  
 
   const fetchWorkflow = useCallback(async () => {
     if (!id) return;
@@ -198,6 +193,13 @@ export default function WorkflowBuilder() {
       setSteps(data as unknown as WorkflowStep[]);
     }
   }, [id]);
+
+  useEffect(() => {
+    if (id) {
+      fetchWorkflow();
+      fetchSteps();
+    }
+  }, [id, fetchSteps, fetchWorkflow]);
 
   const handleSaveWorkflow = async () => {
     if (!workflow) return;

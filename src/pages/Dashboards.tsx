@@ -60,9 +60,7 @@ export default function Dashboards() {
   const [moduleFilter, setModuleFilter] = useState('all');
   const [deleteId, setDeleteId] = useState<string | null>(null);
 
-  useEffect(() => {
-    if (profile?.organization_id) fetchDashboards();
-  }, [profile?.organization_id, fetchDashboards]);
+  
 
   const fetchDashboards = useCallback( async () => {
     if (!profile?.organization_id) return;
@@ -76,6 +74,10 @@ export default function Dashboards() {
     if (data) setDashboards(data as Dashboard[]);
     setLoading(false);
   }, [profile?.organization_id, profile?.id]);
+
+  useEffect(() => {
+    if (profile?.organization_id) fetchDashboards();
+  }, [profile?.organization_id, fetchDashboards]);
 
   const toggleFavorite = async (dashboardId: string, current: boolean) => {
     await supabase.from('dashboards').update({ is_favorite: !current }).eq('id', dashboardId);

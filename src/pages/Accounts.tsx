@@ -36,9 +36,7 @@ export default function Accounts() {
   const [searchQuery, setSearchQuery] = useState('');
 
 
-  useEffect(() => {
-    if (user) fetchAccounts();
-  }, [user, fetchAccounts]);
+  
 
   const fetchAccounts = useCallback( async () => {
     setLoading(true);
@@ -50,6 +48,10 @@ export default function Accounts() {
     }
     setLoading(false);
   }, [toast]);
+
+  useEffect(() => {
+    if (user) fetchAccounts();
+  }, [user, fetchAccounts]);
 
   const deleteAccount = async (id: string) => {
     const { error } = await supabase.from('accounts').delete().eq('id', id);

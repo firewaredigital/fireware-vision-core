@@ -63,9 +63,7 @@ export default function EmailTemplates() {
   const [categoryFilter, setCategoryFilter] = useState('all');
   const [deleteId, setDeleteId] = useState<string | null>(null);
 
-  useEffect(() => {
-    if (profile?.organization_id) fetchTemplates();
-  }, [profile?.organization_id, fetchTemplates]);
+  
 
   const fetchTemplates = useCallback( async () => {
     if (!profile?.organization_id) return;
@@ -78,6 +76,10 @@ export default function EmailTemplates() {
     if (data) setTemplates(data as EmailTemplate[]);
     setLoading(false);
   }, [profile?.organization_id, profile?.id]);
+
+  useEffect(() => {
+    if (profile?.organization_id) fetchTemplates();
+  }, [profile?.organization_id, fetchTemplates]);
 
   const handleClone = async (templateId: string) => {
     const template = templates.find(t => t.id === templateId);

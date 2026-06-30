@@ -152,12 +152,7 @@ export default function Automations() {
     trigger_entity: 'lead',
   });
 
-  useEffect(() => {
-    if (profile?.organization_id) {
-      fetchWorkflows();
-      fetchRuns();
-    }
-  }, [profile?.organization_id, fetchRuns, fetchWorkflows]);
+  
 
   const fetchWorkflows = useCallback(async () => {
     if (!profile?.organization_id) return;
@@ -191,6 +186,13 @@ export default function Automations() {
       setRuns(data as unknown as WorkflowRun[]);
     }
   }, [profile?.organization_id, profile?.id]);
+
+  useEffect(() => {
+    if (profile?.organization_id) {
+      fetchWorkflows();
+      fetchRuns();
+    }
+  }, [profile?.organization_id, fetchRuns, fetchWorkflows]);
 
   const handleCreateWorkflow = async () => {
     if (!profile?.organization_id || !newWorkflow.name) return;

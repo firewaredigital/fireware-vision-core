@@ -96,9 +96,7 @@ export default function EmailTemplateBuilder() {
   const [showPreview, setShowPreview] = useState(false);
   const [activeTab, setActiveTab] = useState('design');
 
-  useEffect(() => {
-    if (id) fetchTemplate();
-  }, [id, fetchTemplate]);
+  
 
   const fetchTemplate = useCallback( async () => {
     if (!id) return;
@@ -130,6 +128,10 @@ export default function EmailTemplateBuilder() {
     }
     setLoading(false);
   }, [id, toast, navigate]);
+
+  useEffect(() => {
+    if (id) fetchTemplate();
+  }, [id, fetchTemplate]);
 
   const generateHtml = useCallback((): string => {
     const sectionHtml = sections.filter(s => s.is_visible).sort((a, b) => a.display_order - b.display_order).map(s => {

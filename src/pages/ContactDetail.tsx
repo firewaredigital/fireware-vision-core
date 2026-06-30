@@ -121,11 +121,7 @@ export default function ContactDetail() {
   const [loading, setLoading] = useState(true);
 
 
-  useEffect(() => {
-    if (id && user) {
-      fetchContactData();
-    }
-  }, [id, user, fetchContactData]);
+  
 
   const fetchContactData = useCallback( async () => {
     setLoading(true);
@@ -169,6 +165,12 @@ export default function ContactDetail() {
 
     setLoading(false);
   }, [id, profile?.organization_id, profile?.id, toast, navigate]);
+
+  useEffect(() => {
+    if (id && user) {
+      fetchContactData();
+    }
+  }, [id, user, fetchContactData]);
 
   const deleteContact = async () => {
     if (!id) return;

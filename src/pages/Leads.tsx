@@ -76,11 +76,7 @@ export default function Leads() {
   const [statusFilter, setStatusFilter] = useState<string>('all');
 
 
-  useEffect(() => {
-    if (user) {
-      fetchLeads();
-    }
-  }, [user, fetchLeads]);
+  
 
   const fetchLeads = useCallback( async () => {
     setLoading(true);
@@ -101,6 +97,12 @@ export default function Leads() {
     }
     setLoading(false);
   }, [toast]);
+
+  useEffect(() => {
+    if (user) {
+      fetchLeads();
+    }
+  }, [user, fetchLeads]);
 
   const deleteLead = async (id: string) => {
     const { error } = await supabase.from('leads').delete().eq('id', id);

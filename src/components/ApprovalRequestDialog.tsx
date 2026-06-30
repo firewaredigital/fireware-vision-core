@@ -105,11 +105,7 @@ export function ApprovalRequestDialog({
   const [reason, setReason] = useState('');
   const [submitting, setSubmitting] = useState(false);
 
-  useEffect(() => {
-    if (open) {
-      fetchApprovers();
-    }
-  }, [open, fetchApprovers]);
+  
 
   const fetchApprovers = useCallback( async () => {
     const { data } = await supabase
@@ -125,6 +121,12 @@ export function ApprovalRequestDialog({
       }
     }
   }, [profile?.organization_id, profile?.id]);
+
+  useEffect(() => {
+    if (open) {
+      fetchApprovers();
+    }
+  }, [open, fetchApprovers]);
 
   const handleSubmit = async () => {
     if (!profile?.organization_id || !selectedApprover) return;
@@ -307,9 +309,7 @@ export function PendingApprovalsWidget() {
   }>>([]);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    fetchPendingApprovals();
-  }, [profile, fetchPendingApprovals]);
+  
 
   const fetchPendingApprovals = useCallback( async () => {
     if (!profile?.id) return;
@@ -335,6 +335,10 @@ export function PendingApprovalsWidget() {
     }
     setLoading(false);
   }, [profile?.organization_id, profile?.id]);
+
+  useEffect(() => {
+    fetchPendingApprovals();
+  }, [profile, fetchPendingApprovals]);
 
   if (loading) {
     return (

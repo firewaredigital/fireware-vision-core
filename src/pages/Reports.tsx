@@ -156,11 +156,7 @@ export default function Reports() {
   const [totalLeads, setTotalLeads] = useState(0);
   const [conversionRate, setConversionRate] = useState(0);
 
-  useEffect(() => {
-    if (user && profile) {
-      fetchAllData();
-    }
-  }, [user, profile, dateRange, customDateFrom, customDateTo, fetchAllData]);
+  
 
   const getDateRange = (): { from: Date; to: Date } => {
     const now = new Date();
@@ -402,6 +398,12 @@ export default function Reports() {
     
     setLoading(false);
   }, [id, profile?.organization_id, profile?.id, toast, getDateRange]);
+
+  useEffect(() => {
+    if (user && profile) {
+      fetchAllData();
+    }
+  }, [user, profile, dateRange, customDateFrom, customDateTo, fetchAllData]);
 
   const handleExportPipeline = () => {
     exportToCSV(pipelineData, 'pipeline_report', [

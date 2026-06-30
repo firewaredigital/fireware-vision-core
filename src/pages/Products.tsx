@@ -89,11 +89,7 @@ export default function Products() {
   const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc');
 
 
-  useEffect(() => {
-    if (user) {
-      fetchProducts();
-    }
-  }, [user, fetchProducts]);
+  
 
   const fetchProducts = useCallback( async () => {
     setLoading(true);
@@ -117,6 +113,12 @@ export default function Products() {
     }
     setLoading(false);
   }, [toast]);
+
+  useEffect(() => {
+    if (user) {
+      fetchProducts();
+    }
+  }, [user, fetchProducts]);
 
   const deleteProduct = async (id: string) => {
     const { error } = await supabase.from('products').delete().eq('id', id);

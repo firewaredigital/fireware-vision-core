@@ -155,14 +155,7 @@ export default function AccountForm() {
   });
 
 
-  useEffect(() => {
-    if (user) {
-      fetchReferenceData();
-      if (isEditing) {
-        fetchAccount();
-      }
-    }
-  }, [user, id, fetchAccount, fetchReferenceData, isEditing]);
+  
 
   const fetchReferenceData = useCallback( async () => {
     // Fetch accounts for parent selection (excluding current if editing)
@@ -228,6 +221,15 @@ export default function AccountForm() {
     }
     setLoading(false);
   }, [id, toast, form]);
+
+  useEffect(() => {
+    if (user) {
+      fetchReferenceData();
+      if (isEditing) {
+        fetchAccount();
+      }
+    }
+  }, [user, id, fetchAccount, fetchReferenceData, isEditing]);
 
   const onSubmit = async (data: AccountFormData) => {
     setSaving(true);

@@ -92,9 +92,7 @@ export default function CampaignABTest() {
   const [testDuration, setTestDuration] = useState(24);
   const [confirmWinner, setConfirmWinner] = useState<string | null>(null);
 
-  useEffect(() => {
-    if (campaignId) fetchData();
-  }, [campaignId, fetchData]);
+  
 
   const fetchData = useCallback( async () => {
     if (!campaignId) return;
@@ -113,6 +111,10 @@ export default function CampaignABTest() {
     if (variantsRes.data) setVariants(variantsRes.data as ABVariant[]);
     setLoading(false);
   }, [id, campaignId]);
+
+  useEffect(() => {
+    if (campaignId) fetchData();
+  }, [campaignId, fetchData]);
 
   const addVariant = async () => {
     if (!campaignId || !profile?.organization_id || variants.length >= 5) return;

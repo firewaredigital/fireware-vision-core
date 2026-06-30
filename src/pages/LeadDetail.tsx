@@ -84,11 +84,7 @@ export default function LeadDetail() {
   const [showConversionWizard, setShowConversionWizard] = useState(false);
 
 
-  useEffect(() => {
-    if (id && user) {
-      fetchLead();
-    }
-  }, [id, user, fetchLead]);
+  
 
   const fetchLead = useCallback( async () => {
     setLoading(true);
@@ -111,6 +107,12 @@ export default function LeadDetail() {
     }
     setLoading(false);
   }, [id, toast, navigate]);
+
+  useEffect(() => {
+    if (id && user) {
+      fetchLead();
+    }
+  }, [id, user, fetchLead]);
 
   const deleteLead = async () => {
     if (!id) return;

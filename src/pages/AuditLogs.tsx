@@ -162,11 +162,7 @@ export default function AuditLogs() {
     }
   }, [user, authLoading, navigate]);
 
-  useEffect(() => {
-    if (user && profile) {
-      fetchLogs();
-    }
-  }, [user, profile, debouncedSearch, entityFilter, actionFilter, dateRange, customDateFrom, customDateTo, page, fetchLogs]);
+  
 
   const fetchLogs = useCallback( async () => {
     if (!profile?.organization_id) return;
@@ -248,6 +244,12 @@ export default function AuditLogs() {
     }
     setLoading(false);
   }, [id, profile?.organization_id, profile?.id, user?.id, toast, actionFilter, customDateFrom, customDateTo, dateRange, debouncedSearch, entityFilter, navigate, page, profile.role]);
+
+  useEffect(() => {
+    if (user && profile) {
+      fetchLogs();
+    }
+  }, [user, profile, debouncedSearch, entityFilter, actionFilter, dateRange, customDateFrom, customDateTo, page, fetchLogs]);
 
   const handleExport = async () => {
     if (logs.length === 0) {

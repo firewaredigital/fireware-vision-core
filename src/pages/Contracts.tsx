@@ -148,11 +148,7 @@ export default function Contracts() {
   const [statusFilter, setStatusFilter] = useState<string>('all');
   const [deleteContractId, setDeleteContractId] = useState<string | null>(null);
 
-  useEffect(() => {
-    if (user) {
-      fetchContracts();
-    }
-  }, [user, fetchContracts]);
+  
 
   const fetchContracts = useCallback( async () => {
     setLoading(true);
@@ -188,6 +184,12 @@ export default function Contracts() {
     }
     setLoading(false);
   }, [profile?.organization_id, toast]);
+
+  useEffect(() => {
+    if (user) {
+      fetchContracts();
+    }
+  }, [user, fetchContracts]);
 
   const deleteContract = async (id: string) => {
     const { error } = await supabase.from('contracts').delete().eq('id', id);

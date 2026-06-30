@@ -198,12 +198,7 @@ export function LeadRoutingRules() {
   const [form, setForm] = useState<RuleForm>(initialForm);
   const [saving, setSaving] = useState(false);
 
-  useEffect(() => {
-    fetchRules();
-    fetchUsers();
-    fetchTeams();
-    fetchTerritories();
-  }, [profile?.organization_id, fetchRules]);
+  
 
   const fetchRules = useCallback( async () => {
     if (!profile?.organization_id) return;
@@ -220,6 +215,13 @@ export function LeadRoutingRules() {
     }
     setLoading(false);
   }, [profile?.organization_id, profile?.id]);
+
+  useEffect(() => {
+    fetchRules();
+    fetchUsers();
+    fetchTeams();
+    fetchTerritories();
+  }, [profile?.organization_id, fetchRules]);
 
   const fetchUsers = async () => {
     const { data } = await supabase

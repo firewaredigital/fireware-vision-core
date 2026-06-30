@@ -151,11 +151,7 @@ export default function Marketing() {
   const [statusFilter, setStatusFilter] = useState<string>('all');
   const [typeFilter, setTypeFilter] = useState<string>('all');
 
-  useEffect(() => {
-    if (profile?.organization_id) {
-      fetchData();
-    }
-  }, [profile?.organization_id, fetchData]);
+  
 
   const fetchData = useCallback( async () => {
     if (!profile?.organization_id) return;
@@ -197,6 +193,12 @@ export default function Marketing() {
 
     setLoading(false);
   }, [profile?.organization_id, profile?.id]);
+
+  useEffect(() => {
+    if (profile?.organization_id) {
+      fetchData();
+    }
+  }, [profile?.organization_id, fetchData]);
 
   // Stats
   const activeCampaigns = campaigns.filter(c => c.status === 'active' || c.status === 'sending').length;

@@ -155,9 +155,7 @@ export function ActivitiesWidget({
     call_result: '',
   });
 
-  useEffect(() => {
-    fetchActivities();
-  }, [accountId, contactId, leadId, opportunityId, fetchActivities]);
+  
 
   const fetchActivities = useCallback( async () => {
     setLoading(true);
@@ -184,6 +182,10 @@ export function ActivitiesWidget({
     }
     setLoading(false);
   }, [accountId, contactId, leadId, opportunityId, profile?.organization_id]);
+
+  useEffect(() => {
+    fetchActivities();
+  }, [accountId, contactId, leadId, opportunityId, fetchActivities]);
 
   const resetForm = () => {
     setFormData({
